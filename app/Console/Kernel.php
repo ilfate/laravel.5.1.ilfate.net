@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console;
+namespace Ilfate\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Inspire::class,
+        \Ilfate\Console\Commands\Inspire::class,
+        \Ilfate\Console\Commands\WebSocket::class,
     ];
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Ilfate\Events;
 
 abstract class Event
 {

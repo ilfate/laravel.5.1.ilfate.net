@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace Ilfate\Exceptions;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

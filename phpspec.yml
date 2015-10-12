@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: Ilfate
+        psr4_prefix: Ilfate
         src_path: app
