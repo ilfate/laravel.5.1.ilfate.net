@@ -2,15 +2,13 @@
 
 namespace Ilfate;
 
-use Illuminate\Auth\UserTrait;
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
-use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 
-class SeriesImage extends Eloquent implements RemindableInterface {
+class SeriesImage extends Model
+{
 
-	use RemindableTrait;
+
 
 	/**
 	 * The database table used by the model.

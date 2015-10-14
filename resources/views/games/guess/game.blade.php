@@ -1,6 +1,6 @@
 
 
-<a id="start-game" class="btn btn-primary btn-lg btn-block"> <span class="text">Start<span> </a>
+<a id="start-game" class="btn btn-primary btn-lg btn-block"> <span class="text">Start</span> </a>
 
 <div class="game-container" style="display:none">
 
@@ -32,6 +32,6 @@
 
 <script>
 	$(document).ready(function() {
-        Guess.Game.init({{$firstQuestion}});
+        Guess.Game.init({!! $firstQuestion!!});
 	});
 </script>

@@ -2,9 +2,14 @@
 
 namespace Ilfate\Http\Controllers;
 
-use Ilfate\Helper\Breadcrumbs;
+use Ilfate\Series;
+use Log;
+use Cache;
+use Ilfate\GuessStats;
+use Ilfate\SeriesImage;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class GuessGameController extends \Ilfate\Http\Controllers\BaseController
 {
@@ -29,64 +34,78 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
     /**
      * Display a listing of the games.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $game = $this->createGame();
         $game[self::GAME_CURRENT_QUESTION] = $this->getNewQuestion($game['turn']);
-        $this->saveGame($game);
+        $this->saveGame($game, $request);
 
         if ($game['turn'] == 1) {
             $firstQuestion = json_encode($this->exportQuestion($game[self::GAME_CURRENT_QUESTION]));
         } else {
             $firstQuestion = '{}';
         }
-        View::share('firstQuestion', $firstQuestion);
+        view()->share('firstQuestion', $firstQuestion);
 
-        View::share('page_title', 'Guess Series game');
-        View::share('reddit', self::REDDIT);
+        view()->share('page_title', 'Guess Series game');
+        view()->share('reddit', self::REDDIT);
 
-        return View::make('games.guess.index');//, array('game' => $game)
+        return view('games.guess.index');//, array('game' => $game)
     }
 
+    /**
+     * @return \Illuminate\View\View
+     */
     public function stats()
     {
         $imageStats = GuessStats::getHardestImage([time() - 24 * 60 * 60, time() + 2 * 60 * 60]);
         $url = SeriesImage::where('id', $imageStats->image_id)->pluck('url');
-        View::share('hardestPicture', $url);
-        View::share('today', $this->getStatsToday());
-        View::share('month', $this->getStatsMonth());
-        View::share('total', $this->getStatsTotal());
-        View::share('reddit', self::REDDIT);
-        View::share('page_title', 'Guess Series Leaderboard');
-        return View::make('games.guess.stats');
+        view()->share('hardestPicture', $url);
+        view()->share('today', $this->getStatsToday());
+        view()->share('month', $this->getStatsMonth());
+        view()->share('total', $this->getStatsTotal());
+        view()->share('reddit', self::REDDIT);
+        view()->share('page_title', 'Guess Series Leaderboard');
+        return view('games.guess.stats');
     }
 
-    public function gameStarted()
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function gameStarted(Request $request)
     {
-        $game = $this->getGame();
+        $game = $this->getGame(false, $request);
         if (!empty($game[self::GAME_STARTED])) {
             return [];
         }
         $game[self::GAME_STARTED] = true;
         $game[self::GAME_START_TIME] = time();
         $game[self::GAME_TURN_START_TIME] = time();
-        $this->saveGame($game);
+        $this->saveGame($game, $request);
         return [];
     }
 
-    public function answer()
+    /**
+     * @param Request $request
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function answer(Request $request)
     {
-        $game = $this->getGame(true);
+        $game = $this->getGame(true, $request);
         if (!$game || $game[self::GAME_FINISHED]) {
             if (!$game) {
                 Log::error('ERROR. We are in "answer", but the game was not found in session. Terminating.');
             }
             return '[]';
         }
-        $id = (int) Input::get('id');
-        $seconds = (int) Input::get('seconds');
+        $id = (int) $request->input('id');
+        $seconds = (int) $request->input('seconds');
 
         if ($game[self::GAME_CURRENT_QUESTION]['correct'] === $id) {
             $result = $this->addPointsToGame($game, $seconds);
@@ -102,15 +121,15 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
             $game[self::GAME_CURRENT_QUESTION] = $this->getNewQuestion($game[self::GAME_TURN], $prevQuestions);
             $game[self::GAME_TURN_START_TIME] = time();
 
-            $this->saveGame($game);
+            $this->saveGame($game, $request);
             return json_encode([
                 'question' => $this->exportQuestion($game[self::GAME_CURRENT_QUESTION]), 
                 'result' => $result
                 ]);
         } else {
-            $name = Session::get('userName', false);
+            $name = $request->session()->get('userName', false);
             $game[self::GAME_FINISHED] = true;
-            $this->saveResults($game[self::GAME_CURRENT_QUESTION]);
+            $this->saveResults($game[self::GAME_CURRENT_QUESTION], $request);
             $return = [
                 'finish' => true,
                 'correctAnswer' => $game[self::GAME_CURRENT_QUESTION]['correct'],
@@ -120,15 +139,20 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
                 'stats' => $this->getStatsToday($game[self::GAME_POINTS])
             ];
             
-            $this->saveGame($game);
+            $this->saveGame($game, $request);
             return json_encode($return);
         }
     }
 
-    public function timeIsOut()
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function timeIsOut(Request $request)
     {
-        $name = Session::get('userName', false);
-        $game = $this->getGame();
+        $name = $request->session()->get('userName', false);
+        $game = $this->getGame(false, $request);
         if ($game[self::GAME_FINISHED]) {
             return '[]';
         }
@@ -140,15 +164,21 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
             'stats' => $this->getStatsToday()
         ];
         $game[self::GAME_FINISHED] = true;
-        $this->saveGame($game);
-        $this->saveResults($game[self::GAME_CURRENT_QUESTION]);
+        $this->saveGame($game, $request);
+        $this->saveResults($game[self::GAME_CURRENT_QUESTION], $request);
         return json_encode($return);
     }
 
-    public function ability()
+    /**
+     * @param Request $request
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function ability(Request $request)
     {
-        $id = (int) Input::get('id');
-        $game = $this->getGame();
+        $id = (int) $request->input('id');
+        $game = $this->getGame(false, $request);
         if (in_array($id, $game[self::GAME_ABILITIES])) {
             return '[]';
         }
@@ -203,19 +233,24 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
                 break;
         }
 
-        $this->saveGame($game);
+        $this->saveGame($game, $request);
         return json_encode($result);
     }
 
-    public function saveName()
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function saveName(Request $request)
     {
-        $name            = Input::get('name');
+        $name            = $request->input('name');
         $laravel_session = md5(Cookie::get('laravel_session'));
         if (!$name) {
             return '[]';
         }
 
-        Session::put('userName', $name);
+        $request->session()->put('userName', $name);
 
         $stats = GuessStats::where('laravel_session', '=', $laravel_session)->orderBy('created_at', 'desc')->firstOrFail();
         if (!$stats) {
@@ -227,10 +262,14 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         return '{"actions": ["Guess.Game.hideNameForm"]}';
     }
 
-    protected function saveResults($question)
+    /**
+     * @param         $question
+     * @param Request $request
+     */
+    protected function saveResults($question, Request $request)
     {
-        $name     = Session::get('userName', null);
-        $game = $this->getGame();
+        $name     = $request->session()->get('userName', null);
+        $game = $this->getGame(false, $request);
 
         switch($question['type']) {
             case 1:
@@ -249,15 +288,13 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         $stats->name = $name;
         $stats->image_id = $imageId;
         $stats->save();
-
-
-        
-//        $imageStats = new ImagesStats();
-//        $imageStats->image_id = $imageId;
-//        $imageStats->type = 1;
-//        $imageStats->save();
     }
 
+    /**
+     * @param $turn
+     *
+     * @return int
+     */
     protected function getCurrentLevelConfig($turn)
     {
         $difficulty = \Config::get('guess.game.difficulty');
@@ -274,6 +311,13 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         return $currentLevel;
     }
 
+    /**
+     * @param       $turn
+     * @param array $excludeSeriesIds
+     *
+     * @return array
+     * @throws \Exception
+     */
     protected function getNewQuestion($turn, $excludeSeriesIds = array()) 
     {
         $currentLevel = $this->getCurrentLevelConfig($turn);
@@ -335,6 +379,11 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         return $question;
     }
 
+    /**
+     * @param null $currentResult
+     *
+     * @return mixed
+     */
     protected function getStatsToday($currentResult = null)
     {
         $cachedStats = Cache::get(self::CACHE_KEY_STATS_DAY, null);
@@ -361,6 +410,9 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         return $stats;
     }
 
+    /**
+     * @return mixed
+     */
     protected function getStatsMonth()
     {
         $cachedStats = Cache::get(self::CACHE_KEY_STATS_MONTH, null);
@@ -377,6 +429,9 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         return $stats;
     }
 
+    /**
+     * @return array
+     */
     protected function getStatsTotal()
     {
         $cachedStats = Cache::get(self::CACHE_KEY_STATS_TOTAL, null);
@@ -390,6 +445,11 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         return $stats;
     }
 
+    /**
+     * @param $question
+     *
+     * @return array
+     */
     protected function exportQuestion($question)
     {
         $toExport = [
@@ -411,15 +471,25 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         return $toExport;
     }
 
-    protected function getGame($isRequired = false) 
+    /**
+     * @param bool|false $isRequired
+     *
+     * @param Request    $request
+     *
+     * @return array
+     */
+    protected function getGame($isRequired = false, Request $request)
     {
-        $game = Session::get(self::SESSION_DATA, null);
+        $game = $request->session()->get(self::SESSION_DATA, null);
         if (!$game && !$isRequired) {
             $game = $this->createGame();
         }
         return $game;
     }
 
+    /**
+     * @return array
+     */
     protected function createGame()
     {
         return [
@@ -433,12 +503,22 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         ];
     }
 
-    protected function saveGame($game)
+    /**
+     * @param         $game
+     * @param Request $request
+     */
+    protected function saveGame($game, Request $request)
     {
-        Session::forget(self::SESSION_DATA);
-        Session::put(self::SESSION_DATA, $game);
+        $request->session()->forget(self::SESSION_DATA);
+        $request->session()->put(self::SESSION_DATA, $game);
     }
 
+    /**
+     * @param $game
+     * @param $seconds
+     *
+     * @return array
+     */
     protected function addPointsToGame(&$game, $seconds)
     {
         $question = $game[self::GAME_CURRENT_QUESTION];
@@ -456,23 +536,44 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         return ['k' => $k, 'seconds' => $seconds];
     }
 
+    /**
+     * @param bool|false $difficulty
+     * @param array      $excludeIds
+     *
+     * @return mixed
+     */
     protected function getRandomSeries($difficulty = false, $excludeIds = array())
     {
         return Series::getRandomSeries($difficulty, $excludeIds);
     }
 
+    /**
+     * @param       $difficulty
+     * @param null  $seriesId
+     * @param array $excludeIds
+     *
+     * @return mixed
+     */
     protected function getPicture($difficulty, $seriesId = null, $excludeIds = array())
     {
         return SeriesImage::getPicture($difficulty, $seriesId, $excludeIds);
     }
 
+    /**
+     * @param $array
+     *
+     * @return mixed
+     */
     protected function getArrayRandomValue($array)
     {
         return $array[array_rand($array)];
     }
 
+    /**
+     * @return \Illuminate\View\View
+     */
     public function admin()
     {
-        return View::make('games.guess.admin.index');
+        return view('games.guess.admin.index');
     }
 }

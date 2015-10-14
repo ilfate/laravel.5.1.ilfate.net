@@ -2,21 +2,22 @@
 
 namespace Ilfate\Http\Controllers;
 
-use View;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class BaseController extends Controller {
+class BaseController extends Controller
+{
+    use DispatchesJobs, ValidatesRequests, AuthorizesRequests;
 
-	/**
-	 * Setup the layout used by the controller.
-	 *
-	 * @return void
-	 */
-	protected function setupLayout()
-	{
-		if ( ! is_null($this->layout))
-		{
-			$this->layout = View::make($this->layout);
-		}
-	}
+    /**
+     * Get current class name
+     * @return string
+     */
+	protected function getCurrentClass()
+    {
+        return substr(get_class($this), strrpos(get_class($this), '\\') + 1);
+    }
 
 }

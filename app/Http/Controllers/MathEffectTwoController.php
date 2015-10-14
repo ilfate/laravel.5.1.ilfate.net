@@ -28,7 +28,7 @@ class MathEffectTwoController extends BaseController
     public function index()
     {
         $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Math Effect');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Math Effect');
 
         $name = Session::get('userName', null);
 
@@ -101,8 +101,8 @@ class MathEffectTwoController extends BaseController
     public function statistic()
     {
         $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . 'index'), 'Math Effect');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Statistic');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Math Effect');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Statistic');
         //$yesterday = time() - (24 * 60 * 60);
         // $logs = DB::table('td_statistic')
         //     ->select(DB::raw('name, ip, max(turnsSurvived) as turnsSurvived, pointsEarned, unitsKilled'))

@@ -2,22 +2,18 @@
 
 namespace Ilfate;
 
-use Illuminate\Auth\UserTrait;
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
-use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class Battle extends Eloquent implements RemindableInterface
+class Battle extends Model
 {
 
     const BATTLE_STATUS_NONE = 0;
     const BATTLE_STATUS_INIT = 1;
     const BATTLE_STATUS_GAME_READY = 2;
 
-
     const BATTLE_STATUS_GAME_LOST = 91; // real problems happen
-    use RemindableTrait;
 
     /**
      * The database table used by the model.

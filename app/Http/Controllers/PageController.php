@@ -9,14 +9,14 @@ class PageController extends BaseController
     /**
      * @var Breadcrumbs
      */
-    //protected $breadcrumbs;
+    protected $breadcrumbs;
 
     /**
      * @param Breadcrumbs $breadcrumbs
      */
-//    public function __construct(Breadcrumbs $breadcrumbs) {
-//        $this->breadcrumbs = $breadcrumbs;
-//    }
+    public function __construct(Breadcrumbs $breadcrumbs) {
+        $this->breadcrumbs = $breadcrumbs;
+    }
 
     /**
      * Main page
@@ -35,7 +35,7 @@ class PageController extends BaseController
      */
     public function cv()
     {
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'CV');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'CV');
         return view('pages.cv');
     }
 
@@ -46,8 +46,8 @@ class PageController extends BaseController
      */
     public function skills()
     {
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . 'cv'), 'CV');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Skills');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'cv'), 'CV');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Skills');
         return view('pages.skills');
     }
 
@@ -58,7 +58,7 @@ class PageController extends BaseController
      */
     public function photo()
     {
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Photo');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Photo');
         $data = array(
             'images_gallery' => array(
                 array('img' => '/images/my/baikal1.jpg', 'down-shift' => 0.1),

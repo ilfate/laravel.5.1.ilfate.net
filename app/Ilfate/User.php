@@ -2,17 +2,22 @@
 
 namespace Ilfate;
 
-use Illuminate\Auth\UserTrait;
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
-use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends Model implements AuthenticatableContract,
+                                    AuthorizableContract,
+                                    CanResetPasswordContract
+{
+    use Authenticatable, Authorizable, CanResetPassword;
 
     const GUEST_USER_SESSION_KEY = 'guestUser';
-
-	use UserTrait, RemindableTrait;
 
 	/**
 	 * The database table used by the model.

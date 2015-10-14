@@ -29,7 +29,7 @@ class MathEffectController extends BaseController
     public function index()
     {
         $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Math Effect');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Math Effect');
 
         $name = Session::get('userName', null);
 

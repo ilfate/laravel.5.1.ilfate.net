@@ -23,37 +23,37 @@ class GamesController extends \Ilfate\Http\Controllers\BaseController
     /**
      * Display a listing of the games.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
         view()->share('page_title', 'Games made by Ilya Rubinchik.');
 
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Games');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Games');
         return view('games.index');
     }
 
     /**
      * RobotRock game
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function robotRock()
     {
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . 'index'), 'Games');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'RobotRock');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Games');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'RobotRock');
         return view('games.robotRock.index');
     }
 
     /**
      * js game template
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function gameTemplate()
     {
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . 'index'), 'Games');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Game Template');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Games');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Game Template');
         return view('games.gameTemplate');
     }
 }

@@ -25,7 +25,7 @@ class TestController extends \Ilfate\Http\Controllers\BaseController
      */
     public function index()
     {
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Code');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Code');
         return View::make('games.vortex.index');
     }
 
@@ -36,8 +36,8 @@ class TestController extends \Ilfate\Http\Controllers\BaseController
      */
     public function engine()
     {
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . 'index'), 'Code');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Engine');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Code');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Engine');
         return View::make('code.engine');
     }
 
@@ -48,8 +48,8 @@ class TestController extends \Ilfate\Http\Controllers\BaseController
      */
     public function stars()
     {
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . 'index'), 'Code');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Stars');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Code');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Stars');
         return View::make('code.stars');
     }
 }

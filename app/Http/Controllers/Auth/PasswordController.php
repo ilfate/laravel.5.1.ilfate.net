@@ -2,10 +2,10 @@
 
 namespace Ilfate\Http\Controllers\Auth;
 
-use Ilfate\Http\Controllers\Controller;
+use Ilfate\Http\Controllers\BaseController;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
-class PasswordController extends Controller
+class PasswordController extends BaseController
 {
     /*
     |--------------------------------------------------------------------------
