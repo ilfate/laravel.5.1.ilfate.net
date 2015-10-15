@@ -25,15 +25,15 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         /*
-|--------------------------------------------------------------------------
-| Authentication Filters
-|--------------------------------------------------------------------------
-|
-| The following filters are used to verify that the user of the current
-| session is logged into this application. The "basic" filter easily
-| integrates HTTP Basic authentication for quick, simple checking.
-|
-*/
+        |--------------------------------------------------------------------------
+        | Authentication Filters
+        |--------------------------------------------------------------------------
+        |
+        | The following filters are used to verify that the user of the current
+        | session is logged into this application. The "basic" filter easily
+        | integrates HTTP Basic authentication for quick, simple checking.
+        |
+        */
 
         $router->filter('auth', function()
         {
@@ -82,15 +82,6 @@ class RouteServiceProvider extends ServiceProvider
         | session does not match the one given in this request, we'll bail.
         |
         */
-
-        $router->filter('csrf', function()
-        {
-            if (Session::token() != Input::get('_token'))
-            {
-                throw new Illuminate\Session\TokenMismatchException;
-            }
-        });
-
 
         parent::boot($router);
     }

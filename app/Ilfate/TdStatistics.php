@@ -2,7 +2,9 @@
 
 namespace Ilfate;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class TdStatistics extends Model
 {
@@ -21,6 +23,65 @@ class TdStatistics extends Model
 	 */
 	protected $hidden = array();
 
+	/**
+	 * @return mixed
+	 */
+	public static function getTopLogs()
+	{
+		$topLogs = DB::table('td_statistic')
+			->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
+			->orderBy('turnsSurvived', 'desc')
+			->limit(10)
+			->get();
+		return $topLogs;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public static function getTotalGames()
+	{
+		$totalGames = DB::table('td_statistic')
+			->count();
+		return $totalGames;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public static function getAverageTurns()
+	{
+		$avrTurns = DB::table('td_statistic')
+			->avg('turnsSurvived');
+		return $avrTurns;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public static function getPlayersNumber()
+	{
+		$users = DB::table('td_statistic')
+			->select(DB::raw('count(DISTINCT CONCAT(COALESCE(name,\'empty\'),ip)) as count'))
+			->pluck('count');
+		return $users;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public static function getTodayLogs()
+	{
+		$from = Carbon::now()->addHours(-24)->format('Y-m-d H:i:s');
+		$to = Carbon::now()->addHours(2)->format('Y-m-d H:i:s');
+		$todayLogs = DB::table('td_statistic')
+			->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
+			->orderBy('turnsSurvived', 'desc')
+			->limit(10)
+			->whereBetween('created_at', [$from, $to])
+			->get();
+		return $todayLogs;
+	}
 
 
 }

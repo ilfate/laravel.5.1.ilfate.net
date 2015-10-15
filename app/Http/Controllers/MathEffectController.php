@@ -3,11 +3,16 @@
 namespace Ilfate\Http\Controllers;
 
 use Ilfate\Helper\Breadcrumbs;
-use Illuminate\Support\Facades\Session;
+use Ilfate\TdStatistics;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Cache;
 
 class MathEffectController extends BaseController
 {
+    const CACHE_KEY_STATS_TOTAL = 'ME_stats';
     /**
      * @var Breadcrumbs
      */
@@ -24,48 +29,52 @@ class MathEffectController extends BaseController
     /**
      * Display a listing of the games.
      *
-     * @return Response
+     * @param Request $request
+     *
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Math Effect');
 
-        $name = Session::get('userName', null);
+        $name = $request->session()->get('userName', null);
 
         $MEcheckKey = md5(rand(0,99999) . time());
-        Session::put('MEcheckKey', $MEcheckKey);
+        $request->session()->put('MEcheckKey', $MEcheckKey);
 
-        View::share('page_title', 'Math Effect - logic game.');
-        View::share('facebookEnabled', true);
+        view()->share('page_title', 'Math Effect - logic game.');
+        view()->share('facebookEnabled', true);
 
-        return View::make('games.mathEffect', array('userName' => $name, 'checkKey' => $MEcheckKey));
+        return view('games.mathEffect', array('userName' => $name, 'checkKey' => $MEcheckKey));
     }
 
     /**
      * js game template
      *
-     * @return Response
+     * @param Request $request
+     *
+     * @return string
      */
-    public function save()
+    public function save(Request $request)
     {
-        if (Request::isMethod('get')) {
+        if ($request->isMethod('get')) {
             Log::warning('MathEffect save is not Post.');
-            App::abort(404);
+            abort(404);
         }
-        if (!Request::ajax()) {
+        if (!$request->ajax()) {
             Log::warning('MathEffect save is not Ajax.');
-            App::abort(404);
+            abort(404);
         }
-        $name     = Session::get('userName', null);
-        $checkKey = Session::get('MEcheckKey', null);
-        Session::put('MEcheckKey', null);
+        $name     = $request->session()->get('userName', null);
+        $checkKey = $request->session()->get('MEcheckKey', null);
+        $request->session()->put('MEcheckKey', null);
 
-        if (Input::get('checkKey') != $checkKey) {
+        if ($request->get('checkKey') != $checkKey) {
             Log::warning('Some one tryed to hack');
-            Log::warning('pointsEarned=' . Input::get('pointsEarned'));
-            Log::warning('turnsSurvived=' . Input::get('turnsSurvived'));
-            Log::warning('unitsKilled=' . Input::get('unitsKilled'));
+            Log::warning('pointsEarned=' . $request->get('pointsEarned'));
+            Log::warning('turnsSurvived=' . $request->get('turnsSurvived'));
+            Log::warning('unitsKilled=' . $request->get('unitsKilled'));
             Log::warning('ip=' . $_SERVER['REMOTE_ADDR']);
             Log::warning('name=' . $name);
             return '{}';
@@ -73,71 +82,77 @@ class MathEffectController extends BaseController
 
 
         $tdStatistics                  = new TdStatistics();
-        $tdStatistics->pointsEarned    = Input::get('pointsEarned');
-        $tdStatistics->turnsSurvived   = Input::get('turnsSurvived');
-        $tdStatistics->unitsKilled     = Input::get('unitsKilled');
+        $tdStatistics->pointsEarned    = $request->get('pointsEarned');
+        $tdStatistics->turnsSurvived   = $request->get('turnsSurvived');
+        $tdStatistics->unitsKilled     = $request->get('unitsKilled');
         $tdStatistics->ip              = $_SERVER['REMOTE_ADDR'];
-        $tdStatistics->laravel_session = md5(Cookie::get('laravel_session'));
+        $tdStatistics->laravel_session = md5($request->cookie('laravel_session'));
         $tdStatistics->name            = $name;
 
         $tdStatistics->save();
-        //return 'turns = ' . $turnsSurvived;
         return '{}';
     }
 
-    public function saveName()
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function saveName(Request $request)
     {
-        $name            = Input::get('name');
-        $laravel_session = md5(Cookie::get('laravel_session'));
+        $name            = $request->get('name');
+        $laravel_session = md5($request->cookie('laravel_session'));
 
-        Session::put('userName', $name);
+        $request->session()->put('userName', $name);
 
 
         $stats = TdStatistics::where('laravel_session', '=', $laravel_session)->orderBy('created_at', 'desc')->firstOrFail();
         if (!$stats) {
             Log::warning('No user found to update name. (name=' . $name . ')');
-            App::abort(404);
+            abort(404);
         } 
         $stats->name = $name;
         $stats->save();
         return '{"actions": ["Page.hideMENameForm"]}';
     }
 
-    public function statistic()
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function statistic(Request $request)
     {
         $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . 'index'), 'Math Effect');
-        $this->breadcrumbs->addLink(action(__CLASS__ . '@' . __FUNCTION__), 'Statistic');
-        //$yesterday = time() - (24 * 60 * 60);
-        // $logs = DB::table('td_statistic')
-        //     ->select(DB::raw('name, ip, max(turnsSurvived) as turnsSurvived, pointsEarned, unitsKilled'))
-        //     ->where('created_at', '>', date('Y-m-d H:i:s', $yesterday))
-        //     ->groupBy('name', 'ip')
-        //     ->orderBy('turnsSurvived', 'desc')
-        //     ->get();
-        $topLogs = DB::table('td_statistic')
-            ->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
-            ->orderBy('turnsSurvived', 'desc')
-            ->limit(10)
-            ->get();
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Math Effect');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Statistic');
 
-        $from = Carbon::now()->addHours(-24)->format('Y-m-d H:i:s');
-        $to = Carbon::now()->addHours(2)->format('Y-m-d H:i:s');
-        $todayLogs = DB::table('td_statistic')
-            ->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
-            ->orderBy('turnsSurvived', 'desc')
-            ->limit(10)
-            ->whereBetween('created_at', [$from, $to])
-            ->get();
-        $totalGames = DB::table('td_statistic')
-            ->count();
-        $avrTurns = DB::table('td_statistic')
-            ->avg('turnsSurvived');
-        $users = DB::table('td_statistic')
-            ->select(DB::raw('count(DISTINCT CONCAT(COALESCE(name,\'empty\'),ip)) as count'))
-            ->pluck('count');
+        $cachedStats = Cache::get(self::CACHE_KEY_STATS_TOTAL, null);
 
-        $name     = Session::get('userName', null);
+        if (!$cachedStats) {
+            $topLogs    = TdStatistics::getTopLogs();
+            $totalGames = TdStatistics::getTotalGames();
+            $avrTurns   = TdStatistics::getAverageTurns();
+            $users      = TdStatistics::getPlayersNumber();
+            $todayLogs  = TdStatistics::getTodayLogs();
+            $expiresAt  = Carbon::now()->addMinutes(8);
+            $data = [
+                'topLogs'    => $topLogs,
+                'totalGames' => $totalGames,
+                'avrTurns'   => $avrTurns,
+                'users'      => $users,
+                'todayLogs'  => $todayLogs
+            ];
+            Cache::put(self::CACHE_KEY_STATS_TOTAL, $data, $expiresAt);
+        } else {
+            $topLogs    = $cachedStats['topLogs'];
+            $totalGames = $cachedStats['totalGames'];
+            $avrTurns   = $cachedStats['avrTurns'];
+            $users      = $cachedStats['users'];
+            $todayLogs  = $cachedStats['todayLogs'];
+        }
+
+        $name     = $request->session()->get('userName', null);
         $userLogs = false;
         if ($name) {
             $userLogs = DB::table('td_statistic')
@@ -147,9 +162,9 @@ class MathEffectController extends BaseController
                 ->limit(10)
                 ->get();
         }
-        View::share('facebookEnabled', true);
+        view()->share('facebookEnabled', true);
 
-        return View::make('games.mathEffect.stats', array(
+        return view('games.mathEffect.stats', array(
             'topLogs'    => $topLogs, 
             'todayLogs'  => $todayLogs, 
             'totalGames' => $totalGames,

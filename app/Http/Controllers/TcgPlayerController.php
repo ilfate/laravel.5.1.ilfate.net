@@ -2,10 +2,14 @@
 
 namespace Ilfate\Http\Controllers;
 
+use Ilfate\Card;
+use Ilfate\Deck as DeckModel;
 use Ilfate\Helper\Breadcrumbs;
+use Ilfate\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 use Ilfate\Tcg\Game;
-use Ilfate\Tcg\GameBuilder;
 
 class TcgPlayerController extends \Ilfate\Http\Controllers\BaseController
 {
@@ -30,56 +34,61 @@ class TcgPlayerController extends \Ilfate\Http\Controllers\BaseController
     /**
      * Display a listing of the games.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        Session::forget(User::GUEST_USER_SESSION_KEY);
+        $request->session()->forget(User::GUEST_USER_SESSION_KEY);
         $player = User::getUser();
         $cardsCount = 0;
         $decks = [];
         if ($player->id) {
             $player->touch();
             $cardsCount = Card::getMyCardsCount();
-            $decks = Deck::getMyDecks();
+            $decks = DeckModel::getMyDecks();
         }
 
-        View::share('decks', $decks);
-        View::share('player', [
+        view()->share('decks', $decks);
+        view()->share('player', [
             'id'   => $player->getId(),
             'name' => $player->getName(),
             'auth' => !! $player->id,
             'cardsCount' => $cardsCount,
         ]);
 
-        return View::make('games.tcg.player.index');
+        return view('games.tcg.player.index');
     }
 
-    public function registerForm()
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function registerForm(Request $request)
     {
         $player = User::getUser();
 
-        $formDefaults = Session::get('formDefaults', null);
+        $formDefaults = $request->session()->get('formDefaults', null);
         if ($formDefaults) {
-            View::share('formDefaults', $formDefaults);
-            Session::forget('formDefaults');
+            view()->share('formDefaults', $formDefaults);
+            $request->session->forget('formDefaults');
         }
 
-        View::share('player', [
+        view()->share('player', [
             'id'   => $player->getId(),
             'name' => $player->getName(),
             'auth' => $player->id,
         ]);
 
-        return View::make('games.tcg.player.register');
+        return view('games.tcg.player.register');
     }
 
-    public function registerSubmit()
+    public function registerSubmit(Request $request)
     {
-        $email = Input::get('email');
-        $password1 = Input::get('password1');
-        $password2 = Input::get('password2');
-        $name = Input::get('name');
+        $email = $request->get('email');
+        $password1 = $request->get('password1');
+        $password2 = $request->get('password2');
+        $name = $request->get('name');
 
         $player = User::getUser();
 
@@ -98,11 +107,11 @@ class TcgPlayerController extends \Ilfate\Http\Controllers\BaseController
 
         if ($player->id || $validator->fails())
         {
-            Session::set('formDefaults' , [
+            $request->session->set('formDefaults' , [
                 'name' => $name,
                 'email' => $email
             ]);
-            return Redirect::to('tcg/register')->withErrors($validator);
+            return redirect('tcg/register')->withErrors($validator);
         }
 
         $player->email = $email;
@@ -115,51 +124,51 @@ class TcgPlayerController extends \Ilfate\Http\Controllers\BaseController
 
         Auth::loginUsingId($player->getId(), true);
 
-        return Redirect::to('tcg/me');
+        return redirect('tcg/me');
     }
 
-    public function login()
+    public function login(Request $request)
     {
         $player = User::getUser();
         if ($player->id) {
-            return Redirect::to('tcg/me');
+            return redirect('tcg/me');
         }
-        $formErros = Session::get('formErrors', null);
+        $formErros = $request->session()->get('formErrors', null);
         if ($formErros) {
-            Session::forget('formErrors');
-            View::share('formErrors', $formErros);
+            $request->session()->forget('formErrors');
+            view()->share('formErrors', $formErros);
         }
-        return View::make('games.tcg.player.login');
+        return view('games.tcg.player.login');
     }
 
-    public function loginSubmit()
+    public function loginSubmit(Request $request)
     {
-        $email = Input::get('email');
-        $password = Input::get('password');
+        $email = $request->get('email');
+        $password = $request->get('password');
 
         $player = User::getUser();
 
         if ($player->id)
         {
             // user is already logged in
-            return Redirect::to('tcg/me');
+            return redirect('tcg/me');
         }
 
         if (Auth::attempt(array('email' => $email, 'password' => $password),
             true))
         {
-            return Redirect::to('tcg/me');
+            return redirect('tcg/me');
         }
-        Session::set('formErrors' , [
+        $request->session()->set('formErrors' , [
             ['message' => Lang::get('tcg.authFail'), 'type' => 'danger'],
             ['message' => Lang::get('tcg.tryToRegister', ['url' => '/tcg/register']), 'type' => 'info'],
         ]);
-        return Redirect::to('tcg/login');
+        return redirect('tcg/login');
     }
 
     public function logout()
     {
         Auth::logout();
-        return Redirect::to('tcg/me');
+        return redirect('tcg/me');
     }
 }

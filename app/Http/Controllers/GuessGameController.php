@@ -245,7 +245,7 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
     public function saveName(Request $request)
     {
         $name            = $request->input('name');
-        $laravel_session = md5(Cookie::get('laravel_session'));
+        $laravel_session = md5($request->cookie('laravel_session'));
         if (!$name) {
             return '[]';
         }
@@ -255,7 +255,7 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         $stats = GuessStats::where('laravel_session', '=', $laravel_session)->orderBy('created_at', 'desc')->firstOrFail();
         if (!$stats) {
             Log::warning('No user found to update name. (name=' . $name . ')');
-            App::abort(404);
+            abort(404);
         }
         $stats->name = $name;
         $stats->save();
@@ -284,7 +284,7 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         $stats->points = $game[self::GAME_POINTS];
         $stats->answers = $game[self::GAME_TURN] - 1;
         $stats->ip      = $_SERVER['REMOTE_ADDR'];
-        $stats->laravel_session = md5(Cookie::get('laravel_session'));
+        $stats->laravel_session = md5($request->cookie('laravel_session'));
         $stats->name = $name;
         $stats->image_id = $imageId;
         $stats->save();

@@ -2,6 +2,7 @@
 
 namespace Ilfate;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\Access\Authorizable;

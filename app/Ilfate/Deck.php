@@ -3,7 +3,6 @@
 namespace Ilfate;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Session;
 
 class Deck extends Model
 {

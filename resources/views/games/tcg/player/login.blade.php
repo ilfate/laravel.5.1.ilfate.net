@@ -31,6 +31,7 @@
             <button type="submit" class="btn btn-default">Log In</button>
         </div>
     </div>
+        {!! csrf_field() !!}
 </form>
 
 
