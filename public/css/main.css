@@ -194,6 +194,16 @@ span.text-info {
   /* MODAL */
   /* STATS */
   /*  ADMIN */ }
+  .guess-body .top-navigation {
+    margin: 0 auto;
+    display: block;
+    width: 1180px;
+    height: 3rem; }
+    .guess-body .top-navigation a {
+      float: right;
+      margin: 1rem 4.2rem 0 0; }
+  .guess-body .container.main {
+    padding-top: 0; }
   .guess-body .btn {
     border: none;
     border-radius: 2px; }

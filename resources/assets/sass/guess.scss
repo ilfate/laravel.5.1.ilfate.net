@@ -16,6 +16,20 @@ $guess-colors-yellow:#FFD416;
     height: 100%;
     min-height: 40rem;
 
+    .top-navigation {
+        margin:0 auto;
+        display: block;
+        width: $main-size;
+        height: 3rem;
+        a {
+            float:right;
+            margin: 1rem 4.2rem 0 0;
+        }
+    }
+    .container.main {
+        padding-top:0;
+    }
+
     .btn {
         border: none;
         border-radius: 2px;
