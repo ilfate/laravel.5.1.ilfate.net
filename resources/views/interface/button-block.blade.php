@@ -1,6 +1,6 @@
 <div class="rounded_block" >
   <span class="text">
-   {{{ $text }}}
+   {{ $text }}
   </span>
     <? if(isset($background)) { ?>
 

@@ -3,14 +3,15 @@
 @section('layout')
 
 
-
-<div class="container main">
-    <div class="row">
-        <div class="col-md-9 game-area">
-            @yield('content')
-        </div>
-        <div class="col-md-3 sidebar-col">
-            @yield('sidebar')
+<div class="guess-body">
+    <div class="container main">
+        <div class="row">
+            <div class="col-md-9 game-area">
+                @yield('content')
+            </div>
+            <div class="col-md-3 sidebar-col">
+                @yield('sidebar')
+            </div>
         </div>
     </div>
 </div>

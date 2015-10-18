@@ -2,12 +2,6 @@
     <div class="container">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-6">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
 
                 <ol class="breadcrumb ilfate-breadcrumb">
                     @foreach (\Ilfate\Helper\Breadcrumbs::getLinks() as $link)
@@ -24,19 +18,6 @@
                 </ol>
             </div>
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-                <ul class="nav navbar-nav">
-                    @if (!empty($ilfate_menu))
-                        @foreach ($ilfate_menu as $menuElement)
-                        <li {{ isset($menuElement['active'])? 'class="active"':'' }} >
-                            <a href="{{ url($menuElement['class'], $menuElement['method']) }} ">
-                                {{ $menuElement['text'] }}
-                            </a>
-                        </li>
-                        @endforeach
-                    @endif
-                </ul>
-            </div>
         </div>
     </div>
 </nav>

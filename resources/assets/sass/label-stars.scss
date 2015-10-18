@@ -1,0 +1,64 @@
+/*
+    Document   : main
+    Created on : Nov 12, 2012, 12:37:16 AM
+    Author     : Ilya Rubinchik
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/**** label-stars ****/
+
+.label-stars {
+    min-width: 72px;
+    text-align: center;
+    font-size: 100%;
+    display: inline-block;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    background-color: $color-blue;
+}
+
+.before-stars {
+    display:none;
+    position: absolute;
+    //margin: 2px 0 0 0;
+    min-width: 72px;
+    padding-top: 0.3rem;
+    padding-bottom: 0.15rem;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    background-color: $color-blue;
+}
+
+.container-stars:hover .before-stars {
+    display:inline-block;
+}
+.container-stars {
+    display:inline-block;
+}
+
+.star{
+    float:left;
+    width: 12.5%;
+    padding-left: 12.5%;
+    height: 16px;
+    margin: -1px 0 0 0;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box
+}
+.under-star {
+    background-color: #F89406;
+    width: 18px;
+    height: inherit;
+    position: absolute;
+    margin: 0 0 0 -9px;
+}
+.img-star {
+    background-image: url('../images/star_blue.png');
+    width: 18px;
+    height: inherit;
+    position: absolute;
+    margin: 0 0 0 -9px;
+}
+
+

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" media="screen" >
 
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
-    <link rel="stylesheet" href="/css/game.css" type="text/css" />
+    {{--<link rel="stylesheet" href="/css/game.css" type="text/css" />--}}
 
     @yield('additional_css')
 
@@ -27,10 +27,7 @@
 <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/js/jquery-additional.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-<!-- <script type="text/javascript" src="packages/bootbox.min.js"></script> -->
 
-<!--  <script type="text/javascript" src="/js/bootstrap-image-gallery.min.js"></script>
-  <script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>-->
 
 <script type="text/javascript" src="/js/events.js"></script>
 
