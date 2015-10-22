@@ -1,4 +1,4 @@
-@extends('layout.guess.main-admin')
+@extends('games.guess.admin.layout')
 
 @section('content')
 

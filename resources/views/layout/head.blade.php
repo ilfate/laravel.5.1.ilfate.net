@@ -3,45 +3,73 @@
 @section('head')
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>{{{ (isset($page_title) ? $page_title : 'Ilfate') }}}</title>
+    <title>{{ (isset($page_title) ? $page_title : 'Ilfate') }}</title>
 
 
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" media="screen" >
 
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
-    {{--<link rel="stylesheet" href="/css/game.css" type="text/css" />--}}
-
-    @yield('additional_css')
 
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
 
-    <meta content="ilfate ilya rubinchik ilya_rubinchik php web developer" name="keywords">
-    <meta content="Rubinchik Ilya`s personal site" name="description">
-    <meta property="og:site_name" content="Ilfate">
-    <meta property="og:title" content="Ilfate - Rubinchik Ilya. Personal Site.">
-    <meta property="og:image" content="/images/ilfate.png">
+    {{--Check config at config/header.php--}}
+    @foreach(config('header.lists.' . MetaTagsHelper::getPageName() . '.content') as $metaName)
+        <meta content="{{ MetaTagsHelper::getTag($metaName) }}" name="{{ $metaName }}">
+    @endforeach
+    @foreach(config('header.lists.' . MetaTagsHelper::getPageName() . '.property') as $propertyName)
+        <meta property="{{ $propertyName }}" content="{{ MetaTagsHelper::getTag($propertyName) }}">
+    @endforeach
 
 </head>
 <body>
+<script src="/js/main.min.js"></script>
+{{--<script>--}}
+    {{--require.config({--}}
+        {{--paths: {--}}
+            {{--//Comment out this line to go back to loading--}}
+            {{--//the non-optimized main.js source file.--}}
+            {{--"main": "main-built"--}}
+        {{--}--}}
+    {{--});--}}
+    {{--require(["main"]);--}}
+{{--</script>--}}
 
-<script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="/js/jquery-additional.js"></script>
-<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+{{--<script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>--}}
+{{--<script type="text/javascript" src="/js/jquery-additional.js"></script>--}}
+{{--<script type="text/javascript" src="/js/preloadjs-0.2.0.min.js"></script>--}}
+{{--<script type="text/javascript" src="/js/imagesloaded.pkgd.min.js"></script>--}}
+{{--<script type="text/javascript" src="/packages/mustache.js"></script>--}}
+{{--<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>--}}
+{{--<script type="text/javascript" src="/packages/dropzone.js"></script>--}}
 
 
-<script type="text/javascript" src="/js/events.js"></script>
+{{--<script type="text/javascript" src="/js/events.js"></script>--}}
 
-<script type="text/javascript" src="/js/index.js"></script>
-<script type="text/javascript" src="/js/ajax.js"></script>
-<script type="text/javascript" src="/js/modal.js"></script>
-<script type="text/javascript" src="/js/form.js"></script>
-<script type="text/javascript" src="/js/pages.js"></script>
+{{--<script type="text/javascript" src="/js/index.js"></script>--}}
+{{--<script type="text/javascript" src="/js/ajax.js"></script>--}}
+{{--<script type="text/javascript" src="/js/modal.js"></script>--}}
+{{--<script type="text/javascript" src="/js/form.js"></script>--}}
 
-@yield('additional_js')
+
+
+{{-- GuessSeries --}}
+{{--<script type="text/javascript" src="/js/guess/main.js"></script>--}}
+
+{{-- MathEffect --}}
+{{--<script type="text/javascript" src="/js/td/compiled.js"></script>--}}
+
+{{--<script type="text/javascript" src="/js/td/td.game.js"></script>--}}
+{{--<script type="text/javascript" src="/js/td/td.facet.js"></script>--}}
+{{--<script type="text/javascript" src="/js/td/td.map.js"></script>--}}
+{{--<script type="text/javascript" src="/js/td/td.map.config.js"></script>--}}
+{{--<script type="text/javascript" src="/js/td/td.unit.js"></script>--}}
+
+{{--<script src="/packages/video-js/video.js"></script>--}}
+<script>
+//    videojs.options.flash.swf = "/packages/video-js/video-js.swf"
+</script>
 
 @yield('layout')
-
-
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

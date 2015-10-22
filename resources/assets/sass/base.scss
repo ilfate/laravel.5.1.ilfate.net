@@ -4,6 +4,9 @@
     Author     : Ilya Rubinchik
     Description:
         Purpose of the stylesheet follows.
+
+    plz run to make it:
+        sass --compass --watch resources/assets/sass/main.scss:public/css/main.css
 */
 
 $color-brawn: #5E412F;
@@ -12,6 +15,8 @@ $color-orange: #F07818;
 $color-gold: #F0A830;
 $color-clay: #FCEBB6;
 $color-white: #FFFFFF;
+
+$color-blue-lighter: #98E0C8;
 
 $main-size: 1180px;
 $smaller-size: 943px;

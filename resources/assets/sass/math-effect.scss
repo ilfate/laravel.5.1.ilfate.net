@@ -1,0 +1,283 @@
+$me-color-red: #C21348;
+$me-color-yellow: #bcd42a;
+$me-color-black: #000000;
+
+
+.math-effect-container {
+    background-color: $color-brawn;
+
+    #tdMap {
+        position: absolute;
+        /*margin: 0 0 0 118px;*/
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .main-content-well, .main-content-well-side {
+        min-height: 800px;
+    }
+
+    * {
+        -webkit-box-sizing: border-box;
+    }
+
+     .tdCell {
+        width:60px;
+        height:60px;
+        float:left;
+        margin: 2px;
+        border-radius: 4px;
+    }
+     .tdCell.main-road {
+        background-color: #F0E5DF;
+    }
+     .tdCell.side-road {
+        background-color: #ffffcc;
+    }
+
+     .emptyCell {
+        border: 1px solid;
+        position: relative;
+    }
+     .tdUnit {
+        font-size: 20px;
+        line-height: 60px;
+        text-align: center;
+        vertical-align: middle;
+        margin: 2px;
+        border-radius: 4px;
+
+        position: absolute;
+        width:60px;
+        height:60px;
+        //background-color: #C26213;
+        background-color: $color-orange;
+        z-index: 5;
+    }
+
+    .tdUnit .unitPower {
+        z-index: 5;
+        position: absolute;
+        width:60px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+    }
+
+    .tdUnit.boss {
+        background-color: $me-color-red;
+    }
+
+    .tdUnit.playerUnit {
+        border: 0px;
+        color: $color-white;
+    }
+
+    .tdUnit.playerUnit.power-1, .tdUnit.playerUnit.power-1 .moveArrow, .tdUnit.playerUnit.power-1 .moveBlock {
+        background-color: #8DE984;
+    }
+    .tdUnit.playerUnit.power-2, .tdUnit.playerUnit.power-2 .moveArrow, .tdUnit.playerUnit.power-2 .moveBlock {
+        background-color: #78DE6D;
+    }
+    .tdUnit.playerUnit.power-3, .tdUnit.playerUnit.power-3 .moveArrow, .tdUnit.playerUnit.power-3 .moveBlock {
+        background-color: #5FCF53;
+    }
+    .tdUnit.playerUnit.power-4, .tdUnit.playerUnit.power-4 .moveArrow, .tdUnit.playerUnit.power-4 .moveBlock {
+        background-color: #4ABA3D;
+    }
+    .tdUnit.playerUnit.power-5, .tdUnit.playerUnit.power-5 .moveArrow, .tdUnit.playerUnit.power-5 .moveBlock {
+        background-color: #30AB22;
+    }
+    .tdUnit.playerUnit.power-6, .tdUnit.playerUnit.power-6 .moveArrow, .tdUnit.playerUnit.power-6 .moveBlock {
+        background-color: #2C9620;
+    }
+    .tdUnit.playerUnit.power-7, .tdUnit.playerUnit.power-7 .moveArrow, .tdUnit.playerUnit.power-7 .moveBlock {
+        background-color: #228017;
+    }
+    .tdUnit.playerUnit.power-8, .tdUnit.playerUnit.power-8 .moveArrow, .tdUnit.playerUnit.power-8 .moveBlock {
+        background-color: #1A6312;
+    }
+    .tdUnit.playerUnit.power-9, .tdUnit.playerUnit.power-9 .moveArrow, .tdUnit.playerUnit.power-9 .moveBlock {
+        background-color: #175210;
+    }
+    .tdUnit.playerUnit.power-10, .tdUnit.playerUnit.power-10 .moveArrow, .tdUnit.playerUnit.power-10 .moveBlock {
+        background-color: #113D0C;
+    }
+
+    .tdUnit.playerUnit.unit-move-0 { background: none; }
+    .tdUnit.playerUnit.unit-move-1 { background: none; }
+    .tdUnit.playerUnit.unit-move-2 { background: none; }
+    .tdUnit.playerUnit.unit-move-3 { background: none; }
+
+
+
+    .tdButton {
+        position: absolute;
+        width:15px;
+        height:15px;
+        color: $me-color-black;
+        z-index: 6;
+    }
+
+    .tdButton.arrow-0{
+        top:-4px;
+        left:22px;
+    }
+    .tdButton.arrow-1{
+        top:21px;
+        left:45px;
+    }
+    .tdButton.arrow-2{
+        top:44px;
+        left:22px;
+    }
+    .tdButton.arrow-3{
+        top:21px;
+        left:-3px;
+    }
+    .tdButton.tdStopButton{
+        top:20px;
+        left:20px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .arrow {
+        position: absolute;
+        top:32px;
+        left:32px;
+        margin: -10px 0px 0px -10px;
+        display: none;
+    }
+
+    .arrow.fa-long-arrow-up, .arrow.fa-long-arrow-down {
+        left:36px;
+    }
+
+    .bonus{
+        width: 30px;
+        height: 30px;
+        background-color: $me-color-yellow;
+        position: absolute;
+        border-radius: 30px;
+        line-height: 30px;
+        text-align: center;
+        top: 14px;
+        left: 14px;
+    }
+
+    .bonus.b-minus {
+        background-color: #ED7B61;
+    }
+
+
+
+
+    .tdUnit.playerUnit.unit-move-0 .moveBlock {
+        display: block;
+        position: absolute;
+        width:60px;
+        height:30px;
+        top:30px;
+        border-radius: 0px 0px 4px 4px;
+    }
+    .tdUnit.playerUnit.unit-move-1 .moveBlock {
+        display: block;
+        position: absolute;
+        width:30px;
+        height:60px;
+        top:0px;
+        border-radius: 4px 0px 0px 4px;
+    }
+    .tdUnit.playerUnit.unit-move-2 .moveBlock {
+        display: block;
+        position: absolute;
+        width:60px;
+        height:30px;
+        top:0px;
+        border-radius: 4px 4px 0px 0px;
+    }
+    .tdUnit.playerUnit.unit-move-3 .moveBlock {
+        display: block;
+        position: absolute;
+        width:30px;
+        height:60px;
+        top:0px;
+        left:30px;
+        border-radius: 0px 4px 4px 0px;
+    }
+    .tdUnit.playerUnit.unit-move-0 .moveArrow,
+    .tdUnit.playerUnit.unit-move-1 .moveArrow,
+    .tdUnit.playerUnit.unit-move-2 .moveArrow,
+    .tdUnit.playerUnit.unit-move-3 .moveArrow {
+        display: block;
+        position: absolute;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        width:46px;
+        height:46px;
+        border-radius: 9px;
+        top: 7px;
+        left:7px;
+        z-index:1;
+    }
+
+
+
+    /*  DIALOG */
+
+    .result-numbers {
+        color: #113D0C;
+        font-size: 22px;
+    }
+
+    .result-text {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .result-title {
+        text-align: center;
+    }
+
+
+    #modalHowUnitMove .modal-dialog {
+        width: 600px;
+    }
+
+    .modal-leaferboard-button{
+        left:0px;
+    }
+
+    #MENameFormContainer {
+        text-align: center;
+    }
+    .me-facebook-modal {
+        float:left;
+        margin-top: 7px;
+    }
+
+    .btn-primary {
+        color: $color-white;
+        background-color: $color-blue;
+        border-color: $color-blue-lighter;
+    }
+
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+        color: $color-brawn;
+        background-color: $color-orange;
+        border-color: $color-orange;
+    }
+}
+
+.math-effect-stats-container {
+    background-color: $color-brawn;
+}
+

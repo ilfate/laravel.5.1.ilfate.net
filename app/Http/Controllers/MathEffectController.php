@@ -12,6 +12,7 @@ use Cache;
 
 class MathEffectController extends BaseController
 {
+    const PAGE_NAME = 'mathEffect';
     const CACHE_KEY_STATS_TOTAL = 'ME_stats';
     /**
      * @var Breadcrumbs
@@ -35,6 +36,7 @@ class MathEffectController extends BaseController
      */
     public function index(Request $request)
     {
+        \MetaTagsHelper::setPageName(self::PAGE_NAME);
         $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Math Effect');
 
@@ -46,7 +48,7 @@ class MathEffectController extends BaseController
         view()->share('page_title', 'Math Effect - logic game.');
         view()->share('facebookEnabled', true);
 
-        return view('games.mathEffect', array('userName' => $name, 'checkKey' => $MEcheckKey));
+        return view('games.mathEffect.index', array('userName' => $name, 'checkKey' => $MEcheckKey));
     }
 
     /**
@@ -113,7 +115,7 @@ class MathEffectController extends BaseController
         } 
         $stats->name = $name;
         $stats->save();
-        return '{"actions": ["Page.hideMENameForm"]}';
+        return '{"actions": ["MathEffectPage.hideMENameForm"]}';
     }
 
     /**
@@ -123,6 +125,7 @@ class MathEffectController extends BaseController
      */
     public function statistic(Request $request)
     {
+        \MetaTagsHelper::setPageName(self::PAGE_NAME);
         $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Math Effect');
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Statistic');
@@ -164,7 +167,7 @@ class MathEffectController extends BaseController
         }
         view()->share('facebookEnabled', true);
 
-        return view('games.mathEffect.stats', array(
+        return view('games.mathEffect.stats.index', array(
             'topLogs'    => $topLogs, 
             'todayLogs'  => $todayLogs, 
             'totalGames' => $totalGames,

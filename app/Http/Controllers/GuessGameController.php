@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 
 class GuessGameController extends \Ilfate\Http\Controllers\BaseController
 {
+    const PAGE_NAME = 'guess';
+
     const SESSION_DATA = 'guess.game';
 
     const CACHE_KEY_STATS_MONTH = 'guess.stats.month';
@@ -38,6 +40,7 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
      */
     public function index(Request $request)
     {
+        \MetaTagsHelper::setPageName(self::PAGE_NAME);
         $game = $this->createGame();
         $game[self::GAME_CURRENT_QUESTION] = $this->getNewQuestion($game['turn']);
         $this->saveGame($game, $request);
@@ -60,6 +63,7 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
      */
     public function stats()
     {
+        \MetaTagsHelper::setPageName(self::PAGE_NAME);
         $imageStats = GuessStats::getHardestImage([time() - 24 * 60 * 60, time() + 2 * 60 * 60]);
         $url = SeriesImage::where('id', $imageStats->image_id)->pluck('url');
         view()->share('hardestPicture', $url);
@@ -68,7 +72,7 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
         view()->share('total', $this->getStatsTotal());
         view()->share('reddit', self::REDDIT);
         view()->share('page_title', 'Guess Series Leaderboard');
-        return view('games.guess.stats');
+        return view('games.guess.stats.index');
     }
 
     /**

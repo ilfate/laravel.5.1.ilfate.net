@@ -4,14 +4,22 @@
     Author     : Ilya Rubinchik
     Description:
         Purpose of the stylesheet follows.
+
+    plz run to make it:
+        sass --compass --watch resources/assets/sass/main.scss:public/css/main.css
 */
 
 @import "base";
+@import "font-awesome/font-awesome";
 @import "landingPage";
 @import "cv";
 @import "label-stars";
 @import "games-page";
 @import "guess";
+
+@import "video-js/video-js";
+@import "math-effect";
+
 
 
 
@@ -25,7 +33,7 @@ body, html {
     font-family: arial,sans-serif;
     height:100%;
     font-size: 20px;
-    background-color: $color-brawn;
+    //background-color: $color-brawn;
     color: $color-brawn;
 }
 

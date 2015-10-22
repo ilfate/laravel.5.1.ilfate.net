@@ -1,4 +1,4 @@
-@extends('layout.guess.main-admin')
+@extends('games.guess.admin.layout')
 
 @section('content')
 
@@ -30,7 +30,7 @@
 
 <h3>Controls</h3>
 <a class="btn btn-primary" href="/GuessSeries/admin">Back</a><br><br>
-<a class="btn btn-primary" href="/GuessSeries/admin/series/toggle/{{{$seriesId}}}">Toggle Active</a><br><br>
+<a class="btn btn-primary" href="/GuessSeries/admin/series/toggle/{{$seriesId}}">Toggle Active</a><br><br>
 
 
 @stop

@@ -9,12 +9,10 @@
 $game-page-size: 1011px;
 
 .games-page {
+    background-color: $color-brawn;
+
     .block-container {
         opacity: 0.7;
-        &:hover {
-            background-image: url('/images/line-background.png');
-
-        }
         &:hover .game-block img {
             opacity: 1;
         }

@@ -7,7 +7,8 @@
 
 namespace Ilfate\Helper;
 
-class Breadcrumbs {
+class Breadcrumbs
+{
     protected static $links = array();
 
     /**

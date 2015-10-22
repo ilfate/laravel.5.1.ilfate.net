@@ -195,12 +195,3 @@ function swapNodes(a, b)
   aparent.insertBefore(b, asibling);
 }
 
-function Page() {
-
-    this.hideMENameForm = function() {
-        $('#MENameForm').hide();
-        $('#MENameFormContainer').html('Name saved');
-    }
-}
-
-Page = new Page();
