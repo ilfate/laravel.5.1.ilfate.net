@@ -1,0 +1,55 @@
+
+.rounded_block {
+    width: 100%;
+    height:100%;
+    text-decoration: none !important;
+    position: relative;
+
+    .text {
+        width:100%;
+        height: 10rem;
+        line-height: 10rem;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 10rem;
+        font-weight: bold;
+        color: $color-brawn;
+        position:absolute;
+        margin:0 auto;
+        top: 0px;
+        bottom: 0px;
+        @media ($max-width-mobile) {
+            height: 5rem;
+            line-height: 5rem;
+            font-size: 5rem;
+        }
+    }
+    img, i {
+        opacity: 0.2;
+        height: 100%;
+    }
+    .back {
+        width: 100%;
+        height: 100%;
+    }
+
+    &:hover .opacity-animation {
+        opacity: 1;
+        -webkit-animation-duration: 0.5s;
+        -webkit-animation-name: fadeInFrom02;
+    }
+}
+
+@-webkit-keyframes fadeInFrom02 {
+    0% {
+        opacity: 0.2;
+    }
+    100% {
+        opacity: 0.9;
+    }
+}
+
+a.rounded_block_link{
+    text-decoration: none !important;
+    color: #333333;
+}

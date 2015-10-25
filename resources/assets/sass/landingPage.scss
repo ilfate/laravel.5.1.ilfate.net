@@ -29,45 +29,15 @@
         &.games {
             background-color: $color-gold;
         }
-        .rounded_block .text {
-            width:100%;
-            height: 10rem;
-            line-height: 10rem;
-            vertical-align: middle;
-            text-align: center;
-            font-size: 10rem;
-            font-weight: bold;
-            color: $color-brawn;
-            position:absolute;
-            margin:auto;
-            top: 0px;
-            bottom: 0px;
-            @media ($max-width-mobile) {
-                height: 5rem;
-                line-height: 5rem;
-                font-size: 5rem;
+        a {
+            .rounded_block {
+                .text {
+                    height: 100%;
+                }
             }
         }
+
+
     }
 }
-.rounded_block {
-    width: 100%;
-    height:100%;
-    text-decoration: none !important;
-    position: relative;
 
-}
-
-.rounded_block img {
-    opacity: 0.2;
-    height: 100%;
-}
-.rounded_block .back {
-    width: 100%;
-    height: 100%;
-}
-
-a.rounded_block_link{
-    text-decoration: none !important;
-    color: #333333;
-}

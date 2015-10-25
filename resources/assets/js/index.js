@@ -79,23 +79,14 @@ $.fn.starred = function()
 
 $.fn.roundedBlock = function() 
 {
-  $(this).each(function(event, el){
-    el = $(el);
-    el.bind('mousedown', function(){
-      $(this).addClass('mouse_down');
-    })
-    el.bind('mouseenter', function(){
-      $(this).find('.text').bounce();
-      $(this).find('img').animate({'opacity':0.4},150);
-    })
-    el.bind('mouseleave', function(){
-      $(this).find('img').animate({'opacity':0.2},150);
-      $(this).removeClass('mouse_down');
-    })
-    .bind('mouseup', function(){
-      $(this).removeClass('mouse_down');
+    $(this).each(function(event, el) {
+        var text = $(el).find('.text');
+        text.css('line-height', text.height() + 'px');
+        $(el).bind('mouseenter', function(){
+            $(this).find('.text').bounce();
+            //$(this).find('img').animate({'opacity':0.4},150);
+        });
     });
-	});
 };
 
 $.fn.bounce = function()

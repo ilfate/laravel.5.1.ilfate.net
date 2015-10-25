@@ -1,0 +1,95 @@
+/*
+    Document   : games-page
+    Created on : Nov 12, 2012, 12:37:16 AM
+    Author     : Ilya Rubinchik
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body.code {
+    background-color: $color-brawn;
+
+    .code-page {
+        padding-top: 3rem;
+
+        min-width: 15rem;
+
+        .show-grid {
+            margin: 0;
+            min-height: 12rem;
+            max-height: 12rem;
+            position: relative;
+            overflow: hidden;
+
+            .rounded_block {
+                img {
+                    height: 12rem;
+                    left: 0;
+                    right: 0;
+                    margin: 0 auto;
+                    display: block;
+                    position: absolute;
+                    overflow: hidden;
+                }
+                .text {
+                    line-height: 12rem;
+                    height: 12rem;
+
+                    @media (max-width: 1450px) {
+                        font-size: 8rem;
+                    }
+                    @media (max-width: 1160px) {
+                        font-size: 6rem;
+                    }
+                    @media (max-width: 880px) {
+                        font-size: 4rem;
+                    }
+                    @media (max-width: 580px) {
+                        font-size: 3rem;
+                    }
+                    @media (max-width: 436px) {
+                        font-size: 2rem;
+                    }
+
+                }
+            }
+
+            &.github {
+                background-color: $color-clay;
+                .rounded_block {
+
+                    img {
+                        width: 20rem;
+                        height: 20rem;
+                        margin-top: -5rem;
+                    }
+
+                }
+            }
+            &.game-template {
+                background-color: $color-blue;
+
+                &:hover .rounded_block .text {
+                    color: $color-orange;
+                }
+            }
+            &.robot-rock {
+                background-color: $color-gold;
+
+                i {
+                    color: $color-orange;
+                    font-size: 20rem;
+                    left: 0;
+                    right: 0;
+                    margin: -4.5rem auto 0 auto;
+                    display: block;
+                    position: absolute;
+                    overflow: hidden;
+                    width: 25rem;
+                    height: 20rem;
+                }
+            }
+        }
+    }
+}
+

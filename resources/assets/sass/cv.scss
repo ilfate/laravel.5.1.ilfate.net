@@ -6,31 +6,35 @@
         Purpose of the stylesheet follows.
 */
 
-span.text-info {
-    color: $color-brawn;
-    text-decoration: underline;
-}
-
-.company-name {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.CVpage {
-    img.me {
-        float: left;
-        width: 9rem;
-        margin-right: 2rem;
+body.cv {
+    background-color: $color-brawn;
+    span.text-info {
+        color: $color-brawn;
+        text-decoration: underline;
     }
-    h1 {
-        color: $color-blue;
-        text-shadow: 1px 1px $color-brawn;
+
+    .company-name {
+        font-weight: bold;
+        font-size: 1.2rem;
     }
-}
-.like-h1 {
-    line-height: 2.5rem; margin: 10px;
-}
-.cv-certificate {
-    margin-right: 20px;
+
+    .CVpage {
+        img.me {
+            float: left;
+            width: 9rem;
+            margin-right: 2rem;
+        }
+        h1 {
+            color: $color-blue;
+            text-shadow: 1px 1px $color-brawn;
+        }
+    }
+    .like-h1 {
+        line-height: 2.5rem;
+        margin: 10px;
+    }
+    .cv-certificate {
+        margin-right: 20px;
+    }
 }
 

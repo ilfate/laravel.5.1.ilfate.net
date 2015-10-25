@@ -26,30 +26,34 @@ class CodeController extends \Ilfate\Http\Controllers\BaseController
     public function index()
     {
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Code');
+        view()->share('bodyClass', 'code');
         return view('code.index');
     }
 
     /**
-     * Main page
+     * js game template
      *
      * @return \Illuminate\View\View
      */
-    public function engine()
+    public function gameTemplate()
     {
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Code');
-        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Engine');
-        return view('code.engine');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Game Template');
+        view()->share('bodyClass', 'game-template');
+        return view('games.gameTemplate');
     }
 
+
     /**
-     * Main page
+     * RobotRock game
      *
      * @return \Illuminate\View\View
      */
-    public function stars()
+    public function robotRock()
     {
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'index'), 'Code');
-        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Stars');
-        return view('code.stars');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'RobotRock');
+        view()->share('bodyClass', 'robot-rock');
+        return view('games.robotRock.index');
     }
 }

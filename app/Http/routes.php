@@ -24,12 +24,10 @@ Route::get('Cv', 'PageController@cv');
 Route::get('Cv/Skills', 'PageController@skills');
 
 Route::get('Code', 'CodeController@index');
-Route::get('Code/Engine', 'CodeController@engine');
-Route::get('Code/Stars', 'CodeController@stars');
+Route::get('GameTemplate', 'CodeController@gameTemplate');
+Route::get('RobotRock', 'CodeController@robotRock');
 
 Route::get('Games', 'GamesController@index');
-Route::get('RobotRock', 'GamesController@robotRock');
-Route::get('GameTemplate', 'GamesController@gameTemplate');
 
 Route::get('MathEffect', 'MathEffectController@index');
 Route::post('MathEffect/save', array('before' => 'csrf', 'uses' => 'MathEffectController@save'));

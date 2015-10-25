@@ -1,19 +1,33 @@
-@extends('layout.layout')
-
-@section('additional_css')
-<script type="text/javascript" src="/js/easeljs-0.5.0.min.js"></script>
-<script type="text/javascript" src="/js/preloadjs-0.2.0.min.js"></script>
-@stop
-
-@section('additional_js')
-<script type="text/javascript" src="/js/canvasActions.js"></script>
-@stop
+@extends('layout.empty')
 
 @section('content')
 
-<canvas id="demoCanvas" width="576" height="576">
-    alternate content
-</canvas>
+<div class="overflow-hidden">
+<div class="game-template-container">
+    <div class="container main">
+        <div class="main-content-well well well-small ">
+
+            <canvas id="demoCanvas" width="576" height="576">
+                alternate content
+            </canvas>
+
+            <div class="rules">
+                <h3>Controls</h3>
+                <strong>W,A,S,D</strong> - move<br>
+                <strong>E</strong> - destroy wall<br>
+                <br>
+                <h3>Info</h3>
+                This is not actually a game. This is just result of my experiments during studing new Canvas framework (Createjs)
+                <br>
+                <br>
+                This was done in 2011... very old stuff...
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
 
 
 <script >
@@ -21,16 +35,5 @@
         CanvasActions.init();
     });
 </script>
-
-@stop
-
-@section('sidebar')
-
-<h3>Controls</h3>
-<strong>W,A,S,D</strong> - move<br>
-<strong>E</strong> - destroy wall<br>
-<br>
-<h3>Info</h3>
-This is not actually a game. This is just result of my experiments during studing new Canvas framework (Createjs)
 
 @stop

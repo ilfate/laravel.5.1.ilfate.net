@@ -85,7 +85,7 @@
                 <h3>Robot Rock</h3>
                 Novemder 2010 - June 2011.<br>
                 My first Php + Canvas game. Main purpose of creating this game was to learn HTML5-Canvas and increase my PHP skills<br>
-                You can find animation demo and information at the page below <a href="{{ action('GamesController@robotRock') }}" >http://ilfate.net/RobotRock</a>
+                You can find animation demo and information at the page below <a href="{{ action('CodeController@robotRock') }}" >http://ilfate.net/RobotRock</a>
                 <h3>Ilfate framework</h3>
                 October 2012 - January 2013.<br>
                 My PHP micro-framework. ilfate.net is created with this framework<br>

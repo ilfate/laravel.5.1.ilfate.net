@@ -1,0 +1,25 @@
+/*
+    Document   : games-page
+    Created on : Nov 12, 2012, 12:37:16 AM
+    Author     : Ilya Rubinchik
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body.game-template {
+    background-color: $color-brawn;
+
+
+    .well {
+        margin-top: 3rem;
+        min-height: 31rem;
+        box-shadow: 0.3rem 0.3rem 1.5rem $color-blue;
+
+        canvas {
+            float: left;
+            margin-right: 2rem;
+        }
+    }
+
+}
+

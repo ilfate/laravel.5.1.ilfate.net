@@ -21,7 +21,11 @@
     @endforeach
 
 </head>
-<body>
+<body
+        @if(!empty($bodyClass))
+            class="{{$bodyClass}}"
+        @endif
+        >
 <script src="/js/main.min.js"></script>
 {{--<script>--}}
     {{--require.config({--}}
