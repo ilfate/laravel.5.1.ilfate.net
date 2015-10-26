@@ -11,6 +11,7 @@
 .landing-page-container {
     height: 100%;
     width:100%;
+    background-color: $color-gold;
 
     .main-page-block {
         height: 33%;
@@ -21,7 +22,6 @@
         }
         &.cv {
             background-color: $color-blue;
-            height: 34%;
         }
         &.code {
             background-color: $color-clay;

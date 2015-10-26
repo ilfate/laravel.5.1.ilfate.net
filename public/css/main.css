@@ -1690,7 +1690,8 @@
 /**************************** MENU BLOCK ***************************/
 .landing-page-container {
   height: 100%;
-  width: 100%; }
+  width: 100%;
+  background-color: #F0A830; }
   .landing-page-container .main-page-block {
     height: 33%;
     width: 100%;
@@ -1698,8 +1699,7 @@
     .landing-page-container .main-page-block:hover .rounded_block .text {
       color: #F07818; }
     .landing-page-container .main-page-block.cv {
-      background-color: #78C0A8;
-      height: 34%; }
+      background-color: #78C0A8; }
     .landing-page-container .main-page-block.code {
       background-color: #FCEBB6; }
     .landing-page-container .main-page-block.games {
@@ -2382,205 +2382,207 @@ body.games-page {
   .guess-body .admin-series-image:active {
     width: 600px; }
 
-.math-effect-container {
-  background-color: #5E412F;
-  /*  DIALOG */ }
-  .math-effect-container #tdMap {
-    position: absolute;
-    /*margin: 0 0 0 118px;*/
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none; }
-  .math-effect-container .main-content-well, .math-effect-container .main-content-well-side {
-    min-height: 800px; }
-  .math-effect-container * {
-    -webkit-box-sizing: border-box; }
-  .math-effect-container .tdCell {
-    width: 60px;
-    height: 60px;
-    float: left;
-    margin: 2px;
-    border-radius: 4px; }
-  .math-effect-container .tdCell.main-road {
-    background-color: #F0E5DF; }
-  .math-effect-container .tdCell.side-road {
-    background-color: #ffffcc; }
-  .math-effect-container .emptyCell {
-    border: 1px solid;
-    position: relative; }
-  .math-effect-container .tdUnit {
-    font-size: 20px;
-    line-height: 60px;
-    text-align: center;
-    vertical-align: middle;
-    margin: 2px;
-    border-radius: 4px;
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background-color: #F07818;
-    z-index: 5; }
-  .math-effect-container .tdUnit .unitPower {
-    z-index: 5;
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    text-align: center; }
-  .math-effect-container .tdUnit.boss {
-    background-color: #C21348; }
-  .math-effect-container .tdUnit.playerUnit {
-    border: 0px;
-    color: #FFFFFF; }
-  .math-effect-container .tdUnit.playerUnit.power-1, .math-effect-container .tdUnit.playerUnit.power-1 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-1 .moveBlock {
-    background-color: #8DE984; }
-  .math-effect-container .tdUnit.playerUnit.power-2, .math-effect-container .tdUnit.playerUnit.power-2 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-2 .moveBlock {
-    background-color: #78DE6D; }
-  .math-effect-container .tdUnit.playerUnit.power-3, .math-effect-container .tdUnit.playerUnit.power-3 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-3 .moveBlock {
-    background-color: #5FCF53; }
-  .math-effect-container .tdUnit.playerUnit.power-4, .math-effect-container .tdUnit.playerUnit.power-4 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-4 .moveBlock {
-    background-color: #4ABA3D; }
-  .math-effect-container .tdUnit.playerUnit.power-5, .math-effect-container .tdUnit.playerUnit.power-5 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-5 .moveBlock {
-    background-color: #30AB22; }
-  .math-effect-container .tdUnit.playerUnit.power-6, .math-effect-container .tdUnit.playerUnit.power-6 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-6 .moveBlock {
-    background-color: #2C9620; }
-  .math-effect-container .tdUnit.playerUnit.power-7, .math-effect-container .tdUnit.playerUnit.power-7 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-7 .moveBlock {
-    background-color: #228017; }
-  .math-effect-container .tdUnit.playerUnit.power-8, .math-effect-container .tdUnit.playerUnit.power-8 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-8 .moveBlock {
-    background-color: #1A6312; }
-  .math-effect-container .tdUnit.playerUnit.power-9, .math-effect-container .tdUnit.playerUnit.power-9 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-9 .moveBlock {
-    background-color: #175210; }
-  .math-effect-container .tdUnit.playerUnit.power-10, .math-effect-container .tdUnit.playerUnit.power-10 .moveArrow, .math-effect-container .tdUnit.playerUnit.power-10 .moveBlock {
-    background-color: #113D0C; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-0 {
-    background: none; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-1 {
-    background: none; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-2 {
-    background: none; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-3 {
-    background: none; }
-  .math-effect-container .tdButton {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    color: #000000;
-    z-index: 6; }
-  .math-effect-container .tdButton.arrow-0 {
-    top: -4px;
-    left: 22px; }
-  .math-effect-container .tdButton.arrow-1 {
-    top: 21px;
-    left: 45px; }
-  .math-effect-container .tdButton.arrow-2 {
-    top: 44px;
-    left: 22px; }
-  .math-effect-container .tdButton.arrow-3 {
-    top: 21px;
-    left: -3px; }
-  .math-effect-container .tdButton.tdStopButton {
-    top: 20px;
-    left: 20px;
-    width: 20px;
-    height: 20px; }
-  .math-effect-container .arrow {
-    position: absolute;
-    top: 32px;
-    left: 32px;
-    margin: -10px 0px 0px -10px;
-    display: none; }
-  .math-effect-container .arrow.fa-long-arrow-up, .math-effect-container .arrow.fa-long-arrow-down {
-    left: 36px; }
-  .math-effect-container .bonus {
-    width: 30px;
-    height: 30px;
-    background-color: #bcd42a;
-    position: absolute;
-    border-radius: 30px;
-    line-height: 30px;
-    text-align: center;
-    top: 14px;
-    left: 14px; }
-  .math-effect-container .bonus.b-minus {
-    background-color: #ED7B61; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-0 .moveBlock {
-    display: block;
-    position: absolute;
-    width: 60px;
-    height: 30px;
-    top: 30px;
-    border-radius: 0px 0px 4px 4px; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-1 .moveBlock {
-    display: block;
-    position: absolute;
-    width: 30px;
-    height: 60px;
-    top: 0px;
-    border-radius: 4px 0px 0px 4px; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-2 .moveBlock {
-    display: block;
-    position: absolute;
-    width: 60px;
-    height: 30px;
-    top: 0px;
-    border-radius: 4px 4px 0px 0px; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-3 .moveBlock {
-    display: block;
-    position: absolute;
-    width: 30px;
-    height: 60px;
-    top: 0px;
-    left: 30px;
-    border-radius: 0px 4px 4px 0px; }
-  .math-effect-container .tdUnit.playerUnit.unit-move-0 .moveArrow,
-  .math-effect-container .tdUnit.playerUnit.unit-move-1 .moveArrow,
-  .math-effect-container .tdUnit.playerUnit.unit-move-2 .moveArrow,
-  .math-effect-container .tdUnit.playerUnit.unit-move-3 .moveArrow {
-    display: block;
-    position: absolute;
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    width: 46px;
-    height: 46px;
-    border-radius: 9px;
-    top: 7px;
-    left: 7px;
-    z-index: 1; }
-  .math-effect-container .result-numbers {
-    color: #113D0C;
-    font-size: 22px; }
-  .math-effect-container .result-text {
-    font-size: 18px;
-    text-align: center;
-    vertical-align: middle; }
-  .math-effect-container .result-title {
-    text-align: center; }
-  .math-effect-container #modalHowUnitMove .modal-dialog {
-    width: 600px; }
-  .math-effect-container .modal-leaferboard-button {
-    left: 0px; }
-  .math-effect-container #MENameFormContainer {
-    text-align: center; }
-  .math-effect-container .me-facebook-modal {
-    float: left;
-    margin-top: 7px; }
-  .math-effect-container .btn-primary {
-    color: #FFFFFF;
-    background-color: #78C0A8;
-    border-color: #98E0C8; }
-  .math-effect-container .btn-primary:hover, .math-effect-container .btn-primary:focus, .math-effect-container .btn-primary:active, .math-effect-container .btn-primary.active, .math-effect-container .open .dropdown-toggle.btn-primary {
-    color: #5E412F;
-    background-color: #F07818;
-    border-color: #F07818; }
-
-.math-effect-stats-container {
+body.math-effect {
   background-color: #5E412F; }
+  body.math-effect .math-effect-container {
+    /*  DIALOG */ }
+    body.math-effect .math-effect-container #tdMap {
+      position: absolute;
+      /*margin: 0 0 0 118px;*/
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none; }
+    body.math-effect .math-effect-container .main-content-well, body.math-effect .math-effect-container .main-content-well-side {
+      min-height: 800px; }
+    body.math-effect .math-effect-container * {
+      -webkit-box-sizing: border-box; }
+    body.math-effect .math-effect-container .tdCell {
+      width: 60px;
+      height: 60px;
+      float: left;
+      margin: 2px;
+      border-radius: 4px; }
+    body.math-effect .math-effect-container .tdCell.main-road {
+      background-color: #F0E5DF; }
+    body.math-effect .math-effect-container .tdCell.side-road {
+      background-color: #ffffcc; }
+    body.math-effect .math-effect-container .emptyCell {
+      border: 1px solid;
+      position: relative; }
+    body.math-effect .math-effect-container .tdUnit {
+      font-size: 20px;
+      line-height: 60px;
+      text-align: center;
+      vertical-align: middle;
+      margin: 2px;
+      border-radius: 4px;
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background-color: #F07818;
+      z-index: 5; }
+    body.math-effect .math-effect-container .tdUnit .unitPower {
+      z-index: 5;
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      text-align: center; }
+    body.math-effect .math-effect-container .tdUnit.boss {
+      background-color: #C21348; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit {
+      border: 0px;
+      color: #FFFFFF; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-1, body.math-effect .math-effect-container .tdUnit.playerUnit.power-1 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-1 .moveBlock {
+      background-color: #8DE984; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-2, body.math-effect .math-effect-container .tdUnit.playerUnit.power-2 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-2 .moveBlock {
+      background-color: #78DE6D; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-3, body.math-effect .math-effect-container .tdUnit.playerUnit.power-3 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-3 .moveBlock {
+      background-color: #5FCF53; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-4, body.math-effect .math-effect-container .tdUnit.playerUnit.power-4 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-4 .moveBlock {
+      background-color: #4ABA3D; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-5, body.math-effect .math-effect-container .tdUnit.playerUnit.power-5 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-5 .moveBlock {
+      background-color: #30AB22; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-6, body.math-effect .math-effect-container .tdUnit.playerUnit.power-6 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-6 .moveBlock {
+      background-color: #2C9620; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-7, body.math-effect .math-effect-container .tdUnit.playerUnit.power-7 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-7 .moveBlock {
+      background-color: #228017; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-8, body.math-effect .math-effect-container .tdUnit.playerUnit.power-8 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-8 .moveBlock {
+      background-color: #1A6312; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-9, body.math-effect .math-effect-container .tdUnit.playerUnit.power-9 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-9 .moveBlock {
+      background-color: #175210; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.power-10, body.math-effect .math-effect-container .tdUnit.playerUnit.power-10 .moveArrow, body.math-effect .math-effect-container .tdUnit.playerUnit.power-10 .moveBlock {
+      background-color: #113D0C; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-0 {
+      background: none; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-1 {
+      background: none; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-2 {
+      background: none; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-3 {
+      background: none; }
+    body.math-effect .math-effect-container .tdButton {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      color: #000000;
+      z-index: 6; }
+    body.math-effect .math-effect-container .tdButton.arrow-0 {
+      top: -4px;
+      left: 22px; }
+    body.math-effect .math-effect-container .tdButton.arrow-1 {
+      top: 21px;
+      left: 45px; }
+    body.math-effect .math-effect-container .tdButton.arrow-2 {
+      top: 44px;
+      left: 22px; }
+    body.math-effect .math-effect-container .tdButton.arrow-3 {
+      top: 21px;
+      left: -3px; }
+    body.math-effect .math-effect-container .tdButton.tdStopButton {
+      top: 20px;
+      left: 20px;
+      width: 20px;
+      height: 20px; }
+    body.math-effect .math-effect-container .arrow {
+      position: absolute;
+      top: 32px;
+      left: 32px;
+      margin: -10px 0px 0px -10px;
+      display: none; }
+    body.math-effect .math-effect-container .arrow.fa-long-arrow-up, body.math-effect .math-effect-container .arrow.fa-long-arrow-down {
+      left: 36px; }
+    body.math-effect .math-effect-container .bonus {
+      width: 30px;
+      height: 30px;
+      background-color: #bcd42a;
+      position: absolute;
+      border-radius: 30px;
+      line-height: 30px;
+      text-align: center;
+      top: 14px;
+      left: 14px; }
+    body.math-effect .math-effect-container .bonus.b-minus {
+      background-color: #ED7B61; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-0 .moveBlock {
+      display: block;
+      position: absolute;
+      width: 60px;
+      height: 30px;
+      top: 30px;
+      border-radius: 0px 0px 4px 4px; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-1 .moveBlock {
+      display: block;
+      position: absolute;
+      width: 30px;
+      height: 60px;
+      top: 0px;
+      border-radius: 4px 0px 0px 4px; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-2 .moveBlock {
+      display: block;
+      position: absolute;
+      width: 60px;
+      height: 30px;
+      top: 0px;
+      border-radius: 4px 4px 0px 0px; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-3 .moveBlock {
+      display: block;
+      position: absolute;
+      width: 30px;
+      height: 60px;
+      top: 0px;
+      left: 30px;
+      border-radius: 0px 4px 4px 0px; }
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-0 .moveArrow,
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-1 .moveArrow,
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-2 .moveArrow,
+    body.math-effect .math-effect-container .tdUnit.playerUnit.unit-move-3 .moveArrow {
+      display: block;
+      position: absolute;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      width: 46px;
+      height: 46px;
+      border-radius: 9px;
+      top: 7px;
+      left: 7px;
+      z-index: 1; }
+    body.math-effect .math-effect-container .result-numbers {
+      color: #113D0C;
+      font-size: 22px; }
+    body.math-effect .math-effect-container .result-text {
+      font-size: 18px;
+      text-align: center;
+      vertical-align: middle; }
+    body.math-effect .math-effect-container .result-title {
+      text-align: center; }
+    body.math-effect .math-effect-container #modalHowUnitMove .modal-dialog {
+      width: 600px; }
+    body.math-effect .math-effect-container .modal-leaferboard-button {
+      left: 0px; }
+    body.math-effect .math-effect-container #MENameFormContainer {
+      text-align: center; }
+    body.math-effect .math-effect-container .me-facebook-modal {
+      float: left;
+      margin-top: 7px; }
+    body.math-effect .math-effect-container .btn-primary {
+      color: #FFFFFF;
+      background-color: #78C0A8;
+      border-color: #98E0C8; }
+    body.math-effect .math-effect-container .btn-primary:hover, body.math-effect .math-effect-container .btn-primary:focus, body.math-effect .math-effect-container .btn-primary:active, body.math-effect .math-effect-container .btn-primary.active, body.math-effect .math-effect-container .open .dropdown-toggle.btn-primary {
+      color: #5E412F;
+      background-color: #F07818;
+      border-color: #F07818; }
+    body.math-effect .math-effect-container .sidebar .well {
+      padding-left: 1.5rem; }
+  body.math-effect .math-effect-stats-container {
+    background-color: #5E412F; }
 
 * {
   margin: 0px;

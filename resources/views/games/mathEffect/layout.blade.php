@@ -12,12 +12,8 @@
                     @yield('content')
                 </div>
             </div>
-            <div class="col-md-1">
 
-                    @yield('order')
-
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4 sidebar">
                 @include('sidebar')
             </div>
         </div>
