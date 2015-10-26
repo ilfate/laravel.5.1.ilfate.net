@@ -181,17 +181,17 @@ class GuessGameController extends \Ilfate\Http\Controllers\BaseController
      */
     public function ability(Request $request)
     {
-        $id = (int) $request->input('id');
+        $abilityId = (int) $request->input('id');
         $game = $this->getGame(false, $request);
-        if (in_array($id, $game[self::GAME_ABILITIES])) {
+        if (in_array($abilityId, $game[self::GAME_ABILITIES])) {
             return '[]';
         }
-        $game[self::GAME_ABILITIES][] = $id;
+        $game[self::GAME_ABILITIES][] = $abilityId;
         $game[self::GAME_TURN_START_TIME] = time();
         $result = [
-            'id' => $id
+            'id' => $abilityId
         ];
-        switch ($id) {
+        switch ($abilityId) {
             case 1: // 50/50
                 $keysToRemove = [];
                 $options = $game[self::GAME_CURRENT_QUESTION]['options'];

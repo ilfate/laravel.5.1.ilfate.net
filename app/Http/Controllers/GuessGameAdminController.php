@@ -3,7 +3,6 @@
 namespace Ilfate\Http\Controllers;
 
 use Ilfate\GuessStats;
-use Ilfate\Helper\Breadcrumbs;
 use Ilfate\Series;
 use Ilfate\SeriesImage;
 use Ilfate\User;
@@ -14,15 +13,16 @@ use Illuminate\Http\Response;
 
 class GuessGameAdminController extends \Ilfate\Http\Controllers\BaseController
 {
-    const PATH_TO_FILES = '/images/game/guess/';
     const USER_EDIT_RIGHTS = 2;
 
-    /**
-     *
-     */
-    public function __construct()
-    {
+    protected $seriesModel;
 
+    /**
+     * @param Series $series
+     */
+    public function __construct(Series $series)
+    {
+        $this->seriesModel = $series;
     }
 
     /**
@@ -48,7 +48,6 @@ class GuessGameAdminController extends \Ilfate\Http\Controllers\BaseController
     {
         $user = User::getUser();
         if (!$this->checkForUserEditRights($user)) {
-            //redirect();
             return new RedirectResponse('/tcg/login');
         }
         if ($request->getMethod() == 'POST') {
@@ -87,29 +86,9 @@ class GuessGameAdminController extends \Ilfate\Http\Controllers\BaseController
         }
 
         $file = $request->file('file');
-        $destinationPath = public_path() . self::PATH_TO_FILES;
+        $isSaved = $this->seriesModel->addImage($file, $seriesId, $difficulty);
 
-
-        $extension = $file->getClientOriginalExtension();
-        $filename = str_random(16) . '.' . $extension;
-        $fileInPath = public_path() . self::PATH_TO_FILES . $filename;
-        while (file_exists($fileInPath)) {
-            $filename = str_random(16) . '.' . $extension;
-            $fileInPath = public_path() . self::PATH_TO_FILES . $filename;
-        }
-        $upload_success = $file->move($destinationPath, $filename);
-
-        if ($upload_success) {
-            $fileRaw = file_get_contents($destinationPath . $filename);
-            $image = new SeriesImage();
-            $image->image = $fileRaw;
-            $image->url = $filename;
-            $image->series_id = $seriesId;
-            $image->difficulty = $difficulty;
-
-            $image->save();
-
-            //unlink($destinationPath . $filename);
+        if ($isSaved) {
             return response()->json(['success' => 200]);
         } else {
             return response()->json(['error' => 400]);
@@ -127,17 +106,18 @@ class GuessGameAdminController extends \Ilfate\Http\Controllers\BaseController
         if (!$this->checkForUserEditRights($user)) {
             return redirect('tcg/login');
         }
-        $id = (int) $id;
-        $images = SeriesImage::where('series_id', '=', $id)->get();
-        $sortedImages = [1 => [], 2 => [], 3 => []];
-        foreach ($images as $value) {
-            $sortedImages[$value['difficulty']][] = $value->toArray();
-        }
+        $images = $this->seriesModel->getImagesBySeriesId($id);
+        $sortedImages = $this->seriesModel->sortImagesByDifficulty($images);
         view()->share('images', $sortedImages);
         view()->share('seriesId', $id);
         return view('games.guess.admin.series');
     }
 
+    /**
+     * @param $id
+     *
+     * @return RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function deleteImage($id)
     {
         $user = User::getUser();
@@ -145,30 +125,25 @@ class GuessGameAdminController extends \Ilfate\Http\Controllers\BaseController
             return response()->json(['forbidden' => 400]);
         }
 
-        $image = SeriesImage::select('id', 'url', 'series_id')->where('id', $id)->first();
-        $filename = public_path() . self::PATH_TO_FILES . $image->url;
-        $seriesId = $image->series_id;
-        if (file_exists($filename)) {
-            unlink($filename);
-            SeriesImage::where('id', '=', $id)->delete();
+        $seriesId = $this->seriesModel->deleteImageById($id);
+        if ($seriesId) {
             return redirect('GuessSeries/admin/series/' . $seriesId);
         }
         return redirect('GuessSeries/admin/');
     }
 
-    public function toggleActive($id) {
+    /**
+     * @param $seriesId
+     *
+     * @return RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function toggleActive($seriesId) {
         $user = User::getUser();
         if (!$this->checkForUserEditRights($user)) {
             return redirect('tcg/login');
         }
 
-        $series = Series::where('id', $id)->first();
-        if ($series->active) {
-            $series->active = 0;
-        } else {
-            $series->active = 1;
-        }
-        $series->save();
+        $this->seriesModel->toggleActive($seriesId);
         return redirect('GuessSeries/admin/');
     }
 
@@ -195,23 +170,7 @@ class GuessGameAdminController extends \Ilfate\Http\Controllers\BaseController
         }
         
         $seriesId = $request->get('seriesId', null);
-        $this->generateImagesFromDatabase($seriesId);
-    }
-
-    /**
-     * @param null $seriesId
-     */
-    protected function generateImagesFromDatabase($seriesId = null)
-    {
-        if ($seriesId) {
-            $images = SeriesImage::where('series_id', '=', $seriesId)->get();
-        } else {
-            $images = SeriesImage::get();
-        }
-        foreach ($images as $image) {
-            file_put_contents(public_path() . self::PATH_TO_FILES . $image->url, $image->image);
-            //file_put_contents(/home/ilfate/www/php/ilfate.net/public/images/game/guess/SLKdXTrglwvDm3ia.jpg): failed to open stream: Permission denied
-        }
+        $this->seriesModel->generateImagesFromDatabase($seriesId);
     }
 
     /**

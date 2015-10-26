@@ -8,7 +8,7 @@
 
 $game-page-size: 1011px;
 
-.games-page {
+.games-page-old {
     background-color: $color-brawn;
 
     .block-container {
@@ -28,10 +28,34 @@ $game-page-size: 1011px;
     }
 
     .series {
-
+        background-color: $color-blue;
     }
     .math-effect {
+        background-color: $color-gold;
+    }
+}
 
+$game-page-row-height: 15rem;
+
+body.games-page {
+    background-color: $color-brawn;
+    .games-page {
+        padding-top: 3rem;
+
+        .landing-block {
+            height: $game-page-row-height;
+
+            .text {
+                height: $game-page-row-height;
+            }
+
+            &.guess-series {
+                background-color: $color-blue;
+            }
+            &.math-effect {
+                background-color: $color-clay;
+            }
+        }
     }
 }
 

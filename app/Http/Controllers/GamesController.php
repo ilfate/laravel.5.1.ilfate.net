@@ -30,6 +30,7 @@ class GamesController extends \Ilfate\Http\Controllers\BaseController
         view()->share('page_title', 'Games made by Ilya Rubinchik.');
 
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Games');
+        view()->share('bodyClass', 'games-page');
         return view('games.index');
     }
 

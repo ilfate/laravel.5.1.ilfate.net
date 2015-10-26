@@ -26,7 +26,7 @@ class TdStatistics extends Model
 	/**
 	 * @return mixed
 	 */
-	public static function getTopLogs()
+	public function getTopLogs()
 	{
 		$topLogs = DB::table('td_statistic')
 			->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
@@ -39,7 +39,7 @@ class TdStatistics extends Model
 	/**
 	 * @return mixed
 	 */
-	public static function getTotalGames()
+	public function getTotalGames()
 	{
 		$totalGames = DB::table('td_statistic')
 			->count();
@@ -49,7 +49,7 @@ class TdStatistics extends Model
 	/**
 	 * @return mixed
 	 */
-	public static function getAverageTurns()
+	public function getAverageTurns()
 	{
 		$avrTurns = DB::table('td_statistic')
 			->avg('turnsSurvived');
@@ -59,7 +59,7 @@ class TdStatistics extends Model
 	/**
 	 * @return mixed
 	 */
-	public static function getPlayersNumber()
+	public function getPlayersNumber()
 	{
 		$users = DB::table('td_statistic')
 			->select(DB::raw('count(DISTINCT CONCAT(COALESCE(name,\'empty\'),ip)) as count'))
@@ -70,7 +70,7 @@ class TdStatistics extends Model
 	/**
 	 * @return mixed
 	 */
-	public static function getTodayLogs()
+	public function getTodayLogs()
 	{
 		$from = Carbon::now()->addHours(-24)->format('Y-m-d H:i:s');
 		$to = Carbon::now()->addHours(2)->format('Y-m-d H:i:s');
@@ -81,6 +81,22 @@ class TdStatistics extends Model
 			->whereBetween('created_at', [$from, $to])
 			->get();
 		return $todayLogs;
+	}
+
+	/**
+	 * @param $name
+	 *
+	 * @return mixed
+	 */
+	public function getUserStatsByName($name)
+	{
+		$userLogs = DB::table('td_statistic')
+			->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
+			->where('name', '=', $name)
+			->orderBy('turnsSurvived', 'desc')
+			->limit(10)
+			->get();
+		return $userLogs;
 	}
 
 

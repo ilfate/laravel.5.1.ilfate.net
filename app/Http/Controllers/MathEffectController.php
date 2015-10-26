@@ -20,11 +20,17 @@ class MathEffectController extends BaseController
     protected $breadcrumbs;
 
     /**
+     * @var TdStatistics
+     */
+    protected $mathEffectModel;
+
+    /**
      * @param Breadcrumbs $breadcrumbs
      */
-    public function __construct(Breadcrumbs $breadcrumbs)
+    public function __construct(Breadcrumbs $breadcrumbs, TdStatistics $mathEffectModel)
     {
         $this->breadcrumbs = $breadcrumbs;
+        $this->mathEffectModel = $mathEffectModel;
     }
 
     /**
@@ -133,11 +139,11 @@ class MathEffectController extends BaseController
         $cachedStats = Cache::get(self::CACHE_KEY_STATS_TOTAL, null);
 
         if (!$cachedStats) {
-            $topLogs    = TdStatistics::getTopLogs();
-            $totalGames = TdStatistics::getTotalGames();
-            $avrTurns   = TdStatistics::getAverageTurns();
-            $users      = TdStatistics::getPlayersNumber();
-            $todayLogs  = TdStatistics::getTodayLogs();
+            $topLogs    = $this->mathEffectModel->getTopLogs();
+            $totalGames = $this->mathEffectModel->getTotalGames();
+            $avrTurns   = $this->mathEffectModel->getAverageTurns();
+            $users      = $this->mathEffectModel->getPlayersNumber();
+            $todayLogs  = $this->mathEffectModel->getTodayLogs();
             $expiresAt  = Carbon::now()->addMinutes(8);
             $data = [
                 'topLogs'    => $topLogs,
@@ -158,12 +164,7 @@ class MathEffectController extends BaseController
         $name     = $request->session()->get('userName', null);
         $userLogs = false;
         if ($name) {
-            $userLogs = DB::table('td_statistic')
-                ->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
-                ->where('name', '=', $name)
-                ->orderBy('turnsSurvived', 'desc')
-                ->limit(10)
-                ->get();
+            $userLogs = $this->mathEffectModel->getUserStatsByName($name);
         }
         view()->share('facebookEnabled', true);
 

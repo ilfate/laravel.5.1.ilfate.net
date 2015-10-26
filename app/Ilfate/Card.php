@@ -74,50 +74,6 @@ class Card extends Model
         return $cards;
     }
 
-//    /**
-//     *
-//     */
-//    public static function prepareCardsForRender($cards, $options = array())
-//    {
-//        if (!$cards) {
-//            return [];
-//        }
-//        $cardsResult = [];
-//        foreach ($cards as $card) {
-//            $config = \Config::get('tcg.cards.' . $card->card_id);
-//            if (!empty($cardsResult[$card->card_id])) {
-//                // we will not render same cards
-//                $cardsResult[$card->card_id]['count'] ++;
-//                continue;
-//            }
-//            if (!empty($config['isKing']) && !empty($options['playable'])) {
-//                // king is not a playable card
-//                continue;
-//            }
-//            if ($config['image'] === (int) $config['image']) {
-//                // this is an image Id. We have to load image and author
-//                $imageConfig = \Config::get('tcgImages.images.' . $config['image']);
-//                $image = $imageConfig['url'];
-//                $author = \Config::get('tcgImages.authors.' . $imageConfig['author']);
-//                $imageAuthor = ['text' => $author['text'], 'id' => $imageConfig['author']];
-//            } else {
-//                $image = $config['image'];
-//                $imageAuthor = false;
-//            }
-//            $cardsResult[$card->card_id] = [
-//                'id'     => $card->id,
-//                'idCard' => $card->card_id,
-//                'config' => $config,
-//                'unit'   => \Config::get('tcg.units.' . $config['unit']),
-//                'spell'  => \Config::get('tcg.spells.' . $config['spell']),
-//                'image'  => $image,
-//                'author' => $imageAuthor,
-//                'count'  => 1
-//            ];
-//        }
-//        return $cardsResult;
-//    }
-
     public static function prepareCardsForRender($cards, $options = [])
     {
         if (!$cards) {
