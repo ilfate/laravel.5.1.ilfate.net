@@ -44,6 +44,9 @@ class WebSocket extends Command {
 	{
         $this->info('Start WebSocket server');
 
+		return false; // this is not working after moving to laravel 5.1
+		// needs to be refactored.
+
         $loop   = React\EventLoop\Factory::create();
         $pusher = new WebSocket\Pusher;
 
@@ -68,17 +71,6 @@ class WebSocket extends Command {
         );
 
         $loop->run();
-
-//        $server = IoServer::factory(
-//            new HttpServer(
-//                new WsServer(
-//                    new Chat()
-//                )
-//            ),
-//            8080
-//        );
-//
-//        $server->run();
 	}
 
 	/**
