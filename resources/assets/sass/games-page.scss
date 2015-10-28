@@ -45,19 +45,26 @@ body.games-page {
         .landing-block {
             height: $game-page-row-height;
 
+            &:hover .text {
+                color: $color-brawn;
+            }
+
             .text {
                 height: $game-page-row-height;
             }
 
             &.guess-series {
                 background-color: $color-blue;
-                &:hover .text {
-                    color: $color-brawn;
-                }
             }
             &.math-effect {
                 background-color: $color-clay;
+
+                i {
+                    margin-top:-3rem;
+                    padding-left:1.5rem;
+                }
             }
+
         }
     }
 }

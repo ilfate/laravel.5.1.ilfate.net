@@ -1993,14 +1993,17 @@ body.games-page {
     padding-top: 3rem; }
     body.games-page .games-page .landing-block {
       height: 15rem; }
+      body.games-page .games-page .landing-block:hover .text {
+        color: #5E412F; }
       body.games-page .games-page .landing-block .text {
         height: 15rem; }
       body.games-page .games-page .landing-block.guess-series {
         background-color: #78C0A8; }
-        body.games-page .games-page .landing-block.guess-series:hover .text {
-          color: #5E412F; }
       body.games-page .games-page .landing-block.math-effect {
         background-color: #FCEBB6; }
+        body.games-page .games-page .landing-block.math-effect i {
+          margin-top: -3rem;
+          padding-left: 1.5rem; }
 
 /* COLOR PALLETE */
 .guess-body {
