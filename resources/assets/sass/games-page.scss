@@ -51,6 +51,9 @@ body.games-page {
 
             &.guess-series {
                 background-color: $color-blue;
+                &:hover .text {
+                    color: $color-brawn;
+                }
             }
             &.math-effect {
                 background-color: $color-clay;

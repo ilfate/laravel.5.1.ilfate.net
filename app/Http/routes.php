@@ -59,6 +59,8 @@ Route::get('Vortex', 'VortexController@index');
 Route::post('Vortex/action', 'VortexController@action');
 
 
+Route::get('deplotment/resetopcache', 'DeploymentController@resetopcache');
+
 
 Route::get('tcg/me', 'TcgPlayerController@index');
 Route::get('tcg/register', 'TcgPlayerController@registerForm');
