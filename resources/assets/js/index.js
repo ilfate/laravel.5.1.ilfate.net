@@ -84,7 +84,6 @@ $.fn.roundedBlock = function()
         text.css('line-height', text.height() + 'px');
         $(el).bind('mouseenter', function(){
             $(this).find('.text').bounce();
-            //$(this).find('img').animate({'opacity':0.4},150);
         });
     });
 };

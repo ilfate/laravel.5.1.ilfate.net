@@ -35,7 +35,7 @@ $game-page-size: 1011px;
     }
 }
 
-$game-page-row-height: 15rem;
+$game-page-row-height: 16rem;
 
 body.games-page {
     background-color: $color-brawn;
@@ -49,8 +49,9 @@ body.games-page {
                 color: $color-brawn;
             }
 
-            .text {
-                height: $game-page-row-height;
+            &:hover .bounce {
+                -webkit-animation-duration: 0.5s;
+                -webkit-animation-name: bounce-16;
             }
 
             &.guess-series {
@@ -60,8 +61,29 @@ body.games-page {
                 background-color: $color-clay;
 
                 i {
-                    margin-top:-3rem;
                     padding-left:1.5rem;
+                    margin-top: -1.1rem;
+                }
+            }
+
+            i {
+                margin-top: -2.5rem;
+            }
+            .text {
+                height: $game-page-row-height;
+                line-height: $game-page-row-height;
+
+                @media (max-width: 1280px) {
+                    font-size: 8rem;
+                }
+                @media (max-width: 1024px) {
+                    font-size: 6rem;
+                }
+                @media (max-width: 770px) {
+                    font-size: 4rem;
+                }
+                @media (max-width: 520px) {
+                    font-size: 3rem;
                 }
             }
 

@@ -27,12 +27,12 @@ class DeploymentController extends BaseController
     public function resetopcache(Request $request)
     {
         $allowedIps = \Config::get('auth.adminIps');
-        Log::info('php sapi: ' . php_sapi_name());
-        Log::info('Request is coming from: ' . $request->ip());
         if (in_array($request->ip(), $allowedIps)) {
 
             Log::info('Resetting opcache for ' . php_sapi_name());
             opcache_reset();
+        } else {
+            Log::info('Request was rejected for IP: ' . $request->ip());
         }
     }
 }

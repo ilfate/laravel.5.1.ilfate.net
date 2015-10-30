@@ -1681,6 +1681,13 @@
   content: ""; }
 
 /*
+    Document   : games-page
+    Created on : Nov 12, 2012, 12:37:16 AM
+    Author     : Ilya Rubinchik
+    Description:
+        Purpose of the stylesheet follows.
+*/
+/*
     Document   : main
     Created on : Nov 12, 2012, 12:37:16 AM
     Author     : Ilya Rubinchik
@@ -1800,8 +1807,7 @@ body.cv {
 */
 .landing-block {
   margin: 0;
-  min-height: 12rem;
-  max-height: 12rem;
+  height: 12rem;
   position: relative;
   overflow: hidden; }
   .landing-block:hover .opacity-animation {
@@ -1810,6 +1816,9 @@ body.cv {
     -webkit-animation-name: fadeInFrom02; }
   .landing-block:hover .text {
     color: #F07818; }
+  .landing-block:hover .bounce {
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: bounce-12; }
   .landing-block img {
     height: 12rem;
     left: 0;
@@ -1850,6 +1859,110 @@ body.cv {
         line-height: 5rem;
         font-size: 5rem; } }
 
+@-webkit-keyframes bounce-12 {
+  0% {
+    line-height: 11rem rem; }
+  10% {
+    line-height: 12.8rem; }
+  25% {
+    line-height: 11.4rem; }
+  45% {
+    line-height: 12.4rem; }
+  70% {
+    line-height: 11.8rem; }
+  100% {
+    line-height: 12rem; } }
+@-moz-keyframes bounce-12 {
+  0% {
+    line-height: 11rem rem; }
+  10% {
+    line-height: 12.8rem; }
+  25% {
+    line-height: 11.4rem; }
+  45% {
+    line-height: 12.4rem; }
+  70% {
+    line-height: 11.8rem; }
+  100% {
+    line-height: 12rem; } }
+@-ms-keyframes bounce-12 {
+  0% {
+    line-height: 11rem rem; }
+  10% {
+    line-height: 12.8rem; }
+  25% {
+    line-height: 11.4rem; }
+  45% {
+    line-height: 12.4rem; }
+  70% {
+    line-height: 11.8rem; }
+  100% {
+    line-height: 12rem; } }
+@keyframes bounce-12 {
+  0% {
+    line-height: 11rem rem; }
+  10% {
+    line-height: 12.8rem; }
+  25% {
+    line-height: 11.4rem; }
+  45% {
+    line-height: 12.4rem; }
+  70% {
+    line-height: 11.8rem; }
+  100% {
+    line-height: 12rem; } }
+@-webkit-keyframes bounce-16 {
+  0% {
+    line-height: 15rem rem; }
+  10% {
+    line-height: 16.8rem; }
+  25% {
+    line-height: 15.4rem; }
+  45% {
+    line-height: 16.4rem; }
+  70% {
+    line-height: 15.8rem; }
+  100% {
+    line-height: 16rem; } }
+@-moz-keyframes bounce-16 {
+  0% {
+    line-height: 15rem rem; }
+  10% {
+    line-height: 16.8rem; }
+  25% {
+    line-height: 15.4rem; }
+  45% {
+    line-height: 16.4rem; }
+  70% {
+    line-height: 15.8rem; }
+  100% {
+    line-height: 16rem; } }
+@-ms-keyframes bounce-16 {
+  0% {
+    line-height: 15rem rem; }
+  10% {
+    line-height: 16.8rem; }
+  25% {
+    line-height: 15.4rem; }
+  45% {
+    line-height: 16.4rem; }
+  70% {
+    line-height: 15.8rem; }
+  100% {
+    line-height: 16rem; } }
+@keyframes bounce-16 {
+  0% {
+    line-height: 15rem rem; }
+  10% {
+    line-height: 16.8rem; }
+  25% {
+    line-height: 15.4rem; }
+  45% {
+    line-height: 16.4rem; }
+  70% {
+    line-height: 15.8rem; }
+  100% {
+    line-height: 16rem; } }
 .rounded_block {
   width: 100%;
   height: 100%;
@@ -1992,18 +2105,36 @@ body.games-page {
   body.games-page .games-page {
     padding-top: 3rem; }
     body.games-page .games-page .landing-block {
-      height: 15rem; }
+      height: 16rem; }
       body.games-page .games-page .landing-block:hover .text {
         color: #5E412F; }
-      body.games-page .games-page .landing-block .text {
-        height: 15rem; }
+      body.games-page .games-page .landing-block:hover .bounce {
+        -webkit-animation-duration: 0.5s;
+        -webkit-animation-name: bounce-16; }
       body.games-page .games-page .landing-block.guess-series {
         background-color: #78C0A8; }
       body.games-page .games-page .landing-block.math-effect {
         background-color: #FCEBB6; }
         body.games-page .games-page .landing-block.math-effect i {
-          margin-top: -3rem;
-          padding-left: 1.5rem; }
+          padding-left: 1.5rem;
+          margin-top: -1.1rem; }
+      body.games-page .games-page .landing-block i {
+        margin-top: -2.5rem; }
+      body.games-page .games-page .landing-block .text {
+        height: 16rem;
+        line-height: 16rem; }
+        @media (max-width: 1280px) {
+          body.games-page .games-page .landing-block .text {
+            font-size: 8rem; } }
+        @media (max-width: 1024px) {
+          body.games-page .games-page .landing-block .text {
+            font-size: 6rem; } }
+        @media (max-width: 770px) {
+          body.games-page .games-page .landing-block .text {
+            font-size: 4rem; } }
+        @media (max-width: 520px) {
+          body.games-page .games-page .landing-block .text {
+            font-size: 3rem; } }
 
 /* COLOR PALLETE */
 .guess-body {

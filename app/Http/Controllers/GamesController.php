@@ -28,7 +28,6 @@ class GamesController extends \Ilfate\Http\Controllers\BaseController
      */
     public function index()
     {
-        Log::info('Test log');
         view()->share('page_title', 'Games made by Ilya Rubinchik.');
 
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Games');
