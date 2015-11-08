@@ -2720,6 +2720,33 @@ body.math-effect {
   body.math-effect .math-effect-stats-container {
     background-color: #5E412F; }
 
+/* COLOR PALLETE */
+.cosmos {
+  padding-top: 3rem; }
+  .cosmos .ship-container {
+    position: relative;
+    background-color: #FCEBB6;
+    height: auto; }
+    .cosmos .ship-container.normal-size {
+      font-size: 40px; }
+    .cosmos .ship-container.big-size {
+      font-size: 80px; }
+    .cosmos .ship-container .cell {
+      width: 1em;
+      height: 1em;
+      background-color: #5E412F;
+      padding: 1px;
+      position: absolute;
+      display: block; }
+      .cosmos .ship-container .cell.module-door-0 {
+        border-top: 2px solid #78C0A8; }
+      .cosmos .ship-container .cell.module-door-1 {
+        border-right: 2px solid #78C0A8; }
+      .cosmos .ship-container .cell.module-door-2 {
+        border-bottom: 2px solid #78C0A8; }
+      .cosmos .ship-container .cell.module-door-3 {
+        border-left: 2px solid #78C0A8; }
+
 * {
   margin: 0px;
   padding: 0px; }

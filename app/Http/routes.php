@@ -58,6 +58,8 @@ Route::get('test', 'TestController@index');
 Route::get('Vortex', 'VortexController@index');
 Route::post('Vortex/action', 'VortexController@action');
 
+Route::get('Cosmos', 'CosmosController@index');
+
 
 Route::get('deplotment/resetopcache', 'DeploymentController@resetopcache');
 

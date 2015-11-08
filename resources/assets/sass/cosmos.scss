@@ -1,0 +1,51 @@
+/* COLOR PALLETE */
+
+$guess-colors-green:#069E2D;
+$guess-colors-light-blue:#ABCDEF;
+$guess-colors-blue:#529BCA;
+$guess-colors-dark-blue:#428BBA;
+$guess-colors-red:#FF8360;
+$guess-colors-white:#ffffff;
+$guess-colors-black:#584D3D;
+$guess-colors-yellow:#FFD416;
+
+.cosmos {
+    padding-top: 3rem;
+
+    .ship-container {
+        position: relative;
+        background-color: $color-clay;
+        height: auto;
+
+        &.normal-size {
+            font-size:40px;
+        }
+        &.big-size {
+            font-size:80px;
+        }
+
+        .cell {
+            width: 1em;
+            height: 1em;
+            background-color: $color-brawn;
+            padding:1px;
+            position: absolute;
+            display: block;
+
+
+            &.module-door-0 {
+                border-top: 2px solid $color-blue;
+            }
+            &.module-door-1 {
+                border-right: 2px solid $color-blue;
+            }
+            &.module-door-2 {
+                border-bottom: 2px solid $color-blue;
+            }
+            &.module-door-3 {
+                border-left: 2px solid $color-blue;
+            }
+        }
+    }
+}
+
