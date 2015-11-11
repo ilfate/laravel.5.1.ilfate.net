@@ -20,6 +20,7 @@ Route::get('/', 'PageController@index');
 //    view('pages.index');
 //});
 Route::get('Photo', 'PageController@photo');
+Route::get('cv', 'PageController@cv');
 Route::get('Cv', 'PageController@cv');
 Route::get('Cv/Skills', 'PageController@skills');
 
