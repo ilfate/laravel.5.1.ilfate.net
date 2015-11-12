@@ -26,10 +26,16 @@ namespace Ilfate\Cosmos\Ship;
  */
 class Module
 {
+    const DEFAULT_CELL_VOLUME = 10;
+    const DEFAULT_ENERGY_USE = 1;
+
     const CONFIG_DATA_CELLS = 'cells';
     const CONFIG_DATA_CELL_TYPE = 'type';
     const CONFIG_DATA_CELL_PASSABLE_DIRECTIONS = 'passableDirections';
     const CONFIG_DATA_CELL_DOORS = 'doors';
+
+    const CONFIG_DATA_VOLUME = 'volume';
+    const CONFIG_DATA_ENERGY_USE = 'energyUse';
 
     /**
      * @var Ship
@@ -52,6 +58,7 @@ class Module
     protected $x;
     protected $y;
     protected $type;
+    protected $config;
 
     use Exportable;
     use Rotatable;
@@ -71,18 +78,23 @@ class Module
         ];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function install()
     {
-        $config = \Config::get('cosmos.game.ship.modules.' . $this->getType());
-        if (!$config) {
+        $this->config = \Config::get('cosmos.game.ship.modules.' . $this->getType());
+        if (!$this->config) {
             throw new \Exception('No config found for Module type = ' . $this->getType());
         }
-        foreach ($config[self::CONFIG_DATA_CELLS] as $y => $row) {
+        foreach ($this->config[self::CONFIG_DATA_CELLS] as $y => $row) {
             foreach ($row as $x => $cellArr) {
                 list($shipX, $shipY) = $this->convertCoordinatesToShip($x, $y, $this->x, $this->y);
-                $currentCell = $this->getShip()->getCell($shipX, $shipY);
-                if ($currentCell) {
-                    throw new \Exception('We cant install module to an occupied cell');
+                if ($this->getShip()) {
+                    $currentCell = $this->getShip()->getCell($shipX, $shipY);
+                    if ($currentCell) {
+                        throw new \Exception('We cant install module to an occupied cell');
+                    }
                 }
                 $cell = new Cell($shipX, $shipY);
                 $cell->setModule($this);
@@ -99,9 +111,33 @@ class Module
                     $cell->setDoors($doors);
                 }
                 $this->addCell($cell);
-                $this->getShip()->addCell($cell);
+                if ($this->getShip()) {
+                    $this->getShip()->addCell($cell);
+                }
             }
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getVolume()
+    {
+        if (!empty($this->config[self::CONFIG_DATA_VOLUME])) {
+            return $this->config[self::CONFIG_DATA_VOLUME];
+        }
+        return count($this->getCells()) * self::DEFAULT_CELL_VOLUME;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEnergyUse()
+    {
+        if (!empty($this->config[self::CONFIG_DATA_ENERGY_USE])) {
+            return $this->config[self::CONFIG_DATA_ENERGY_USE];
+        }
+        return self::DEFAULT_ENERGY_USE;
     }
 
     /**

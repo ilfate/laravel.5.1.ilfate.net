@@ -23,7 +23,9 @@ return array(
                         2 => [
                             0 => ['passableDirections' => [0, 2], 'doors' => [2]],
                         ],
-                    ]
+                    ],
+                    'volume' => 100,
+                    'energyUse' => 2,
                 ],
                 'Connection1' => [
                     'cells' => [

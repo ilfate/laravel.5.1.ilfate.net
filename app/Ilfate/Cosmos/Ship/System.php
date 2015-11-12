@@ -60,6 +60,7 @@ class System
     {
         return [
             'type',
+            'id',
             'x',
             'y',
             'd'
