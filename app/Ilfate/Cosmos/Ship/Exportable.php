@@ -21,10 +21,10 @@ namespace Ilfate\Cosmos\Ship;
  *
  * @category
  * @package
- * @author    Ilya Rubinchik <ilya.rubinchik@home24.de>
- * @copyright 2012-2013 Home24 GmbH
+ * @author    Ilya Rubinchik <ilfate@gmail.com>
+
  * @license   Proprietary license.
- * @link      http://www.fp-commerce.de
+ * @link      http://ilfate.net
  */
 trait Exportable
 {

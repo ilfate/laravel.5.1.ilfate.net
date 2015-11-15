@@ -1,0 +1,180 @@
+/* COLOR PALLETE */
+
+$guess-colors-green:#069E2D;
+$guess-colors-light-blue:#ABCDEF;
+$guess-colors-blue:#529BCA;
+$guess-colors-dark-blue:#428BBA;
+$guess-colors-red:#FF8360;
+$guess-colors-white:#ffffff;
+$guess-colors-black:#584D3D;
+$guess-colors-yellow:#FFD416;
+
+$color-laser-0: $color-orange;
+$color-laser-1: #069E2D;
+$color-laser-2: $color-gold;
+
+$hexagon-side: 3em;
+$hexagon-width: sqrt(3) * $hexagon-side;
+div.hex {
+    margin:0 auto;
+    display:block;
+    width: 35rem;
+    height: 31rem;
+    padding: 14rem 0 0 16rem;
+    font-size: 10px;
+    margin-top:3rem;
+    //background-color: $color-brawn;
+    .hexagon-container {
+        position: absolute;
+        width:$hexagon-width;
+        height:$hexagon-side * 2;
+        padding-top: $hexagon-side / 2;
+        .hexagon {
+            width: $hexagon-width;
+            height: $hexagon-side;
+            background: $color-clay;
+            position: relative;
+
+            &.hover {
+                background: $guess-colors-green;
+            }
+            &.wall {
+                background: $color-gold;
+            }
+            &.gun {
+                background: $guess-colors-light-blue;
+            }
+
+            &:before {
+                content: "";
+                position: absolute;
+                top: -$hexagon-side / 2;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-left: $hexagon-width / 2 solid transparent;
+                border-right: $hexagon-width / 2 solid transparent;
+                border-bottom: $hexagon-side / 2 solid $color-clay;
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                bottom: -$hexagon-side / 2;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-left: $hexagon-width / 2 solid transparent;
+                border-right: $hexagon-width / 2 solid transparent;
+                border-top: $hexagon-side / 2 solid $color-clay;
+            }
+        }
+
+        .hexagon.hover:before {
+            border-bottom: $hexagon-side / 2 solid $guess-colors-green;
+        }
+
+        .hexagon.hover:after {
+            border-top: $hexagon-side / 2 solid $guess-colors-green;
+        }
+
+        .hexagon.gun:before {
+            border-bottom: $hexagon-side / 2 solid $guess-colors-light-blue;
+        }
+
+        .hexagon.gun:after {
+            border-top: $hexagon-side / 2 solid $guess-colors-light-blue;
+        }
+
+        .hexagon.wall:before {
+            border-bottom: $hexagon-side / 2 solid $color-gold;
+        }
+
+        .hexagon.wall:after {
+            border-top: $hexagon-side / 2 solid $color-gold;
+        }
+
+        .hexagon-click-area {
+            width: $hexagon-width;
+            height: $hexagon-side;
+            position: absolute;
+            z-index: 60;
+            &:before {
+                content: "";
+                position: absolute;
+                top: -$hexagon-side / 3;
+                left: $hexagon-side / 2.3;
+                //background-color: tomato;
+                width: $hexagon-width / 2;
+                height: $hexagon-side / 3;
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                bottom: -$hexagon-side / 3;
+                left: $hexagon-side / 2.3;
+                //background-color: tomato;
+                width: $hexagon-width / 2;
+                height: $hexagon-side / 3;
+            }
+        }
+    }
+
+
+    .hexagon {
+        .gun-container {
+            z-index: 50;
+            position: absolute;
+            margin-left: $hexagon-width / 2;
+            margin-top: $hexagon-side / 2;
+            &.gun_0 {
+                @include rotate(240deg);
+                .gun {
+                    background-color: $color-laser-0;
+                    margin-top:-1px;
+                }
+            }
+            &.gun_1 {
+                @include rotate(300deg);
+                .gun {
+                    margin-top:-3px;
+                    background-color: $color-laser-1;
+                }
+            }
+            &.gun_2 {
+                .gun {
+                    background-color: $color-laser-2;
+                    margin-top: -2px;
+                }
+            }
+            &.gun_3 {
+                @include rotate(60deg);
+                .gun {
+                    background-color: $color-laser-0;
+                    margin-top:-2px;
+                }
+            }
+            &.gun_4 {
+                @include rotate(120deg);
+                .gun {
+                    background-color: $color-laser-1;
+                    margin-top:-2px;
+                }
+            }
+            &.gun_5 {
+                @include rotate(180deg);
+                .gun {
+                    background-color: $color-laser-2;
+                    margin-top:-2px;
+                }
+            }
+            .gun {
+                width: 40em;
+                height: 4px;
+                //background: $color-orange;
+                position: absolute;
+                z-index: 50;
+            }
+        }
+    }
+}
+

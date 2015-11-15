@@ -59,6 +59,10 @@ Route::get('test', 'TestController@index');
 Route::get('Vortex', 'VortexController@index');
 Route::post('Vortex/action', 'VortexController@action');
 
+Route::get('hex', 'HexController@index');
+Route::get('hex/reset', 'HexController@reset');
+Route::post('hex/action', 'HexController@action');
+
 Route::get('Cosmos', 'CosmosController@index');
 
 

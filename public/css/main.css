@@ -2721,6 +2721,131 @@ body.math-effect {
     background-color: #5E412F; }
 
 /* COLOR PALLETE */
+div.hex {
+  margin: 0 auto;
+  display: block;
+  width: 35rem;
+  height: 31rem;
+  padding: 14rem 0 0 16rem;
+  font-size: 10px;
+  margin-top: 3rem; }
+  div.hex .hexagon-container {
+    position: absolute;
+    width: 5.19615em;
+    height: 6em;
+    padding-top: 1.5em; }
+    div.hex .hexagon-container .hexagon {
+      width: 5.19615em;
+      height: 3em;
+      background: #FCEBB6;
+      position: relative; }
+      div.hex .hexagon-container .hexagon.hover {
+        background: #069E2D; }
+      div.hex .hexagon-container .hexagon.wall {
+        background: #F0A830; }
+      div.hex .hexagon-container .hexagon.gun {
+        background: #ABCDEF; }
+      div.hex .hexagon-container .hexagon:before {
+        content: "";
+        position: absolute;
+        top: -1.5em;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 2.59808em solid transparent;
+        border-right: 2.59808em solid transparent;
+        border-bottom: 1.5em solid #FCEBB6; }
+      div.hex .hexagon-container .hexagon:after {
+        content: "";
+        position: absolute;
+        bottom: -1.5em;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 2.59808em solid transparent;
+        border-right: 2.59808em solid transparent;
+        border-top: 1.5em solid #FCEBB6; }
+    div.hex .hexagon-container .hexagon.hover:before {
+      border-bottom: 1.5em solid #069E2D; }
+    div.hex .hexagon-container .hexagon.hover:after {
+      border-top: 1.5em solid #069E2D; }
+    div.hex .hexagon-container .hexagon.gun:before {
+      border-bottom: 1.5em solid #ABCDEF; }
+    div.hex .hexagon-container .hexagon.gun:after {
+      border-top: 1.5em solid #ABCDEF; }
+    div.hex .hexagon-container .hexagon.wall:before {
+      border-bottom: 1.5em solid #F0A830; }
+    div.hex .hexagon-container .hexagon.wall:after {
+      border-top: 1.5em solid #F0A830; }
+    div.hex .hexagon-container .hexagon-click-area {
+      width: 5.19615em;
+      height: 3em;
+      position: absolute;
+      z-index: 60; }
+      div.hex .hexagon-container .hexagon-click-area:before {
+        content: "";
+        position: absolute;
+        top: -1em;
+        left: 1.30435em;
+        width: 2.59808em;
+        height: 1em; }
+      div.hex .hexagon-container .hexagon-click-area:after {
+        content: "";
+        position: absolute;
+        bottom: -1em;
+        left: 1.30435em;
+        width: 2.59808em;
+        height: 1em; }
+  div.hex .hexagon .gun-container {
+    z-index: 50;
+    position: absolute;
+    margin-left: 2.59808em;
+    margin-top: 1.5em; }
+    div.hex .hexagon .gun-container.gun_0 {
+      -webkit-transform: rotate(240deg);
+      -moz-transform: rotate(240deg);
+      -o-transform: rotate(240deg); }
+      div.hex .hexagon .gun-container.gun_0 .gun {
+        background-color: #F07818;
+        margin-top: -1px; }
+    div.hex .hexagon .gun-container.gun_1 {
+      -webkit-transform: rotate(300deg);
+      -moz-transform: rotate(300deg);
+      -o-transform: rotate(300deg); }
+      div.hex .hexagon .gun-container.gun_1 .gun {
+        margin-top: -3px;
+        background-color: #069E2D; }
+    div.hex .hexagon .gun-container.gun_2 .gun {
+      background-color: #F0A830;
+      margin-top: -2px; }
+    div.hex .hexagon .gun-container.gun_3 {
+      -webkit-transform: rotate(60deg);
+      -moz-transform: rotate(60deg);
+      -o-transform: rotate(60deg); }
+      div.hex .hexagon .gun-container.gun_3 .gun {
+        background-color: #F07818;
+        margin-top: -2px; }
+    div.hex .hexagon .gun-container.gun_4 {
+      -webkit-transform: rotate(120deg);
+      -moz-transform: rotate(120deg);
+      -o-transform: rotate(120deg); }
+      div.hex .hexagon .gun-container.gun_4 .gun {
+        background-color: #069E2D;
+        margin-top: -2px; }
+    div.hex .hexagon .gun-container.gun_5 {
+      -webkit-transform: rotate(180deg);
+      -moz-transform: rotate(180deg);
+      -o-transform: rotate(180deg); }
+      div.hex .hexagon .gun-container.gun_5 .gun {
+        background-color: #F0A830;
+        margin-top: -2px; }
+    div.hex .hexagon .gun-container .gun {
+      width: 40em;
+      height: 4px;
+      position: absolute;
+      z-index: 50; }
+
+/* COLOR PALLETE */
 .cosmos {
   padding-top: 3rem; }
   .cosmos .ship-container {

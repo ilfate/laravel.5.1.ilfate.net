@@ -17,7 +17,7 @@ Ajax = function() {
     options.url = url;
     options.dataType = "json";
     if(!options.params) options.params = '';
-    options.params += '__csrf=' + Ajax.getCSRF();
+    options.params += '_token=' + Ajax.getCSRF();
     this.execute(options);
   }
   /**
@@ -200,7 +200,10 @@ Ajax = function() {
   
   this.getCSRF = function()
   {
-    return $('#CSRF_TOKEN').val();
+    if ($('#CSRF_TOKEN').length) {
+      return $('#CSRF_TOKEN').val();
+    }
+    return $('#laravel-token').val();
   }
 }
 

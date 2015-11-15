@@ -7,12 +7,11 @@
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
-
  * @license   Proprietary license.
  * @version   "SVN: $Id$"
  * @link      http://ilfate.net
  */
-namespace Ilfate\Cosmos\Ship\FrontEnd;
+namespace Ilfate\Hex;
 
 /**
  *
@@ -24,20 +23,30 @@ namespace Ilfate\Cosmos\Ship\FrontEnd;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-trait Ship
+class Wall extends Cell
 {
 
+    protected $turnsLeft = 10;
+
     /**
-     * @return string
+     * @return mixed
      */
-    public function exportAsJson()
+    public function export()
     {
-        $resultJsonArray = [
-            'modules' => []
+        return [
+            'type' => self::TYPE_WALL,
+            'x' => $this->x,
+            'y' => $this->y,
+            'turnsLeft' => $this->turnsLeft,
         ];
-        foreach ($this->modules as $module) {
-            $resultJsonArray['modules'][] = $module->exportAsJson(false);
-        }
-        return json_encode($resultJsonArray);
     }
+
+    /**
+     * @param array $data
+     */
+    public function import($data)
+    {
+        $this->turnsLeft = $data['turnsLeft'];
+    }
+
 }

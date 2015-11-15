@@ -34,6 +34,14 @@ return array(
 				'og:site_name', 'og:title', 'og:url', 'og:image', 'og:description', 'og:type'
 			]
 		],
+		'hex' => [
+			'content' => [
+				'keywords', 'description'
+			],
+			'property' => [
+				'og:site_name', 'og:title', 'og:url', 'og:image', 'og:description', 'og:type'
+			]
+		],
 	],
     'metaTags' => [
 		'landing' => [
@@ -63,6 +71,16 @@ return array(
 			'og:type'        => 'game',
 		],
 		'cosmos' => [
+			'keywords'       => 'cosmos space game spaceship builder',
+			'description'    => 'Cosmos:',
+			'og:site_name'   => 'Cosmos',
+			'og:title'       => 'Cosmos - spaceship builder game',
+			'og:url'         => 'http://ilfate.net/Cosmos',
+			'og:image'       => 'http://ilfate.net/images/game/GuessSeries.jpg',
+			'og:description' => 'Play a game where you can show your knowledge in series and compete with other players!',
+			'og:type'        => 'game',
+		],
+		'hex' => [
 			'keywords'       => 'cosmos space game spaceship builder',
 			'description'    => 'Cosmos:',
 			'og:site_name'   => 'Cosmos',

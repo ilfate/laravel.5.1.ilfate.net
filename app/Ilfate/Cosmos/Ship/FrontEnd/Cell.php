@@ -6,11 +6,11 @@
  *
  * @category
  * @package
- * @author    Ilya Rubinchik <ilya.rubinchik@home24.de>
- * @copyright 2012-2013 Home24 GmbH
+ * @author    Ilya Rubinchik <ilfate@gmail.com>
+
  * @license   Proprietary license.
  * @version   "SVN: $Id$"
- * @link      http://www.fp-commerce.de
+ * @link      http://ilfate.net
  */
 namespace Ilfate\Cosmos\Ship\FrontEnd;
 
