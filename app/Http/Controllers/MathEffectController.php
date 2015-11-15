@@ -168,6 +168,7 @@ class MathEffectController extends BaseController
             $userLogs = $this->mathEffectModel->getUserStatsByName($name);
         }
         view()->share('facebookEnabled', true);
+        view()->share('bodyClass', 'math-effect');
 
         return view('games.mathEffect.stats.index', array(
             'topLogs'    => $topLogs, 
