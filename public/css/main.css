@@ -2743,6 +2743,62 @@ div.hex {
         background: #069E2D; }
       div.hex .hexagon-container .hexagon.wall {
         background: #F0A830; }
+        div.hex .hexagon-container .hexagon.wall .wall-helper, div.hex .hexagon-container .hexagon.wall .wall-helper-2, div.hex .hexagon-container .hexagon.wall .wall-helper-3 {
+          position: absolute; }
+        div.hex .hexagon-container .hexagon.wall.wall-0 {
+          background: #F07818; }
+        div.hex .hexagon-container .hexagon.wall.wall-1 {
+          background: #069E2D; }
+        div.hex .hexagon-container .hexagon.wall.wall-2 {
+          background: #0000ed; }
+        div.hex .hexagon-container .hexagon.wall.wall-0-1 {
+          background: #F07818; }
+          div.hex .hexagon-container .hexagon.wall.wall-0-1 .wall-helper {
+            width: 5.19615em;
+            height: 1.5em;
+            background: #069E2D;
+            margin-top: 1.5em; }
+        div.hex .hexagon-container .hexagon.wall.wall-0-2 {
+          background: #F07818; }
+          div.hex .hexagon-container .hexagon.wall.wall-0-2 .wall-helper {
+            width: 5.19615em;
+            height: 1.5em;
+            background: #0000ed;
+            margin-top: 1.5em; }
+        div.hex .hexagon-container .hexagon.wall.wall-1-2 {
+          background: #069E2D; }
+          div.hex .hexagon-container .hexagon.wall.wall-1-2 .wall-helper {
+            width: 5.19615em;
+            height: 1.5em;
+            background: #0000ed;
+            margin-top: 1.5em; }
+        div.hex .hexagon-container .hexagon.wall.wall-0-1-2 .wall-helper {
+          position: absolute;
+          content: "";
+          width: 0;
+          height: 0;
+          border-left: 2.59808em solid transparent;
+          border-right: 2.59808em solid transparent;
+          border-top: 1.5em solid #F07818; }
+        div.hex .hexagon-container .hexagon.wall.wall-0-1-2 .wall-helper-2 {
+          width: 2.59808em;
+          height: 3em;
+          background: #069E2D; }
+        div.hex .hexagon-container .hexagon.wall.wall-0-1-2 .wall-helper-3 {
+          width: 2.59808em;
+          height: 3em;
+          background: #0000ed;
+          margin-left: 2.59808em; }
+        div.hex .hexagon-container .hexagon.wall.wall-0-1-2 .wall-helper-3:after {
+          z-index: 52;
+          content: "";
+          position: absolute;
+          bottom: -1.5em;
+          left: 0;
+          width: 0;
+          height: 0;
+          border-right: 2.59808em solid transparent;
+          border-top: 1.5em solid #0000ed; }
       div.hex .hexagon-container .hexagon.gun {
         background: #ABCDEF; }
       div.hex .hexagon-container .hexagon:before {
@@ -2773,10 +2829,34 @@ div.hex {
       border-bottom: 1.5em solid #ABCDEF; }
     div.hex .hexagon-container .hexagon.gun:after {
       border-top: 1.5em solid #ABCDEF; }
-    div.hex .hexagon-container .hexagon.wall:before {
-      border-bottom: 1.5em solid #F0A830; }
-    div.hex .hexagon-container .hexagon.wall:after {
-      border-top: 1.5em solid #F0A830; }
+    div.hex .hexagon-container .hexagon.wall-0:before {
+      border-bottom: 1.5em solid #F07818; }
+    div.hex .hexagon-container .hexagon.wall-1:before {
+      border-bottom: 1.5em solid #069E2D; }
+    div.hex .hexagon-container .hexagon.wall-2:before {
+      border-bottom: 1.5em solid #0000ed; }
+    div.hex .hexagon-container .hexagon.wall-0:after {
+      border-top: 1.5em solid #F07818; }
+    div.hex .hexagon-container .hexagon.wall-1:after {
+      border-top: 1.5em solid #069E2D; }
+    div.hex .hexagon-container .hexagon.wall-2:after {
+      border-top: 1.5em solid #0000ed; }
+    div.hex .hexagon-container .hexagon.wall-0-1:before {
+      border-bottom: 1.5em solid #F07818; }
+    div.hex .hexagon-container .hexagon.wall-0-2:before {
+      border-bottom: 1.5em solid #F07818; }
+    div.hex .hexagon-container .hexagon.wall-1-2:before {
+      border-bottom: 1.5em solid #069E2D; }
+    div.hex .hexagon-container .hexagon.wall-0-1-2:before {
+      border-bottom: 1.5em solid #F07818; }
+    div.hex .hexagon-container .hexagon.wall-0-1:after {
+      border-top: 1.5em solid #069E2D; }
+    div.hex .hexagon-container .hexagon.wall-0-2:after {
+      border-top: 1.5em solid #0000ed; }
+    div.hex .hexagon-container .hexagon.wall-1-2:after {
+      border-top: 1.5em solid #0000ed; }
+    div.hex .hexagon-container .hexagon.wall-0-1-2:after {
+      border-top: 1.5em solid #069E2D; }
     div.hex .hexagon-container .hexagon-click-area {
       width: 5.19615em;
       height: 3em;
@@ -2816,7 +2896,7 @@ div.hex {
         margin-top: -3px;
         background-color: #069E2D; }
     div.hex .hexagon .gun-container.gun_2 .gun {
-      background-color: #F0A830;
+      background-color: #0000ed;
       margin-top: -2px; }
     div.hex .hexagon .gun-container.gun_3 {
       -webkit-transform: rotate(60deg);
@@ -2837,7 +2917,7 @@ div.hex {
       -moz-transform: rotate(180deg);
       -o-transform: rotate(180deg); }
       div.hex .hexagon .gun-container.gun_5 .gun {
-        background-color: #F0A830;
+        background-color: #0000ed;
         margin-top: -2px; }
     div.hex .hexagon .gun-container .gun {
       width: 40em;

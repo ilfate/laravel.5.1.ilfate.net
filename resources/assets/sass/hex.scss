@@ -11,7 +11,7 @@ $guess-colors-yellow:#FFD416;
 
 $color-laser-0: $color-orange;
 $color-laser-1: #069E2D;
-$color-laser-2: $color-gold;
+$color-laser-2: #0000ed;
 
 $hexagon-side: 3em;
 $hexagon-width: sqrt(3) * $hexagon-side;
@@ -40,6 +40,79 @@ div.hex {
             }
             &.wall {
                 background: $color-gold;
+                .wall-helper, .wall-helper-2, .wall-helper-3{
+                    position: absolute;
+                }
+                &.wall-0 {
+                    background: $color-laser-0;
+                }
+                &.wall-1 {
+                    background: $color-laser-1;
+                }
+                &.wall-2 {
+                    background: $color-laser-2;
+                }
+                &.wall-0-1 {
+                    background: $color-laser-0;
+                    .wall-helper{
+                        width:$hexagon-width;
+                        height:$hexagon-side/2;
+                        background: $color-laser-1;
+                        margin-top: $hexagon-side/2;
+                    }
+                }
+                &.wall-0-2 {
+                    background: $color-laser-0;
+                    .wall-helper{
+                        width:$hexagon-width;
+                        height:$hexagon-side/2;
+                        background: $color-laser-2;
+                        margin-top: $hexagon-side/2;
+                    }
+                }
+                &.wall-1-2 {
+                    background: $color-laser-1;
+                    .wall-helper{
+                        width:$hexagon-width;
+                        height:$hexagon-side/2;
+                        background: $color-laser-2;
+                        margin-top: $hexagon-side/2;
+                    }
+                }
+                &.wall-0-1-2 {
+
+                    .wall-helper {
+                        position: absolute;
+                        content: "";
+                        width:0;
+                        height:0;
+                        border-left: $hexagon-width / 2 solid transparent;
+                        border-right: $hexagon-width / 2 solid transparent;
+                        border-top: $hexagon-side / 2 solid $color-laser-0;
+                    }
+                    .wall-helper-2 {
+                        width:$hexagon-width/2;
+                        height:$hexagon-side;
+                        background: $color-laser-1;
+                    }
+                    .wall-helper-3 {
+                        width:$hexagon-width / 2;
+                        height:$hexagon-side;
+                        background: $color-laser-2;
+                        margin-left: $hexagon-width/2;
+                    }
+                    .wall-helper-3:after {
+                        z-index: 52;
+                        content: "";
+                        position: absolute;
+                        bottom: -$hexagon-side / 2;
+                        left: 0;
+                        width: 0;
+                        height: 0;
+                        border-right: $hexagon-width / 2 solid transparent;
+                        border-top: $hexagon-side / 2 solid $color-laser-2;
+                    }
+                }
             }
             &.gun {
                 background: $guess-colors-light-blue;
@@ -85,12 +158,50 @@ div.hex {
             border-top: $hexagon-side / 2 solid $guess-colors-light-blue;
         }
 
-        .hexagon.wall:before {
-            border-bottom: $hexagon-side / 2 solid $color-gold;
+        .hexagon.wall-0:before {
+            border-bottom: $hexagon-side / 2 solid $color-laser-0;
+        }
+        .hexagon.wall-1:before {
+            border-bottom: $hexagon-side / 2 solid $color-laser-1;
+        }
+        .hexagon.wall-2:before {
+            border-bottom: $hexagon-side / 2 solid $color-laser-2;
         }
 
-        .hexagon.wall:after {
-            border-top: $hexagon-side / 2 solid $color-gold;
+        .hexagon.wall-0:after {
+            border-top: $hexagon-side / 2 solid $color-laser-0;
+        }
+        .hexagon.wall-1:after {
+            border-top: $hexagon-side / 2 solid $color-laser-1;
+        }
+        .hexagon.wall-2:after {
+            border-top: $hexagon-side / 2 solid $color-laser-2;
+        }
+
+        .hexagon.wall-0-1:before {
+            border-bottom: $hexagon-side / 2 solid $color-laser-0;
+        }
+        .hexagon.wall-0-2:before {
+            border-bottom: $hexagon-side / 2 solid $color-laser-0;
+        }
+        .hexagon.wall-1-2:before {
+            border-bottom: $hexagon-side / 2 solid $color-laser-1;
+        }
+        .hexagon.wall-0-1-2:before {
+            border-bottom: $hexagon-side / 2 solid $color-laser-0;
+        }
+
+        .hexagon.wall-0-1:after {
+            border-top: $hexagon-side / 2 solid $color-laser-1;
+        }
+        .hexagon.wall-0-2:after {
+            border-top: $hexagon-side / 2 solid $color-laser-2;
+        }
+        .hexagon.wall-1-2:after {
+            border-top: $hexagon-side / 2 solid $color-laser-2;
+        }
+        .hexagon.wall-0-1-2:after {
+            border-top: $hexagon-side / 2 solid $color-laser-1;
         }
 
         .hexagon-click-area {
@@ -103,7 +214,6 @@ div.hex {
                 position: absolute;
                 top: -$hexagon-side / 3;
                 left: $hexagon-side / 2.3;
-                //background-color: tomato;
                 width: $hexagon-width / 2;
                 height: $hexagon-side / 3;
             }
@@ -112,7 +222,6 @@ div.hex {
                 position: absolute;
                 bottom: -$hexagon-side / 3;
                 left: $hexagon-side / 2.3;
-                //background-color: tomato;
                 width: $hexagon-width / 2;
                 height: $hexagon-side / 3;
             }
@@ -170,7 +279,6 @@ div.hex {
             .gun {
                 width: 40em;
                 height: 4px;
-                //background: $color-orange;
                 position: absolute;
                 z-index: 50;
             }

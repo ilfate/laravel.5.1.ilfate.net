@@ -19,8 +19,11 @@
                  data-x="{{$cell->getX()}}"
                  data-y="{{$cell->getY()}}"
                     >
-                <div class="hexagon-click-area"></div>
-                <div class="hexagon {{$cell->getType()}}">
+                <div class="hexagon-click-area" data-x="{{$cell->getX()}}" data-y="{{$cell->getY()}}"></div>
+                <div class="hexagon {{$cell->getType()}} {{$cell->getAdditionalClasses()}}">
+                    <div class="wall-helper-2"></div>
+                    <div class="wall-helper-3"></div>
+                    <div class="wall-helper"></div>
                     @if($cell->getType() == 'gun')
                         @foreach($cell->getGuns() as $gunDirection)
                         <div class="gun-container gun_{{$gunDirection}}">
@@ -36,6 +39,11 @@
         @endforeach
     @endforeach
 </div>
+    <script>
+        $(document).ready(function() {
+            Hex.Game.setPatterns({!! $field->getWallsPatterns() !!});
+        });
+    </script>
 
 @stop
 

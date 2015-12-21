@@ -26,20 +26,21 @@ Hex.Game = function () {
         'black' : '#584D3D',
         'white' : '#FFFFFF'
     };
-	this.nextQuestion = [];
-	this.questionNumber = 1;
-    this.queue = {};
-    this.ship;
+	this.turnNumber = 1;
+    this.patterns = {};
+    this.currentPattern = {};
 
     this.init = function() {
         $('.hexagon-click-area').on('click', function() {
             Hex.Game.action($(this).parent());
         });
         $('.hexagon-click-area').on('mouseenter', function() {
-            $(this).parent().find('.hexagon').addClass('hover');
+            Hex.Game.hover($(this), true);
+            //$(this).parent().find('.hexagon').addClass('hover');
         });
         $('.hexagon-click-area').on('mouseleave', function() {
-            $(this).parent().find('.hexagon.hover').removeClass('hover');
+            Hex.Game.hover($(this), false);
+            //$(this).parent().find('.hexagon.hover').removeClass('hover');
         });
     }
 
@@ -88,10 +89,43 @@ Hex.Game = function () {
         if (updates.walls) {
 
             for (var k in updates.walls) {
-                var wallX = updates.walls[k][0];
-                var wallY = updates.walls[k][1];
-                var cell = $('.hexagon-container.x_' + wallX + '.y_' + wallY + ' .hexagon');
-                cell.removeClass('cell').addClass('wall');
+                var wall = updates.walls[k];
+                var cell = $('.hexagon-container.x_' + wall.x + '.y_' + wall.y + ' .hexagon');
+                if (wall.status == 'new') {
+                    cell.removeClass('cell').addClass('wall').addClass(wall.class);
+                } else {
+                    cell.removeClass('wall-0 wall-1 wall-2 wall-0-1 wall-0-2 wall-1-2 wall-0-1-2')
+                        .addClass(wall.class);
+                }
+            }
+        }
+    }
+
+    this.setPatterns = function(patterns) {
+        this.patterns = patterns;
+        this.setPattern(patterns[0]);
+    }
+    this.setPattern = function(pattern) {
+        this.currentPattern = pattern;
+    }
+    this.hover = function(el, isAdd) {
+        if (!this.currentPattern) {
+            el.parent().find('.hexagon').addClass('hover');
+        } else {
+            info(el);
+            var x = el.data('x');
+            var y = el.data('y');
+            for (var k in this.currentPattern) {
+
+                var cellInfo = this.currentPattern[k];
+                info(cellInfo);
+                var cell = $('.x_' + (x + cellInfo[0]) + '.y_' + (y + cellInfo[1]) + ' .hexagon');
+                info(cell);
+                if (isAdd) {
+                    cell.addClass('hover');
+                } else {
+                    cell.removeClass('hover');
+                }
             }
         }
     }

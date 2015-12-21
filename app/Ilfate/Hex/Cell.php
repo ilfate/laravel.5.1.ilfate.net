@@ -112,19 +112,30 @@ class Cell
 
     /**
      * @param     $direction
+     * @param     $laserType
      * @param int $pathLength
      *
      * @return int
      */
-    public function getCellsLengthToObstacle($direction, $pathLength = 0)
+    public function getCellsLengthToObstacle($direction, $laserType, $pathLength = 0)
     {
         $neighbor = $this->getNeighbor($direction);
         if ($neighbor) {
-            if ($neighbor->getType() !== self::TYPE_CELL) {
+            if (!$neighbor->isPassableForLaser($laserType)) {
                 return $pathLength;
             }
-            return $neighbor->getCellsLengthToObstacle($direction, $pathLength + 1);
+            return $neighbor->getCellsLengthToObstacle($direction, $laserType, $pathLength + 1);
         }
+    }
+
+    /**
+     * @param $laserType
+     *
+     * @return bool
+     */
+    public function isPassableForLaser($laserType)
+    {
+        return true;
     }
 
     /**
@@ -147,6 +158,14 @@ class Cell
     public function cellsToEm($cells)
     {
         return (($cells + 0.5) * $this->getHexWidth()) + ($cells * 0.2) . 'em';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalClasses()
+    {
+        return '';
     }
 
     /**

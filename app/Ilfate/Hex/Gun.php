@@ -25,6 +25,20 @@ namespace Ilfate\Hex;
  */
 class Gun extends Cell
 {
+
+    const LASER_TYPE_0 = 0;
+    const LASER_TYPE_1 = 1;
+    const LASER_TYPE_2 = 2;
+
+    protected static $laserPerDirection = [
+        0 => self::LASER_TYPE_0,
+        1 => self::LASER_TYPE_1,
+        2 => self::LASER_TYPE_2,
+        3 => self::LASER_TYPE_0,
+        4 => self::LASER_TYPE_1,
+        5 => self::LASER_TYPE_2,
+    ];
+
     /**
      *
      */
@@ -40,13 +54,21 @@ class Gun extends Cell
                     $oppositeCell = $neighbors[$oppositeDirection];
                     if ($oppositeCell && $oppositeCell->getType() != 'gun') {
                         $result[] = $oppositeDirection;
-                        $length = $this->getCellsLengthToObstacle($oppositeDirection);
+                        $length = $this->getCellsLengthToObstacle(
+                            $oppositeDirection,
+                            $this->getLaserTypeForDirection($oppositeDirection)
+                        );
                         $this->lasers[$oppositeDirection] = $length;
                     }
                 }
             }
             $this->setGuns($result);
         }
+    }
+
+    public function getLaserTypeForDirection($direction)
+    {
+        return self::$laserPerDirection[$direction];
     }
 
     /**
@@ -63,7 +85,10 @@ class Gun extends Cell
                 $oppositeCell = $neighbors[$oppositeDirection];
                 if ($oppositeCell && $oppositeCell->getType() != 'gun') {
                     $result[] = $oppositeDirection;
-                    $length = $this->getCellsLengthToObstacle($oppositeDirection);
+                    $length = $this->getCellsLengthToObstacle(
+                        $oppositeDirection,
+                        $this->getLaserTypeForDirection($oppositeDirection)
+                    );
                     if ($this->lasers[$oppositeDirection] !=  $length) {
                         $changedLasers[$oppositeDirection] = $this->cellsToEm($length);
                     }
@@ -94,6 +119,16 @@ class Gun extends Cell
         }
 
         return implode(' ', $guns);
+    }
+
+    /**
+     * @param $laserType
+     *
+     * @return bool
+     */
+    public function isPassableForLaser($laserType)
+    {
+        return false;
     }
 
 }

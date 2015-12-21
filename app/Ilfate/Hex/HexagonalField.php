@@ -31,11 +31,13 @@ class HexagonalField
 
     const ACTION_BUILD_WALL = 'buildWall';
 
+    const PATTERN_SAME_COLOR_CONFIG = 'same';
+
     protected $config;
 
     protected $updates;
 
-    protected $currentWallType = 'type1';
+    protected $currentWallType = 'lineY';
 
     /**
      * @var Cell[]
@@ -116,7 +118,6 @@ class HexagonalField
                     $cell->setUpGuns();
                 }
             }
-
         }
     }
 
@@ -135,7 +136,6 @@ class HexagonalField
                     }
                 }
             }
-
         }
         $this->updates['lasers'] = $changedLasers;
     }
@@ -164,15 +164,54 @@ class HexagonalField
         foreach ($cells as $cellCoordinates) {
             $newX = $x + $cellCoordinates[0];
             $newY = $y + $cellCoordinates[1];
+            if (!empty($cellCoordinates[2])) {
+                if ($cellCoordinates[2] == self::PATTERN_SAME_COLOR_CONFIG) {
+                    if (!isset($preSetColor)) {
+                        $preSetColor = mt_rand(0, 2);
+                    }
+                    $colors = [$preSetColor];
+                } else {
+                    $colors = $cellCoordinates[2];
+                }
+            } else {
+                $colors = [mt_rand(0,2)];
+            }
+
             $cell = $this->getCell($newX, $newY);
-            if (!$cell || $cell->getType() != Cell::TYPE_CELL) {
+            if (!$cell) {
                 continue;
             }
-            $cell->makeAWall();
-            $this->updates['walls'][] = [$newX, $newY];
+            switch ($cell->getType()) {
+                case Cell::TYPE_CELL:
+                    $wall = $cell->makeAWall();
+                    $wall->setColors($colors);
+                    $this->updates['walls'][] = [
+                        'x' => $newX,
+                        'y' => $newY,
+                        'status' => 'new',
+                        'class' => $wall->getAdditionalClasses()
+                    ];
+                    break;
+                case Cell::TYPE_WALL:
+                    $cell->addColors($colors);
+                    $this->updates['walls'][] = [
+                        'x' => $newX,
+                        'y' => $newY,
+                        'status' => 'updated',
+                        'class' => $cell->getAdditionalClasses()
+                    ];
+                    break;
+            }
+
         }
 
 
+    }
+
+    public function getWallsPatterns()
+    {
+        $selectedPattern = $this->config['wallTypes'][$this->currentWallType];
+        return json_encode([$selectedPattern]);
     }
 
     /**
