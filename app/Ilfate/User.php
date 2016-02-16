@@ -53,14 +53,20 @@ class User extends Model implements AuthenticatableContract,
 
     public static function getGuest()
     {
-        $userData = Session::get(self::GUEST_USER_SESSION_KEY, null);
-        if (!$userData) {
-            // user is first time here
-            $user = new User;
-            self::saveUser($user);
-        } else {
-            $user = unserialize($userData);
-        }
+//        $userData = Session::get(self::GUEST_USER_SESSION_KEY, null);
+//        if (!$userData) {
+//            // user is first time here
+//            $user = new User;
+//            self::saveUser($user);
+//        } else {
+//            $user = unserialize($userData);
+//        }
+        $user = new User;
+        $user->id = $user->getId();
+        $user->is_guest = true;
+        $user->email = $user->id . '@guest.com'; // teporary email for guest
+        $user->save();
+        Auth::loginUsingId($user->getId(), true);
         return $user;
     }
 
@@ -75,15 +81,14 @@ class User extends Model implements AuthenticatableContract,
 
     public function getId()
     {
-        if ($this->id) {
-            return $this->id;
-        } else {
-            if ($this->guest_id === false) {
-                $this->guest_id = mt_rand(100000, 999999) . '2';
-                User::saveUser($this);
+        if (!$this->id) {
+            $this->id = mt_rand(100000, 999999) . '2';
+            $existingUser = User::where('id', $this->id)->first();
+            if ($existingUser) {
+                return $this->id = $this->getId();
             }
-            return $this->guest_id;
         }
+        return $this->id;
     }
 
     public function getName()
@@ -144,6 +149,14 @@ class User extends Model implements AuthenticatableContract,
             Session::forget(self::GUEST_USER_SESSION_KEY);
         }
         return parent::save($options);
+    }
+
+    /**
+     * Get all mages
+     */
+    public function mages()
+    {
+        return $this->hasMany('Ilfate\Mage', 'player_id', 'id');
     }
 
 }

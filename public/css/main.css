@@ -2952,6 +2952,41 @@ div.hex {
       .cosmos .ship-container .cell.module-door-3 {
         border-left: 2px solid #78C0A8; }
 
+/* COLOR PALLETE */
+.mage-survival #create-mage-pop-up {
+  display: none; }
+  .mage-survival #create-mage-pop-up .mage-name {
+    display: none; }
+  .mage-survival #create-mage-pop-up .single-mage-type a.submit {
+    display: none; }
+.mage-survival .game-inteface .battle-field {
+  position: relative;
+  margin: 200px 0 0 200px;
+  width: 240px;
+  height: 240px;
+  background-color: cornsilk; }
+  .mage-survival .game-inteface .battle-field .cell {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    z-index: 30; }
+  .mage-survival .game-inteface .battle-field .mage {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    z-index: 35;
+    background-image: url("/images/game/mage/testMage.png"); }
+.mage-survival .game-inteface .battle-field.Tutorial .cell.bl {
+  background-color: darkgrey; }
+.mage-survival .game-inteface .battle-field.Tutorial .cell.f1 {
+  background-color: green; }
+.mage-survival .game-inteface .battle-field.Tutorial .cell.f2 {
+  background-color: darkolivegreen; }
+.mage-survival .game-inteface .battle-field.Tutorial .cell.f3 {
+  background-color: lawngreen; }
+.mage-survival .game-inteface .battle-field.Tutorial .cell.s {
+  background-color: grey; }
+
 * {
   margin: 0px;
   padding: 0px; }

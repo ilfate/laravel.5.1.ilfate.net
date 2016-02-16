@@ -1,0 +1,61 @@
+/* COLOR PALLETE */
+
+$mage-colors-green:#069E2D;
+$mage-colors-light-blue:#ABCDEF;
+$mage-colors-blue:#529BCA;
+$mage-colors-dark-blue:#428BBA;
+$mage-colors-red:#FF8360;
+$mage-colors-white:#ffffff;
+$mage-colors-black:#584D3D;
+$mage-colors-yellow:#FFD416;
+
+$map-radius: 5;
+$cell-size: 40;
+
+.mage-survival {
+    #create-mage-pop-up {
+        display: none;
+        .mage-name {
+            display: none;
+        }
+        .single-mage-type {
+            a.submit {
+                display: none;    
+            }
+        }
+    }
+    .game-inteface {
+        .battle-field {
+            position: relative;
+            margin:$map-radius * $cell-size + px 0 0 $map-radius * $cell-size + px;
+            width:($map-radius + 1) * $cell-size + px;
+            height:($map-radius + 1) * $cell-size + px;
+            background-color: cornsilk;
+            .cell {
+                position: absolute;
+                width:$cell-size + px;
+                height:$cell-size + px;
+                z-index: 30;
+            }
+            .mage {
+                position: absolute;
+                width:$cell-size + px;
+                height:$cell-size + px;
+                z-index: 35;
+                background-image: url('/images/game/mage/testMage.png');
+                &.d-1 { @include rotate(90deg); }
+                &.d-2 { @include rotate(180deg); }
+                &.d-3 { @include rotate(270deg); }
+            }
+        }
+
+        .battle-field.Tutorial {
+            .cell.bl { background-color: darkgrey; }
+            .cell.f1 { background-color: green; }
+            .cell.f2 { background-color: darkolivegreen; }
+            .cell.f3 { background-color: lawngreen; }
+            .cell.s  { background-color: grey; }
+        }
+    }
+}
+

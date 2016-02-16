@@ -42,6 +42,14 @@ return array(
 				'og:site_name', 'og:title', 'og:url', 'og:image', 'og:description', 'og:type'
 			]
 		],
+		'mageSurvival' => [
+			'content' => [
+				'keywords', 'description'
+			],
+			'property' => [
+				'og:site_name', 'og:title', 'og:url', 'og:image', 'og:description', 'og:type'
+			]
+		],
 	],
     'metaTags' => [
 		'landing' => [

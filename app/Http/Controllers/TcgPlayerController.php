@@ -71,7 +71,7 @@ class TcgPlayerController extends \Ilfate\Http\Controllers\BaseController
         $formDefaults = $request->session()->get('formDefaults', null);
         if ($formDefaults) {
             view()->share('formDefaults', $formDefaults);
-            $request->session->forget('formDefaults');
+            $request->session()->forget('formDefaults');
         }
 
         view()->share('player', [
@@ -107,7 +107,7 @@ class TcgPlayerController extends \Ilfate\Http\Controllers\BaseController
 
         if ($player->id || $validator->fails())
         {
-            $request->session->set('formDefaults' , [
+            $request->session()->set('formDefaults' , [
                 'name' => $name,
                 'email' => $email
             ]);
