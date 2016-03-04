@@ -114,8 +114,7 @@ class MageSurvivalController extends BaseController
 
     protected function getGame(Request $request)
     {
-        $builder = new GameBuilder();
-        $game = $builder->getGame($request);
+        $game = GameBuilder::getGame($request);
         return $game;
     }
 

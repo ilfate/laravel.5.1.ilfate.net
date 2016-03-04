@@ -7,9 +7,9 @@
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- * @copyright 2016 Watchmaster GmbH
+ *
  * @license   Proprietary license.
- * @link      http://www.watchmaster.de
+ * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival\Mages;
 use Ilfate\MageSurvival\Mage;
@@ -21,9 +21,9 @@ use Ilfate\MageSurvival\Mage;
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- * @copyright 2016 Watchmaster GmbH
+ *
  * @license   Proprietary license.
- * @link      http://www.watchmaster.de
+ * @link      http://ilfate.net
  */
 class Apprentice extends Mage
 {

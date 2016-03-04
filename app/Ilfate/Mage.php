@@ -52,23 +52,4 @@ class Mage extends Model
 	{
 		return $this->hasOne('Ilfate\MageWorld', 'id', 'world_id');
 	}
-
-//    public static function getMyDecksCount()
-//    {
-//        $player = User::getUser();
-//        if (!$player->id) {
-//            return false;
-//        }
-//        return self::where('player_id', '=', $player->id)->count();
-//    }
-//
-//    public static function getMyDecks()
-//    {
-//        $player = User::getUser();
-//        if (!$player->id) {
-//            return false;
-//        }
-//        return self::where('player_id', '=', $player->id)->get();
-//    }
-
 }

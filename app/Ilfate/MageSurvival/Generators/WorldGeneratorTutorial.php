@@ -7,9 +7,9 @@
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- * @copyright 2016 Watchmaster GmbH
+ *
  * @license   Proprietary license.
- * @link      http://www.watchmaster.de
+ * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival\Generators;
 use Ilfate\MageSurvival\WorldGenerator;

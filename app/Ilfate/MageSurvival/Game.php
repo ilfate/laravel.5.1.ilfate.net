@@ -7,9 +7,9 @@
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- * @copyright 2016 Watchmaster GmbH
+ *
  * @license   Proprietary license.
- * @link      http://www.watchmaster.de
+ * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival;
 use Ilfate\Mage;
@@ -29,8 +29,11 @@ class Game
     const STATUS_GAME_INIT = 'game_init';
     const STATUS_BATTLE = 'mage_battle';
 
-    const ACTION_MOVE = 'move';
-    const ACTION_ROTATE = 'rotate';
+    const ACTION_MOVE            = 'move';
+    const ACTION_ROTATE          = 'rotate';
+    const ACTION_OBJECT_INTERACT = 'objectInteract';
+    const ACTION_CRAFT_SPELL     = 'craftSpell';
+    const ACTION_SPELL           = 'spell';
 
     protected $player;
 
@@ -54,11 +57,17 @@ class Game
     protected $mage;
 
     protected $isMapUpdated = false;
+    protected $isPlayerMoved = false;
+    protected $isMageUpdated = false;
+    protected $isItemsUpdated = false;
+    protected $isSpellsUpdated = false;
 
     /**
      * @var WorldGenerator
      */
     private $worldGenerator;
+
+    protected $messages = [];
 
     public function __construct()
     {
@@ -77,32 +86,56 @@ class Game
     {
         $data = [];
         $data['map'] = $this->worldGenerator->exportMapForView($this->mage);
+        $data['objects'] = $this->worldGenerator->exportVisibleObjects();
         $data['world'] = $this->config['world-types'][$this->world->getType()];
         $data['mage'] = $this->mage->viewExport();
+        $data['actions'] = $this->mage->getAllPossibleActions($this->world);
 
         return ['game' => $data];
     }
 
     public function action($action, $data)
     {
-        $data = [];
+        $return = [];
         switch ($action) {
             case self::ACTION_MOVE:
-                $this->mage->move($data);
-                $this->isMapUpdated = true;
-
+                $return = $this->mage->move($data);
+                $this->worldGenerator->fillEmptyMap($return['map'], $this->mage);
+                $return['objects'] = $this->worldGenerator->exportVisibleObjects();
                 break;
             case self::ACTION_ROTATE:
-                $this->mage->rotate($data);
+                $return = $this->mage->rotate($data);
+                break;
+            case self::ACTION_OBJECT_INTERACT:
+                $result = $this->mage->interactWithObject($this->world, $data['method']);
+                $return['data'] = $result['data'];
+                break;
+            case self::ACTION_CRAFT_SPELL:
+                $this->mage->craftSpell($data);
+                break;
+            case self::ACTION_SPELL:
+                $this->mage->castSpell($data);
                 break;
             default:
                 throw new \Exception('Action "' . $action . '" do not exist');
                 break;
         }
+
         if ($this->isMapUpdated) {
-            $data['map'] = $this->worldGenerator->exportMapForView($this->mage);
+            $return['map'] = $this->worldGenerator->exportMapForView($this->mage);
         }
-        return ['action' => $action, 'game' => $data];
+        $return['actions'] = $this->mage->getAllPossibleActions($this->world);
+        if ($this->isItemsUpdated) {
+            $return['items'] = $this->mage->getUpdatedItems();
+        }
+        if ($this->isSpellsUpdated) {
+            $return['spells'] = $this->mage->getUpdatedSpells();
+        }
+        if ($this->messages) {
+            $return['messages'] = $this->messages;
+        }
+
+        return ['action' => $action, 'game' => $return];
     }
 
     public function initWorld()
@@ -151,7 +184,10 @@ class Game
         }
         $this->worldGenerator = $this->getGenerator($world, $this->mage);
         $this->world = $world;
+        $this->world->setGame($this);
     }
+
+
 
     /**
      * @param User $user
@@ -170,7 +206,7 @@ class Game
     }
 
     /**
-     * @return Mage
+     * @return \Ilfate\MageSurvival\Mage
      */
     public function getMage()
     {
@@ -178,10 +214,86 @@ class Game
     }
 
     /**
-     * @param Mage $mage
+     * @param \Ilfate\MageSurvival\Mage $mage
      */
     public function setMage($mage)
     {
         $this->mage = $mage;
+        $this->mage->setGame($this);
+    }
+
+    public function updateMage()
+    {
+        $this->isMageUpdated = true;
+    }
+
+    public function updateMap()
+    {
+        $this->isMapUpdated = true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param boolean $isItemsUpdated
+     */
+    public function setIsItemsUpdated($isItemsUpdated)
+    {
+        $this->isItemsUpdated = $isItemsUpdated;
+    }
+
+    /**
+     * @param boolean $isSpellsUpdated
+     */
+    public function setIsSpellsUpdated($isSpellsUpdated)
+    {
+        $this->isSpellsUpdated = $isSpellsUpdated;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @param array $message
+     * @param null  $type
+     * @param array $data
+     */
+    public function addMessage($message, $type = null, $data = [])
+    {
+        $m = ['message' => $message];
+        if ($type) {
+            $m['type'] = $type;
+        }
+        if ($data) {
+            $m['data'] = $data;
+        }
+        $this->messages[] = $m;
+    }
+
+    /**
+     * @param $messages
+     */
+    public function addMessages($messages)
+    {
+        $this->messages[] = array_merge($this->messages, $messages);
+    }
+
+    /**
+     * @return World
+     */
+    public function getWorld()
+    {
+        return $this->world;
     }
 }

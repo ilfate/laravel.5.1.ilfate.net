@@ -7,9 +7,9 @@
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- * @copyright 2016 Watchmaster GmbH
+ *
  * @license   Proprietary license.
- * @link      http://www.watchmaster.de
+ * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival;
 
@@ -31,12 +31,19 @@ use Illuminate\Http\Request;
 class GameBuilder
 {
 
-    protected $game;
+    /**
+     * @var Game
+     */
+    protected static $game;
 
-
-    public function build($config)
+    /**
+     * @param       $message
+     * @param null  $type
+     * @param array $data
+     */
+    public static function message($message, $type = null, $data = [])
     {
-
+        self::$game->addMessage($message, $type, $data);
     }
 
     /**
@@ -44,8 +51,11 @@ class GameBuilder
      *
      * @return Game
      */
-    public function getGame(Request $request)
+    public static function getGame(Request $request = null)
     {
+        if (self::$game) {
+            return self::$game;
+        }
         $game = new Game();
 
         $savedData = $request->session()->get('mageSurvival.savedGame');
@@ -64,18 +74,18 @@ class GameBuilder
             $worldsCollection = $activeMage->world()->get();
             if ($worldsCollection->isEmpty()) {
                 // lets create world
-                $this->createWorld($game, $activeMage);
+                self::createWorld($game, $activeMage);
             } else {
                 $worldEntity = $worldsCollection->first();
                 $world = new World($worldEntity);
                 $game->setWorld($world);
             }
         }
-
+        self::$game = $game;
         return $game;
     }
 
-    protected function createWorld(Game $game, Mage $mage)
+    protected static function createWorld(Game $game, Mage $mage)
     {
         $mageWorld = new MageWorld();
         $mageWorld->player_id = $game->getUser()->id;
@@ -90,4 +100,6 @@ class GameBuilder
 
         $game->initWorld();
     }
+
+
 }

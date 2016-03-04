@@ -7,9 +7,9 @@
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- * @copyright 2016 Watchmaster GmbH
+ *
  * @license   Proprietary license.
- * @link      http://www.watchmaster.de
+ * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival;
 use Ilfate\MageWorld;
@@ -39,6 +39,8 @@ class World
      */
     private $mageWorldEntity;
 
+    protected $game;
+
     public function __construct(MageWorld $mageWorld)
     {
         $this->config          = \Config::get('mageSurvival');
@@ -67,6 +69,23 @@ class World
         $this->mageWorldEntity->objects = json_encode($this->objects);
         $this->mageWorldEntity->units = json_encode($this->units);
         $this->mageWorldEntity->save();
+    }
+
+    public function addRandomObject($x, $y)
+    {
+        if (!empty($this->objects[$y][$x])) return false;
+
+        $object = MapObject::getRandomObject($x, $y, $this);
+        $this->objects[$y][$x] = $object->export();
+    }
+
+    public function getObject($x, $y)
+    {
+        if (empty($this->objects[$y][$x])) {
+            return null;
+        }
+        $objectData = $this->objects[$y][$x];
+        return MapObject::createObjectFromData($this, $x, $y, $objectData);
     }
 
     /**
@@ -147,5 +166,21 @@ class World
     public function setBioms($bioms)
     {
         $this->bioms = $bioms;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
+     * @param mixed $game
+     */
+    public function setGame($game)
+    {
+        $this->game = $game;
     }
 }

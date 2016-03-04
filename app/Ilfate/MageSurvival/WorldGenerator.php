@@ -7,9 +7,9 @@
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- * @copyright 2016 Watchmaster GmbH
+ *
  * @license   Proprietary license.
- * @link      http://www.watchmaster.de
+ * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival;
 
@@ -44,6 +44,8 @@ abstract class WorldGenerator
         ],
     ];
 
+    protected $visibleObjects = [];
+
     public function __construct(World $world, Mage $mage)
     {
         $this->config = \Config::get('mageSurvival');
@@ -70,7 +72,7 @@ abstract class WorldGenerator
         for ($y = -$radius; $y <= $radius; $y++) {
             for ($x = -$radius; $x <= $radius; $x++) {
                 if (!isset($map[$y][$x])) {
-                    $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_RANDOM);
+                    $map[$y][$x] = $this->getOrGenerateCell($x, $y);
                 }
             }
         }
@@ -92,10 +94,41 @@ abstract class WorldGenerator
                 $dX = $centerX + $x;
                 $dY = $centerY + $y;
                 $map[$y][$x] = $this->getOrGenerateCell($dX, $dY);
+                if ($object = $this->world->getObject($dX, $dY)) {
+                    $this->visibleObjects[$y][$x] = $object;
+                }
             }
         }
         $this->world->saveIfChanged();
         return $map;
+    }
+
+    public function exportVisibleObjects()
+    {
+        $objects = [];
+        foreach ($this->visibleObjects as $y => $col) {
+            foreach ($col as $x => $object) {
+                $objects[$y][$x] = $object->export();
+            }
+        }
+        return $objects;
+    }
+
+    public function fillEmptyMap(&$map, Mage $mage)
+    {
+        $newMap = [];
+        foreach ($map as $y => $col) {
+            foreach ($col as $x => $value) {
+                $dY = $y - $mage->getY();
+                $dX = $x - $mage->getX();
+                $newMap[$dY][$dX] = $this->getOrGenerateCell($x, $y);
+                if ($object = $this->world->getObject($x, $y)) {
+                    $this->visibleObjects[$dY][$dX] = $object;
+                }
+            }
+        }
+        $map = $newMap;
+        $this->world->saveIfChanged();
     }
 
     public function getOrGenerateCell($x, $y)
@@ -104,7 +137,14 @@ abstract class WorldGenerator
         if (empty($map[$y][$x])) {
             $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_RANDOM);
             $this->world->setMap($map);
+
+            if (ChanceHelper::chance(10)) {
+                // create object
+                $this->world->addRandomObject($x, $y);
+            }
+
             $this->world->update();
+
         }
         return $map[$y][$x];
     }

@@ -9,10 +9,15 @@ $mage-colors-white:#ffffff;
 $mage-colors-black:#584D3D;
 $mage-colors-yellow:#FFD416;
 
+$mage-color-background:#FCEBB6;
+
 $map-radius: 5;
 $cell-size: 40;
 
 .mage-survival {
+    .large-text {
+        font-size: 1.5rem;
+    }
     #create-mage-pop-up {
         display: none;
         .mage-name {
@@ -25,17 +30,31 @@ $cell-size: 40;
         }
     }
     .game-inteface {
-        .battle-field {
+        .battle-border {
+            float:left;
+            width:($map-radius * 2 + 1) * $cell-size + px;
+            height:($map-radius * 2 + 1) * $cell-size + px;
+            border:1px solid chocolate;
+            overflow:hidden;
             position: relative;
-            margin:$map-radius * $cell-size + px 0 0 $map-radius * $cell-size + px;
-            width:($map-radius + 1) * $cell-size + px;
-            height:($map-radius + 1) * $cell-size + px;
+        }
+        .battle-field {
+
+            margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
+            width:($map-radius + 2) * $cell-size + px;
+            height:($map-radius + 2) * $cell-size + px;
             background-color: cornsilk;
             .cell {
                 position: absolute;
                 width:$cell-size + px;
                 height:$cell-size + px;
                 z-index: 30;
+            }
+            .object {
+                position: absolute;
+                width:$cell-size - 10 + px;
+                height:$cell-size - 10 + px;
+                z-index: 33;
             }
             .mage {
                 position: absolute;
@@ -55,7 +74,73 @@ $cell-size: 40;
             .cell.f2 { background-color: darkolivegreen; }
             .cell.f3 { background-color: lawngreen; }
             .cell.s  { background-color: grey; }
+            //.cell.bl { border: 1px solid darkgrey; }
+            //.cell.f1 { border: 1px solid green; }
+            //.cell.f2 { border: 1px solid darkolivegreen; }
+            //.cell.f3 { border: 1px solid lawngreen; }
+            //.cell.s  { border: 1px solid grey; }
+        }
+        .battle-field {
+            .object.id-1 {
+                background-color: goldenrod;
+            }
+        }
+        .actions-container {
+            float:right;
+        }
+
+        .inventory {
+            height: (7 ) * $cell-size + px;
+        }
+
+        .items-tab {
+            background-color: $mage-color-background;
+            position: absolute;
+            border: 1px solid cornflowerblue;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.23), 0 10px 30px rgba(0, 0, 0, 0.19);
+            width: 10rem;
+            height: 10rem;
+            z-index: 50;
+
+            .item {
+                float: left;
+                width: $cell-size + px;
+                height: $cell-size + px;
+                border: 1px solid cornflowerblue;
+            }
+        }
+
+        .spellBook {
+            height: (7 ) * $cell-size + px;
+        }
+
+        .spells-tab {
+            background-color: $mage-color-background;
+            position: absolute;
+            border: 1px solid cornflowerblue;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.23), 0 10px 30px rgba(0, 0, 0, 0.19);
+            width: 10rem;
+            height: 10rem;
+            z-index: 50;
+
+            .spell {
+                float: left;
+                width: $cell-size + px;
+                height: $cell-size + px;
+                border: 1px solid cornflowerblue;
+            }
+        }
+
+
+        .craft-spell-overlay{
+            position: absolute;
+            z-index: 60;
+            .helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info {
+                position: absolute;
+                width:($map-radius * 2 + 1) * $cell-size + px;
+            }
         }
     }
+
 }
 
