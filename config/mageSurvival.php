@@ -4,6 +4,7 @@ $cell_type_passage = 'passage';
 return array(
     'game' => [
         'screen-radius' => 5,
+        'active-units-radius' => 8,
     ],
     'status-to-page' => [
         'game_init' => 'mage-list',
@@ -113,8 +114,8 @@ return array(
         ],
         'school-chances' => [
             1,1,1,1,1,1,1,1,   //fire
-          //  2,2,2,2,2,2,2,2, // water
-//            3,3,3,3,3,3,     // air
+//            2,2,2,2,2,2,2,2, // water
+            3,3,3,3,3,3,     // air
           //  4,4,4,4,4,4,     // earth
           //  5,5,             // light
           //  6,6,             // death

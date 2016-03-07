@@ -7,7 +7,6 @@ use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Cache;
@@ -117,6 +116,7 @@ class MageSurvivalController extends BaseController
         $game = GameBuilder::getGame($request);
         return $game;
     }
+
 
 
 }

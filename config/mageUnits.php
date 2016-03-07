@@ -5,7 +5,7 @@ return array(
 
 
     'list' => [
-        1 => ['name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 1],
+        1 => ['name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 1, 'behaviour' => 'Passive'],
     ],
     'chances' => [
         // World type

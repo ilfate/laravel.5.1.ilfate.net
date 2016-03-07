@@ -30,6 +30,7 @@ class World
     protected $map;
     protected $objects;
     protected $units;
+    protected $unitsInited;
     protected $type;
 
     protected $isWorldChanged = false;
@@ -96,13 +97,37 @@ class World
         return MapObject::createObjectFromData($this, $x, $y, $objectData);
     }
 
+    /**
+     * @param $x
+     * @param $y
+     *
+     * @return Unit
+     */
     public function getUnit($x, $y)
     {
+        if (!empty($this->unitsInited[$y][$x])) {
+            return $this->unitsInited[$y][$x];
+        }
         if (empty($this->units[$y][$x])) {
             return null;
         }
         $unitData = $this->units[$y][$x];
-        return Unit::createUnitFromData($this, $this->getGame()->getMage(), $x, $y, $unitData);
+        $this->unitsInited[$y][$x] = Unit::createUnitFromData($this, $this->getGame()->getMage(), $x, $y, $unitData);
+        return $this->unitsInited[$y][$x];
+    }
+
+    public function moveUnit($fromX, $fromY, $toX, $toY)
+    {
+        $unit = $this->getUnit($fromX, $fromY);
+        if (!empty($this->units[$toY][$toX]) || !empty($this->unitsInited[$toY][$toX])) {
+            throw new \Exception('We are trying to move unit to occupied cell');
+        }
+        $this->unitsInited[$toY][$toX] = $unit;
+        $this->units[$toY][$toX] = $unit->export();
+        unset($this->unitsInited[$fromY][$fromX]);
+        unset($this->units[$fromY][$fromX]);
+        $this->update();
+
     }
 
     public function destroyUnit($x, $y)
@@ -207,5 +232,65 @@ class World
     public function setGame($game)
     {
         $this->game = $game;
+    }
+
+    public function getNextMoveToGetTo($from, $to)
+    {
+        $distances = [];
+        $cells = [];
+        for($d = 0; $d < 4; $d++) {
+            switch($d) {
+                case 0: $x = $from[0]; $y = $from[1] - 1; break;
+                case 1: $x = $from[0] + 1; $y = $from[1]; break;
+                case 2: $x = $from[0]; $y = $from[1] + 1; break;
+                case 3: $x = $from[0] - 1; $y = $from[1]; break;
+            }
+            $distances[$d] = self::getDistance([$x, $y], $to);
+            $cells[$d] = [$x, $y];
+        }
+        asort($distances);
+        $shortestDirections = [];
+        $shortestDistance = 0;
+        foreach($distances as $d => $distance) {
+            if ($shortestDirections && $shortestDistance != $distance) {
+                break;
+            }
+            if ($this->isPassable($cells[$d][0], $cells[$d][1])) {
+                $shortestDirections[] = [$d, $cells[$d][0], $cells[$d][1]];
+                $shortestDistance = $distance;
+            }
+        }
+        if (count($shortestDirections) > 0) {
+            return ChanceHelper::oneFromArray($shortestDirections);
+        } else {
+            return false;
+        }
+    }
+
+    public static function getDistance($unit1, $unit2)
+    {
+        if (is_object($unit1)) {
+            $x1 = $unit1->getX();
+            $y1 = $unit1->getY();
+        } else {
+            $x1 = $unit1[0];
+            $y1 = $unit1[1];
+        }
+        if (is_object($unit2)) {
+            $x2 = $unit2->getX();
+            $y2 = $unit2->getY();
+        } else {
+            $x2 = $unit2[0];
+            $y2 = $unit2[1];
+        }
+        return abs($x1 - $x2) + abs($y1 - $y2);
+    }
+
+    public function isPassable($x, $y)
+    {
+        if ($this->getUnit($x, $y)) {
+            return false;
+        }
+        return true;
     }
 }

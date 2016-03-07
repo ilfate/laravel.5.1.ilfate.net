@@ -30,6 +30,11 @@ $cell-size: 40;
         }
     }
     .game-inteface {
+        .tooltip-helper-area {
+            position:absolute;
+            width: 150px;
+            height: 200px;
+        }
         .battle-border {
             float:left;
             width:($map-radius * 2 + 1) * $cell-size + px;

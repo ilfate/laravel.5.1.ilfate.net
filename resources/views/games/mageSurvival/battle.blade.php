@@ -17,7 +17,7 @@ Battle
 
                 </div>
             </div>
-
+            <div class="tooltip-helper-area"></div>
             <script> mageSurvivalData = {!!json_encode($viewData['game'])!!} </script>
         </div>
         <div class="col-md-6 right-panel">

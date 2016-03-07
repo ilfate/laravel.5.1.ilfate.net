@@ -1,0 +1,34 @@
+<?php namespace Ilfate\MageSurvival\Behaviours;
+use Ilfate\MageSurvival\Behaviour;
+use Ilfate\MageSurvival\Unit;
+use Ilfate\MageSurvival\World;
+
+/**
+ * TODO: Short description.
+ * TODO: Long description here.
+ *
+ * PHP version 5
+ *
+ * @category
+ * @package
+ * @author    Ilya Rubinchik <ilfate@gmail.com>
+ *
+ * @license   Proprietary license.
+ * @link      http://ilfate.net
+ */
+class Passive extends Behaviour
+{
+    /**
+     * @var Unit
+     */
+    protected $unit;
+
+    public function getAction()
+    {
+        $distance = World::getDistance($this->unit->getMage(), $this->unit);
+        if ($distance <= 6 && $distance > 2) {
+            return self::ACTION_MOVE_TO_MAGE;
+        }
+        return self::ACTION_DO_NOTHING;
+    }
+}

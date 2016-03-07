@@ -112,6 +112,25 @@ abstract class WorldGenerator
         return $map;
     }
 
+    public function getActiveUnits(Mage $mage)
+    {
+        $activeUnits = [];
+        $centerX = $mage->getX();
+        $centerY = $mage->getY();
+        $radius = $this->config['game']['active-units-radius'];
+        $map = [];
+        for ($y = -$radius; $y <= $radius; $y++) {
+            for ($x = -$radius; $x <= $radius; $x++) {
+                $dX = $centerX + $x;
+                $dY = $centerY + $y;
+                if ($unit = $this->world->getUnit($dX, $dY)) {
+                    $activeUnits[] = $unit;
+                }
+            }
+        }
+        return $activeUnits;
+    }
+
     public function exportVisibleObjects()
     {
         $objects = [];

@@ -167,6 +167,7 @@ class Game
 
         $return['actions'] = $this->mage->getAllPossibleActions($this->world);
         $this->nextTurn();
+
         $this->save();
 
         if ($this->messages) {
@@ -179,16 +180,21 @@ class Game
         return ['action' => $action, 'game' => $return];
     }
 
-    public function turn()
-    {
-        $this->isTurnHappend = true;
-    }
-
     public function nextTurn()
     {
         if ($this->isTurnHappend) {
             $this->mage->increaseTurn();
+
+            $activeUnits = $this->worldGenerator->getActiveUnits($this->mage);
+            foreach ($activeUnits as $activeUnit) {
+                $activeUnit->activate();
+            }
         }
+    }
+
+    public function turn()
+    {
+        $this->isTurnHappend = true;
     }
 
     protected function save()

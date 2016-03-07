@@ -28,6 +28,7 @@ namespace Ilfate\MageSurvival;
  */
 abstract class Unit
 {
+    const DATA_KEY_IS_HOSTILE = 'is_h';
 
     protected $id;
     protected $type;
@@ -49,6 +50,10 @@ abstract class Unit
      * @var Mage
      */
     protected $mage;
+    /**
+     * @var Behaviour
+     */
+    protected $behaviour;
 
     protected $config;
 
@@ -83,6 +88,17 @@ abstract class Unit
         $this->world = $world;
         $this->mage  = $mage;
         $this->type  = $type;
+        if (empty($data['behaviour'])) {
+            $behaviourName = $this->config['behaviour'];
+        } else {
+            $behaviourName = $data['behaviour'];
+        }
+        $behaviourClass = '\\Ilfate\\MageSurvival\\Behaviours\\' . $behaviourName;
+        if (!class_exists($behaviourClass)) {
+            throw new \Exception('Behaviour class missing ' . $behaviourClass);
+        }
+        $this->behaviour = new $behaviourClass($this);
+        $this->init();
     }
 
     /**
@@ -121,6 +137,11 @@ abstract class Unit
         return new $className($world, $mage, $x, $y, $data['type'], $data['id'], $data['data']);
     }
 
+    protected function init()
+    {
+
+    }
+
     public function export()
     {
         return [
@@ -128,6 +149,36 @@ abstract class Unit
             'type' => $this->getType(),
             'data' => $this->getData()
         ];
+    }
+
+    /**
+     * ACTIVATE
+     */
+    public function activate()
+    {
+        //$this->getBehaviours();
+        $action = $this->behaviour->getAction();
+        switch($action) {
+            case Behaviour::ACTION_MOVE_TO_MAGE:
+                $nextMove = $this->world->getNextMoveToGetTo(
+                    [$this->getX(), $this->getY()],
+                    [$this->mage->getX(), $this->mage->getY()]
+                );
+                if ($nextMove === false) {
+                    break;
+                }
+                list($d, $x, $y) = $nextMove;
+                $this->move($x, $y);
+                break;
+        }
+    }
+
+    public function move($x, $y)
+    {
+        $this->x = $x;
+        $this->y = $y;
+        $this->world->moveUnit($this->was['x'], $this->was['y'], $x, $y);
+
     }
 
     public function damage($value, $animationStage)
@@ -217,4 +268,22 @@ abstract class Unit
     {
         $this->y = $y;
     }
+
+    /**
+     * @return Mage
+     */
+    public function getMage()
+    {
+        return $this->mage;
+    }
+
+    /**
+     * @return World
+     */
+    public function getWorld()
+    {
+        return $this->world;
+    }
+
+
 }
