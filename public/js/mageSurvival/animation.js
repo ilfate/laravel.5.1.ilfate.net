@@ -19,7 +19,181 @@ $.fn.animateRotate = function(start, angle, duration, easing, complete) {
 
 MageS.Animations = function (game) {
     this.game = game;
+    this.animationsInQueue = [];
+    this.currentStage = '';
+    this.animationsRunning = 0;
 
+    this.stages = [];
+    this.stagesDefenition = [
+        'mage-action',
+        'mage-action-2',
+        'mage-action-effect',
+        'mage-action-effect-2',
+    ];
 
+    this.animateEvents = function(game) {
+        this.animationsInQueue = game.events;
+        this.stages = this.stagesDefenition;
+        this.runAnimations();
+    };
+
+    this.runAnimations = function() {
+
+        this.runSingleStageAnimation();
+    };
+
+    this.getNextStageName = function() {
+        var stage = this.stages[0];
+        this.stages = this.stages.slice(1);
+        return stage;
+    };
+
+    this.runSingleStageAnimation = function() {
+        //if (cardId !== undefined) {
+        //    var unit = this.getUnitObj(cardId);
+        //    this.stopUnitAnimation(unit);
+        //}
+        var stage = this.getNextStageName();
+        if (!stage) {
+            return;
+        }
+        if (this.animationsInQueue[stage] === undefined) {
+            this.runSingleStageAnimation();
+            return;
+        }
+        this.currentStage = stage;
+        var stageAnimations = this.animationsInQueue[stage];
+        for (var i in stageAnimations) {
+            this.animationsRunning++;
+            this.selectAnimationByName(stageAnimations[i]);
+        }
+
+    };
+
+    this.singleAnimationFinished = function() {
+        this.animationsRunning--;
+
+        if (this.animationsRunning == 0) {
+            this.runSingleStageAnimation();
+        } else {
+            info (this.animationsRunning + ' animations in queue');
+        }
+    };
+
+    this.selectAnimationByName = function(data) {
+        switch (data.name) {
+            case 'mage-move':
+                this.mageMoveAnimation(data.data);
+                break;
+            case 'mage-rotate':
+                this.mageRotateAnimation(data.data);
+                break;
+            case 'unit-kill':
+                this.unitKillAnimation(data.data);
+                break;
+            case 'wait':
+                this.waitAnimation(data.data);
+                break;
+        }
+    };
+
+    this.mageMoveAnimation = function(data) {
+        var newBattleField = $('<div class="battle-field new"></div>');
+        for (var y in data.map) {
+            for (var x in data.map[y]) {
+
+                var temaplate = $('#template-map-cell').html();
+                Mustache.parse(temaplate);
+                var rendered = Mustache.render(temaplate, {'x': x, 'y': y, 'class': data.map[y][x]});
+                var obj = $(rendered);
+                newBattleField.append(obj);
+                obj.css({
+                    'margin-left' : (x * this.game.cellSize) + 'px',
+                    'margin-top' : (y * this.game.cellSize) + 'px',
+                });
+            }
+        }
+        $('.battle-border').append(newBattleField);
+        for(var y in data.objects) {
+            for(var x in data.objects[y]) {
+                this.game.drawObject(data.objects[y][x], x, y, '.battle-field.new');
+            }
+        }
+        for(var y in data.units) {
+            for(var x in data.units[y]) {
+                this.game.drawUnit(data.units[y][x], x, y, '.battle-field.new');
+            }
+        }
+        var newX = data.mage.x;
+        var newY = data.mage.y;
+        var oldX = data.mage.was.x;
+        var oldY = data.mage.was.y;
+        var baseMargin = this.game.fieldRadius * this.game.cellSize;
+
+        newBattleField.css({
+            'margin-left': baseMargin + (newX - oldX) * this.game.cellSize + 'px',
+            'margin-top': baseMargin + (newY - oldY) * this.game.cellSize + 'px',
+        });
+        newBattleField.animate({
+            'margin-left': baseMargin + 'px',
+            'margin-top': baseMargin + 'px',
+        },this.game.animationTime);
+        var that = this;
+        $('.battle-field.current').animate({
+            'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'px',
+            'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'px',
+        }, {duration:this.animationTime, complete:function(){
+            $('.battle-field.current').remove();
+            $('.battle-field.new').removeClass('new').addClass('current');
+            that.game.actionInProcess = false;
+            MageS.Game.animations.singleAnimationFinished();
+        }});
+    };
+    this.mageRotateAnimation = function(data) {
+        var d = 0;
+        var oldD = 0;
+        switch (data.mage.d) {
+            case 1: d = 90; break;
+            case 2: d = 180; break;
+            case 3: d = 270; break;
+        }
+        switch (data.mage.was.d) {
+            case 1: oldD = 90; break;
+            case 2: oldD = 180; break;
+            case 3: oldD = 270; break;
+        }
+        if (oldD == 270 && d == 0) {
+            oldD = -90;
+        }
+        if (oldD == 0 && d == 270) {
+            oldD = 360;
+        }
+        var el = $('.battle-border .mage');
+        var that = this;
+        el.removeClass('d-' + data.mage.was.d);
+        el.animateRotate(oldD, d, this.game.animationTime, "swing", function(){
+            $(this).addClass('d-' + data.mage.d).data('d', data.mage.d);
+            that.game.actionInProcess = false;
+            MageS.Game.animations.singleAnimationFinished();
+        });
+    };
+    this.unitKillAnimation = function(data) {
+        $('.battle-field.current .unit.id-' + data.id).animate({
+            'opacity' : 0
+        }, {
+            duration:1500,
+            'complete': (function () {
+                $(this).remove();
+                MageS.Game.animations.singleAnimationFinished();
+            }
+        )});
+    };
+
+    this.waitAnimation = function(data)
+    {
+        setTimeout(function() {
+            MageS.Game.animations.singleAnimationFinished();
+        }, data.time);
+    };
 };
 

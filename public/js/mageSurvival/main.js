@@ -10,11 +10,11 @@ MageS = new MageS();
 $(document).ready(function() {
     if ($('body.mage-survival').length) {
         MageS.Game = new MageS.Game();
-        MageS.Animations = new MageS.Animations(MageS.Game);
+        var animations = new MageS.Animations(MageS.Game);
         var inventory = new MageS.Inventory(MageS.Game);
         var spellbook = new MageS.Spellbook(MageS.Game);
         var spells = new MageS.Spells(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells);
+        MageS.Game.init(inventory, spellbook, spells, animations);
     }
 });
 
@@ -32,6 +32,7 @@ MageS.Game = function () {
     this.inventory = {};
     this.spellbook = {};
     this.spells = {};
+    this.animations = {};
     this.gameStatus = $('#game-status').val();
     this.rawData = [];
     this.worldType = 0;
@@ -44,10 +45,11 @@ MageS.Game = function () {
 
 
 
-    this.init = function (inventory, spellbook, spells) {
+    this.init = function (inventory, spellbook, spells, animations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
+        this.animations = animations;
         switch (this.gameStatus) {
             case 'mage-list':
                 $('a#mage-create-button').on('click', function () {
@@ -85,7 +87,6 @@ MageS.Game = function () {
 
     this.buildMap = function() {
         this.rawData = mageSurvivalData;
-        info(this.rawData.objects);
         this.worldType = this.rawData.world;
         for(var y in this.rawData.map) {
             for(var x in this.rawData.map[y]) {
@@ -97,6 +98,11 @@ MageS.Game = function () {
                 this.drawObject(this.rawData.objects[y][x], x, y);
             }
         }
+        for(var y in this.rawData.units) {
+            for(var x in this.rawData.units[y]) {
+                this.drawUnit(this.rawData.units[y][x], x, y);
+            }
+        }
         this.drawMage(this.rawData.mage);
         this.updateActions(this.rawData.actions);
     };
@@ -105,9 +111,11 @@ MageS.Game = function () {
 
     this.action = function(action, data) {
         if (this.actionInProcess) {
+            info('Action is locked');
             return;
         }
         this.actionInProcess = true;
+        this.spellbook.turnOffPatterns();
         var actionName = '';
         var dataString = '';
         switch (action) {
@@ -149,37 +157,6 @@ MageS.Game = function () {
         });
     };
 
-    this.moveSwitch = [
-        function (x, y) { return {'x': x, 'y': y - 1}},
-        function (x, y) { return {'x': x + 1, 'y': y}},
-        function (x, y) { return {'x': x, 'y': y + 1}},
-        function (x, y) { return {'x': x - 1, 'y': y}}
-    ];
-    this.moveDeleteCells = [
-        function (x, y) { return {'x': x, 'y': -y}},
-        function (x, y) { return {'x': -x, 'y': y}},
-        function (x, y) { return {'x': x, 'y': -y}},
-        function (x, y) { return {'x': -x, 'y': y}}
-    ];
-    this.moveAreaCoordinat = [
-        {'margin-top':(this.fieldRadius + 1) * this.cellSize + 'px'},
-        {'margin-left':(this.fieldRadius - 1) * this.cellSize + 'px'},
-        {'margin-top':(this.fieldRadius - 1) * this.cellSize + 'px'},
-        {'margin-left':(this.fieldRadius + 1) * this.cellSize + 'px'}
-    ];
-    this.moveAreaCoordinatBack = [
-        {'margin-top':(this.fieldRadius) * this.cellSize + 'px'},
-        {'margin-left':(this.fieldRadius) * this.cellSize + 'px'},
-        {'margin-top':(this.fieldRadius) * this.cellSize + 'px'},
-        {'margin-left':(this.fieldRadius) * this.cellSize + 'px'}
-    ];
-    this.moveMageCoordinat = [
-        {'margin-top' : -this.cellSize + 'px'},
-        {'margin-left' : this.cellSize + 'px'},
-        {'margin-top' : this.cellSize + 'px'},
-        {'margin-left' : -this.cellSize + 'px'}
-    ];
-
     this.callback = function(data) {
         if (data.action) {
             switch (data.action) {
@@ -187,15 +164,15 @@ MageS.Game = function () {
                     window.location = '/MageSurvival';
                     break;
                 case 'move':
-                    this.moveAnimate(data);
+                    //this.moveAnimate(data);
                     break;
                 case 'rotate':
-                    this.rotateAnimate(data);
+                    //this.rotateAnimate(data);
                     break;
                 case 'objectInteract':
                     this.inventory.addItems(data.game);
                     break;
-                case 'spellCraft':
+                case 'craftSpell':
                     this.spellbook.spellCrafted(data);
                     break;
                 case 'spell':
@@ -214,114 +191,13 @@ MageS.Game = function () {
         if (data.game.messages) {
             this.postMessages(data.game.messages);
         }
+        if (data.game.events) {
+            this.animations.animateEvents(data.game);
+        }
 
     };
 
-    this.moveAnimate = function(data) {
-        var d = data.game.mage.d;
-        var toDeleteCells = [];
-        for (var y in data.game.map) {
-            for (var x in data.game.map[y]) {
-                var deleteCellCoordinats = this.moveDeleteCells[d](parseInt(x), parseInt(y));
-                toDeleteCells.push($('.cell.x-'+deleteCellCoordinats.x+'.y-'+deleteCellCoordinats.y));
-                var position = this.moveSwitch[d](parseInt(x), parseInt(y));
-                var temaplate = $('#template-map-cell').html();
-                Mustache.parse(temaplate);
-                var rendered = Mustache.render(temaplate, {'x': position.x, 'y': position.y, 'class': data.game.map[y][x]});
-                var obj = $(rendered);
-                $('.battle-field').append(obj);
-                obj.css({
-                    'margin-left' : (position.x * this.cellSize) + 'px',
-                    'margin-top' : (position.y * this.cellSize) + 'px',
-                });
-            }
-        }
-
-        for (var y in data.game.objects) {
-            for (var x in data.game.objects[y]) {
-                var position = this.moveSwitch[d](parseInt(x), parseInt(y));
-                var temaplate = $('#template-object').html();
-                Mustache.parse(temaplate);
-                var rendered = Mustache.render(temaplate, {'id': data.game.objects[y][x].id});
-                var obj = $(rendered);
-                $('.battle-field .cell.x-' + position.x + '.y-' + position.y).append(obj);
-            }
-        }
-
-        that = this;
-        $('.battle-field .mage').animate(this.moveMageCoordinat[d],{'duration': this.animationTime});
-        $('.battle-field').animate(this.moveAreaCoordinat[d],{'duration': this.animationTime,
-            complete:function(){
-                for(var i in toDeleteCells) {
-                    toDeleteCells[i].remove();
-                }
-                $('.battle-field').css(that.moveAreaCoordinatBack[d]);
-                $('.battle-field .mage').css({margin : 0});
-                $('.battle-field .cell').each(function(){
-                    var newX, newY;
-                    var cellX = newX = $(this).data('x');
-                    var cellY = newY = $(this).data('y');
-                    if (d == 0 || d == 2) {
-                        var range = that.cellSize;
-                        if (d == 2) {
-                            range = - range;
-                            newY--;
-                        } else {
-                            newY++;
-                        }
-                        $(this).css('margin-top', parseInt($(this).css('margin-top')) + range + 'px')
-                    } else {
-                        var range = that.cellSize;
-                        if (d == 1) {
-                            range = -range;
-                            newX--;
-                        } else {
-                            newX++;
-                        }
-                        $(this).css('margin-left', parseInt($(this).css('margin-left')) + range + 'px');
-                    }
-                    $(this)
-                        .removeClass('x-' + cellX)
-                        .removeClass('y-' + cellY)
-                        .addClass('x-' + newX)
-                        .addClass('y-' + newY)
-                        .data('x', newX)
-                        .data('y', newY);
-                    that.actionInProcess = false;
-                })
-            }});
-    }
-
-    this.rotateAnimate = function(data) {
-        var d = 0;
-        var oldD = 0;
-        switch (data.game.d) {
-            case 1: d = 90; break;
-            case 2: d = 180; break;
-            case 3: d = 270; break;
-        }
-        switch (data.game.oldD) {
-            case 1: oldD = 90; break;
-            case 2: oldD = 180; break;
-            case 3: oldD = 270; break;
-        }
-        if (oldD == 270 && d == 0) {
-            oldD = -90;
-        }
-        if (oldD == 0 && d == 270) {
-            oldD = 360;
-        }
-        var el = $('.battle-field .mage');
-        that = this;
-        el.removeClass('d-' + data.game.oldD);
-        el.animateRotate(oldD, d, this.animationTime, "swing", function(){
-            $(this).addClass('d-' + data.game.d).data('d', data.game.d);
-            that.actionInProcess = false;
-        });
-    }
-
     this.updateActions = function (actions) {
-        info(actions);
         var actionsEl = $('.actions');
         actionsEl.html('');
         if (!actions) {
@@ -353,12 +229,26 @@ MageS.Game = function () {
         })
     };
 
-    this.drawObject = function(object, x, y) {
+    this.drawObject = function(object, x, y, target) {
+        if (!target) {
+            target = '.battle-field.current';
+        }
         var temaplate = $('#template-object').html();
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {'id': object.id});
         var obj = $(rendered);
-        $('.battle-field .cell.x-' + x + '.y-' + y).append(obj);
+        $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
+    };
+
+    this.drawUnit = function(unit, x, y, target) {
+        if (!target) {
+            target = '.battle-field.current';
+        }
+        var temaplate = $('#template-unit').html();
+        Mustache.parse(temaplate);
+        var rendered = Mustache.render(temaplate, {'id': unit.id, 'type': unit.type});
+        var obj = $(rendered);
+        $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
     };
 
     this.drawMage = function(mageConf) {
@@ -366,7 +256,7 @@ MageS.Game = function () {
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {'d': mageConf.d});
         var obj = $(rendered);
-        $('.battle-field').append(obj);
+        $('.mage-container').prepend(obj);
 
     };
 
@@ -398,7 +288,6 @@ MageS.Game = function () {
 
     this.configureKeys = function() {
         $(document).keypress(function (event) {
-            info(event.keyCode);
             switch (event.keyCode) {
                 case 40: // up
                 case 1094:

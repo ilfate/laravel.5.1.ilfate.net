@@ -36,8 +36,11 @@ abstract class Mage
     protected $x;
     protected $y;
     protected $d;
+    protected $health;
+    protected $was = [];
     protected $data;
     protected $items;
+    protected $turn;
     protected $spells = [];
 
     /**
@@ -57,14 +60,22 @@ abstract class Mage
         $this->data = json_decode($mageEntity->data, true);
         $this->items = json_decode($mageEntity->items, true);
         $this->spells = json_decode($mageEntity->spells, true);
+        $this->turn = $mageEntity->turn;
         if (isset($this->data['x'])) {
             $this->x = $this->data['x'];
+            $this->was['x'] = $this->data['x'];
         }
         if (isset($this->data['y'])) {
             $this->y = $this->data['y'];
+            $this->was['y'] = $this->data['y'];
         }
         if (isset($this->data['d'])) {
             $this->d = $this->data['d'];
+            $this->was['d'] = $this->data['d'];
+        }
+        if (isset($this->data['health'])) {
+            $this->health = $this->data['health'];
+            $this->was['health'] = $this->data['health'];
         }
     }
 
@@ -72,8 +83,21 @@ abstract class Mage
     {
         $data = [
             'd' => $this->getD(),
+            'health' => $this->getHealth(),
             'items' => $this->exportItems(),
             'spells' => $this->exportSpells(),
+        ];
+        return $data;
+    }
+
+    public function exportMage()
+    {
+        $data = [
+            'd' => $this->getD(),
+            'x' => $this->getX(),
+            'y' => $this->getY(),
+            'health' => $this->getHealth(),
+            'was' => $this->was,
         ];
         return $data;
     }
@@ -113,8 +137,11 @@ abstract class Mage
         }
         $spellsViewData = \Config::get('mageSpells.list');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
+        $turn = $this->getTurn();
         foreach ($this->spells as $spellId => $spell) {
 
+            $cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
+            $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
             list($name, $schoolId, $level) = explode('#', $spell['code']);
             $return[$schoolId][$spellId] = [
                 'name' => $name,
@@ -137,7 +164,11 @@ abstract class Mage
             return $return;
         }
         $spellsViewData = \Config::get('mageSpells.list');
+        $spellsPatterns = \Config::get('mageSpellPatterns.list');
+        $turn = $this->getTurn();
         foreach ($this->spellsChanges as $spellId => $spell) {
+            $cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
+            $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
             list($name, $schoolId, $level) = explode('#', $spell['code']);
             $return[$schoolId][$spellId] = [
                 'name' => $name,
@@ -147,43 +178,36 @@ abstract class Mage
                 'viewData' => $spellsViewData[$name],
                 'status' => $spell['status']
             ];
+            if (!empty($spell['config']['pattern'])) {
+                $return[$schoolId][$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
+            }
         }
         return $return;
     }
 
-    public function move($data) {
-        $return = [];
-        $radius = $this->game->getConfig()['game']['screen-radius'];
+    public function moveAction($data) {
         switch ($this->getD()) {
             case 0: $this->y -= 1;
-                for ($x = -$radius; $x <= $radius; $x++) {
-                    $return['map'][$this->getY() - $radius][$this->getX() + $x] = false;
-                }
                 break;
             case 1: $this->x += 1;
-                for ($y = -$radius; $y <= $radius; $y++) {
-                    $return['map'][$this->getY() + $y][$this->getX() + $radius] = false;
-                }
                 break;
             case 2: $this->y += 1;
-                for ($x = -$radius; $x <= $radius; $x++) {
-                    $return['map'][$this->getY() + $radius][$this->getX() + $x] = false;
-                }
                 break;
             case 3: $this->x -= 1;
-                for ($y = -$radius; $y <= $radius; $y++) {
-                    $return['map'][$this->getY() + $y][$this->getX() - $radius] = false;
-                }
                 break;
         }
-        $this->save();
-        $return['mage']['d'] = $this->getD();
-        return $return;
+        $this->update();
+        $this->game->setIsMageMoved();
+        $this->game->addAnimationEvent('mage-move', [
+            'mage' => $this->exportMage(),
+            'map' => $this->game->getWorldGenerator()->exportMapForView($this),
+            'objects' => $this->game->getWorldGenerator()->exportVisibleObjects(),
+            'units' => $this->game->getWorldGenerator()->exportVisibleUnits(),
+        ], Game::ANIMATION_STAGE_MAGE_ACTION);
     }
 
-    public function rotate($data)
+    public function rotateAction($data)
     {
-        $return = ['oldD' => $this->getD()];
         if (empty($data['d'])) {
             throw new \Exception('Rotation without direction is not possible');
         }
@@ -199,10 +223,20 @@ abstract class Mage
             default:
                 throw new \Exception('ROtation direction is wrong');
         }
-        $this->save();
+        $this->update();
         $this->game->updateMage();
-        $return['d'] = $this->getD();
-        return $return;
+        $this->game->addAnimationEvent('mage-rotate', [
+            'mage' => $this->exportMage(),
+        ], Game::ANIMATION_STAGE_MAGE_ACTION);
+    }
+
+    public function rotate($d, $animationStage)
+    {
+        $this->d = $d;
+        $this->update();
+        $this->game->addAnimationEvent('mage-rotate', [
+            'mage' => $this->exportMage(),
+        ], $animationStage);
     }
 
     public function craftSpell($data)
@@ -223,10 +257,6 @@ abstract class Mage
         $result = Spell::craftSpellFromItems($carrierId, $itemIds);
         if (!empty($result['spell'])) {
             $this->addSpell($result['spell']);
-        }
-
-        if ($this->isUpdated) {
-            $this->save();
         }
     }
 
@@ -250,10 +280,6 @@ abstract class Mage
         );
 
         $spell->cast($data);
-
-        if ($this->isUpdated) {
-            $this->save();
-        }
     }
 
     public function updateSpell(Spell $spell)
@@ -268,7 +294,7 @@ abstract class Mage
         }
         $this->spellsChanges[$spell->getId()] = $exported;
         $this->game->setIsSpellsUpdated(true);
-        $this->isUpdated = true;
+        $this->update();
     }
 
     public function getAllPossibleActions(World $world)
@@ -288,9 +314,7 @@ abstract class Mage
         } else {
             throw new \Exception('No object was found to interact with');
         }
-        if ($this->isUpdated) {
-            $this->save();
-        }
+        $this->update();
         return $result;
     }
 
@@ -328,6 +352,7 @@ abstract class Mage
         $spell['status'] = 'new';
         $this->spellsChanges[$spellId] = $spell;
         $this->game->setIsSpellsUpdated(true);
+        $this->update();
     }
 
     public function save()
@@ -336,10 +361,24 @@ abstract class Mage
         $data['x'] = $this->getX();
         $data['y'] = $this->getY();
         $data['d'] = $this->getD();
-        $this->mageEntity->data = json_encode($data);
-        $this->mageEntity->items = json_encode($this->items);
+        $data['health'] = $this->getHealth();
+        $this->mageEntity->data   = json_encode($data);
+        $this->mageEntity->items  = json_encode($this->items);
         $this->mageEntity->spells = json_encode($this->spells);
+        $this->mageEntity->turn   = $this->turn;
         $this->mageEntity->save();
+    }
+
+    public function saveIfUpdated()
+    {
+        if ($this->isUpdated) {
+            $this->save();
+        }
+    }
+
+    public function update()
+    {
+        $this->isUpdated = true;
     }
 
     /**
@@ -399,14 +438,6 @@ abstract class Mage
     }
 
     /**
-     * @param mixed $d
-     */
-    public function setD($d)
-    {
-        $this->d = $d;
-    }
-
-    /**
      * @return Game
      */
     public function getGame()
@@ -420,5 +451,38 @@ abstract class Mage
     public function setGame($game)
     {
         $this->game = $game;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTurn()
+    {
+        return $this->turn;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function increaseTurn($value = 1)
+    {
+        $this->turn += $value;
+        $this->update();
+    }
+
+    /**
+     * @return array
+     */
+    public function getWas()
+    {
+        return $this->was;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHealth()
+    {
+        return $this->health;
     }
 }

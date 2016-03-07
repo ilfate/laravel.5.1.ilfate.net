@@ -67,7 +67,7 @@ abstract class MapObject
     {
         $config = \Config::get('mageSurvival.objects');
         $chances = $config['chances'][$world->getType()];
-        $distance = $x + $y;
+        $distance = abs($x) + abs($y);
         foreach ($chances as $minDistance => $objectChances) {
             if ($distance < $minDistance) {
                 $objectId = ChanceHelper::oneFromArray($objectChances);

@@ -42,6 +42,7 @@ abstract class Spell
     const CONFIG_NO_TARGET_SPELL = 'noTargetSpell';
     const CONFIG_DIRECT_TARGET_SPELL = 'directTargetSpell';
 
+    const CONFIG_FIELD_PATTERN = 'pattern';
     const CONFIG_FIELD_COOLDOWN = 'cooldown';
     const CONFIG_FIELD_COOLDOWN_MARK = 'cooldownMark';
 
@@ -68,12 +69,17 @@ abstract class Spell
     protected $config;
     protected $level;
     protected $configuration = [];
+    protected $pattern = false;
+
+    protected $targets = [];
+
+    protected $animationStep = Game::ANIMATION_STAGE_MAGE_ACTION;
 
 
     public function __construct($name, $schoolId, $config, $id = null, Game $game = null, World $world = null, Mage $mage = null)
     {
         if (!$id) {
-            $this->id = str_random(30);
+            $this->id = str_random(20);
         } else {
             $this->id = $id;
         }
@@ -90,6 +96,10 @@ abstract class Spell
         $this->schoolId = $schoolId;
         $this->config   = $config;
         $this->configuration = \Config::get('mageSpells.list.' . $name);
+        if (!empty($this->config[self::CONFIG_FIELD_PATTERN])) {
+            $this->pattern = \Config::get('mageSpellPatterns.list.' . $this->config[self::CONFIG_FIELD_PATTERN]);
+
+        }
     }
 
     public static function craftSpellFromItems($carrierId, array $itemIds)
@@ -175,6 +185,9 @@ abstract class Spell
         if (!class_exists($class)) {
             throw new \Exception('Spell with name "' . $spellName . '" not found at "' . $class . '"' );
         }
+        /**
+         * @var Spell $spell
+         */
         $spell = new $class($spellName, $schoolId, $spellConfig);
         $spell->generateCoolDown(isset($spellRandomizerConfig[self::KEY_COOLDOWN]) ? $spellRandomizerConfig[self::KEY_COOLDOWN] : []);
         $spell->setUpPattern();
@@ -208,23 +221,80 @@ abstract class Spell
         }
         if (!empty($this->configuration[self::CONFIG_DIRECT_TARGET_SPELL])) {
             // we need a target
-            if (empty($data['target'])) {
+            if (!isset($data['x']) || !isset($data['y'])) {
                 throw new MessageException('No target for spell selected');
             }
+            $mageX = $this->mage->getX();
+            $mageY = $this->mage->getY();
+            $mageD = $this->mage->getD();
+            $d = $this->fixDirection($mageD, $data['x'], $data['y']);
+            if ($mageD != $d) {
+                $this->mage->rotate($d, Game::ANIMATION_STAGE_MAGE_ACTION);
+                $this->setNexStage();
+            }
+            $this->targets = [$this->world->getUnit($mageX + $data['x'], $mageY + $data['y'])];
+            $this->setEffectStage();
             $isSuccess = $this->spellEffect($data);
         } else if (!empty($this->configuration[self::CONFIG_NO_TARGET_SPELL])) {
+            $this->setEffectStage();
             $isSuccess = $this->spellEffect($data);
         } else {
             // pattern here
             if (empty($this->config['pattern'])) {
                 throw new MessageException('Pattern is missing');
             }
+            if (!isset($data['d'])) {
+                throw new MessageException('Direction for casting pattern spell is necessary');
+            }
+            if (!in_array($data['d'], [0,1,2,3])) {
+                throw new MessageException('Wtf? You kidding me? Try harder bitch!');
+            }
+            $mageD = $this->mage->getD();
+            $d = $this->fixDirection($mageD, $data['x'], $data['y']);
+            if ($mageD != $d) {
+                $this->mage->rotate($d, Game::ANIMATION_STAGE_MAGE_ACTION);
+                $this->setNexStage();
+            }
+            $this->rotatePattern($d);
+            $mageX = $this->mage->getX();
+            $mageY = $this->mage->getY();
+            foreach ($this->pattern as $patternCell) {
+                if ($unit = $this->world->getUnit($mageX + $patternCell[0], $mageY + $patternCell[1]))
+                {
+                    $this->targets[] = $unit;
+                }
+            }
+            $this->setEffectStage();
             $isSuccess = $this->spellEffect($data);
         }
         if ($isSuccess) {
             $this->spend();
             $this->mage->updateSpell($this);
         }
+    }
+
+    protected function getNormalCastStage()
+    {
+        return $this->animationStep;
+    }
+
+    protected function setNexStage()
+    {
+        $setNextStage = false;
+        foreach (Game::$stagesList as $stage) {
+            if ($setNextStage) {
+                $this->animationStep = $stage;
+                return;
+            }
+            if ($stage == $this->animationStep) {
+                $setNextStage = true;
+            }
+        }
+    }
+
+    protected function setEffectStage()
+    {
+        $this->animationStep = Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT;
     }
 
     public function spend($value = -1)
@@ -275,9 +345,10 @@ abstract class Spell
 
     public function setUpPattern($modifier = null)
     {
+        $config = \Config::get('mageSpells.list.' . $this->name);
         if ($modifier) {
             $this->config['pattern'] = $modifier;
-        } else if($this->availablePatterns) {
+        } else if($this->availablePatterns && empty($config['directTargetSpell']) && empty($config['noTargetSpell'])) {
             $this->config['pattern'] = ChanceHelper::oneFromArray($this->availablePatterns);
         } else {
             $this->config['pattern'] = '';
@@ -300,5 +371,50 @@ abstract class Spell
     public function getId()
     {
         return $this->id;
+    }
+
+    public function rotatePattern($d)
+    {
+        foreach ($this->pattern as &$patternCell) {
+            $patternCell = $this->rotatePatternCoordinats($patternCell[0], $patternCell[1], $d);
+        }
+    }
+
+    public function rotatePatternCoordinats ($x, $y, $d) {
+        switch ($d) {
+            case 0: return [$x, $y];
+            case 1: return [-$y, $x];
+            case 2: return [-$x, -$y];
+            case 3: return [$y, -$x];
+        }
+    }
+
+    public function fixDirection($currentD, $x, $y)
+    {
+        if (!is_numeric($x) || !is_numeric($y)) {
+            throw new MessageException('Wtf are those coordinats?');
+        }
+        if (abs($y) > abs($x)) {
+            if ($y > $x) return 2;
+            if ($y < $x) return 0;
+        }
+        if (abs($y) < abs($x)) {
+            if ($y > $x) return 3;
+            if ($y < $x) return 1;
+        }
+        if ($x == $y && $x > 0) {
+            if (in_array($currentD, [1,2])) return $currentD;
+            return ChanceHelper::oneFromArray([1,2]);
+        }
+        if ($x == $y) {
+            if (in_array($currentD, [3,0])) return $currentD;
+            return ChanceHelper::oneFromArray([3,0]);
+        }
+        if ($x > $y) {
+            if (in_array($currentD, [1,0])) return $currentD;
+            return ChanceHelper::oneFromArray([1,0]);
+        }
+        if (in_array($currentD, [3,2])) return $currentD;
+        return ChanceHelper::oneFromArray([3,2]);
     }
 }

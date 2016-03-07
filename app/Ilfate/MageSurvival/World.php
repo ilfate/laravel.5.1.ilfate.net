@@ -73,10 +73,18 @@ class World
 
     public function addRandomObject($x, $y)
     {
-        if (!empty($this->objects[$y][$x])) return false;
+        if (!empty($this->objects[$y][$x])) return ;
 
         $object = MapObject::getRandomObject($x, $y, $this);
         $this->objects[$y][$x] = $object->export();
+    }
+
+    public function addRandomUnit($x, $y)
+    {
+        if (!empty($this->units[$y][$x])) return ;
+
+        $unit = Unit::getRandomUnit($x, $y, $this, $this->getGame()->getMage());
+        $this->units[$y][$x] = $unit->export();
     }
 
     public function getObject($x, $y)
@@ -86,6 +94,39 @@ class World
         }
         $objectData = $this->objects[$y][$x];
         return MapObject::createObjectFromData($this, $x, $y, $objectData);
+    }
+
+    public function getUnit($x, $y)
+    {
+        if (empty($this->units[$y][$x])) {
+            return null;
+        }
+        $unitData = $this->units[$y][$x];
+        return Unit::createUnitFromData($this, $this->getGame()->getMage(), $x, $y, $unitData);
+    }
+
+    public function destroyUnit($x, $y)
+    {
+        if (empty($this->units[$y][$x])) {
+            throw new \Exception('we cant destroy unit if there is no units here');
+        }
+        unset($this->units[$y][$x]);
+        $this->update();
+    }
+
+    public function updateUnit(Unit $unit)
+    {
+        $x = $unit->getX();
+        $y = $unit->getY();
+        if (empty($this->units[$y][$x])) {
+            throw new \Exception('We trying to update unit, but there is no unit here...');
+        }
+        $oldUnit = $this->units[$y][$x];
+        if ($oldUnit['id'] != $unit->getId()) {
+            throw new \Exception('Look like we are updating unit, but here we have another unit is World...');
+        }
+        $this->units[$y][$x] = $unit->export();
+        $this->update();
     }
 
     /**
@@ -153,23 +194,7 @@ class World
     }
 
     /**
-     * @return mixed
-     */
-    public function getBioms()
-    {
-        return $this->bioms;
-    }
-
-    /**
-     * @param mixed $bioms
-     */
-    public function setBioms($bioms)
-    {
-        $this->bioms = $bioms;
-    }
-
-    /**
-     * @return mixed
+     * @return Game
      */
     public function getGame()
     {

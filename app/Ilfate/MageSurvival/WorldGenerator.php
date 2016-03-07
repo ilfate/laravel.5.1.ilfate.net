@@ -45,6 +45,7 @@ abstract class WorldGenerator
     ];
 
     protected $visibleObjects = [];
+    protected $visibleUnits = [];
 
     public function __construct(World $world, Mage $mage)
     {
@@ -83,6 +84,11 @@ abstract class WorldGenerator
         $this->mage->save();
     }
 
+    public function getScreenRadius()
+    {
+        return $this->config['game']['screen-radius'];
+    }
+
     public function exportMapForView(Mage $mage)
     {
         $centerX = $mage->getX();
@@ -96,6 +102,9 @@ abstract class WorldGenerator
                 $map[$y][$x] = $this->getOrGenerateCell($dX, $dY);
                 if ($object = $this->world->getObject($dX, $dY)) {
                     $this->visibleObjects[$y][$x] = $object;
+                }
+                if ($unit = $this->world->getUnit($dX, $dY)) {
+                    $this->visibleUnits[$y][$x] = $unit;
                 }
             }
         }
@@ -112,6 +121,17 @@ abstract class WorldGenerator
             }
         }
         return $objects;
+    }
+
+    public function exportVisibleUnits()
+    {
+        $units = [];
+        foreach ($this->visibleUnits as $y => $col) {
+            foreach ($col as $x => $unit) {
+                $units[$y][$x] = $unit->export();
+            }
+        }
+        return $units;
     }
 
     public function fillEmptyMap(&$map, Mage $mage)
@@ -141,6 +161,9 @@ abstract class WorldGenerator
             if (ChanceHelper::chance(10)) {
                 // create object
                 $this->world->addRandomObject($x, $y);
+            }
+            if (ChanceHelper::chance(15)) {
+                $this->world->addRandomUnit($x, $y);
             }
 
             $this->world->update();

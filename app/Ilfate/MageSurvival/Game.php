@@ -35,6 +35,18 @@ class Game
     const ACTION_CRAFT_SPELL     = 'craftSpell';
     const ACTION_SPELL           = 'spell';
 
+    const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
+    const ANIMATION_STAGE_MAGE_ACTION_2 = 'mage-action-2';
+    const ANIMATION_STAGE_MAGE_ACTION_EFFECT = 'mage-action-effect';
+    const ANIMATION_STAGE_MAGE_ACTION_EFFECT_2 = 'mage-action-effect-2';
+
+    public static $stagesList = [
+        self::ANIMATION_STAGE_MAGE_ACTION,
+        self::ANIMATION_STAGE_MAGE_ACTION_2,
+        self::ANIMATION_STAGE_MAGE_ACTION_EFFECT,
+        self::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2,
+    ];
+
     protected $player;
 
     protected $config;
@@ -56,11 +68,17 @@ class Game
      */
     protected $mage;
 
+    protected $animationEvents = [];
+
+    protected $isTurnHappend = false;
     protected $isMapUpdated = false;
+    protected $isObjectsUpdated = false;
+    protected $isMageMoved = false;
     protected $isPlayerMoved = false;
     protected $isMageUpdated = false;
     protected $isItemsUpdated = false;
     protected $isSpellsUpdated = false;
+    protected $isUnitsUpdated = false;
 
     /**
      * @var WorldGenerator
@@ -87,9 +105,14 @@ class Game
         $data = [];
         $data['map'] = $this->worldGenerator->exportMapForView($this->mage);
         $data['objects'] = $this->worldGenerator->exportVisibleObjects();
+        $data['units'] = $this->worldGenerator->exportVisibleUnits();
         $data['world'] = $this->config['world-types'][$this->world->getType()];
         $data['mage'] = $this->mage->viewExport();
         $data['actions'] = $this->mage->getAllPossibleActions($this->world);
+        $data['config'] = [
+            'screenRadius' => $this->worldGenerator->getScreenRadius(),
+            'cellSize' => 40,
+        ];
 
         return ['game' => $data];
     }
@@ -99,12 +122,12 @@ class Game
         $return = [];
         switch ($action) {
             case self::ACTION_MOVE:
-                $return = $this->mage->move($data);
-                $this->worldGenerator->fillEmptyMap($return['map'], $this->mage);
-                $return['objects'] = $this->worldGenerator->exportVisibleObjects();
+                $this->mage->moveAction($data);
+                $this->turn();
                 break;
             case self::ACTION_ROTATE:
-                $return = $this->mage->rotate($data);
+                $this->mage->rotateAction($data);
+                $this->turn();
                 break;
             case self::ACTION_OBJECT_INTERACT:
                 $result = $this->mage->interactWithObject($this->world, $data['method']);
@@ -115,27 +138,68 @@ class Game
                 break;
             case self::ACTION_SPELL:
                 $this->mage->castSpell($data);
+                $this->turn();
                 break;
             default:
                 throw new \Exception('Action "' . $action . '" do not exist');
                 break;
         }
 
-        if ($this->isMapUpdated) {
-            $return['map'] = $this->worldGenerator->exportMapForView($this->mage);
-        }
-        $return['actions'] = $this->mage->getAllPossibleActions($this->world);
+
+//        if ($this->isMageMoved || $this->isMapUpdated) {
+//            $return['map'] = $this->worldGenerator->exportMapForView($this->mage);
+//        }
+//        if ($this->isMageMoved || $this->isMageUpdated) {
+//            $return['mage'] = $this->mage->exportMage();
+//        }
         if ($this->isItemsUpdated) {
             $return['items'] = $this->mage->getUpdatedItems();
         }
+//        if ($this->isObjectsUpdated) {
+//            $return['objects'] = $this->worldGenerator->exportVisibleObjects();
+//        }
+//        if ($this->isUnitsUpdated) {
+//            $return['units'] = $this->worldGenerator->exportVisibleUnits();
+//        }
         if ($this->isSpellsUpdated) {
             $return['spells'] = $this->mage->getUpdatedSpells();
         }
+
+        $return['actions'] = $this->mage->getAllPossibleActions($this->world);
+        $this->nextTurn();
+        $this->save();
+
         if ($this->messages) {
             $return['messages'] = $this->messages;
         }
+        if ($this->animationEvents) {
+            $return['events'] = $this->animationEvents;
+        }
 
         return ['action' => $action, 'game' => $return];
+    }
+
+    public function turn()
+    {
+        $this->isTurnHappend = true;
+    }
+
+    public function nextTurn()
+    {
+        if ($this->isTurnHappend) {
+            $this->mage->increaseTurn();
+        }
+    }
+
+    protected function save()
+    {
+        $this->mage->saveIfUpdated();
+        $this->world->saveIfChanged();
+    }
+
+    public function getTurn()
+    {
+        $this->mage->getTurn();
     }
 
     public function initWorld()
@@ -295,5 +359,68 @@ class Game
     public function getWorld()
     {
         return $this->world;
+    }
+
+    /**
+     * @param boolean $isObjectsUpdated
+     */
+    public function setIsObjectsUpdated($isObjectsUpdated = true)
+    {
+        $this->isObjectsUpdated = $isObjectsUpdated;
+    }
+
+    /**
+     * @param boolean $isMageMoved
+     */
+    public function setIsMageMoved($isMageMoved = true)
+    {
+        $this->isMageMoved = $isMageMoved;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsUnitsUpdated()
+    {
+        return $this->isUnitsUpdated;
+    }
+
+    /**
+     * @param boolean $isUnitsUpdated
+     */
+    public function setIsUnitsUpdated($isUnitsUpdated)
+    {
+        $this->isUnitsUpdated = $isUnitsUpdated;
+    }
+
+    /**
+     * @param      $name
+     * @param      $data
+     * @param bool $animationStage
+     */
+    public function addAnimationEvent($name, $data, $animationStage)
+    {
+        $newValue = ['name' => $name, 'data' => $data];
+
+        if (!isset($this->animationEvents[$animationStage])) {
+            $this->animationEvents[$animationStage] = [];
+        }
+        $this->animationEvents[$animationStage][] = $newValue;
+    }
+
+    public function isAnimationOnStage($stage)
+    {
+        if (isset($this->animationEvents[$stage])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return WorldGenerator
+     */
+    public function getWorldGenerator()
+    {
+        return $this->worldGenerator;
     }
 }

@@ -47,6 +47,16 @@ class GameBuilder
     }
 
     /**
+     * @param       $name
+     * @param array $data
+     * @param bool  $animationStage
+     */
+    public static function animateEvent($name, $data = [], $animationStage)
+    {
+        self::$game->addAnimationEvent($name, $data, $animationStage);
+    }
+
+    /**
      * @param Request $request
      *
      * @return Game

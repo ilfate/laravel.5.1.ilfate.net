@@ -1,21 +1,6 @@
-<?php
-/**
- * TODO: Package description.
- *
- * PHP version 5
- *
- * @category
- * @package
- * @author    Ilya Rubinchik <ilfate@gmail.com>
- *
- * @license   Proprietary license.
- * @link      http://ilfate.net
- */
-namespace Ilfate\MageSurvival\Spells\Air;
+<?php namespace Ilfate\MageSurvival\Spells\Fire;
 
-use Ilfate\MageSurvival\Game;
-use Ilfate\MageSurvival\GameBuilder;
-use Ilfate\MageSurvival\Spells\Air;
+use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
 
 /**
@@ -27,16 +12,16 @@ use Ilfate\MageSurvival\Unit;
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
+ *
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Push extends Air
+class Fireball extends Fire
 {
     protected $availablePatterns = [4];
 
     protected function spellEffect($data)
     {
-
         foreach($this->targets as $target) {
             /**
              * @var Unit $target

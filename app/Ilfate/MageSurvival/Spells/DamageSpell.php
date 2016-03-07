@@ -11,7 +11,7 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells\Air;
+namespace Ilfate\MageSurvival\Spells;
 
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
@@ -30,10 +30,8 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Push extends Air
+trait DamageSpell
 {
-    protected $availablePatterns = [4];
-
     protected function spellEffect($data)
     {
 

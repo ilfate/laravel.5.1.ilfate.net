@@ -13,6 +13,7 @@
  */
 namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\Spells\DamageSpell;
 use Ilfate\MageSurvival\Spells\Fire;
 
 /**
@@ -32,8 +33,5 @@ class FireNova extends Fire
 {
     protected $availablePatterns = [1,2,3];
 
-    protected function spellEffect($data)
-    {
-        return true;
-    }
+    use DamageSpell;
 }

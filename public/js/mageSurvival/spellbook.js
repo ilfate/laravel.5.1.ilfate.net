@@ -11,22 +11,32 @@ MageS.Spellbook = function (game) {
 
     this.buildSpells = function() {
         $('.spellBook .spell').each(function() {
-            var values = $(this).data('values');
-            if (values.viewData.noTargetSpell) {
-                $(this).on('click', function() {
-                    MageS.Game.action('spell', '{"id":"' + $(this).data('id') + '"}')
-                });
-            } else if (values.viewData.directTargetSpell) {
-                switch (values.viewData.directTargetSpell) {
-                    case 'enemy':
-                        //find all enemies/
-                        // hgihtlight them
-                        break;
-                }
-            } else if (values.pattern) {
-                // display the pattern
+            MageS.Game.spellbook.buildSpell($(this), $(this).data('values'));
+        });
+        $('.pattern-field .pattern-cell').on('click', function() {MageS.Game.spellbook.patternClick($(this))});
+    };
+
+    this.buildSpell = function(spell, values) {
+        if (values.viewData.noTargetSpell) {
+            spell.on('click', function() {
+                MageS.Game.action('spell', '{"id":"' + $(this).data('id') + '"}')
+            });
+        } else if (values.viewData.directTargetSpell) {
+            switch (values.viewData.directTargetSpell) {
+                case 'enemy':
+                    //find all enemies/
+                    // hgihtlight them
+                    spell.on('click', function() {
+                        MageS.Game.spellbook.showEnemyTargets($(this));
+                    });
+                    break;
             }
-        })
+        } else if (values.pattern) {
+            // display the pattern
+            spell.on('click', function() {
+                MageS.Game.spellbook.showPattern($(this), values.pattern);
+            });
+        }
     };
 
     this.updateSpells = function(spells) {
@@ -58,6 +68,7 @@ MageS.Spellbook = function (game) {
                     var obj = $(rendered);
                     $('.spells-tab.school-' + schoolId).append(obj);
                     obj.tooltip();
+                    MageS.Game.spellbook.buildSpell(obj, spell);
                 } else {
                     if (existingEl.length) {
                         //add item
@@ -77,6 +88,92 @@ MageS.Spellbook = function (game) {
 
             }
         }
+    };
+
+    this.checkForActiveSpells = function(spell) {
+        var activeSpell = $('.spell.active');
+        if (activeSpell.length) {
+            this.turnOffPatterns();
+            activeSpell.removeClass('active');
+            if (activeSpell.data('id') == spell.data('id')) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    this.showPattern = function (spell, pattern) {
+        if (!this.checkForActiveSpells(spell)) {
+            return;
+        }
+        spell.addClass('active');
+        mageDirection = 0;
+        for(var d = 0; d < 4; d++) {
+            for (var key in pattern) {
+                var x = pattern[key][0];
+                var y = pattern[key][1];
+                var relativeCoords = this.rotatePatternCoordinats(x, y, d)
+                var patternCell = $('.pattern-cell.x-' + relativeCoords[0] + '.y-' + relativeCoords[1]);
+                patternCell.addClass('group-d-' + d).data('d', d);
+                if (d == mageDirection) {
+                    patternCell.addClass('active');
+                } else {
+                    patternCell.addClass('visible');
+                }
+                patternCell.on('mouseenter', function() {MageS.Game.spellbook.patternSwitchDirection($(this))});
+            }
+        }
+    };
+    this.rotatePatternCoordinats = function(x, y, d) {
+        switch (d) {
+            case 0: return [x, y];
+            case 1: return [-y, x];
+            case 2: return [-x, -y];
+            case 3: return [y, -x];
+        }
+    };
+    this.patternSwitchDirection = function(patternCell) {
+        if (patternCell.hasClass('active')) {return;}
+        var d = patternCell.data('d');
+        $('.pattern-cell.active').removeClass('active').addClass('visible');
+        $('.pattern-cell.group-d-' + d).removeClass('visible').addClass('active');
+
+    };
+    this.turnOffPatterns = function() {
+        for(var d = 0; d < 4; d++) {
+            $('.pattern-cell.group-d-' + d)
+                .removeClass('group-d-' + d)
+                .data('d', '');
+        }
+        $('.pattern-cell.active').removeClass('active');
+        $('.pattern-cell.visible').removeClass('visible');
+    };
+
+    this.patternClick = function(patternCell) {
+        var spell = $('.spell.active');
+        if (spell.length !== 1) {
+            info('ERROR not one spell active');
+        }
+        spell.removeClass('active');
+        var d = patternCell.data('d');
+        var x = patternCell.data('x');
+        var y = patternCell.data('y');
+        MageS.Game.action('spell', '{"id":"' + spell.data('id') + '","d":"' + d + '","x":"' + x + '","y":"' + y + '"}');
+    };
+
+    this.showEnemyTargets = function(spell) {
+        if (!this.checkForActiveSpells(spell)) {
+            return;
+        }
+        spell.addClass('active');
+
+        $('.battle-field.current .unit').each(function () {
+            var cellElem = $(this).parent('.cell');
+            var x = cellElem.data('x');
+            var y = cellElem.data('y');
+            var patternCell = $('.pattern-cell.x-' + x + '.y-' + y);
+            patternCell.addClass('active');
+        });
     };
 
     this.spellCrafted = function(data) {

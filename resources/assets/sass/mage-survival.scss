@@ -37,13 +37,34 @@ $cell-size: 40;
             border:1px solid chocolate;
             overflow:hidden;
             position: relative;
+            .mage-container {
+                position: absolute;
+                margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
+                .mage {
+                    position: absolute;
+                    width:$cell-size + px;
+                    height:$cell-size + px;
+                    z-index: 35;
+                    background-image: url('/images/game/mage/testMage.png');
+                    &.d-1 { @include rotate(90deg); }
+                    &.d-2 { @include rotate(180deg); }
+                    &.d-3 { @include rotate(270deg); }
+                }
+            }
+
         }
         .battle-field {
-
+            position: absolute;
             margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
-            width:($map-radius + 2) * $cell-size + px;
-            height:($map-radius + 2) * $cell-size + px;
+            width:($map-radius + 1) * $cell-size + px;
+            height:($map-radius + 1) * $cell-size + px;
             background-color: cornsilk;
+                &.current {
+                    z-index: 25;
+                }
+                &.new {
+                    z-index: 20;
+                }
             .cell {
                 position: absolute;
                 width:$cell-size + px;
@@ -56,19 +77,17 @@ $cell-size: 40;
                 height:$cell-size - 10 + px;
                 z-index: 33;
             }
-            .mage {
+            .unit {
                 position: absolute;
-                width:$cell-size + px;
-                height:$cell-size + px;
+                width:$cell-size - 10 + px;
+                height:$cell-size - 10 + px;
                 z-index: 35;
-                background-image: url('/images/game/mage/testMage.png');
-                &.d-1 { @include rotate(90deg); }
-                &.d-2 { @include rotate(180deg); }
-                &.d-3 { @include rotate(270deg); }
+                padding: 10px 0 0 10px;
             }
+
         }
 
-        .battle-field.Tutorial {
+        .battle-border.Tutorial {
             .cell.bl { background-color: darkgrey; }
             .cell.f1 { background-color: green; }
             .cell.f2 { background-color: darkolivegreen; }
@@ -80,13 +99,41 @@ $cell-size: 40;
             //.cell.f3 { border: 1px solid lawngreen; }
             //.cell.s  { border: 1px solid grey; }
         }
-        .battle-field {
+        .battle-border.Tutorial {
             .object.id-1 {
                 background-color: goldenrod;
             }
         }
+        .battle-border.Tutorial {
+            .unit {
+                &.type-1 {
+                    background-color: #990073;
+                }
+            }
+        }
+        .pattern-field {
+            position: absolute;
+
+            .pattern-cell {
+                border-radius: 2px;
+                position: absolute;
+                width:$cell-size + px;
+                height:$cell-size + px;
+                z-index: 25;
+                background-color: #770000;
+                opacity: 0;
+                &.visible {
+                    z-index: 45;
+                    opacity: 0.4;
+                }
+                &.active {
+                    z-index: 45;
+                    opacity: 0.7;
+                }
+            }
+
+        }
         .actions-container {
-            float:right;
         }
 
         .inventory {
