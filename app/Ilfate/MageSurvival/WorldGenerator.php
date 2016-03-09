@@ -46,6 +46,7 @@ abstract class WorldGenerator
 
     protected $visibleObjects = [];
     protected $visibleUnits = [];
+    protected $notPassable = [];
 
     public function __construct(World $world, Mage $mage)
     {
@@ -172,23 +173,30 @@ abstract class WorldGenerator
 
     public function getOrGenerateCell($x, $y)
     {
-        $map = $this->world->getMap();
-        if (empty($map[$y][$x])) {
-            $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_RANDOM);
-            $this->world->setMap($map);
+        $cell = $this->world->getCell($x, $y);
+        if ($cell === false) {
+            $cell = $this->getCellByType(self::CELL_TYPE_RANDOM);
+            $this->world->setCell($x, $y, $cell);
 
             if (ChanceHelper::chance(10)) {
                 // create object
                 $this->world->addRandomObject($x, $y);
             }
-            if (ChanceHelper::chance(15)) {
+            if (ChanceHelper::chance(3)) {
                 $this->world->addRandomUnit($x, $y);
             }
-
-            $this->world->update();
-
         }
-        return $map[$y][$x];
+        return $cell;
+    }
+
+    /**
+     * @param $cell
+     *
+     * @return bool
+     */
+    public function isPassable($cell)
+    {
+        return !in_array($cell, $this->notPassable);
     }
 
     /**
@@ -197,5 +205,6 @@ abstract class WorldGenerator
      * @return string
      */
     abstract public function getCellByType($type);
+
 
 }

@@ -112,6 +112,7 @@ abstract class Mage
             $itemConfig = $this->config['items'][$itemId];
             $type = $itemConfig['type'];
             $itemConfig['quantity'] = $quantity;
+            $itemConfig['id'] = $itemId;
             $return[$type][$itemId] = $itemConfig;
         }
         return $return;
@@ -124,6 +125,7 @@ abstract class Mage
             $itemConfig = $this->config['items'][$itemId];
             $type = $itemConfig['type'];
             $itemConfig['quantity'] = $quantity;
+            $itemConfig['id'] = $itemId;
             $return[$type][$itemId] = $itemConfig;
         }
         return $return;
@@ -144,6 +146,7 @@ abstract class Mage
             $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
             list($name, $schoolId, $level) = explode('#', $spell['code']);
             $return[$schoolId][$spellId] = [
+                'id' => $spellId,
                 'name' => $name,
                 'schoolId' => $schoolId,
                 'level' => $level,
@@ -171,6 +174,7 @@ abstract class Mage
             $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
             list($name, $schoolId, $level) = explode('#', $spell['code']);
             $return[$schoolId][$spellId] = [
+                'id' => $spellId,
                 'name' => $name,
                 'schoolId' => $schoolId,
                 'level' => $level,
@@ -186,16 +190,23 @@ abstract class Mage
     }
 
     public function moveAction($data) {
+        $x = $this->getX();
+        $y = $this->getY();
         switch ($this->getD()) {
-            case 0: $this->y -= 1;
+            case 0: $y -= 1;
                 break;
-            case 1: $this->x += 1;
+            case 1: $x += 1;
                 break;
-            case 2: $this->y += 1;
+            case 2: $y += 1;
                 break;
-            case 3: $this->x -= 1;
+            case 3: $x -= 1;
                 break;
         }
+        if (!$this->game->getWorld()->isPassable($x, $y)) {
+            throw new MessageException('You can`t move in this direction');
+        }
+        $this->x = $x;
+        $this->y = $y;
         $this->update();
         $this->game->setIsMageMoved();
         $this->game->addAnimationEvent('mage-move', [

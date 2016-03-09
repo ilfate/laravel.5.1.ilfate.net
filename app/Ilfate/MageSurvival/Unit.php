@@ -147,7 +147,7 @@ abstract class Unit
         return [
             'id' => $this->getId(),
             'type' => $this->getType(),
-            'data' => $this->getData()
+            'data' => $this->getData(),
         ];
     }
 
@@ -173,12 +173,34 @@ abstract class Unit
         }
     }
 
-    public function move($x, $y)
+    public function allAttackActions()
     {
+
+    }
+
+    public function move($x, $y, $stage = Game::ANIMATION_STAGE_UNIT_ACTION)
+    {
+        $oldX = $this->x;
+        $oldY = $this->y;
+        $wasOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
         $this->x = $x;
         $this->y = $y;
-        $this->world->moveUnit($this->was['x'], $this->was['y'], $x, $y);
-
+        $isOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
+        $this->world->moveUnit($oldX, $oldY, $x, $y);
+        if ($isOutside) {
+            return;
+        }
+        if ($wasOutside) {
+            // unit was outside of view area but now entered the view
+            GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_MOVE, [
+                'x' => $x - $this->mage->getX(), 'y' => $y - $this->mage->getY(), 'id' => $this->getId(),
+                'data' => $this->export(), 'oldX' => $oldX - $this->mage->getX(), 'oldY' => $oldY - $this->mage->getY()
+            ], $stage);
+        } else {
+            GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_MOVE, [
+                'x' => $x - $this->mage->getX(), 'y' => $y - $this->mage->getY(), 'id' => $this->getId()
+            ], $stage);
+        }
     }
 
     public function damage($value, $animationStage)
@@ -285,5 +307,12 @@ abstract class Unit
         return $this->world;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
 
 }

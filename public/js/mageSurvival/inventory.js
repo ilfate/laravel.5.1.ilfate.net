@@ -8,6 +8,14 @@
 MageS.Inventory = function (game) {
     this.game = game;
 
+    this.buildItems = function() {
+        $('.inventory .item').each(function() {
+            var data = $(this).data('description');
+            info(data);
+            MageS.Game.inventory.addItemDescription(data, $(this));
+        });
+    };
+
     this.updateItems = function(items) {
         for(var type in items) {
             for(var id in items[type]) {
@@ -46,10 +54,31 @@ MageS.Inventory = function (game) {
                     });
                     var obj = $(rendered);
                     $('.items-tab.' + type).append(obj);
-                    obj.tooltip();
+
+                    this.addItemDescription(config, obj);
+
                 }
             }
         }
+    };
+
+    this.addItemDescription = function(data, item) {
+        var temaplate = $('#template-item-tooltip').html();
+        Mustache.parse(temaplate);
+        var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name, 'stats' : data.stats, 'item': data.type});
+        var obj = $(rendered);
+        $('.tooltip-helper-area').append(obj);
+
+        item.on({
+            'mouseenter': function() {
+                var id = $(this).data('id');
+                $('.tooltip-helper-area .item-tooltip.id-' + id).show();
+            },
+            'mouseleave':function() {
+                var id = $(this).data('id');
+                $('.tooltip-helper-area .item-tooltip.id-' + id).hide();
+            }
+        });
     };
 
     this.addItems = function(game) {

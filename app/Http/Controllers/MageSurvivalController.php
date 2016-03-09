@@ -5,6 +5,7 @@ namespace Ilfate\Http\Controllers;
 use Ilfate\Mage;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
+use Ilfate\MageSurvival\MessageException;
 use Ilfate\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -85,7 +86,17 @@ class MageSurvivalController extends BaseController
 
         $action = $request->get('action');
         $data = $request->get('data');
-        $result = $game->action($action, json_decode($data, true));
+        try {
+            $result = $game->action($action, json_decode($data, true));
+        } catch (MessageException $e) {
+            $result = ['action' => 'error-message',
+                       'game' => [
+                           'messages' => [
+                                ['message' => $e->getMessage()]
+                            ]
+                       ]
+            ];
+        }
         return json_encode($result);
     }
 

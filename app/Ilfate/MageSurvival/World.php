@@ -52,6 +52,15 @@ class World
         $this->type = $mageWorld->type;
     }
 
+    public function getCell($x, $y)
+    {
+        if (isset($this->map[$y][$x])) {
+            return $this->map[$y][$x];
+        } else {
+            return false;
+        }
+    }
+
     public function update()
     {
         $this->isWorldChanged = true;
@@ -136,6 +145,7 @@ class World
             throw new \Exception('we cant destroy unit if there is no units here');
         }
         unset($this->units[$y][$x]);
+        unset($this->unitsInited[$y][$x]);
         $this->update();
     }
 
@@ -151,6 +161,89 @@ class World
             throw new \Exception('Look like we are updating unit, but here we have another unit is World...');
         }
         $this->units[$y][$x] = $unit->export();
+        $this->update();
+    }
+
+
+    public function getNextMoveToGetTo($from, $to)
+    {
+        $distances = [];
+        $cells = [];
+        for($d = 0; $d < 4; $d++) {
+            switch($d) {
+                case 0: $x = $from[0]; $y = $from[1] - 1; break;
+                case 1: $x = $from[0] + 1; $y = $from[1]; break;
+                case 2: $x = $from[0]; $y = $from[1] + 1; break;
+                case 3: $x = $from[0] - 1; $y = $from[1]; break;
+            }
+            $distances[$d] = self::getDistance([$x, $y], $to);
+            $cells[$d] = [$x, $y];
+        }
+        asort($distances);
+        $shortestDirections = [];
+        $shortestDistance = 0;
+        foreach($distances as $d => $distance) {
+            if ($shortestDirections && $shortestDistance != $distance) {
+                break;
+            }
+            if ($this->isPassable($cells[$d][0], $cells[$d][1])) {
+                $shortestDirections[] = [$d, $cells[$d][0], $cells[$d][1]];
+                $shortestDistance = $distance;
+            }
+        }
+        if (count($shortestDirections) > 0) {
+            return ChanceHelper::oneFromArray($shortestDirections);
+        } else {
+            return false;
+        }
+    }
+
+    public static function getDistance($unit1, $unit2)
+    {
+        if (is_object($unit1)) {
+            $x1 = $unit1->getX();
+            $y1 = $unit1->getY();
+        } else {
+            $x1 = $unit1[0];
+            $y1 = $unit1[1];
+        }
+        if (is_object($unit2)) {
+            $x2 = $unit2->getX();
+            $y2 = $unit2->getY();
+        } else {
+            $x2 = $unit2[0];
+            $y2 = $unit2[1];
+        }
+        return abs($x1 - $x2) + abs($y1 - $y2);
+    }
+
+    public function isPassable($x, $y)
+    {
+        $cell = $this->getCell($x, $y);
+        if (!GameBuilder::getGame()->getWorldGenerator()->isPassable($cell)) {
+            return false;
+        }
+        if ($this->getUnit($x, $y)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function isOutSideOfViewArea($x, $y, Mage $mage)
+    {
+        $centerX = $mage->getX();
+        $centerY = $mage->getY();
+        $radius = $this->config['game']['screen-radius'];
+
+        if (abs($centerX - $x) > $radius || abs($centerY - $y) > $radius) {
+            return true;
+        }
+        return false;
+    }
+
+    public function setCell($x, $y, $cell)
+    {
+        $this->map[$y][$x] = $cell;
         $this->update();
     }
 
@@ -234,63 +327,4 @@ class World
         $this->game = $game;
     }
 
-    public function getNextMoveToGetTo($from, $to)
-    {
-        $distances = [];
-        $cells = [];
-        for($d = 0; $d < 4; $d++) {
-            switch($d) {
-                case 0: $x = $from[0]; $y = $from[1] - 1; break;
-                case 1: $x = $from[0] + 1; $y = $from[1]; break;
-                case 2: $x = $from[0]; $y = $from[1] + 1; break;
-                case 3: $x = $from[0] - 1; $y = $from[1]; break;
-            }
-            $distances[$d] = self::getDistance([$x, $y], $to);
-            $cells[$d] = [$x, $y];
-        }
-        asort($distances);
-        $shortestDirections = [];
-        $shortestDistance = 0;
-        foreach($distances as $d => $distance) {
-            if ($shortestDirections && $shortestDistance != $distance) {
-                break;
-            }
-            if ($this->isPassable($cells[$d][0], $cells[$d][1])) {
-                $shortestDirections[] = [$d, $cells[$d][0], $cells[$d][1]];
-                $shortestDistance = $distance;
-            }
-        }
-        if (count($shortestDirections) > 0) {
-            return ChanceHelper::oneFromArray($shortestDirections);
-        } else {
-            return false;
-        }
-    }
-
-    public static function getDistance($unit1, $unit2)
-    {
-        if (is_object($unit1)) {
-            $x1 = $unit1->getX();
-            $y1 = $unit1->getY();
-        } else {
-            $x1 = $unit1[0];
-            $y1 = $unit1[1];
-        }
-        if (is_object($unit2)) {
-            $x2 = $unit2->getX();
-            $y2 = $unit2->getY();
-        } else {
-            $x2 = $unit2[0];
-            $y2 = $unit2[1];
-        }
-        return abs($x1 - $x2) + abs($y1 - $y2);
-    }
-
-    public function isPassable($x, $y)
-    {
-        if ($this->getUnit($x, $y)) {
-            return false;
-        }
-        return true;
-    }
 }

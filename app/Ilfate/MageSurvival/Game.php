@@ -35,10 +35,15 @@ class Game
     const ACTION_CRAFT_SPELL     = 'craftSpell';
     const ACTION_SPELL           = 'spell';
 
+    const EVENT_NAME_UNIT_MOVE       = 'unit-move';
+    const EVENT_NAME_MAGE_SPELL_CAST = 'mage-spell-cast';
+
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
     const ANIMATION_STAGE_MAGE_ACTION_2 = 'mage-action-2';
     const ANIMATION_STAGE_MAGE_ACTION_EFFECT = 'mage-action-effect';
     const ANIMATION_STAGE_MAGE_ACTION_EFFECT_2 = 'mage-action-effect-2';
+    const ANIMATION_STAGE_UNIT_ACTION = 'unit-action';
+    const ANIMATION_STAGE_UNIT_ACTION_2 = 'unit-action-2';
 
     public static $stagesList = [
         self::ANIMATION_STAGE_MAGE_ACTION,

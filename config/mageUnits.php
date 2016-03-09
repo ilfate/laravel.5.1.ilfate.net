@@ -5,7 +5,10 @@ return array(
 
 
     'list' => [
-        1 => ['name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 1, 'behaviour' => 'Passive'],
+        1 => [
+            'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 1,
+            'behaviour' => 'Aggressive', 'aggressiveRange' => 6
+        ],
     ],
     'chances' => [
         // World type
@@ -18,6 +21,9 @@ return array(
             /* 500 - 1000 */    1000 => [1],
             /* 1000 - 9999999 */9999999 => [1],
         ],
+    ],
+    'attacks' => [
+        'teeth' => ['range' => 'melee'],
     ],
 
 

@@ -15,9 +15,6 @@
                             <div role="tabpanel" class="tab-pane spells-tab school-{{$schoolId}}" id="spells-tab-{{$schoolId}}">
                                 @foreach($spells as $spellId => $spellInfo)
                                     <div class="spell id-{{$spellId}} spell-{{$spellInfo['name']}} tip"
-                                         data-toggle="tooltip"
-                                         data-placement="left"
-                                         title="{{$spellInfo['name']}}"
                                          data-values='{!! json_encode($spellInfo)!!}'
                                          data-id="{{$spellId}}">
                                         {{$spellInfo['config']['usages']}}

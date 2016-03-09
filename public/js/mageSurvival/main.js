@@ -76,6 +76,7 @@ MageS.Game = function () {
             case 'battle':
                 this.buildMap();
                 this.spellbook.buildSpells();
+                this.inventory.buildItems();
                 this.configureKeys();
 
                 $('a.craft-spell-button').on('click', function() {
@@ -178,6 +179,10 @@ MageS.Game = function () {
                 case 'spell':
                     this.spells.castSpell(data);
                     break;
+                case 'error-message':
+                    info(data.game.messages);
+                    this.actionInProcess = false;
+                    break;
             }
         }
         info(data);
@@ -249,6 +254,7 @@ MageS.Game = function () {
         var rendered = Mustache.render(temaplate, {'id': unit.id, 'type': unit.type});
         var obj = $(rendered);
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
+        return obj;
     };
 
     this.drawMage = function(mageConf) {

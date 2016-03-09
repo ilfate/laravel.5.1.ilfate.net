@@ -15,10 +15,7 @@
                             <div role="tabpanel" class="tab-pane items-tab {{$type}}" id="items-tab-{{$type}}">
                                 @foreach($items as $itemId => $itemInfo)
                                     <div class="item id-{{$itemId}} item-{{$itemInfo['image']}} tip"
-                                         data-toggle="tooltip"
-                                         data-placement="left"
-                                         title="{{$itemInfo['name']}}"
-                                         data-description="{!! json_encode($itemInfo)!!}"
+                                         data-description='{!! json_encode($itemInfo)!!}'
                                          data-id="{{$itemId}}">
                                         {{$itemInfo['quantity']}}
                                     </div>

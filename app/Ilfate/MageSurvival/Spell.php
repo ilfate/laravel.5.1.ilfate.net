@@ -64,6 +64,7 @@ abstract class Spell
     protected $mage;
 
     protected $id;
+    protected $d = false;
     protected $name;
     protected $schoolId;
     protected $config;
@@ -203,6 +204,16 @@ abstract class Spell
         return '\\Ilfate\\MageSurvival\\Spells\\'. ucfirst($schoolName) . '\\' . $spellName;
     }
 
+    /**
+     * @param            $code
+     * @param            $config
+     * @param            $id
+     * @param Game|null  $game
+     * @param World|null $world
+     * @param Mage|null  $mage
+     *
+     * @return Spell
+     */
     public static function createSpellByCode($code, $config, $id, Game $game = null, World $world = null, Mage $mage = null)
     {
         list($name, $schoolId, $level) = explode('#', $code);
@@ -255,6 +266,7 @@ abstract class Spell
                 $this->mage->rotate($d, Game::ANIMATION_STAGE_MAGE_ACTION);
                 $this->setNexStage();
             }
+            $this->d = $d;
             $this->rotatePattern($d);
             $mageX = $this->mage->getX();
             $mageY = $this->mage->getY();
@@ -264,6 +276,9 @@ abstract class Spell
                     $this->targets[] = $unit;
                 }
             }
+            $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
+                'spell' => $this->name, 'd' => $this->d
+            ], $this->getNormalCastStage());
             $this->setEffectStage();
             $isSuccess = $this->spellEffect($data);
         }

@@ -27,8 +27,8 @@
         @endif
         >
 <script src="/js/main.min.js"></script>
-<script src="/js/cosmos/main.js"></script>
-<script src="/js/hex/main.js"></script>
+{{--<script src="/js/cosmos/main.js"></script>--}}
+{{--<script src="/js/hex/main.js"></script>--}}
 <script src="/js/mageSurvival/main.js"></script>
 <script src="/js/mageSurvival/inventory.js"></script>
 <script src="/js/mageSurvival/animation.js"></script>

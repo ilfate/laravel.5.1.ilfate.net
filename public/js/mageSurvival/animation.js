@@ -29,6 +29,8 @@ MageS.Animations = function (game) {
         'mage-action-2',
         'mage-action-effect',
         'mage-action-effect-2',
+        'unit-action',
+        'unit-action-2',
     ];
 
     this.animateEvents = function(game) {
@@ -55,6 +57,7 @@ MageS.Animations = function (game) {
         //}
         var stage = this.getNextStageName();
         if (!stage) {
+            this.game.actionInProcess = false;
             return;
         }
         if (this.animationsInQueue[stage] === undefined) {
@@ -72,11 +75,8 @@ MageS.Animations = function (game) {
 
     this.singleAnimationFinished = function() {
         this.animationsRunning--;
-
         if (this.animationsRunning == 0) {
             this.runSingleStageAnimation();
-        } else {
-            info (this.animationsRunning + ' animations in queue');
         }
     };
 
@@ -90,6 +90,12 @@ MageS.Animations = function (game) {
                 break;
             case 'unit-kill':
                 this.unitKillAnimation(data.data);
+                break;
+            case 'unit-move':
+                this.unitMoveAnimation(data.data);
+                break;
+            case 'mage-spell-cast':
+                MageS.Game.animations.singleAnimationFinished();
                 break;
             case 'wait':
                 this.waitAnimation(data.data);
@@ -145,7 +151,6 @@ MageS.Animations = function (game) {
         }, {duration:this.animationTime, complete:function(){
             $('.battle-field.current').remove();
             $('.battle-field.new').removeClass('new').addClass('current');
-            that.game.actionInProcess = false;
             MageS.Game.animations.singleAnimationFinished();
         }});
     };
@@ -173,7 +178,7 @@ MageS.Animations = function (game) {
         el.removeClass('d-' + data.mage.was.d);
         el.animateRotate(oldD, d, this.game.animationTime, "swing", function(){
             $(this).addClass('d-' + data.mage.d).data('d', data.mage.d);
-            that.game.actionInProcess = false;
+
             MageS.Game.animations.singleAnimationFinished();
         });
     };
@@ -181,9 +186,50 @@ MageS.Animations = function (game) {
         $('.battle-field.current .unit.id-' + data.id).animate({
             'opacity' : 0
         }, {
-            duration:1500,
+            duration:1000,
             'complete': (function () {
                 $(this).remove();
+                MageS.Game.animations.singleAnimationFinished();
+            }
+        )});
+    };
+    this.unitMoveAnimation = function(data) {
+        var unit = $('.battle-field.current .unit.id-' + data.id);
+        if (unit.length < 1) {
+            info('unit with ID = ' + data.id + ' was not on the map');
+            // ok we don't have that unit at all.
+            var unit = this.game.drawUnit(data.data, data.oldX, data.oldY);
+            var oldX = data.oldX;
+            var oldY = data.oldY;
+        } else {
+            var oldCell = unit.parent('.cell');
+            var oldX = oldCell.data('x');
+            var oldY = oldCell.data('y');
+        }
+
+        var cellToGo = $('.battle-field.current .cell.x-' + data.x + '.y-' + data.y);
+        $('.unit-field').append(unit);
+        unit.css({
+            'margin-left': oldX * this.game.cellSize + 'px',
+            'margin-top': oldY * this.game.cellSize + 'px'
+        });
+        unit.animate({
+            'margin-left' : data.x * this.game.cellSize + 'px',
+            'margin-top' : data.y * this.game.cellSize + 'px'
+        }, {
+            duration:1000,
+            'complete': (function () {
+                    if (cellToGo.length < 1) {
+                        $(this).remove();
+                        MageS.Game.animations.singleAnimationFinished();
+                        return;
+                    }
+                    $(this).css({
+                        'margin-left' : '0px',
+                        'margin-top' : '0px'
+                    });
+                    cellToGo.append($(this));
+
                 MageS.Game.animations.singleAnimationFinished();
             }
         )});

@@ -46,6 +46,10 @@ class WorldGeneratorTutorial extends WorldGenerator
         self::CELL_STONE,
     ];
 
+    protected $notPassable = [
+        self::CELL_STONE,
+    ];
+
     /**
      * @param $type
      *
@@ -68,4 +72,6 @@ class WorldGeneratorTutorial extends WorldGenerator
         }
         return $cell;
     }
+
+
 }

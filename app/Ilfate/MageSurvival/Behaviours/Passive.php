@@ -25,10 +25,6 @@ class Passive extends Behaviour
 
     public function getAction()
     {
-        $distance = World::getDistance($this->unit->getMage(), $this->unit);
-        if ($distance <= 6 && $distance > 2) {
-            return self::ACTION_MOVE_TO_MAGE;
-        }
         return self::ACTION_DO_NOTHING;
     }
 }

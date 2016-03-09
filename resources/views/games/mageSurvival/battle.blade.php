@@ -13,9 +13,8 @@ Battle
             <div class="battle-border {{ $viewData['game']['world'] }}">
                 <div class="mage-container"></div>
                 @include('games.mageSurvival.patternField')
-                <div class="battle-field current">
-
-                </div>
+                <div class="battle-field current"></div>
+                <div class="unit-field"></div>
             </div>
             <div class="tooltip-helper-area"></div>
             <script> mageSurvivalData = {!!json_encode($viewData['game'])!!} </script>

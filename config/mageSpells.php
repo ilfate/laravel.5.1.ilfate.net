@@ -7,7 +7,7 @@ return array(
         //fire
         // level 1
         'Fireball' => [
-            'description' => 'Default description',
+            'description' => 'Hit a single target with fire',
             'directTargetSpell' => 'enemy',
         ],
         'FireNova' => [
