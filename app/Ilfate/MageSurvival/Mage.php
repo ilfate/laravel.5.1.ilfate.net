@@ -26,7 +26,7 @@ namespace Ilfate\MageSurvival;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-abstract class Mage
+abstract class Mage implements AliveInterface
 {
     /**
      * @var \Ilfate\Mage
@@ -385,6 +385,15 @@ abstract class Mage
         if ($this->isUpdated) {
             $this->save();
         }
+    }
+
+    public function damage($value, $animationStage)
+    {
+        $this->health -= $value;
+        GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_DAMAGE, [
+            'health' => $this->getHealth(),
+            'dHealth' => $value,
+        ], $animationStage);
     }
 
     public function update()

@@ -57,7 +57,7 @@ MageS.Animations = function (game) {
         //}
         var stage = this.getNextStageName();
         if (!stage) {
-            this.game.actionInProcess = false;
+            this.game.endAction();
             return;
         }
         if (this.animationsInQueue[stage] === undefined) {
@@ -96,6 +96,14 @@ MageS.Animations = function (game) {
                 break;
             case 'mage-spell-cast':
                 MageS.Game.animations.singleAnimationFinished();
+                break;
+            case 'mage-damage':
+                info('Some one dealed ' + data.data.dHealth + ' damage to you');
+                $('.health-value').html(data.data.health);
+                MageS.Game.animations.singleAnimationFinished();
+                break;
+            case 'object-destroy':
+                this.objectDestroyAnimation(data.data);
                 break;
             case 'wait':
                 this.waitAnimation(data.data);
@@ -240,6 +248,15 @@ MageS.Animations = function (game) {
         setTimeout(function() {
             MageS.Game.animations.singleAnimationFinished();
         }, data.time);
+    };
+
+    this.objectDestroyAnimation = function(data)
+    {
+        var el = $('.object.id-' + data.id);
+        el.animate({opacity:0},{'duration':300, 'complete':function(){
+            $(this).remove();
+            MageS.Game.animations.singleAnimationFinished();
+        }});
     };
 };
 

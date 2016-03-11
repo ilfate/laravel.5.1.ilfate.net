@@ -106,6 +106,15 @@ class World
         return MapObject::createObjectFromData($this, $x, $y, $objectData);
     }
 
+    public function deleteObject($x, $y)
+    {
+        if (empty($this->objects[$y][$x])) {
+            return null;
+        }
+        unset($this->objects[$y][$x]);
+        $this->update();
+    }
+
     /**
      * @param $x
      * @param $y
@@ -179,6 +188,22 @@ class World
             $distances[$d] = self::getDistance([$x, $y], $to);
             $cells[$d] = [$x, $y];
         }
+
+        // we need next logic to not let unit go in opposite direction
+        if ($from[0] == $to[0]) {
+            if ($from[1] > $to[1]) {
+                $distances[2] += 0.5;
+            } else {
+                $distances[0] += 0.5;
+            }
+        } else if ($from[1] == $to[1]) {
+            if ($from[0] > $to[0]) {
+                $distances[3] += 0.5;
+            } else {
+                $distances[1] += 0.5;
+            }
+        }
+
         asort($distances);
         $shortestDirections = [];
         $shortestDistance = 0;
@@ -239,6 +264,14 @@ class World
             return true;
         }
         return false;
+    }
+
+    public static function isNeighbours($x1, $y1, $x2, $y2)
+    {
+        if (abs($x1 - $x2) > 1 || abs($y1 - $y2) > 1) {
+            return false;
+        }
+        return true;
     }
 
     public function setCell($x, $y, $cell)

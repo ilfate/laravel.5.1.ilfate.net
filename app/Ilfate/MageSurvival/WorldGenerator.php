@@ -178,11 +178,11 @@ abstract class WorldGenerator
             $cell = $this->getCellByType(self::CELL_TYPE_RANDOM);
             $this->world->setCell($x, $y, $cell);
 
-            if (ChanceHelper::chance(10)) {
+            if (ChanceHelper::chance(8)) {
                 // create object
                 $this->world->addRandomObject($x, $y);
             }
-            if (ChanceHelper::chance(3)) {
+            if (ChanceHelper::chance(1)) {
                 $this->world->addRandomUnit($x, $y);
             }
         }

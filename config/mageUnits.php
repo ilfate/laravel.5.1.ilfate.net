@@ -7,7 +7,7 @@ return array(
     'list' => [
         1 => [
             'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 1,
-            'behaviour' => 'Aggressive', 'aggressiveRange' => 6
+            'behaviour' => 'AggressiveMelee', 'aggressiveRange' => 4, 'attacks' => ['teeth']
         ],
     ],
     'chances' => [

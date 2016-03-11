@@ -108,6 +108,10 @@ MageS.Spellbook = function (game) {
     };
 
     this.showPattern = function (spell, pattern) {
+        if (this.game.actionInProcess == true) {
+            info('Can`t show pattern while action is in process');
+            return;
+        }
         if (!this.checkForActiveSpells(spell)) {
             return;
         }
@@ -203,8 +207,6 @@ MageS.Spellbook = function (game) {
         this.spellCraftProcess = [];
         this.endSpellCraftAnimations();
 
-
-        this.game.actionInProcess = false;
     };
 
     this.startSpellCraftAnimations = function () {

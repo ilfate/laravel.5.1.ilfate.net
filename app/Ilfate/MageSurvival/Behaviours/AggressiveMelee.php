@@ -16,7 +16,7 @@ use Ilfate\MageSurvival\World;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Aggressive extends Behaviour
+class AggressiveMelee extends Behaviour
 {
 
     const DEFAULT_AGGRESSIVE_RANGE = 5;
@@ -33,8 +33,13 @@ class Aggressive extends Behaviour
         } else {
             $aggressiveRange = self::DEFAULT_AGGRESSIVE_RANGE;
         }
-        $distance = World::getDistance($this->unit->getMage(), $this->unit);
-        if ($distance <= $aggressiveRange && $distance > 2) {
+        $mage = $this->unit->getMage();
+
+        if (World::isNeighbours($mage->getX(), $mage->getY(), $this->unit->getX(), $this->unit->getY())) {
+            return self::ACTION_ATTACK_MAGE;
+        }
+        $distance = World::getDistance($mage, $this->unit);
+        if ($distance <= $aggressiveRange) {
             return self::ACTION_MOVE_TO_MAGE;
         }
         return self::ACTION_DO_NOTHING;

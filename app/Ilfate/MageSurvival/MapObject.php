@@ -34,6 +34,7 @@ abstract class MapObject
     protected $y;
     protected $d;
     protected $data;
+    protected $type;
 
     /**
      * @var Game
@@ -44,14 +45,20 @@ abstract class MapObject
      */
     protected $world;
 
-    public function __construct(World $world, $x, $y, $data = null)
+    public function __construct(World $world, $type, $x, $y, $id = null, $data = null)
     {
+        if (!$id) {
+            $this->id = str_random(10);
+        } else {
+            $this->id = $id;
+        }
         $this->x = $x;
         $this->y = $y;
         if ($data) {
             $this->data = $data;
         }
         $this->world = $world;
+        $this->type = $type;
     }
 
     /**
@@ -70,9 +77,9 @@ abstract class MapObject
         $distance = abs($x) + abs($y);
         foreach ($chances as $minDistance => $objectChances) {
             if ($distance < $minDistance) {
-                $objectId = ChanceHelper::oneFromArray($objectChances);
-                $className = '\Ilfate\MageSurvival\MapObjects\\' . $config['list'][$objectId]['class'];
-                return new $className($world, $x, $y);
+                $objectType = ChanceHelper::oneFromArray($objectChances);
+                $className = '\Ilfate\MageSurvival\MapObjects\\' . $config['list'][$objectType]['class'];
+                return new $className($world, $objectType, $x, $y);
             }
         }
         throw new \Exception('You went so far that you found the end of the world and crashed my server. You have to talk to administrator to fix that problem');
@@ -91,25 +98,28 @@ abstract class MapObject
     public static function createObjectFromData(World $world, $x, $y, $data)
     {
         $config = \Config::get('mageSurvival.objects');
-        $className = '\Ilfate\MageSurvival\MapObjects\\' . $config['list'][$data['id']]['class'];
-        return new $className($world, $x, $y, $data['data']);
+        $className = '\Ilfate\MageSurvival\MapObjects\\' . $config['list'][$data['type']]['class'];
+        return new $className($world, $data['type'], $x, $y, $data['id'], $data['data']);
     }
 
     public function export()
     {
         return [
             'id' => $this->getId(),
-            'data' => $this->getData()
+            'data' => $this->getData(),
+            'type' => $this->getType(),
         ];
     }
 
     public function getId()
     {
-        $id = static::ID;
-        if (!$id) {
-            throw new \Exception('Id for object '. static::class . ' is not defined');
-        }
-        return $id;
+        return $this->id;
+    }
+
+    public function delete($stage = Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT)
+    {
+        $this->world->deleteObject($this->x, $this->y);
+        GameBuilder::animateEvent(Game::EVENT_NAME_OBJECT_DESTROY, ['id' => $this->getId()], $stage);
     }
 
     /**
@@ -142,5 +152,21 @@ abstract class MapObject
     public function setData($data)
     {
         $this->data = $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 }

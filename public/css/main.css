@@ -2979,7 +2979,10 @@ div.hex {
   height: 440px;
   border: 1px solid chocolate;
   overflow: hidden;
-  position: relative; }
+  position: relative;
+  box-shadow: 5px 5px 15px #27c877, -5px -5px 15px #27c877; }
+  .mage-survival .game-inteface .battle-border.action {
+    box-shadow: 5px 5px 15px #b6bd37, -5px -5px 15px #b6bd37; }
   .mage-survival .game-inteface .battle-border .mage-container {
     position: absolute;
     margin: 200px 0 0 200px; }
@@ -3042,7 +3045,7 @@ div.hex {
   background-color: lawngreen; }
 .mage-survival .game-inteface .battle-border.Tutorial .cell.s {
   background-color: grey; }
-.mage-survival .game-inteface .battle-border.Tutorial .object.id-1 {
+.mage-survival .game-inteface .battle-border.Tutorial .object.type-1 {
   background-color: goldenrod; }
 .mage-survival .game-inteface .battle-border.Tutorial .unit.type-1 {
   background-color: #990073; }

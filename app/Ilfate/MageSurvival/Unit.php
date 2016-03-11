@@ -26,7 +26,7 @@ namespace Ilfate\MageSurvival;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-abstract class Unit
+abstract class Unit implements AliveInterface
 {
     const DATA_KEY_IS_HOSTILE = 'is_h';
 
@@ -154,10 +154,11 @@ abstract class Unit
     /**
      * ACTIVATE
      */
-    public function activate()
+    public function activate($action = null)
     {
-        //$this->getBehaviours();
-        $action = $this->behaviour->getAction();
+        if (!$action) {
+            $action = $this->behaviour->getAction();
+        }
         switch($action) {
             case Behaviour::ACTION_MOVE_TO_MAGE:
                 $nextMove = $this->world->getNextMoveToGetTo(
@@ -165,17 +166,54 @@ abstract class Unit
                     [$this->mage->getX(), $this->mage->getY()]
                 );
                 if ($nextMove === false) {
+                    $this->activate(Behaviour::ACTION_DO_NOTHING);
                     break;
                 }
                 list($d, $x, $y) = $nextMove;
                 $this->move($x, $y);
                 break;
+            case Behaviour::ACTION_ATTACK_MAGE:
+                $possibleAttack = $this->getPossibleAttack();
+                if (!$possibleAttack) {
+                    $this->activate(Behaviour::ACTION_MOVE_TO_MAGE);
+                    break;
+                }
+                $this->attack($possibleAttack, $this->mage);
+                break;
+            case Behaviour::ACTION_DO_NOTHING:
+                break;
         }
     }
 
-    public function allAttackActions()
+    public function attack($attackConfig, AliveInterface $target)
     {
+        // well it should be already checked that attack is possible
+        $target->damage(1, Game::ANIMATION_STAGE_UNIT_ACTION_2);
+    }
 
+    public function getPossibleAttack()
+    {
+        $allAttacks = $this->config['attacks'];
+
+        // check for cooldowns
+
+        $attackConfigs = [];
+        foreach ($allAttacks as $attackName) {
+            $attack = \Config::get('mageUnits.attacks.' . $attackName);
+            // check for possibility to perform this attack
+            if (false /* check is attack possible here  */) {
+                continue;
+            }
+            $attackConfigs[$attackName] = $attack;
+        }
+
+        if (!$attackConfigs) {
+            return false;
+        }
+        $attackName = array_rand($attackConfigs);
+        $attackConfig = $attackConfigs[$attackName];
+        $attackConfig['name'] = $attackName;
+        return $attackConfig;
     }
 
     public function move($x, $y, $stage = Game::ANIMATION_STAGE_UNIT_ACTION)
@@ -208,7 +246,7 @@ abstract class Unit
         $this->data['health'] -= $value;
         if ($this->data['health'] < 1) {
             $this->world->destroyUnit($this->x, $this->y);
-            GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
+                GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
         } else {
             $this->world->updateUnit($this);
         }

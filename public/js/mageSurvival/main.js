@@ -115,7 +115,7 @@ MageS.Game = function () {
             info('Action is locked');
             return;
         }
-        this.actionInProcess = true;
+        this.startAction();
         this.spellbook.turnOffPatterns();
         var actionName = '';
         var dataString = '';
@@ -181,7 +181,7 @@ MageS.Game = function () {
                     break;
                 case 'error-message':
                     info(data.game.messages);
-                    this.actionInProcess = false;
+                    this.endAction();
                     break;
             }
         }
@@ -220,7 +220,15 @@ MageS.Game = function () {
         }
     };
 
+    this.startAction = function() {
+        this.actionInProcess = true;
+        $('.battle-border').addClass('action');
+    };
 
+    this.endAction = function() {
+        this.actionInProcess = false;
+        $('.battle-border').removeClass('action');
+    };
 
     this.drawCell = function(cell, x, y) {
         var temaplate = $('#template-map-cell').html();
@@ -240,7 +248,7 @@ MageS.Game = function () {
         }
         var temaplate = $('#template-object').html();
         Mustache.parse(temaplate);
-        var rendered = Mustache.render(temaplate, {'id': object.id});
+        var rendered = Mustache.render(temaplate, {'id': object.id, 'type':object.type});
         var obj = $(rendered);
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
     };

@@ -26,24 +26,7 @@ namespace Ilfate\MageSurvival;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-abstract class Behaviour
+interface AliveInterface
 {
-    const ACTION_DO_NOTHING   = 'do-nothing';
-    const ACTION_MOVE_TO_MAGE = 'move-to-mage';
-    const ACTION_ATTACK_MAGE  = 'attack-mage';
-
-    /**
-     * @var Unit
-     */
-    protected $unit;
-
-    public function __construct(Unit $unit)
-    {
-        $this->unit = $unit;
-    }
-
-    public function getAction()
-    {
-        return self::ACTION_DO_NOTHING;
-    }
+    public function damage($value, $animationStage);
 }

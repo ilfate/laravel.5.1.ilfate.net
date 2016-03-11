@@ -82,7 +82,6 @@ MageS.Inventory = function (game) {
     };
 
     this.addItems = function(game) {
-        this.game.actionInProcess = false;
     };
 };
 
