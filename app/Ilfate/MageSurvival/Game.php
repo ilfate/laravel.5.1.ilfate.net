@@ -35,6 +35,7 @@ class Game
     const ACTION_CRAFT_SPELL     = 'craftSpell';
     const ACTION_SPELL           = 'spell';
 
+    const EVENT_NAME_MAGE_ROTATE     = 'mage-rotate';
     const EVENT_NAME_UNIT_MOVE       = 'unit-move';
     const EVENT_NAME_MAGE_SPELL_CAST = 'mage-spell-cast';
     const EVENT_NAME_OBJECT_DESTROY  = 'object-destroy';
@@ -132,13 +133,10 @@ class Game
                 $this->mage->moveAction($data);
                 $this->turn();
                 break;
-            case self::ACTION_ROTATE:
-                $this->mage->rotateAction($data);
-                $this->turn();
-                break;
             case self::ACTION_OBJECT_INTERACT:
                 $result = $this->mage->interactWithObject($this->world, $data['method']);
                 $return['data'] = $result['data'];
+                $this->turn();
                 break;
             case self::ACTION_CRAFT_SPELL:
                 $this->mage->craftSpell($data);

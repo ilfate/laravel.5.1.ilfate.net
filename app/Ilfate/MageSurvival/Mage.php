@@ -190,9 +190,12 @@ abstract class Mage implements AliveInterface
     }
 
     public function moveAction($data) {
+        if (!isset($data['d']) || $data['d'] > 3 || $data['d'] < 0 || !is_numeric($data['d'])) {
+            throw new \Exception('For movement direction is missing');
+        }
         $x = $this->getX();
         $y = $this->getY();
-        switch ($this->getD()) {
+        switch ($data['d']) {
             case 0: $y -= 1;
                 break;
             case 1: $x += 1;
@@ -205,6 +208,17 @@ abstract class Mage implements AliveInterface
         if (!$this->game->getWorld()->isPassable($x, $y)) {
             throw new MessageException('You can`t move in this direction');
         }
+        $d = $this->getD();
+        $stageForMove = Game::ANIMATION_STAGE_MAGE_ACTION;
+        if ($data['d'] != $d) {
+            // we need to rotate first
+            $this->d = $data['d'];
+            GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_ROTATE, [
+                'd' => $this->d, 'wasD' => $d
+            ], Game::ANIMATION_STAGE_MAGE_ACTION);
+            $stageForMove = Game::ANIMATION_STAGE_MAGE_ACTION_2;
+        }
+
         $this->x = $x;
         $this->y = $y;
         $this->update();
@@ -214,31 +228,7 @@ abstract class Mage implements AliveInterface
             'map' => $this->game->getWorldGenerator()->exportMapForView($this),
             'objects' => $this->game->getWorldGenerator()->exportVisibleObjects(),
             'units' => $this->game->getWorldGenerator()->exportVisibleUnits(),
-        ], Game::ANIMATION_STAGE_MAGE_ACTION);
-    }
-
-    public function rotateAction($data)
-    {
-        if (empty($data['d'])) {
-            throw new \Exception('Rotation without direction is not possible');
-        }
-        switch ($data['d']) {
-            case 'right':
-                $this->d += 1;
-                if ($this->d > 3) $this->d = 0;
-                break;
-            case 'left':
-                $this->d -= 1;
-                if ($this->d < 0) $this->d = 3;
-                break;
-            default:
-                throw new \Exception('ROtation direction is wrong');
-        }
-        $this->update();
-        $this->game->updateMage();
-        $this->game->addAnimationEvent('mage-rotate', [
-            'mage' => $this->exportMage(),
-        ], Game::ANIMATION_STAGE_MAGE_ACTION);
+        ], $stageForMove);
     }
 
     public function rotate($d, $animationStage)

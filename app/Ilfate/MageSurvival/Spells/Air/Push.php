@@ -44,16 +44,20 @@ class Push extends Air
             if ($this->d === false) {
                 throw new \Exception('Push spells needs to have direction!');
             }
-            $x = $oldX = $target->getX();
-            $y = $oldY = $target->getY();
+            $x2 = $x1 = $oldX = $target->getX();
+            $y2 = $y1 = $oldY = $target->getY();
             switch ($this->d) {
-                case 0: $y -= 1; break;
-                case 1: $x += 1; break;
-                case 2: $y += 1; break;
-                case 3: $x -= 1; break;
+                case 0: $y1 -= 1; $y2 -= 2; break;
+                case 1: $x1 += 1; $x2 += 2; break;
+                case 2: $y1 += 1; $y2 += 2; break;
+                case 3: $x1 -= 1; $x2 -= 2; break;
             }
-            if ($this->world->isPassable($x, $y)) {
-                $target->move($x, $y, $this->getNormalCastStage());
+            $is1Passable = $this->world->isPassable($x1, $y1);
+            $is2Passable = $this->world->isPassable($x2, $y2);
+            if ($is1Passable && $is2Passable) {
+                $target->move($x2, $y2, $this->getNormalCastStage());
+            } else if ($is1Passable) {
+                $target->move($x1, $y1, $this->getNormalCastStage());
             } else {
                 $target->damage(1, $this->getNormalCastStage());
             }

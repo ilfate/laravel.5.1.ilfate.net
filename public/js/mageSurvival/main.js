@@ -40,7 +40,7 @@ MageS.Game = function () {
     /* CONFIG */
     this.fieldRadius = 5;
     this.cellSize = 40;
-    this.animationTime = 400;
+    this.animationTime = 300;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
 
 
@@ -120,21 +120,21 @@ MageS.Game = function () {
         var actionName = '';
         var dataString = '';
         switch (action) {
-            case 'move':
+            case 'move-up':
                 actionName = 'move';
-                dataString = '[]';
+                dataString = '{"d":"0"}';
                 break;
-            case 'moveBack':
-                actionName = 'moveBack';
-                dataString = '[]';
+            case 'move-right':
+                actionName = 'move';
+                dataString = '{"d":"1"}';
                 break;
-            case 'rotateLeft':
-                actionName = 'rotate';
-                dataString = '{"d":"left"}';
+            case 'move-down':
+                actionName = 'move';
+                dataString = '{"d":"2"}';
                 break;
-            case 'rotateRight':
-                actionName = 'rotate';
-                dataString = '{"d":"right"}';
+            case 'move-left':
+                actionName = 'move';
+                dataString = '{"d":"3"}';
                 break;
             case 'objectInteract':
                 actionName = 'objectInteract';
@@ -305,34 +305,34 @@ MageS.Game = function () {
             switch (event.keyCode) {
                 case 40: // up
                 case 1094:
-                    MageS.Game.action('move');
+                    MageS.Game.action('move-up');
                     break;
                 case 37: // left
                 case 1092:
-                    MageS.Game.action('rotateLeft');
+                    MageS.Game.action('move-left');
                     break;
                 case 38: // down
                 case 1099:
-                    MageS.Game.action('moveBack');
+                    MageS.Game.action('move-down');
                     break;
                 case 39: // right
                 case 1074:
-                    MageS.Game.action('rotateRight');
+                    MageS.Game.action('move-right');
                     break;
 
                 case 13:  // Enter
                     break;
                 case 119 : // w
-                    MageS.Game.action('move');
+                    MageS.Game.action('move-up');
                     break;
                 case 97 : // a
-                    MageS.Game.action('rotateLeft');
+                    MageS.Game.action('move-left');
                     break;
                 case 115 : // s
-                    MageS.Game.action('moveBack');
+                    MageS.Game.action('move-down');
                     break;
                 case 100 : // d
-                    MageS.Game.action('rotateRight');
+                    MageS.Game.action('move-right');
                     break;
                 case 32 :  // space
                     break;
@@ -346,16 +346,16 @@ MageS.Game = function () {
                 case 0 :                  //// For Mozila
                     switch (event.charCode) {
                         case 119 : // w
-                            MageS.Game.action('move');
+                            MageS.Game.action('move-up');
                             break;
                         case 97 : // a
-                            MageS.Game.action('rotateLeft');
+                            MageS.Game.action('move-left');
                             break;
                         case 115 : // s
-                            MageS.Game.action('moveBack');
+                            MageS.Game.action('move-down');
                             break;
                         case 100 : // d
-                            MageS.Game.action('rotateRight');
+                            MageS.Game.action('move-right');
                             break;
                         case 32 :  // space
                             break;

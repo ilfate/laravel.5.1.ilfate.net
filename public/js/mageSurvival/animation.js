@@ -165,15 +165,15 @@ MageS.Animations = function (game) {
     this.mageRotateAnimation = function(data) {
         var d = 0;
         var oldD = 0;
-        switch (data.mage.d) {
-            case 1: d = 90; break;
-            case 2: d = 180; break;
-            case 3: d = 270; break;
+        switch (data.d) {
+            case "1": d = 90; break;
+            case "2": d = 180; break;
+            case "3": d = 270; break;
         }
-        switch (data.mage.was.d) {
-            case 1: oldD = 90; break;
-            case 2: oldD = 180; break;
-            case 3: oldD = 270; break;
+        switch (data.wasD) {
+            case "1": oldD = 90; break;
+            case "2": oldD = 180; break;
+            case "3": oldD = 270; break;
         }
         if (oldD == 270 && d == 0) {
             oldD = -90;
@@ -183,9 +183,9 @@ MageS.Animations = function (game) {
         }
         var el = $('.battle-border .mage');
         var that = this;
-        el.removeClass('d-' + data.mage.was.d);
-        el.animateRotate(oldD, d, this.game.animationTime, "swing", function(){
-            $(this).addClass('d-' + data.mage.d).data('d', data.mage.d);
+        el.removeClass('d-' + data.d);
+        el.animateRotate(oldD, d, this.game.animationTime / 3, "swing", function(){
+            $(this).addClass('d-' + data.d).data('d', data.d);
 
             MageS.Game.animations.singleAnimationFinished();
         });
@@ -225,7 +225,7 @@ MageS.Animations = function (game) {
             'margin-left' : data.x * this.game.cellSize + 'px',
             'margin-top' : data.y * this.game.cellSize + 'px'
         }, {
-            duration:1000,
+            duration:this.animationTime,
             'complete': (function () {
                     if (cellToGo.length < 1) {
                         $(this).remove();
