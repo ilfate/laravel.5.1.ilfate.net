@@ -39,7 +39,7 @@ MageS.Game = function () {
     this.actionInProcess = false;
     /* CONFIG */
     this.fieldRadius = 5;
-    this.cellSize = 40;
+    this.cellSize = 32;
     this.animationTime = 300;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
 
@@ -237,8 +237,8 @@ MageS.Game = function () {
         var obj = $(rendered);
         $('.battle-field').append(obj);
         obj.css({
-            'margin-left' : (x * 40) + 'px',
-            'margin-top' : (y * 40) + 'px',
+            'margin-left' : (x * this.cellSize) + 'px',
+            'margin-top' : (y * this.cellSize) + 'px',
         })
     };
 

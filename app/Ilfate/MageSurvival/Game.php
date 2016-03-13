@@ -116,10 +116,11 @@ class Game
         $data['units'] = $this->worldGenerator->exportVisibleUnits();
         $data['world'] = $this->config['world-types'][$this->world->getType()];
         $data['mage'] = $this->mage->viewExport();
+        $data['item-types'] = $this->config['item-types'];
         $data['actions'] = $this->mage->getAllPossibleActions($this->world);
         $data['config'] = [
             'screenRadius' => $this->worldGenerator->getScreenRadius(),
-            'cellSize' => 40,
+            'cellSize' => 32,
         ];
 
         return ['game' => $data];

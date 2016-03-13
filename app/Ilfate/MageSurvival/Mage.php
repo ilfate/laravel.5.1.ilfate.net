@@ -110,10 +110,9 @@ abstract class Mage implements AliveInterface
         }
         foreach ($this->items as $itemId => $quantity) {
             $itemConfig = $this->config['items'][$itemId];
-            $type = $itemConfig['type'];
             $itemConfig['quantity'] = $quantity;
             $itemConfig['id'] = $itemId;
-            $return[$type][$itemId] = $itemConfig;
+            $return[$itemId] = $itemConfig;
         }
         return $return;
     }
@@ -123,10 +122,9 @@ abstract class Mage implements AliveInterface
         $return = [];
         foreach ($this->itemsChanges as $itemId => $quantity) {
             $itemConfig = $this->config['items'][$itemId];
-            $type = $itemConfig['type'];
             $itemConfig['quantity'] = $quantity;
             $itemConfig['id'] = $itemId;
-            $return[$type][$itemId] = $itemConfig;
+            $return[$itemId] = $itemConfig;
         }
         return $return;
     }

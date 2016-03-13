@@ -35,11 +35,13 @@ return array(
         ],
     ],
     'items' => [
-        1 => ['type'=>'carrier', 'name'=>'Damaged scroll', 'stats'=>['usages' => '2-5'], 'image' => 'scroll'],
-        2 => ['type'=>'carrier', 'name'=>'Bad scroll',  'stats'=>['usages' => '1-3'], 'image' => 'scroll'],
-        301 => ['type'=>'ingredient', 'name'=>'Quartz',  'stats'=>['spell' => '30'], 'image' => 'quartz'],
-        302 => ['type'=>'ingredient', 'name'=>'Fire essence',  'stats'=>['spell' => '30', 'school' => ['fire' => 5]], 'image' => 'quartz'],
-        303 => ['type'=>'ingredient', 'name'=>'Feather',  'stats'=>['spell' => '20', 'cooldown' => ['min' => 1, 'max' => 1]], 'image' => 'feather'],
+        1 => ['type'=>'carrier', 'name'=>'Damaged scroll', 'stats'=>['usages' => '2-5'], 'class' => 'msc_scroll_map'],
+        2 => ['type'=>'carrier', 'name'=>'Bad scroll',  'stats'=>['usages' => '1-3'], 'class' => 'msc_scroll_map'],
+        301 => ['type'=>'ingredient', 'name'=>'Red Ore',  'stats'=>['spell' => '30'], 'class' => 'msc_ore_red1'],
+        302 => ['type'=>'ingredient', 'name'=>'Fire essence',  'stats'=>['spell' => '30', 'school' => ['fire' => 5]],
+                'class' => 'mgc_fire_1'],
+        303 => ['type'=>'ingredient', 'name'=>'Feather',  'stats'=>['spell' => '20', 'cooldown' => ['min' => 1, 'max' => 1]],
+                'class' => 'mgc_misc_7'],
         // Сера
         // Горный хрусталь
         // Кость гоблина
@@ -52,6 +54,10 @@ return array(
         // Аквамарин
         // Сердце каменного голема
         // Святая вода
+    ],
+    'item-types' => [
+        ['name' => 'carrier', 'class' => 'msc_scroll_open'],
+        ['name' => 'ingredient', 'class' => 'msc_feather_red'],
     ],
     'spells' => [
         'schools' => [

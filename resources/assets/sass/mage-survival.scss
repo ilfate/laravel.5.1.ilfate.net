@@ -11,8 +11,14 @@ $mage-colors-yellow:#FFD416;
 
 $mage-color-background:#FCEBB6;
 
+$screen-md-min: 992;
+$screen-sm-min: 768;
+
 $map-radius: 5;
-$cell-size: 40;
+$cell-size: 32;
+$item-size: 34;
+$spell-size: 34;
+$battlefield-size: ($map-radius * 2 + 1) * $cell-size;
 
 .mage-survival {
     .large-text {
@@ -26,6 +32,67 @@ $cell-size: 40;
         .single-mage-type {
             a.submit {
                 display: none;    
+            }
+        }
+    }
+    .container.main{
+        padding:0;
+        @media (min-width: $screen-md-min + px) {
+            width: 992px;
+        }
+        .game-inteface {
+            @media (min-width: $screen-md-min + px) {
+                width: 992px;
+                margin: 0;
+            }
+        }
+        .middle-panel {
+            float:left;
+            width:$battlefield-size + px;
+            height:$battlefield-size + px;
+        }
+        .mage-info-panel {
+            float:left;
+            @media (min-width: $screen-sm-min + px) {
+                width: $screen-sm-min - $battlefield-size - 15 + px;
+                height: $battlefield-size - (1 * $cell-size) + px;
+                padding-left: 15px;
+            }
+            @media (min-width: $screen-md-min + px) {
+                width: $screen-md-min - $battlefield-size - 15 + px;
+                height: 3 * $cell-size + px;
+                padding-left: 15px;
+            }
+
+        }
+        .right-panel {
+            float:left;
+            @media (min-width: $screen-sm-min + px) {
+                width:$screen-sm-min - $battlefield-size - 15 + px;
+                height: 1 * $cell-size + px;
+                .spells-items-row {
+                    width:100%;
+                    .items-col, .spells-col {
+                        display: none;
+                        position:absolute;
+                        margin-top: - (7 * $cell-size) + px;
+                    }
+                }
+            }
+            @media (min-width: $screen-md-min + px) {
+                width: $screen-md-min - $battlefield-size - 15 + px;
+                padding-left: 15px;
+                .tablet-button-panel {
+                    display: none;
+                }
+                .spells-items-row {
+                    width:100%;
+                    .items-col, .spells-col {
+                        display: block;
+                        position: relative;
+                        margin: 0;
+                    }
+                }
             }
         }
     }
@@ -63,7 +130,7 @@ $cell-size: 40;
                     width:$cell-size + px;
                     height:$cell-size + px;
                     z-index: 35;
-                    background-image: url('/images/game/mage/testMage.png');
+                    background-image: url('/images/game/mage/mage.png');
                     &.d-1 { @include rotate(90deg); }
                     &.d-2 { @include rotate(180deg); }
                     &.d-3 { @include rotate(270deg); }
@@ -159,23 +226,32 @@ $cell-size: 40;
         }
 
         .inventory {
-            height: (7 ) * $cell-size + px;
-        }
-
-        .items-tab {
-            background-color: $mage-color-background;
-            position: absolute;
-            border: 1px solid cornflowerblue;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.23), 0 10px 30px rgba(0, 0, 0, 0.19);
-            width: 10rem;
-            height: 10rem;
-            z-index: 50;
-
-            .item {
-                float: left;
-                width: $cell-size + px;
-                height: $cell-size + px;
+            height: 7 * $item-size + 9 + px;
+            width: 7 * $item-size + 9 + px;
+            .items-filter {
+                opacity: 0.5;
+                &.active {
+                    opacity: 1;
+                }
+            }
+            .items {
+                background-color: $mage-color-background;
                 border: 1px solid cornflowerblue;
+                .item {
+                    &.filtered-out {
+                        display: none;
+                    }
+
+                    .value {
+                        //text-shadow: 2px 2px #fefefe;
+                        position:absolute;
+                        font-size: 10px;
+                        background-color: $color-clay;
+                        color:$color-brawn;
+                        padding-left:2px;
+                        padding-right:2px;
+                    }
+                }
             }
         }
 

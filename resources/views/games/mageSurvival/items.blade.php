@@ -3,26 +3,14 @@
             <div class="inventory">
 
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        @foreach($viewData['game']['mage']['items'] as $type => $items)
-                            <li role="presentation"><a href="#items-tab-{{$type}}" aria-controls="items-tab-{{$type}}" role="tab" data-toggle="tab">{{$type}}</a></li>
+                    <div class="items-filters-panel">
+                        @foreach($viewData['game']['item-types'] as $id => $type)
+                            <a class="items-filter" data-name="{{$type['name']}}"><i class="rpg-icon-large {{$type['class']}}"></i></a>
                         @endforeach
-                    </ul>
+                    </div>
 
                     <!-- Tab panes -->
-                    <div class="tab-content">
-                        @foreach($viewData['game']['mage']['items'] as $type => $items)
-                            <div role="tabpanel" class="tab-pane items-tab {{$type}}" id="items-tab-{{$type}}">
-                                @foreach($items as $itemId => $itemInfo)
-                                    <div class="item id-{{$itemId}} item-{{$itemInfo['image']}} tip"
-                                         data-description='{!! json_encode($itemInfo)!!}'
-                                         data-id="{{$itemId}}">
-                                        {{$itemInfo['quantity']}}
-                                    </div>
-                                @endforeach
-                            </div>
-
-                        @endforeach
+                    <div class="items" data-items='{!! json_encode($viewData['game']['mage']['items'])!!}'>
                     </div>
             </div>
 

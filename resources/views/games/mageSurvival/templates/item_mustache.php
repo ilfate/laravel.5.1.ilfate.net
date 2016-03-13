@@ -2,9 +2,9 @@
 
 <script id="template-item" type="x-tmpl-mustache">
 
-    <div class="item id-{{id}} item-{{item}}" data-toggle="tooltip"
+    <i class="item rpg-icon-large id-{{id}} {{class}} type-{{type}}" data-toggle="tooltip"
                                  data-placement="left"
                                  title="{{name}}" data-id="{{id}}">
-        {{quantity}}
-    </div>
+        <span class="value">{{quantity}}</span>
+    </i>
 </script>

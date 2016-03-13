@@ -9,57 +9,73 @@ MageS.Inventory = function (game) {
     this.game = game;
 
     this.buildItems = function() {
-        $('.inventory .item').each(function() {
-            var data = $(this).data('description');
-            info(data);
-            MageS.Game.inventory.addItemDescription(data, $(this));
+        var template = $('#template-item').html();
+        Mustache.parse(template);
+        var itemsEl = $('.inventory .items');
+        var items = itemsEl.data('items');
+        for (var id in items) {
+
+            var rendered = Mustache.render(template, {
+                'id': id,
+                'class': items[id].class,
+                'name': items[id].name,
+                'type': items[id].type,
+                'quantity': items[id].quantity,
+            });
+            var obj = $(rendered);
+            itemsEl.append(obj);
+            MageS.Game.inventory.addItemDescription(items[id], obj);
+        }
+        itemsEl.data('items', '').attr('data-items', '');
+
+        // build filters
+        $('.items-filter').each(function(){
+            $(this).on('click', function(){
+                var activeFilter = $('.items-filter.active');
+                $('.items-filter.active').removeClass('active');
+                $('.inventory .item.filtered-out').removeClass('filtered-out');
+                if (activeFilter.length && activeFilter.data('name') == $(this).data('name')) {
+                    return;
+                }
+                $(this).addClass('active');
+                $('.inventory .item:not(.type-' + $(this).data('name') + ')').addClass('filtered-out');
+            })
         });
+
     };
 
     this.updateItems = function(items) {
-        for(var type in items) {
-            for(var id in items[type]) {
-                var config = items[type][id];
-                var typeEl = $('.items-tab.' + type);
-                var existingEl = typeEl.find('.item.id-' + id)
-                if (existingEl.length) {
-                    //add item
-                    var currentValue = parseInt(existingEl.html());
-                    var newQuantity = currentValue + config.quantity;
-                    if (newQuantity > 0) {
-                        existingEl.html(newQuantity);
-                    } else {
-                        existingEl.remove();
-                    }
+        for(var id in items) {
+            var config = items[id];
+            var existingEl = $('.inventory .item.id-' + id);
+            if (existingEl.length) {
+                //add item
+                var currentValue = parseInt(existingEl.find('.value').html());
+                var newQuantity = currentValue + config.quantity;
+                if (newQuantity > 0) {
+                    existingEl.find('.value').html(newQuantity);
                 } else {
-                    //create new item
-                    if (!typeEl.length)
-                    {
-                        var tabId = 'items-tab-' + type;
-                        $('.inventory .tab-content').append(
-                            $('<div role="tabpanel" class="tab-pane items-tab"></div>').addClass(type).attr('id', tabId)
-                        );
-                        $('.inventory .nav.nav-tabs').append(
-                            $('<li role="presentation"><a href="#' + tabId + '" aria-controls="' + tabId + '" role="tab" data-toggle="tab">' + type + '</a></li>')
-                        );
-
-                    }
-                    var temaplate = $('#template-item').html();
-                    Mustache.parse(temaplate);
-                    var rendered = Mustache.render(temaplate, {
-                        'id': id,
-                        'item': config.image,
-                        'name': config.name,
-                        'quantity': config.quantity,
-                    });
-                    var obj = $(rendered);
-                    $('.items-tab.' + type).append(obj);
-
-                    this.addItemDescription(config, obj);
-
+                    existingEl.remove();
                 }
+            } else {
+                //create new item
+                var temaplate = $('#template-item').html();
+                Mustache.parse(temaplate);
+                var rendered = Mustache.render(temaplate, {
+                    'id': id,
+                    'class': config.class,
+                    'name': config.name,
+                    'type': config.type,
+                    'quantity': config.quantity,
+                });
+                var obj = $(rendered);
+                $('.inventory .items').append(obj);
+
+                this.addItemDescription(config, obj);
+
             }
         }
+
     };
 
     this.addItemDescription = function(data, item) {
