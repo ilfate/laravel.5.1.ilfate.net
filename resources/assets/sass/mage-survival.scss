@@ -95,6 +95,10 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
                 }
             }
         }
+        .svg-icon {
+            width:$cell-size + px;
+            height:$cell-size + px;
+        }
     }
     .game-inteface {
         .tooltip-helper-area {
@@ -280,9 +284,13 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
         .craft-spell-overlay{
             position: absolute;
             z-index: 60;
+            font-size: 13px;
+            .alert {
+                padding:2px;
+            }
             .helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info {
                 position: absolute;
-                width:($map-radius * 2 + 1) * $cell-size + px;
+                width: 7 * $item-size + 9 + px;
             }
         }
     }

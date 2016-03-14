@@ -1,6 +1,21 @@
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 
+.game-inteface .cell {
+	background-image: url('/images/game/mage/icons_htmlcode/img/cells.png');
+	&.f1 {
+		background-position: -0px -0px;
+	}
+	&.f2 {
+		background-position: -$cell-size + px -0px;
+	}
+	&.f3 {
+		background-position: -(3 * $cell-size) + px -0px;
+	}
+	&.s {
+		background-position: -(4 * $cell-size) + px -0px;
+	}
+}
 	i.rpg-icon-small { display: inline-block; height: 17px; width: 17px; background-image: url('/images/game/mage/icons_htmlcode/img/sprites_RPG_icons.png'); background-size: 238px;}
 	i.rpg-icon-large { display: inline-block; height: 34px; width: 34px; background-image: url('/images/game/mage/icons_htmlcode/img/sprites_RPG_icons.png'); background-size: 476px;}
 

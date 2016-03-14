@@ -156,7 +156,7 @@ MageS.Animations = function (game) {
         $('.battle-field.current').animate({
             'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'px',
             'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'px',
-        }, {duration:this.animationTime, complete:function(){
+        }, {duration: (this.game.animationTime), complete:function(){
             $('.battle-field.current').remove();
             $('.battle-field.new').removeClass('new').addClass('current');
             MageS.Game.animations.singleAnimationFinished();
@@ -166,14 +166,14 @@ MageS.Animations = function (game) {
         var d = 0;
         var oldD = 0;
         switch (data.d) {
-            case "1": d = 90; break;
-            case "2": d = 180; break;
-            case "3": d = 270; break;
+            case 1: d = 90; break;
+            case 2: d = 180; break;
+            case 3: d = 270; break;
         }
         switch (data.wasD) {
-            case "1": oldD = 90; break;
-            case "2": oldD = 180; break;
-            case "3": oldD = 270; break;
+            case 1: oldD = 90; break;
+            case 2: oldD = 180; break;
+            case 3: oldD = 270; break;
         }
         if (oldD == 270 && d == 0) {
             oldD = -90;

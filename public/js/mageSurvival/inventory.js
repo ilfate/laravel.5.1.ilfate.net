@@ -25,23 +25,27 @@ MageS.Inventory = function (game) {
             var obj = $(rendered);
             itemsEl.append(obj);
             MageS.Game.inventory.addItemDescription(items[id], obj);
+            MageS.Game.inventory.bindItem(obj);
         }
         itemsEl.data('items', '').attr('data-items', '');
 
         // build filters
         $('.items-filter').each(function(){
             $(this).on('click', function(){
-                var activeFilter = $('.items-filter.active');
-                $('.items-filter.active').removeClass('active');
-                $('.inventory .item.filtered-out').removeClass('filtered-out');
-                if (activeFilter.length && activeFilter.data('name') == $(this).data('name')) {
-                    return;
-                }
-                $(this).addClass('active');
-                $('.inventory .item:not(.type-' + $(this).data('name') + ')').addClass('filtered-out');
+                MageS.Game.inventory.filterItems($(this));
             })
         });
+    };
 
+    this.filterItems = function(filterEl) {
+        var activeFilter = $('.items-filter.active');
+        $('.items-filter.active').removeClass('active');
+        $('.inventory .item.filtered-out').removeClass('filtered-out');
+        if (activeFilter.length && activeFilter.data('name') == filterEl.data('name')) {
+            return;
+        }
+        filterEl.addClass('active');
+        $('.inventory .item:not(.type-' + filterEl.data('name') + ')').addClass('filtered-out');
     };
 
     this.updateItems = function(items) {
@@ -72,7 +76,7 @@ MageS.Inventory = function (game) {
                 $('.inventory .items').append(obj);
 
                 this.addItemDescription(config, obj);
-
+                this.bindItem(obj);
             }
         }
 
@@ -95,6 +99,18 @@ MageS.Inventory = function (game) {
                 $('.tooltip-helper-area .item-tooltip.id-' + id).hide();
             }
         });
+    };
+
+    this.itemClick = function (itemObj) {
+        if (MageS.Game.spellbook.craftingIsInProgress) {
+            MageS.Game.spellbook.itemClick(itemObj);
+        }
+    };
+
+    this.bindItem = function (item) {
+        item.on('click', function() {
+            MageS.Game.inventory.itemClick($(this));
+        })
     };
 
     this.addItems = function(game) {

@@ -7,6 +7,7 @@
 
 MageS.Spellbook = function (game) {
     this.game = game;
+    this.craftingIsInProgress = false;
     this.spellCraftProcess = {};
 
     this.buildSpells = function() {
@@ -214,43 +215,52 @@ MageS.Spellbook = function (game) {
     };
     this.endSpellCraftAnimations = function () {
         console.info('End spell craft animations');
+        this.game.endAction();
     };
 
     this.showSpellCrafting = function() {
-        if (!$('.inventory .items-tab.carrier .item').length) {
+        if (!$('.inventory .item.type-carrier').length) {
             this.itemsMessage('You have no Carrier to create a spell');
             return;
         }
         var itemsCount = 0;
-        $('.inventory .items-tab.ingredient .item').each(function() {
+        $('.inventory .item.type-ingredient .value').each(function() {
             itemsCount += parseInt($(this).html());
         });
         if (itemsCount < 3) {
             this.itemsMessage('You need more then 3 ingredients to create a spell');
             return;
         }
-        var carrierTab = this.craftingItemsTab('.items-tab.carrier');
-        carrierTab.addClass('spell-craft-1');
+        this.craftingIsInProgress = true;
+        MageS.Game.inventory.filterItems($('.items-filter.name-carrier'));
+
         this.showSpellCraftHelperStep1();
-        var newItems = carrierTab.find('.item');
-        newItems.tooltip();
-        newItems.on('click', function() {
-            MageS.Game.spellbook.SpellCraftStep2($(this));
-        });
+
+         //   MageS.Game.spellbook.SpellCraftStep2($(this));
+
+    };
+
+    this.itemClick = function(itemObj) {
+        if (itemObj.hasClass('type-carrier')) {
+            this.SpellCraftStep2(itemObj);
+        } else if (itemObj.hasClass('type-ingredient')) {
+            this.SpellCraftStep3(itemObj);
+        }
     };
 
     this.SpellCraftStep2 = function(carrierEl) {
         this.spellCraftProcess['carrier'] = carrierEl;
-        $('.spell-craft-1').hide(200, function(){ $(this).remove(); });
-        var ingridientsTab = this.craftingItemsTab('.items-tab.ingredient');
-        ingridientsTab.addClass('spell-craft-2');
+        //$('.spell-craft-1').hide(200, function(){ $(this).remove(); });
+        //var ingridientsTab = this.craftingItemsTab('.items-tab.ingredient');
+        //ingridientsTab.addClass('spell-craft-2');
+        MageS.Game.inventory.filterItems($('.items-filter.name-ingredient'));
         $('.helper-spell-craft-step-1').hide(200, function(){ $(this).remove(); });
         this.showSpellCraftHelperStep2();
-        var newItems = ingridientsTab.find('.item');
-        newItems.tooltip();
-        newItems.on('click', function() {
-            MageS.Game.spellbook.SpellCraftStep3($(this));
-        });
+        //var newItems = ingridientsTab.find('.item');
+        //newItems.tooltip();
+        //newItems.on('click', function() {
+        //    MageS.Game.spellbook.SpellCraftStep3($(this));
+        //});
     };
 
     this.SpellCraftStep3 = function(ingridientEl) {

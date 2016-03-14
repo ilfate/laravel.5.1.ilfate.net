@@ -17,6 +17,7 @@
                                     <div class="spell id-{{$spellId}} spell-{{$spellInfo['name']}} tip"
                                          data-values='{!! json_encode($spellInfo)!!}'
                                          data-id="{{$spellId}}">
+
                                         {{$spellInfo['config']['usages']}}
                                     </div>
                                 @endforeach

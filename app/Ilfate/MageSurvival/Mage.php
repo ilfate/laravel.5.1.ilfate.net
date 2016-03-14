@@ -212,7 +212,7 @@ abstract class Mage implements AliveInterface
             // we need to rotate first
             $this->d = $data['d'];
             GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_ROTATE, [
-                'd' => $this->d, 'wasD' => $d
+                'd' => (int) $this->d, 'wasD' => (int) $d
             ], Game::ANIMATION_STAGE_MAGE_ACTION);
             $stageForMove = Game::ANIMATION_STAGE_MAGE_ACTION_2;
         }
@@ -231,10 +231,11 @@ abstract class Mage implements AliveInterface
 
     public function rotate($d, $animationStage)
     {
+        $wasD = $this->d;
         $this->d = $d;
         $this->update();
-        $this->game->addAnimationEvent('mage-rotate', [
-            'mage' => $this->exportMage(),
+        $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_ROTATE, [
+            'd' => (int) $this->d, 'wasD' => (int) $wasD
         ], $animationStage);
     }
 

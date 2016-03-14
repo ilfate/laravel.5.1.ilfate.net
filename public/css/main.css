@@ -3010,6 +3010,9 @@ div.hex {
             display: block;
             position: relative;
             margin: 0; } }
+  .mage-survival .container.main .svg-icon {
+    width: 32px;
+    height: 32px; }
 .mage-survival .game-inteface .tooltip-helper-area {
   position: absolute;
   z-index: 60; }
@@ -3150,12 +3153,26 @@ div.hex {
     border: 1px solid cornflowerblue; }
 .mage-survival .game-inteface .craft-spell-overlay {
   position: absolute;
-  z-index: 60; }
+  z-index: 60;
+  font-size: 13px; }
+  .mage-survival .game-inteface .craft-spell-overlay .alert {
+    padding: 2px; }
   .mage-survival .game-inteface .craft-spell-overlay .helper-spell-craft-step-1, .mage-survival .game-inteface .craft-spell-overlay .helper-spell-craft-step-2, .mage-survival .game-inteface .craft-spell-overlay .spell-craft-info {
     position: absolute;
-    width: 352px; }
+    width: 247px; }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
+.game-inteface .cell {
+  background-image: url("/images/game/mage/icons_htmlcode/img/cells.png"); }
+  .game-inteface .cell.f1 {
+    background-position: -0px -0px; }
+  .game-inteface .cell.f2 {
+    background-position: -32px 0px; }
+  .game-inteface .cell.f3 {
+    background-position: -96px 0px; }
+  .game-inteface .cell.s {
+    background-position: -128px 0px; }
+
 i.rpg-icon-small {
   display: inline-block;
   height: 17px;
