@@ -3062,6 +3062,12 @@ div.hex {
     height: 22px;
     z-index: 35; }
 .mage-survival .game-inteface .battle-field {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: absolute;
   margin: 160px 0 0 160px;
   width: 192px;
@@ -3118,9 +3124,16 @@ div.hex {
       z-index: 45;
       opacity: 0.7; }
 .mage-survival .game-inteface .inventory {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   height: 247px;
   width: 247px; }
   .mage-survival .game-inteface .inventory .items-filter {
+    cursor: pointer;
     opacity: 0.5; }
     .mage-survival .game-inteface .inventory .items-filter.active {
       opacity: 1; }
@@ -3137,20 +3150,38 @@ div.hex {
       padding-left: 2px;
       padding-right: 2px; }
 .mage-survival .game-inteface .spellBook {
-  height: 224px; }
-.mage-survival .game-inteface .spells-tab {
-  background-color: #FCEBB6;
-  position: absolute;
-  border: 1px solid cornflowerblue;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.23), 0 10px 30px rgba(0, 0, 0, 0.19);
-  width: 10rem;
-  height: 10rem;
-  z-index: 50; }
-  .mage-survival .game-inteface .spells-tab .spell {
-    float: left;
-    width: 32px;
-    height: 32px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 247px;
+  width: 247px; }
+  .mage-survival .game-inteface .spellBook .spell-filter {
+    cursor: pointer;
+    opacity: 0.5; }
+    .mage-survival .game-inteface .spellBook .spell-filter.active {
+      opacity: 1; }
+  .mage-survival .game-inteface .spellBook .spells {
+    background-color: #FCEBB6;
     border: 1px solid cornflowerblue; }
+    .mage-survival .game-inteface .spellBook .spells .spell {
+      float: left;
+      width: 34px;
+      height: 34px;
+      border: 1px solid cornflowerblue; }
+      .mage-survival .game-inteface .spellBook .spells .spell.filtered-out {
+        display: none; }
+      .mage-survival .game-inteface .spellBook .spells .spell .value {
+        position: absolute;
+        font-size: 10px;
+        background-color: #FCEBB6;
+        color: #5E412F;
+        padding-left: 2px;
+        padding-right: 2px; }
+      .mage-survival .game-inteface .spellBook .spells .spell svg {
+        position: absolute; }
 .mage-survival .game-inteface .craft-spell-overlay {
   position: absolute;
   z-index: 60;

@@ -57,26 +57,10 @@ return array(
     ],
     'item-types' => [
         ['name' => 'carrier', 'class' => 'msc_scroll_open'],
-        ['name' => 'ingredient', 'class' => 'msc_feather_red'],
+        ['name' => 'ingredient', 'class' => 'trs_raw'],
     ],
     'spells' => [
-        'schools' => [
-            1 => 'fire',
-            2 => 'water',
-            3 => 'air',
-            4 => 'earth',
-            5 => 'light',
-            6 => 'death',
-            7 => 'nature',
-            8 => 'arcane',
-            9 => 'blood',
-            10 => 'voodoo',
-            11 => 'demonology',
-            12 => 'dragon',
-            13 => 'spirit',
-            14 => 'shadow',
-            15 => 'steel',
-        ],
+
         'list' => [
             1 => [ //fire
                 1 => [ // level 1

@@ -2,9 +2,17 @@
 
 <script id="template-inventory-spell" type="x-tmpl-mustache">
 
-    <div class="spell id-{{id}} spell-{{name}}" data-toggle="tooltip"
-                                 data-placement="left"
-                                 title="{{name}}" data-id="{{id}}">
-        {{quantity}}
+    <div class="spell id-{{id}} spell-{{name}} school-{{school}}"
+        data-toggle="tooltip"
+        data-cooldown="{{cooldown}}"
+        data-cooldownLeft="{{cooldownLeft}}"
+        data-spell-type="{{spellType}}"
+        data-target-type="{{targetType}}"
+        data-placement="left"
+        title="{{name}}" data-id="{{id}}"
+    >
+        <svg class="svg-icon" viewBox="0 0 500 500">
+        </svg>
+        <span class="value">{{quantity}}</span>
     </div>
 </script>

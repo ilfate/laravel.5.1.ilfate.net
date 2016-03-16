@@ -35,6 +35,7 @@ MageS.Game = function () {
     this.animations = {};
     this.gameStatus = $('#game-status').val();
     this.rawData = [];
+    this.turn = 0;
     this.worldType = 0;
     this.actionInProcess = false;
     /* CONFIG */
@@ -75,19 +76,21 @@ MageS.Game = function () {
                 break;
             case 'battle':
                 this.buildMap();
-                this.spellbook.buildSpells();
+                this.spellbook.initSVG();
                 this.inventory.buildItems();
                 this.configureKeys();
 
                 $('a.craft-spell-button').on('click', function() {
                     MageS.Game.spellbook.showSpellCrafting();
                 });
+
                 break;
         }
     }
 
     this.buildMap = function() {
         this.rawData = mageSurvivalData;
+        this.turn = this.rawData.turn;
         this.worldType = this.rawData.world;
         for(var y in this.rawData.map) {
             for(var x in this.rawData.map[y]) {
@@ -198,6 +201,10 @@ MageS.Game = function () {
         }
         if (data.game.events) {
             this.animations.animateEvents(data.game);
+        }
+        if (data.game.turn) {
+            this.turn = data.game.turn
+            this.spellbook.turn();
         }
 
     };

@@ -86,6 +86,7 @@ abstract class Mage implements AliveInterface
             'health' => $this->getHealth(),
             'items' => $this->exportItems(),
             'spells' => $this->exportSpells(),
+            'spellSchools' => $this->exportSchools(),
         ];
         return $data;
     }
@@ -135,24 +136,37 @@ abstract class Mage implements AliveInterface
         if (!$this->spells) {
             return [];
         }
-        $spellsViewData = \Config::get('mageSpells.list');
+        $spellsViewData = \Config::get('mageSpells');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
-        $turn = $this->getTurn();
+        //$turn = $this->getTurn();
         foreach ($this->spells as $spellId => $spell) {
 
-            $cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
-            $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
+            //$cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
+            //$spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
             list($name, $schoolId, $level) = explode('#', $spell['code']);
-            $return[$schoolId][$spellId] = [
+            $return[$spellId] = [
                 'id' => $spellId,
                 'name' => $name,
                 'schoolId' => $schoolId,
                 'level' => $level,
                 'config' => $spell['config'],
-                'viewData' => $spellsViewData[$name],
+                'viewData' => $spellsViewData['list'][$name],
             ];
             if (!empty($spell['config']['pattern'])) {
-                $return[$schoolId][$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
+                $return[$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
+            }
+        }
+        return $return;
+    }
+
+    protected function exportSchools()
+    {
+        $return = [];
+        $spellsViewData = \Config::get('mageSpells.schools');
+        foreach ($this->spells as $spellId => $spell) {
+            list($name, $schoolId, $level) = explode('#', $spell['code']);
+            if (empty($return[$schoolId])) {
+                $return[$schoolId] = $spellsViewData[$schoolId];
             }
         }
         return $return;
@@ -166,12 +180,12 @@ abstract class Mage implements AliveInterface
         }
         $spellsViewData = \Config::get('mageSpells.list');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
-        $turn = $this->getTurn();
+        //$turn = $this->getTurn();
         foreach ($this->spellsChanges as $spellId => $spell) {
-            $cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
-            $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
+            //$cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
+            //$spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
             list($name, $schoolId, $level) = explode('#', $spell['code']);
-            $return[$schoolId][$spellId] = [
+            $return[$spellId] = [
                 'id' => $spellId,
                 'name' => $name,
                 'schoolId' => $schoolId,
@@ -181,7 +195,7 @@ abstract class Mage implements AliveInterface
                 'status' => $spell['status']
             ];
             if (!empty($spell['config']['pattern'])) {
-                $return[$schoolId][$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
+                $return[$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
             }
         }
         return $return;

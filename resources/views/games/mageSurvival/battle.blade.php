@@ -1,12 +1,6 @@
 @extends('games.mageSurvival.layout')
 
 @section('content')
-    <svg class="svg-icon">
-        <use xlink:href="/images/game/mage/game-icons.svg#icon-flame"></use>
-        </svg>
-    <svg class="svg-icon">
-        <use xlink:href="/images/game/mage/game-icons.svg#icon-mite-alt"></use>
-        </svg>
 <div class="game-container" >
     <input type="hidden" id="game-status" value="battle" />
     <div class="row game-inteface">

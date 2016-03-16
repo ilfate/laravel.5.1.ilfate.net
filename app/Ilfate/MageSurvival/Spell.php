@@ -108,6 +108,7 @@ abstract class Spell
         $game = GameBuilder::getGame();
         $result = ['spell' => false];
         $config = \Config::get('mageSurvival.spells');
+        $spellsConfig = \Config::get('mageSpells');
         $itemsConfig = \Config::get('mageSurvival.items');
 
         $spellRandomizerConfig = [
@@ -131,9 +132,13 @@ abstract class Spell
                         break;
                     case self::STAT_SCHOOL:
                         foreach ($statValue as $school => $value) {
-                            $schoolId = array_search($school, $config['schools']);
-                            for ($i = 0; $i < $value; $i++) {
-                                $spellRandomizerConfig[self::KEY_SCHOOL_CHANCES][] = $schoolId;
+                            foreach ($spellsConfig['schools'] as $schoolId => $schoolConfig) {
+                                if ($schoolConfig['name'] == $school) {
+                                    for ($i = 0; $i < $value; $i++) {
+                                        $spellRandomizerConfig[self::KEY_SCHOOL_CHANCES][] = $schoolId;
+                                    }
+                                    break;
+                                }
                             }
                         }
                         break;
@@ -168,7 +173,7 @@ abstract class Spell
         );
 
         $schoolId = ChanceHelper::oneFromArray($spellRandomizerConfig[self::KEY_SCHOOL_CHANCES]);
-        $schoolName = $config['schools'][$schoolId];
+        $schoolName = $spellsConfig['schools'][$schoolId]['name'];
         $game->addMessage('School of your spell is ' . $schoolName);
 
         $level = 1;
@@ -217,7 +222,7 @@ abstract class Spell
     public static function createSpellByCode($code, $config, $id, Game $game = null, World $world = null, Mage $mage = null)
     {
         list($name, $schoolId, $level) = explode('#', $code);
-        $schoolName = \Config::get('mageSurvival.spells.schools.' . $schoolId);
+        $schoolName = \Config::get('mageSpells.schools.' . $schoolId)['name'];
         $class = self::getSpellClass($schoolName, $name);
         return new $class($name, $schoolId, $config, $id, $game, $world, $mage);
     }
@@ -229,6 +234,9 @@ abstract class Spell
     {
         if ($this->config['usages'] < 1) {
             throw new \Exception('This spell is empty (id = ' . $this->id . ')');
+        }
+        if ($this->config[self::CONFIG_FIELD_COOLDOWN_MARK] > $this->mage->getTurn()) {
+            throw new MessageException('Spell is on cooldown');
         }
         if (!empty($this->configuration[self::CONFIG_DIRECT_TARGET_SPELL])) {
             // we need a target
@@ -284,8 +292,15 @@ abstract class Spell
         }
         if ($isSuccess) {
             $this->spend();
+            $this->cooldown();
             $this->mage->updateSpell($this);
         }
+    }
+
+    public function cooldown()
+    {
+        $this->config[self::CONFIG_FIELD_COOLDOWN_MARK] = $this->mage->getTurn()
+            + $this->config[self::CONFIG_FIELD_COOLDOWN];
     }
 
     protected function getNormalCastStage()

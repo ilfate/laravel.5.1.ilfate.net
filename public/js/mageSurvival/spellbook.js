@@ -9,91 +9,172 @@ MageS.Spellbook = function (game) {
     this.game = game;
     this.craftingIsInProgress = false;
     this.spellCraftProcess = {};
+    this.spellsPatterns = {};
+    this.svg = {};
 
     this.buildSpells = function() {
-        $('.spellBook .spell').each(function() {
-            var data = $(this).data('values');
-            MageS.Game.spellbook.buildSpell($(this), data);
-            MageS.Game.spellbook.addSpellDescription(data, $(this));
+
+        var template = $('#template-inventory-spell').html();
+        Mustache.parse(template);
+        var spellsEl = $('.spellBook .spells');
+        var spells = spellsEl.data('spells');
+        for (var id in spells) {
+            var obj = this.renderSpell(template, spells[id]);
+            spellsEl.append(obj);
+            MageS.Game.spellbook.buildSpell(obj);
+            MageS.Game.spellbook.addSpellDescription(spells[id], obj);
+        }
+        spellsEl.data('spells', '').attr('data-spells', '');
+
+        // build filters
+        $('.spell-filter').each(function(){
+            $(this).on('click', function(){
+                MageS.Game.spellbook.filterSpells($(this));
+            })
         });
+
         $('.pattern-field .pattern-cell').on('click', function() {MageS.Game.spellbook.patternClick($(this))});
 
 
     };
 
-    this.buildSpell = function(spell, values) {
-        if (values.viewData.noTargetSpell) {
-            spell.on('click', function() {
-                MageS.Game.action('spell', '{"id":"' + $(this).data('id') + '"}')
-            });
-        } else if (values.viewData.directTargetSpell) {
-            switch (values.viewData.directTargetSpell) {
+    this.buildSpell = function(spellEl) {
+        spellEl.on('click', function() {
+            MageS.Game.spellbook.spellClick($(this));
+        });
+    };
+
+    this.spellClick = function(spellEl) {
+        var spellType = spellEl.data('spell-type');
+        var targetType = spellEl.data('target-type');
+        info(spellType);
+        info(targetType);
+        if (spellType == 'noTargetSpell') {
+            MageS.Game.action('spell', '{"id":"' + spellEl.data('id') + '"}');
+        } else if (spellType == 'directTargetSpell') {
+            switch (targetType) {
                 case 'enemy':
                     //find all enemies/
                     // hgihtlight them
-                    spell.on('click', function() {
-                        MageS.Game.spellbook.showEnemyTargets($(this));
-                    });
+                    MageS.Game.spellbook.showEnemyTargets(spellEl);
                     break;
             }
-        } else if (values.pattern) {
+        } else if (spellType == 'pattern') {
             // display the pattern
-            spell.on('click', function() {
-                MageS.Game.spellbook.showPattern($(this), values.pattern);
-            });
+            MageS.Game.spellbook.showPattern(spellEl, this.spellsPatterns[spellEl.data('id')]);
         }
     };
 
     this.updateSpells = function(spells) {
-        for(var schoolId in spells) {
-            for(var id in spells[schoolId]) {
-                var spell = spells[schoolId][id];
-                var typeEl = $('.spells-tab.school-' + schoolId);
-                var existingEl = typeEl.find('.spell.id-' + id);
-                if (spell.status == 'new') {
-                    //create new spell
-                    if (!typeEl.length)
-                    {
-                        var tabId = 'spells-tab-' + schoolId;
-                        $('.spellBook .tab-content').append(
-                            $('<div role="tabpanel" class="tab-pane spells-tab"></div>').addClass('school-' +schoolId)
-                                .attr('id', tabId)
-                        );
-                        $('.spellBook .nav.nav-tabs').append(
-                            $('<li role="presentation"><a href="#' + tabId + '" aria-controls="' + tabId + '" role="tab" data-toggle="tab">' + schoolId + '</a></li>')
-                        );
-                    }
-                    var temaplate = $('#template-inventory-spell').html();
-                    Mustache.parse(temaplate);
-                    var rendered = Mustache.render(temaplate, {
-                        'id': id,
-                        'name': spell.name,
-                        'quantity': spell.config.usages,
-                    });
-                    var obj = $(rendered);
-                    $('.spells-tab.school-' + schoolId).append(obj);
-                    obj.tooltip();
-                    MageS.Game.spellbook.buildSpell(obj, spell);
-                    MageS.Game.spellbook.addSpellDescription(spell, obj);
-                } else {
-                    if (existingEl.length) {
-                        //add item
-                        if (spell.status == 'deleted') {
-                            existingEl.remove();
+        for(var id in spells) {
+            var spell = spells[id];
+            var existingEl = $('.spell.id-' + id);
+            if (spell.status == 'new') {
+                //create new spell
+                var template = $('#template-inventory-spell').html();
+                Mustache.parse(template);
+                var obj = this.renderSpell(template, spell);
+                $('.spellBook .spells').append(obj);
+                obj.tooltip();
+                MageS.Game.spellbook.buildSpell(obj);
+                MageS.Game.spellbook.addSpellDescription(spell, obj);
+            } else {
+                if (existingEl.length) {
+                    //add item
+                    if (spell.status == 'deleted') {
+                        existingEl.remove();
+                    } else {
+                        var newQuantity = spell.config.usages;
+                        if (newQuantity > 0) {
+                            existingEl.find('.value').html(newQuantity);
                         } else {
-                            var newQuantity = spell.config.usages;
-                            if (newQuantity > 0) {
-                                existingEl.html(newQuantity);
-                            } else {
-                                existingEl.remove();
+                            existingEl.remove();
+                        }
+                        //cooldowns
+                        if (!existingEl.hasClass('cooldown')) {
+                            if (this.game.turn < spell.config.cooldownMark) {
+                                this.addCooldown(existingEl);
+                            }
+                        } else {
+                            if (this.game.turn >= spell.config.cooldownMark) {
+                                this.removeCooldown(existingEl);
                             }
                         }
                     }
                 }
-
-
             }
         }
+    };
+
+    this.renderSpell = function(temaplate, spell) {
+        var spellType = '';
+        var targetType = '';
+        if (spell.viewData.noTargetSpell) {
+            spellType = 'noTargetSpell';
+        } else if (spell.viewData.directTargetSpell) {
+            spellType = 'directTargetSpell';
+            targetType = spell.viewData.directTargetSpell;
+        } else if(spell.pattern) {
+            spellType = 'pattern'
+            this.spellsPatterns[spell.id] = spell.pattern;
+        }
+        var icon = $(this.svg).find('#' + spell.viewData.iconClass + ' path');
+        info(icon);
+        //<use xlink:href="/images/game/mage/game-icons.svg#{{icon-class}}"></use>
+        var rendered = Mustache.render(temaplate, {
+            'id': spell.id,
+            'name': spell.name,
+            'quantity': spell.config.usages,
+            'cooldown': spell.config.cooldown,
+            'cooldownLeft': spell.config.cooldownMark - this.game.turn,
+            'spellType': spellType,
+            'targetType': targetType,
+            'school': spell.schoolId,
+        });
+        var obj = $(rendered);
+        obj.find('svg').append(icon.clone());
+        if (spell.viewData.iconColor !== undefined) {
+            obj.find('path').css('fill', spell.viewData.iconColor)
+        }
+        if (this.game.turn < spell.config.cooldownMark) {
+            // this spell is on cooldown
+            this.addCooldown(obj);
+        }
+        return obj;
+    };
+
+    this.turn = function() {
+        $('.spellBook .spell.cooldown').each(function() {
+            if ($(this).data('cooldown') <= MageS.Game.game.turn) {
+                MageS.Game.spellbook.removeCooldown($(this));
+            } else {
+                MageS.Game.spellbook.stepCooldown($(this));
+            }
+        });
+    };
+
+    this.addCooldown = function(spellEl) {
+        spellEl.addClass('cooldown');
+    };
+
+    this.removeCooldown = function(spellEl) {
+        spellEl.removeClass('cooldown');
+    };
+
+    this.stepCooldown = function(spellEl) {
+        info('cooldown step');
+    };
+
+    this.filterSpells = function(filterEl) {
+        var activeFilter = $('.spell-filter.active');
+        $('.spell-filter.active').removeClass('active');
+        $('.spellBook .spell.filtered-out').removeClass('filtered-out');
+        if (activeFilter.length && activeFilter.data('school') == filterEl.data('school')) {
+            return;
+        }
+        filterEl.addClass('active');
+        info('.spellBook .spell:not(.school-' + filterEl.data('school') + ')');
+        $('.spellBook .spell:not(.school-' + filterEl.data('school') + ')').addClass('filtered-out');
     };
 
     this.checkForActiveSpells = function(spell) {
@@ -204,6 +285,30 @@ MageS.Spellbook = function (game) {
         });
     };
 
+    this.initSVG = function() {
+        var url = '/images/game/mage/game-icons.svg';
+        jQuery.get(url, function(data) {
+            // Get the SVG tag, ignore the rest
+            MageS.Game.spellbook.svg = jQuery(data).find('svg');
+            MageS.Game.spellbook.buildSpells();
+            // Add replaced image's ID to the new SVG
+            //if(typeof imgID !== 'undefined') {
+            //    $svg = $svg.attr('id', imgID);
+            //}
+            // Add replaced image's classes to the new SVG
+            //if(typeof imgClass !== 'undefined') {
+            //    $svg = $svg.attr('class', imgClass+' replaced-svg');
+            //}
+
+            // Remove any invalid XML tags as per http://validator.w3.org
+            //$svg = $svg.removeAttr('xmlns:a');
+
+            // Replace image with new SVG
+            //$img.replaceWith($svg);
+
+        }, 'xml');
+    }
+
     this.spellCrafted = function(data) {
         this.spellCraftProcess = [];
         this.endSpellCraftAnimations();
@@ -279,7 +384,7 @@ MageS.Spellbook = function (game) {
                 numberOfSameIds++;
             }
         }
-        if (parseInt(ingridientEl.html()) < numberOfSameIds + 1) {
+        if (parseInt(ingridientEl.find('.value').html()) < numberOfSameIds + 1) {
             this.addCraftingMessageStep3('You don`t have enough of that ingredient');
             return;
         }

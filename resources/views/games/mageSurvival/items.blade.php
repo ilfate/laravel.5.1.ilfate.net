@@ -5,9 +5,9 @@
     <div class="craft-spell-overlay"></div>
     <div class="items-filters-panel">
         @foreach($viewData['game']['item-types'] as $id => $type)
-            <a class="items-filter name-{{$type['name']}}" data-name="{{$type['name']}}">
+            <span class="items-filter name-{{$type['name']}}" data-name="{{$type['name']}}">
                 <i class="rpg-icon-large {{$type['class']}}"></i>
-            </a>
+            </span>
         @endforeach
     </div>
 

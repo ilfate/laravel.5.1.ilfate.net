@@ -148,6 +148,12 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
             }
         }
         .battle-field {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             position: absolute;
             margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
             width:($map-radius + 1) * $cell-size + px;
@@ -230,9 +236,16 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
         }
 
         .inventory {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             height: 7 * $item-size + 9 + px;
             width: 7 * $item-size + 9 + px;
             .items-filter {
+                cursor: pointer;
                 opacity: 0.5;
                 &.active {
                     opacity: 1;
@@ -260,26 +273,48 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
         }
 
         .spellBook {
-            height: (7 ) * $cell-size + px;
-        }
-
-        .spells-tab {
-            background-color: $mage-color-background;
-            position: absolute;
-            border: 1px solid cornflowerblue;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.23), 0 10px 30px rgba(0, 0, 0, 0.19);
-            width: 10rem;
-            height: 10rem;
-            z-index: 50;
-
-            .spell {
-                float: left;
-                width: $cell-size + px;
-                height: $cell-size + px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            height: 7 * $item-size + 9 + px;
+            width: 7 * $item-size + 9 + px;
+            .spell-filter {
+                cursor: pointer;
+                opacity: 0.5;
+                &.active {
+                    opacity: 1;
+                }
+            }
+            .spells {
+                background-color: $mage-color-background;
                 border: 1px solid cornflowerblue;
+
+                .spell {
+                    float: left;
+                    width: $item-size + px;
+                    height: $item-size + px;
+                    border: 1px solid cornflowerblue;
+                    &.filtered-out {
+                        display: none;
+                    }
+                    .value {
+                        //text-shadow: 2px 2px #fefefe;
+                        position:absolute;
+                        font-size: 10px;
+                        background-color: $color-clay;
+                        color:$color-brawn;
+                        padding-left:2px;
+                        padding-right:2px;
+                    }
+                    svg {
+                        position: absolute;
+                    }
+                }
             }
         }
-
 
         .craft-spell-overlay{
             position: absolute;

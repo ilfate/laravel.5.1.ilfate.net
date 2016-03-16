@@ -118,6 +118,7 @@ class Game
         $data['mage'] = $this->mage->viewExport();
         $data['item-types'] = $this->config['item-types'];
         $data['actions'] = $this->mage->getAllPossibleActions($this->world);
+        $data['turn'] = $this->getTurn();
         $data['config'] = [
             'screenRadius' => $this->worldGenerator->getScreenRadius(),
             'cellSize' => 32,
@@ -173,7 +174,7 @@ class Game
 
         $return['actions'] = $this->mage->getAllPossibleActions($this->world);
         $this->nextTurn();
-
+        $return['turn'] = $this->getTurn();
         $this->save();
 
         if ($this->messages) {
@@ -211,7 +212,7 @@ class Game
 
     public function getTurn()
     {
-        $this->mage->getTurn();
+        return $this->mage->getTurn();
     }
 
     public function initWorld()
