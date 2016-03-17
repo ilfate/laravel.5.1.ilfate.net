@@ -6,7 +6,9 @@
     <div class="items-filters-panel">
         @foreach($viewData['game']['item-types'] as $id => $type)
             <span class="items-filter name-{{$type['name']}}" data-name="{{$type['name']}}">
-                <i class="rpg-icon-large {{$type['class']}}"></i>
+                <svg class="svg-icon">
+                    <use xlink:href="/images/game/mage/game-icons.svg#{{$type['icon']}}"></use>
+                </svg>
             </span>
         @endforeach
     </div>

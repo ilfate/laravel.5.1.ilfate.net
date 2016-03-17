@@ -14,15 +14,7 @@ MageS.Inventory = function (game) {
         var itemsEl = $('.inventory .items');
         var items = itemsEl.data('items');
         for (var id in items) {
-
-            var rendered = Mustache.render(template, {
-                'id': id,
-                'class': items[id].class,
-                'name': items[id].name,
-                'type': items[id].type,
-                'quantity': items[id].quantity,
-            });
-            var obj = $(rendered);
+            var obj = this.renderItem(template, items[id]);
             itemsEl.append(obj);
             MageS.Game.inventory.addItemDescription(items[id], obj);
             MageS.Game.inventory.bindItem(obj);
@@ -48,6 +40,24 @@ MageS.Inventory = function (game) {
         $('.inventory .item:not(.type-' + filterEl.data('name') + ')').addClass('filtered-out');
     };
 
+    this.renderItem = function(template, item) {
+        var rendered = Mustache.render(template, {
+            'id': item.id,
+            //'class': item.class,
+            'name': item.name,
+            'type': item.type,
+            'quantity': item.quantity,
+        });
+        var obj = $(rendered);
+        info(item.icon);
+        var icon = $(this.game.svg).find('#' + item.icon + ' path');
+        obj.find('svg').append(icon.clone());
+        if (item.iconColor !== undefined) {
+            obj.addClass(item.iconColor);
+        }
+        return obj;
+    };
+
     this.updateItems = function(items) {
         for(var id in items) {
             var config = items[id];
@@ -63,16 +73,17 @@ MageS.Inventory = function (game) {
                 }
             } else {
                 //create new item
-                var temaplate = $('#template-item').html();
-                Mustache.parse(temaplate);
-                var rendered = Mustache.render(temaplate, {
-                    'id': id,
-                    'class': config.class,
-                    'name': config.name,
-                    'type': config.type,
-                    'quantity': config.quantity,
-                });
-                var obj = $(rendered);
+                var template = $('#template-item').html();
+                Mustache.parse(template);
+                var obj = this.renderItem(template, config);
+                //var rendered = Mustache.render(temaplate, {
+                //    'id': id,
+                //    'class': config.class,
+                //    'name': config.name,
+                //    'type': config.type,
+                //    'quantity': config.quantity,
+                //});
+                //var obj = $(rendered);
                 $('.inventory .items').append(obj);
 
                 this.addItemDescription(config, obj);

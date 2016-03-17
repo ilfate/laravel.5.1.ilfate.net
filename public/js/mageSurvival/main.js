@@ -35,6 +35,7 @@ MageS.Game = function () {
     this.animations = {};
     this.gameStatus = $('#game-status').val();
     this.rawData = [];
+    this.svg = {};
     this.turn = 0;
     this.worldType = 0;
     this.actionInProcess = false;
@@ -76,8 +77,8 @@ MageS.Game = function () {
                 break;
             case 'battle':
                 this.buildMap();
-                this.spellbook.initSVG();
-                this.inventory.buildItems();
+                this.initSVG();
+
                 this.configureKeys();
 
                 $('a.craft-spell-button').on('click', function() {
@@ -120,6 +121,7 @@ MageS.Game = function () {
         }
         this.startAction();
         this.spellbook.turnOffPatterns();
+        $('.spellBook .spell.active').removeClass('active');
         var actionName = '';
         var dataString = '';
         switch (action) {
@@ -203,7 +205,7 @@ MageS.Game = function () {
             this.animations.animateEvents(data.game);
         }
         if (data.game.turn) {
-            this.turn = data.game.turn
+            this.turn = data.game.turn;
             this.spellbook.turn();
         }
 
@@ -225,6 +227,17 @@ MageS.Game = function () {
                 MageS.Game.action('objectInteract', '{"method":"' + actions[i].method + '"}')
             })
         }
+    };
+
+    this.initSVG = function() {
+        var url = '/images/game/mage/game-icons.svg';
+        jQuery.get(url, function(data) {
+            // Get the SVG tag, ignore the rest
+            MageS.Game.svg = jQuery(data).find('svg');
+            MageS.Game.spellbook.buildSpells();
+            MageS.Game.inventory.buildItems();
+
+        }, 'xml');
     };
 
     this.startAction = function() {

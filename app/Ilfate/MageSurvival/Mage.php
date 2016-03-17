@@ -395,7 +395,7 @@ abstract class Mage implements AliveInterface
         $this->health -= $value;
         GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_DAMAGE, [
             'health' => $this->getHealth(),
-            'dHealth' => $value,
+            'value' => $value,
         ], $animationStage);
     }
 

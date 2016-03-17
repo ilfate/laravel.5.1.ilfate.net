@@ -33,5 +33,8 @@ class FireNova extends Fire
 {
     protected $availablePatterns = [1,2,3];
 
+    protected $defaultCooldownMin = 1;
+    protected $defaultCooldownMax = 1;
+
     use DamageSpell;
 }

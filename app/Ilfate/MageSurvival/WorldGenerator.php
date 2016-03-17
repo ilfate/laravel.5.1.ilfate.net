@@ -183,7 +183,7 @@ abstract class WorldGenerator
                     // create object
                     $this->world->addRandomObject($x, $y);
                 }
-                if (ChanceHelper::chance(1)) {
+                if (ChanceHelper::chance(3)) {
                     $this->world->addRandomUnit($x, $y);
                 }
             }

@@ -246,9 +246,13 @@ abstract class Unit implements AliveInterface
         $this->data['health'] -= $value;
         if ($this->data['health'] < 1) {
             $this->world->destroyUnit($this->x, $this->y);
-                GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
+            GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
         } else {
             $this->world->updateUnit($this);
+            GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_DAMAGE, [
+                'id' => $this->getId(),
+                'value' => $value
+            ], $animationStage);
         }
     }
 

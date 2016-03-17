@@ -20,6 +20,9 @@ class Fireball extends Fire
 {
     protected $availablePatterns = [4];
 
+    protected $defaultCooldownMin = 3;
+    protected $defaultCooldownMax = 3;
+
     protected function spellEffect($data)
     {
         foreach($this->targets as $target) {

@@ -9,12 +9,13 @@ return array(
         'Fireball' => [
             'description' => 'Hit a single target with fire',
             'iconClass' => 'icon-flame',
-            'iconColor' => '#FF8360',
+            'iconColor' => 'color-red',
             'directTargetSpell' => 'enemy',
         ],
         'FireNova' => [
             'description' => 'Create ring of Fire to bern all the enemies around',
             'iconClass' => 'icon-flame',
+            'iconColor' => 'color-red',
 
         ],
 
@@ -32,7 +33,7 @@ return array(
         //level 1
         'Push' => [
             'description' => 'Default description',
-            'iconColor' => '#529BCA',
+            'iconColor' => 'color-blue',
             'iconClass' => 'icon-cloud-ring',
         ],
 

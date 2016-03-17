@@ -4,8 +4,7 @@
 
     <div class="spell id-{{id}} spell-{{name}} school-{{school}}"
         data-toggle="tooltip"
-        data-cooldown="{{cooldown}}"
-        data-cooldownLeft="{{cooldownLeft}}"
+        data-cooldown-mark="{{cooldownMark}}"
         data-spell-type="{{spellType}}"
         data-target-type="{{targetType}}"
         data-placement="left"

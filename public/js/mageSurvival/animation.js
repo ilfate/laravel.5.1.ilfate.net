@@ -100,7 +100,12 @@ MageS.Animations = function (game) {
             case 'mage-damage':
                 info('Some one dealed ' + data.data.dHealth + ' damage to you');
                 $('.health-value').html(data.data.health);
-                MageS.Game.animations.singleAnimationFinished();
+                this.showDamageAnimation(data.data, false);
+                break;
+            case 'unit-damage':
+                info('Unit got ' + data.data.value + ' damage');
+                //$('.health-value').html(data.data.health);
+                this.showDamageAnimation(data.data, true);
                 break;
             case 'object-destroy':
                 this.objectDestroyAnimation(data.data);
@@ -241,6 +246,25 @@ MageS.Animations = function (game) {
                 MageS.Game.animations.singleAnimationFinished();
             }
         )});
+    };
+
+    this.showDamageAnimation = function (data, enemy) {
+        var id = data.id;
+        if (enemy) {
+            var target = $('.unit.id-' + id);
+        } else {
+            var target = $('.battle-border .mage-container');
+        }
+        info(data);
+        var el = $('<div>' + (-data.value) + '</div>').addClass('damage');
+        target.append(el);
+        el.css({'margin-top':'10px','margin-left':'10px',})
+            .animate(
+                {'margin-top':'0','margin-left':'0',},
+                {duration:300, complete:function() {
+            $(this).remove();
+            MageS.Game.animations.singleAnimationFinished();
+        }})
     };
 
     this.waitAnimation = function(data)

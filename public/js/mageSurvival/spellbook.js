@@ -10,7 +10,6 @@ MageS.Spellbook = function (game) {
     this.craftingIsInProgress = false;
     this.spellCraftProcess = {};
     this.spellsPatterns = {};
-    this.svg = {};
 
     this.buildSpells = function() {
 
@@ -45,10 +44,12 @@ MageS.Spellbook = function (game) {
     };
 
     this.spellClick = function(spellEl) {
+        if (spellEl.hasClass('cooldown')) {
+            info('This spell is on cooldown');
+            return;
+        }
         var spellType = spellEl.data('spell-type');
         var targetType = spellEl.data('target-type');
-        info(spellType);
-        info(targetType);
         if (spellType == 'noTargetSpell') {
             MageS.Game.action('spell', '{"id":"' + spellEl.data('id') + '"}');
         } else if (spellType == 'directTargetSpell') {
@@ -90,6 +91,7 @@ MageS.Spellbook = function (game) {
                         } else {
                             existingEl.remove();
                         }
+                        existingEl.data('cooldown-mark', spell.config.cooldownMark);
                         //cooldowns
                         if (!existingEl.hasClass('cooldown')) {
                             if (this.game.turn < spell.config.cooldownMark) {
@@ -106,7 +108,7 @@ MageS.Spellbook = function (game) {
         }
     };
 
-    this.renderSpell = function(temaplate, spell) {
+    this.renderSpell = function(template, spell) {
         var spellType = '';
         var targetType = '';
         if (spell.viewData.noTargetSpell) {
@@ -118,15 +120,13 @@ MageS.Spellbook = function (game) {
             spellType = 'pattern'
             this.spellsPatterns[spell.id] = spell.pattern;
         }
-        var icon = $(this.svg).find('#' + spell.viewData.iconClass + ' path');
-        info(icon);
+        var icon = $(this.game.svg).find('#' + spell.viewData.iconClass + ' path');
         //<use xlink:href="/images/game/mage/game-icons.svg#{{icon-class}}"></use>
-        var rendered = Mustache.render(temaplate, {
+        var rendered = Mustache.render(template, {
             'id': spell.id,
             'name': spell.name,
             'quantity': spell.config.usages,
-            'cooldown': spell.config.cooldown,
-            'cooldownLeft': spell.config.cooldownMark - this.game.turn,
+            'cooldownMark': spell.config.cooldownMark,
             'spellType': spellType,
             'targetType': targetType,
             'school': spell.schoolId,
@@ -134,7 +134,8 @@ MageS.Spellbook = function (game) {
         var obj = $(rendered);
         obj.find('svg').append(icon.clone());
         if (spell.viewData.iconColor !== undefined) {
-            obj.find('path').css('fill', spell.viewData.iconColor)
+            obj.addClass(spell.viewData.iconColor);
+            //obj.find('path').css('fill', spell.viewData.iconColor)
         }
         if (this.game.turn < spell.config.cooldownMark) {
             // this spell is on cooldown
@@ -145,7 +146,7 @@ MageS.Spellbook = function (game) {
 
     this.turn = function() {
         $('.spellBook .spell.cooldown').each(function() {
-            if ($(this).data('cooldown') <= MageS.Game.game.turn) {
+            if ($(this).data('cooldown-mark') <= MageS.Game.turn) {
                 MageS.Game.spellbook.removeCooldown($(this));
             } else {
                 MageS.Game.spellbook.stepCooldown($(this));
@@ -158,6 +159,7 @@ MageS.Spellbook = function (game) {
     };
 
     this.removeCooldown = function(spellEl) {
+        info('removing cooldown');
         spellEl.removeClass('cooldown');
     };
 
@@ -173,7 +175,6 @@ MageS.Spellbook = function (game) {
             return;
         }
         filterEl.addClass('active');
-        info('.spellBook .spell:not(.school-' + filterEl.data('school') + ')');
         $('.spellBook .spell:not(.school-' + filterEl.data('school') + ')').addClass('filtered-out');
     };
 
@@ -284,30 +285,6 @@ MageS.Spellbook = function (game) {
             }
         });
     };
-
-    this.initSVG = function() {
-        var url = '/images/game/mage/game-icons.svg';
-        jQuery.get(url, function(data) {
-            // Get the SVG tag, ignore the rest
-            MageS.Game.spellbook.svg = jQuery(data).find('svg');
-            MageS.Game.spellbook.buildSpells();
-            // Add replaced image's ID to the new SVG
-            //if(typeof imgID !== 'undefined') {
-            //    $svg = $svg.attr('id', imgID);
-            //}
-            // Add replaced image's classes to the new SVG
-            //if(typeof imgClass !== 'undefined') {
-            //    $svg = $svg.attr('class', imgClass+' replaced-svg');
-            //}
-
-            // Remove any invalid XML tags as per http://validator.w3.org
-            //$svg = $svg.removeAttr('xmlns:a');
-
-            // Replace image with new SVG
-            //$img.replaceWith($svg);
-
-        }, 'xml');
-    }
 
     this.spellCrafted = function(data) {
         this.spellCraftProcess = [];

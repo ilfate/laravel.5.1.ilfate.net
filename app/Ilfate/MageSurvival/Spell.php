@@ -46,8 +46,8 @@ abstract class Spell
     const CONFIG_FIELD_COOLDOWN = 'cooldown';
     const CONFIG_FIELD_COOLDOWN_MARK = 'cooldownMark';
 
-    protected $defaultCooldownMin = 3;
-    protected $defaultCooldownMax = 7;
+    protected $defaultCooldownMin = 2;
+    protected $defaultCooldownMax = 2;
     protected $availablePatterns = [];
 
     /**
@@ -300,7 +300,7 @@ abstract class Spell
     public function cooldown()
     {
         $this->config[self::CONFIG_FIELD_COOLDOWN_MARK] = $this->mage->getTurn()
-            + $this->config[self::CONFIG_FIELD_COOLDOWN];
+            + $this->config[self::CONFIG_FIELD_COOLDOWN] + 1;
     }
 
     protected function getNormalCastStage()

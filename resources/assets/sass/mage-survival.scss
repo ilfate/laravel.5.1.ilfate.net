@@ -139,11 +139,15 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
                     &.d-2 { @include rotate(180deg); }
                     &.d-3 { @include rotate(270deg); }
                 }
+                .damage {
+                    position: absolute;
+                    z-index: 80;
+                }
             }
             .unit {
                 position: absolute;
-                width:$cell-size - 10 + px;
-                height:$cell-size - 10 + px;
+                width:$cell-size + px;
+                height:$cell-size + px;
                 z-index: 35;
             }
         }
@@ -255,8 +259,15 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
                 background-color: $mage-color-background;
                 border: 1px solid cornflowerblue;
                 .item {
+                    float: left;
+                    width: $item-size + px;
+                    height: $item-size + px;
                     &.filtered-out {
                         display: none;
+                    }
+
+                    svg {
+                        position: absolute;
                     }
 
                     .value {
@@ -300,6 +311,11 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
                     &.filtered-out {
                         display: none;
                     }
+                    &.cooldown {
+                        path {
+                            fill: #CCC;
+                        }
+                    }
                     .value {
                         //text-shadow: 2px 2px #fefefe;
                         position:absolute;
@@ -329,6 +345,10 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
             }
         }
     }
+
+    .item svg.svg-icon path { fill:$mage-colors-black }
+    .color-red svg.svg-icon path { fill:$mage-colors-red }
+    .color-blue svg.svg-icon path { fill:$mage-colors-blue }
 
 }
 
