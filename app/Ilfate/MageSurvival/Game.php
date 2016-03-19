@@ -207,6 +207,9 @@ class Game
 
     protected function save()
     {
+        if (Event::isUpdated()) {
+            $this->mage->setEvents(Event::export());
+        }
         $this->mage->saveIfUpdated();
         $this->world->saveIfChanged();
     }

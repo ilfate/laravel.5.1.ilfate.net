@@ -252,15 +252,36 @@ MageS.Animations = function (game) {
         var id = data.id;
         if (enemy) {
             var target = $('.unit.id-' + id);
+            info(target);
         } else {
             var target = $('.battle-border .mage-container');
         }
         info(data);
         var el = $('<div>' + (-data.value) + '</div>').addClass('damage');
-        target.append(el);
-        el.css({'margin-top':'10px','margin-left':'10px',})
-            .animate(
-                {'margin-top':'0','margin-left':'0',},
+        target.prepend(el);
+        if (rand(0,1) == 1) {
+            var randX = 15;
+            var randY = rand(0, 15);
+        } else {
+            var randX = rand(0, 15);
+            var randY = 15;
+        }
+        var y = parseInt(el.css('margin-top'));
+        var x = parseInt(el.css('margin-left'));
+        if (rand(0,1) == 1) {
+            y += randY;
+        } else {
+            y -= randY;
+        }
+        if (rand(0,1) == 1) {
+            x += randX;
+        } else {
+            x -= randX;
+        }
+        info ('new x =' + x);
+        info ('new y =' + y);
+        el.animate(
+                {'margin-top':y + 'px','margin-left':x + 'px', opacity: 0.3},
                 {duration:300, complete:function() {
             $(this).remove();
             MageS.Game.animations.singleAnimationFinished();

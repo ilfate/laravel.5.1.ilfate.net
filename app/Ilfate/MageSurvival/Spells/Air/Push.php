@@ -58,6 +58,8 @@ class Push extends Air
                 $target->move($x2, $y2, $this->getNormalCastStage());
             } else if ($is1Passable) {
                 $target->move($x1, $y1, $this->getNormalCastStage());
+                $this->setNexStage();
+                $target->damage(1, $this->getNormalCastStage());
             } else {
                 $target->damage(1, $this->getNormalCastStage());
             }

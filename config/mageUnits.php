@@ -3,11 +3,12 @@ $cell_type_normal = 'normal';
 $cell_type_passage = 'passage';
 return array(
 
-
+//AggressiveMelee
     'list' => [
         1 => [
-            'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 1,
-            'behaviour' => 'AggressiveMelee', 'aggressiveRange' => 4, 'attacks' => ['teeth']
+            'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 2,
+            'behaviour' => 'Passive', 'aggressiveRange' => 4, 'attacks' => ['teeth'],
+            'icon' => 'icon-mouse'
         ],
     ],
     'chances' => [

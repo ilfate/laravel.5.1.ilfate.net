@@ -164,7 +164,7 @@ MageS.Spellbook = function (game) {
     };
 
     this.stepCooldown = function(spellEl) {
-        info('cooldown step');
+        //info('cooldown step');
     };
 
     this.filterSpells = function(filterEl) {

@@ -59,62 +59,50 @@ return array(
         ['name' => 'carrier', 'icon' => 'icon-scroll-unfurled'],
         ['name' => 'ingredient', 'icon' => 'icon-fizzing-flask'],
     ],
-    'spells' => [
-
-        'list' => [
-            1 => [ //fire
-                1 => [ // level 1
-                    'Fireball',
-                    'FireNova',
-                ],
-                2 => [ // level 2
-
-                ],
-            ],
-            2 => [ // water
-                1 => [
-                    'IceCrown'
-                ],
-                2 => [],
-            ],
-            3 => [ // air
-                1 => [
-                    'Push'
-                ],
-                2 => [],
-            ],
-            4 => [ // earth
-                1 => [
-                    'StoneFace'
-                ],
-                2 => [],
-            ],
-            5 => [ // light
-                1 => [
-                    'SmallHeal'
-                ],
-                2 => [],
-            ],
-            6 => [ // death
-                1 => [
-                    'BoneArrow'
-                ],
-                2 => [],
-            ],
-        ],
-        'school-chances' => [
-            1,1,1,1,1,1,1,1,   //fire
-//            2,2,2,2,2,2,2,2, // water
-            3,3,3,3,3,3,     // air
-          //  4,4,4,4,4,4,     // earth
-          //  5,5,             // light
-          //  6,6,             // death
-//            7,7,
-//            8,
-//            9,
-//            10,
-        ],
-    ],
+//    'spells' => [
+//
+//        'list' => [
+//            1 => [ //fire
+//                1 => [ // level 1
+//                    'Fireball',
+//                    'FireNova',
+//                ],
+//                2 => [ // level 2
+//
+//                ],
+//            ],
+//            2 => [ // water
+//                1 => [
+//                    'IceCrown'
+//                ],
+//                2 => [],
+//            ],
+//            3 => [ // air
+//                1 => [
+//                    'Push'
+//                ],
+//                2 => [],
+//            ],
+//            4 => [ // earth
+//                1 => [
+//                    'StoneFace'
+//                ],
+//                2 => [],
+//            ],
+//            5 => [ // light
+//                1 => [
+//                    'SmallHeal'
+//                ],
+//                2 => [],
+//            ],
+//            6 => [ // death
+//                1 => [
+//                    'BoneArrow'
+//                ],
+//                2 => [],
+//            ],
+//        ],
+//    ],
     'mages-types' => [
         'apprentice'   => ['name' => 'Apprentice', 'available' => true],
         'wizard'       => ['name' => 'Wizard'],

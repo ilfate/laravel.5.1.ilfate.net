@@ -30,6 +30,8 @@ abstract class Unit implements AliveInterface
 {
     const DATA_KEY_IS_HOSTILE = 'is_h';
 
+    const CONFIG_KEY_BEHAVIOUR = 'behaviour';
+
     protected $id;
     protected $type;
     protected $x;
@@ -88,10 +90,10 @@ abstract class Unit implements AliveInterface
         $this->world = $world;
         $this->mage  = $mage;
         $this->type  = $type;
-        if (empty($data['behaviour'])) {
-            $behaviourName = $this->config['behaviour'];
+        if (empty($data[self::CONFIG_KEY_BEHAVIOUR])) {
+            $behaviourName = $this->config[self::CONFIG_KEY_BEHAVIOUR];
         } else {
-            $behaviourName = $data['behaviour'];
+            $behaviourName = $data[self::CONFIG_KEY_BEHAVIOUR];
         }
         $behaviourClass = '\\Ilfate\\MageSurvival\\Behaviours\\' . $behaviourName;
         if (!class_exists($behaviourClass)) {
@@ -148,6 +150,15 @@ abstract class Unit implements AliveInterface
             'id' => $this->getId(),
             'type' => $this->getType(),
             'data' => $this->getData(),
+        ];
+    }
+    public function exportForView()
+    {
+        return [
+            'id' => $this->getId(),
+            'type' => $this->getType(),
+            'data' => $this->getData(),
+            'icon' => $this->config['icon'],
         ];
     }
 
@@ -232,7 +243,7 @@ abstract class Unit implements AliveInterface
             // unit was outside of view area but now entered the view
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_MOVE, [
                 'x' => $x - $this->mage->getX(), 'y' => $y - $this->mage->getY(), 'id' => $this->getId(),
-                'data' => $this->export(), 'oldX' => $oldX - $this->mage->getX(), 'oldY' => $oldY - $this->mage->getY()
+                'data' => $this->exportForView(), 'oldX' => $oldX - $this->mage->getX(), 'oldY' => $oldY - $this->mage->getY()
             ], $stage);
         } else {
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_MOVE, [
@@ -245,15 +256,24 @@ abstract class Unit implements AliveInterface
     {
         $this->data['health'] -= $value;
         if ($this->data['health'] < 1) {
+            // Unit dead
             $this->world->destroyUnit($this->x, $this->y);
             GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
         } else {
-            $this->world->updateUnit($this);
+            // unit damage
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_DAMAGE, [
                 'id' => $this->getId(),
                 'value' => $value
             ], $animationStage);
+            if ($onDamageBehaviour = $this->getOnDamageBehaviour()) {
+                $this->data[self::CONFIG_KEY_BEHAVIOUR] = $onDamageBehaviour;
+            }
+            $this->world->updateUnit($this);
         }
+    }
+
+    public function getOnDamageBehaviour() {
+        return;
     }
 
     public function getType()

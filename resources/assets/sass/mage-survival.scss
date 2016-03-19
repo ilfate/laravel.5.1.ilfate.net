@@ -8,6 +8,7 @@ $mage-colors-red:#FF8360;
 $mage-colors-white:#ffffff;
 $mage-colors-black:#584D3D;
 $mage-colors-yellow:#FFD416;
+$mage-colors-brown:#5E412F;
 
 $mage-color-background:#FCEBB6;
 
@@ -15,10 +16,10 @@ $screen-md-min: 992;
 $screen-sm-min: 768;
 
 $map-radius: 5;
-$cell-size: 32;
+$cell-size: 34;
 $item-size: 34;
 $spell-size: 34;
-$battlefield-size: ($map-radius * 2 + 1) * $cell-size;
+$battlefield-size: ($map-radius * 2 + 1) * $cell-size - 1;
 
 .mage-survival {
     .large-text {
@@ -40,12 +41,12 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
         @media (min-width: $screen-md-min + px) {
             width: 992px;
         }
-        .game-inteface {
-            @media (min-width: $screen-md-min + px) {
-                width: 992px;
-                margin: 0;
-            }
-        }
+        //.game-inteface {
+        //    @media (min-width: $screen-md-min + px) {
+        //        width: 992px;
+        //        margin: 0;
+        //    }
+        //}
         .middle-panel {
             float:left;
             width:$battlefield-size + px;
@@ -100,7 +101,7 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
             height:$cell-size + px;
         }
     }
-    .game-inteface {
+    //.game-inteface {
         .tooltip-helper-area {
             position:absolute;
             z-index: 60;
@@ -117,8 +118,8 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
         }
         .battle-border {
             float:left;
-            width:($map-radius * 2 + 1) * $cell-size + px;
-            height:($map-radius * 2 + 1) * $cell-size + px;
+            width:$battlefield-size + px;
+            height:$battlefield-size + px;
             border:1px solid chocolate;
             overflow:hidden;
             position: relative;
@@ -139,16 +140,23 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
                     &.d-2 { @include rotate(180deg); }
                     &.d-3 { @include rotate(270deg); }
                 }
-                .damage {
-                    position: absolute;
-                    z-index: 80;
-                }
             }
             .unit {
                 position: absolute;
                 width:$cell-size + px;
                 height:$cell-size + px;
                 z-index: 35;
+
+            }
+            .damage {
+                position: absolute;
+                z-index: 80;
+                font-size: 0.8rem;
+                text-shadow: 1px 1px $color-clay;
+                padding: 0 3px;
+                color:$mage-colors-red;
+                margin-top: $cell-size * 0.2 + px;
+                margin-left: $cell-size * 0.2 + px;
             }
         }
         .battle-field {
@@ -205,13 +213,6 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
         .battle-border.Tutorial {
             .object.type-1 {
                 background-color: goldenrod;
-            }
-        }
-        .battle-border.Tutorial {
-            .unit {
-                &.type-1 {
-                    background-color: #990073;
-                }
             }
         }
         .pattern-field {
@@ -344,11 +345,19 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
                 width: 7 * $item-size + 9 + px;
             }
         }
+    //}
+    .item svg.svg-icon,.spell svg.svg-icon {
+        opacity: 0.9;
     }
-
+    .item:hover svg.svg-icon, .spell:hover svg.svg-icon {
+        opacity: 1;
+    }
     .item svg.svg-icon path { fill:$mage-colors-black }
     .color-red svg.svg-icon path { fill:$mage-colors-red }
     .color-blue svg.svg-icon path { fill:$mage-colors-blue }
+    .color-dark-blue svg.svg-icon path { fill:$mage-colors-dark-blue }
+    .color-green svg.svg-icon path { fill:$mage-colors-green }
+    .color-brown svg.svg-icon path { fill:$mage-colors-brown }
 
 }
 

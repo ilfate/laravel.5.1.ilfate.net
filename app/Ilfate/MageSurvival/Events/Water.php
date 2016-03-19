@@ -11,10 +11,9 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells\Water;
+namespace Ilfate\MageSurvival\Events;
 
 use Ilfate\MageSurvival\Event;
-use Ilfate\MageSurvival\Spells\Water;
 
 /**
  * TODO: Short description.
@@ -25,16 +24,13 @@ use Ilfate\MageSurvival\Spells\Water;
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
+ *
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class IceCrown extends Water
+class Water extends Event
 {
-    protected $availablePatterns = [4];
-
-    protected function spellEffect($data)
-    {
-        Event::create(Event::EVENT_MAGE_BEFORE_GET_DAMAGE, ['times' => 3], 'Water:iceCrown');
-        return true;
+    public static function iceCrown($data) {
+        $data['value'] -= 1;
     }
 }

@@ -77,7 +77,13 @@ abstract class Spell
     protected $animationStep = Game::ANIMATION_STAGE_MAGE_ACTION;
 
 
-    public function __construct($name, $schoolId, $config, $id = null, Game $game = null, World $world = null, Mage $mage = null)
+    public function __construct(
+        $name,
+        $schoolId,
+        $level,
+        $config,
+        $id = null, Game $game = null, World $world = null, Mage $mage = null
+    )
     {
         if (!$id) {
             $this->id = str_random(20);
@@ -95,8 +101,9 @@ abstract class Spell
         }
         $this->name     = $name;
         $this->schoolId = $schoolId;
+        $this->level    = $level;
         $this->config   = $config;
-        $this->configuration = \Config::get('mageSpells.list.' . $name);
+        $this->configuration = \Config::get('mageSpells.list.' . $schoolId. '.' . $level . '.' . $name);
         if (!empty($this->config[self::CONFIG_FIELD_PATTERN])) {
             $this->pattern = \Config::get('mageSpellPatterns.list.' . $this->config[self::CONFIG_FIELD_PATTERN]);
 
@@ -107,12 +114,11 @@ abstract class Spell
     {
         $game = GameBuilder::getGame();
         $result = ['spell' => false];
-        $config = \Config::get('mageSurvival.spells');
         $spellsConfig = \Config::get('mageSpells');
         $itemsConfig = \Config::get('mageSurvival.items');
 
         $spellRandomizerConfig = [
-            self::KEY_SCHOOL_CHANCES => $config[self::KEY_SCHOOL_CHANCES],
+            self::KEY_SCHOOL_CHANCES => $spellsConfig[self::KEY_SCHOOL_CHANCES],
             self::KEY_CHANCE_TO_CREATE_SPELL => 0,
             self::KEY_CARRIER_USAGES_FROM => 0,
             self::KEY_CARRIER_USAGES_TO => 0,
@@ -179,8 +185,8 @@ abstract class Spell
         $level = 1;
         $game->addMessage('Your new spell is level ' . $level);
 
-        $allPossibleSpells = $config['list'][$schoolId][$level];
-        $spellName = ChanceHelper::oneFromArray($allPossibleSpells);
+        $allPossibleSpells = $spellsConfig['list'][$schoolId][$level];
+        $spellName = array_rand($allPossibleSpells);
 
         $spellConfig = [
             'usages' => mt_rand(
@@ -194,7 +200,7 @@ abstract class Spell
         /**
          * @var Spell $spell
          */
-        $spell = new $class($spellName, $schoolId, $spellConfig);
+        $spell = new $class($spellName, $schoolId, $level, $spellConfig);
         $spell->generateCoolDown(isset($spellRandomizerConfig[self::KEY_COOLDOWN]) ? $spellRandomizerConfig[self::KEY_COOLDOWN] : []);
         $spell->setUpPattern();
         $spell->setLevel($level);
@@ -224,7 +230,7 @@ abstract class Spell
         list($name, $schoolId, $level) = explode('#', $code);
         $schoolName = \Config::get('mageSpells.schools.' . $schoolId)['name'];
         $class = self::getSpellClass($schoolName, $name);
-        return new $class($name, $schoolId, $config, $id, $game, $world, $mage);
+        return new $class($name, $schoolId, $level, $config, $id, $game, $world, $mage);
     }
 
     /**

@@ -29,4 +29,5 @@ namespace Ilfate\MageSurvival;
 interface AliveInterface
 {
     public function damage($value, $animationStage);
+    public function getId();
 }

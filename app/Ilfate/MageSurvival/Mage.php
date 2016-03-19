@@ -52,6 +52,7 @@ abstract class Mage implements AliveInterface
     protected $config;
     protected $itemsChanges;
     protected $spellsChanges;
+    protected $events = [];
 
     public function __construct(\Ilfate\Mage $mageEntity)
     {
@@ -60,6 +61,7 @@ abstract class Mage implements AliveInterface
         $this->data = json_decode($mageEntity->data, true);
         $this->items = json_decode($mageEntity->items, true);
         $this->spells = json_decode($mageEntity->spells, true);
+        Event::import(json_decode($mageEntity->events, true));
         $this->turn = $mageEntity->turn;
         if (isset($this->data['x'])) {
             $this->x = $this->data['x'];
@@ -150,7 +152,7 @@ abstract class Mage implements AliveInterface
                 'schoolId' => $schoolId,
                 'level' => $level,
                 'config' => $spell['config'],
-                'viewData' => $spellsViewData['list'][$name],
+                'viewData' => $spellsViewData['list'][$schoolId][$level][$name],
             ];
             if (!empty($spell['config']['pattern'])) {
                 $return[$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
@@ -161,6 +163,9 @@ abstract class Mage implements AliveInterface
 
     protected function exportSchools()
     {
+        if (!$this->spells) {
+            return [];
+        }
         $return = [];
         $spellsViewData = \Config::get('mageSpells.schools');
         foreach ($this->spells as $spellId => $spell) {
@@ -191,7 +196,7 @@ abstract class Mage implements AliveInterface
                 'schoolId' => $schoolId,
                 'level' => $level,
                 'config' => $spell['config'],
-                'viewData' => $spellsViewData[$name],
+                'viewData' => $spellsViewData[$schoolId][$level][$name],
                 'status' => $spell['status']
             ];
             if (!empty($spell['config']['pattern'])) {
@@ -392,6 +397,8 @@ abstract class Mage implements AliveInterface
 
     public function damage($value, $animationStage)
     {
+        $eventData = Event::trigger(Event::EVENT_MAGE_BEFORE_GET_DAMAGE, ['value' => $value]);
+        $value = $eventData['value'];
         $this->health -= $value;
         GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_DAMAGE, [
             'health' => $this->getHealth(),
@@ -507,5 +514,19 @@ abstract class Mage implements AliveInterface
     public function getHealth()
     {
         return $this->health;
+    }
+
+    public function getId()
+    {
+        return 'mage';
+    }
+
+    /**
+     * @param array $events
+     */
+    public function setEvents($events)
+    {
+        $this->mageEntity->events = json_encode($events);
+        $this->update();
     }
 }

@@ -41,7 +41,7 @@ MageS.Game = function () {
     this.actionInProcess = false;
     /* CONFIG */
     this.fieldRadius = 5;
-    this.cellSize = 32;
+    this.cellSize = 34;
     this.animationTime = 300;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
 
@@ -103,11 +103,7 @@ MageS.Game = function () {
                 this.drawObject(this.rawData.objects[y][x], x, y);
             }
         }
-        for(var y in this.rawData.units) {
-            for(var x in this.rawData.units[y]) {
-                this.drawUnit(this.rawData.units[y][x], x, y);
-            }
-        }
+
         this.drawMage(this.rawData.mage);
         this.updateActions(this.rawData.actions);
     };
@@ -229,6 +225,14 @@ MageS.Game = function () {
         }
     };
 
+    this.buildUnits = function() {
+        for(var y in this.rawData.units) {
+            for(var x in this.rawData.units[y]) {
+                this.drawUnit(this.rawData.units[y][x], x, y);
+            }
+        }
+    };
+
     this.initSVG = function() {
         var url = '/images/game/mage/game-icons.svg';
         jQuery.get(url, function(data) {
@@ -236,9 +240,19 @@ MageS.Game = function () {
             MageS.Game.svg = jQuery(data).find('svg');
             MageS.Game.spellbook.buildSpells();
             MageS.Game.inventory.buildItems();
+            MageS.Game.buildUnits();
+            MageS.Game.replaceMissingSvg();
 
         }, 'xml');
     };
+
+    this.replaceMissingSvg = function() {
+        $('svg.svg-replace').each(function() {
+
+            var icon = MageS.Game.svg.find('#' + $(this).data('svg') + ' path');
+            $(this).removeClass('svg-replace').append(icon.clone());
+        });
+    }
 
     this.startAction = function() {
         this.actionInProcess = true;
@@ -281,6 +295,8 @@ MageS.Game = function () {
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {'id': unit.id, 'type': unit.type});
         var obj = $(rendered);
+        var icon = $(this.svg).find('#' + unit.icon + ' path');
+        obj.find('svg').append(icon.clone());
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
         return obj;
     };

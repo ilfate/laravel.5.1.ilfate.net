@@ -4,9 +4,8 @@
 
                 <div class="spells-filter-panel" >
                     @foreach($viewData['game']['mage']['spellSchools'] as $schoolId => $schoolConfig)
-                        <span class="spell-filter school-{{$schoolId}}" data-school="{{$schoolId}}">
-                            <svg class="svg-icon">
-                                <use xlink:href="/images/game/mage/game-icons.svg#{{$schoolConfig['icon']}}"></use>
+                        <span class="spell-filter school-{{$schoolId}} {{isset($schoolConfig['class']) ? $schoolConfig['class'] : ''}}" data-school="{{$schoolId}}">
+                            <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="{{$schoolConfig['icon']}}">
                             </svg>
                         </span>
                     @endforeach

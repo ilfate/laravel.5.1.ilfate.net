@@ -17,5 +17,7 @@ use Ilfate\MageSurvival\Units\Rodent;
  */
 class Rat extends Rodent
 {
-
+    public function getOnDamageBehaviour() {
+        return 'AggressiveMelee';
+    }
 }

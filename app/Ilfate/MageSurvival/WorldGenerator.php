@@ -148,7 +148,7 @@ abstract class WorldGenerator
         $units = [];
         foreach ($this->visibleUnits as $y => $col) {
             foreach ($col as $x => $unit) {
-                $units[$y][$x] = $unit->export();
+                $units[$y][$x] = $unit->exportForView();
             }
         }
         return $units;
