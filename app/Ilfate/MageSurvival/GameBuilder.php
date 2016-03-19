@@ -66,33 +66,32 @@ class GameBuilder
         if (self::$game) {
             return self::$game;
         }
-        $game = new Game();
-
+        self::$game = new Game();
         $savedData = $request->session()->get('mageSurvival.savedGame');
         if (!$savedData) {
 
         }
 
         $user = User::getUser();
-        $game->setUser($user);
+        self::$game->setUser($user);
         $activeMage = $user->mages()->where('status', Mage::MAGE_STATUS_ACTIVE)->first();
         if ($activeMage) {
             // mage ready for battle
-            $game->setStatus(Game::STATUS_BATTLE);
-            $mage = $game->createMageByMageEntity($activeMage);
-            $game->setMage($mage);
+            self::$game->setStatus(Game::STATUS_BATTLE);
+            $mage = self::$game->createMageByMageEntity($activeMage);
+            self::$game->setMage($mage);
             $worldsCollection = $activeMage->world()->get();
             if ($worldsCollection->isEmpty()) {
                 // lets create world
-                self::createWorld($game, $activeMage);
+                self::createWorld(self::$game, $activeMage);
             } else {
                 $worldEntity = $worldsCollection->first();
                 $world = new World($worldEntity);
-                $game->setWorld($world);
+                self::$game->setWorld($world);
             }
         }
-        self::$game = $game;
-        return $game;
+
+        return self::$game;
     }
 
     protected static function createWorld(Game $game, Mage $mage)
