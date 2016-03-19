@@ -2968,35 +2968,35 @@ div.hex {
       width: 992px; } }
   .mage-survival .container.main .middle-panel {
     float: left;
-    width: 373px;
-    height: 373px; }
+    width: 352px;
+    height: 352px; }
   .mage-survival .container.main .mage-info-panel {
     float: left; }
     @media (min-width: 768px) {
       .mage-survival .container.main .mage-info-panel {
-        width: 380px;
-        height: 339px;
+        width: 401px;
+        height: 320px;
         padding-left: 15px; } }
     @media (min-width: 992px) {
       .mage-survival .container.main .mage-info-panel {
-        width: 604px;
-        height: 102px;
+        width: 625px;
+        height: 96px;
         padding-left: 15px; } }
   .mage-survival .container.main .right-panel {
     float: left; }
     @media (min-width: 768px) {
       .mage-survival .container.main .right-panel {
-        width: 380px;
-        height: 34px; }
+        width: 401px;
+        height: 32px; }
         .mage-survival .container.main .right-panel .spells-items-row {
           width: 100%; }
           .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
             display: none;
             position: absolute;
-            margin-top: -238px; } }
+            margin-top: -224px; } }
     @media (min-width: 992px) {
       .mage-survival .container.main .right-panel {
-        width: 604px;
+        width: 625px;
         padding-left: 15px; }
         .mage-survival .container.main .right-panel .tablet-button-panel {
           display: none; }
@@ -3007,8 +3007,8 @@ div.hex {
             position: relative;
             margin: 0; } }
   .mage-survival .container.main .svg-icon {
-    width: 34px;
-    height: 34px; }
+    width: 32px;
+    height: 32px; }
 .mage-survival .tooltip-helper-area {
   position: absolute;
   z-index: 60; }
@@ -3017,14 +3017,14 @@ div.hex {
     position: absolute;
     background-color: whitesmoke;
     padding: 1.5rem;
-    margin: 68px 0 0 68px;
-    width: 238px;
-    height: 238px;
+    margin: 64px 0 0 64px;
+    width: 224px;
+    height: 224px;
     opacity: 0.9; }
 .mage-survival .battle-border {
   float: left;
-  width: 373px;
-  height: 373px;
+  width: 352px;
+  height: 352px;
   border: 1px solid chocolate;
   overflow: hidden;
   position: relative;
@@ -3033,11 +3033,11 @@ div.hex {
     box-shadow: 5px 5px 15px #b6bd37, -5px -5px 15px #b6bd37; }
   .mage-survival .battle-border .mage-container {
     position: absolute;
-    margin: 170px 0 0 170px; }
+    margin: 160px 0 0 160px; }
     .mage-survival .battle-border .mage-container .mage {
       position: absolute;
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       z-index: 35;
       background-image: url("/images/game/mage/mage.png"); }
       .mage-survival .battle-border .mage-container .mage.d-1 {
@@ -3054,8 +3054,8 @@ div.hex {
         -o-transform: rotate(270deg); }
   .mage-survival .battle-border .unit {
     position: absolute;
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     z-index: 35; }
   .mage-survival .battle-border .damage {
     position: absolute;
@@ -3064,8 +3064,8 @@ div.hex {
     text-shadow: 1px 1px #FCEBB6;
     padding: 0 3px;
     color: #FF8360;
-    margin-top: 6.8px;
-    margin-left: 6.8px; }
+    margin-top: 6.4px;
+    margin-left: 6.4px; }
 .mage-survival .battle-field {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -3074,9 +3074,9 @@ div.hex {
   -ms-user-select: none;
   user-select: none;
   position: absolute;
-  margin: 170px 0 0 170px;
-  width: 204px;
-  height: 204px;
+  margin: 160px 0 0 160px;
+  width: 192px;
+  height: 192px;
   background-color: cornsilk; }
   .mage-survival .battle-field.current {
     z-index: 25; }
@@ -3084,20 +3084,20 @@ div.hex {
     z-index: 20; }
   .mage-survival .battle-field .cell {
     position: absolute;
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     z-index: 30;
     overflow: visible; }
   .mage-survival .battle-field .object {
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     z-index: 33; }
 .mage-survival .unit-field {
   position: absolute;
-  margin: 170px 0 0 170px;
-  width: 204px;
-  height: 204px; }
+  margin: 160px 0 0 160px;
+  width: 192px;
+  height: 192px; }
 .mage-survival .battle-border.Tutorial .cell.bl {
   background-color: darkgrey; }
 .mage-survival .battle-border.Tutorial .cell.f1 {
@@ -3115,8 +3115,8 @@ div.hex {
   .mage-survival .pattern-field .pattern-cell {
     border-radius: 2px;
     position: absolute;
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     z-index: 25;
     background-color: #770000;
     opacity: 0; }
@@ -3225,11 +3225,11 @@ div.hex {
   .mage-survival .cell.f1 {
     background-position: -0px -0px; }
   .mage-survival .cell.f2 {
-    background-position: -34px 0px; }
+    background-position: -32px 0px; }
   .mage-survival .cell.f3 {
-    background-position: -102px 0px; }
+    background-position: -96px 0px; }
   .mage-survival .cell.s {
-    background-position: -136px 0px; }
+    background-position: -128px 0px; }
 
 i.rpg-icon-small {
   display: inline-block;

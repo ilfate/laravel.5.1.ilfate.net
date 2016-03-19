@@ -16,10 +16,10 @@ $screen-md-min: 992;
 $screen-sm-min: 768;
 
 $map-radius: 5;
-$cell-size: 34;
+$cell-size: 32;
 $item-size: 34;
 $spell-size: 34;
-$battlefield-size: ($map-radius * 2 + 1) * $cell-size - 1;
+$battlefield-size: ($map-radius * 2 + 1) * $cell-size;
 
 .mage-survival {
     .large-text {

@@ -41,7 +41,7 @@ MageS.Game = function () {
     this.actionInProcess = false;
     /* CONFIG */
     this.fieldRadius = 5;
-    this.cellSize = 34;
+    this.cellSize = 32;
     this.animationTime = 300;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
 
