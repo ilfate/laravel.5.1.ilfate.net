@@ -40,7 +40,7 @@ class Chest extends MapObject
     public function getActions()
     {
         return [
-            ['name' => 'Open chest', 'method' => 'open']
+            ['name' => 'Open chest', 'method' => 'open', 'key' => 'E', 'icon' => 'icon-locked-chest']
         ];
     }
 

@@ -42,22 +42,22 @@ class Event
     protected static $bindings;
     protected static $isUpdated = false;
 
-    public static function trigger($eventName, $data = [])
+    public static function trigger($eventName, $triggerData = [])
     {
-        if (in_array($eventName, self::$withTarget) && empty($data['target'])) {
+        if (in_array($eventName, self::$withTarget) && empty($triggerData['target'])) {
             throw new \Exception('Event "' . $eventName . '" needs target');
         }
-        if (in_array($eventName, self::$withOwner) && empty($data['owner'])) {
+        if (in_array($eventName, self::$withOwner) && empty($triggerData['owner'])) {
             throw new \Exception('Event "' . $eventName . '" needs owner');
         }
-        $key = self::getEventKey($eventName, $data);
+        $key = self::getEventKey($eventName, $triggerData);
         if (empty(self::$bindings[$key])) {
-            return $data;
+            return $triggerData;
         }
         foreach (self::$bindings[$key] as $num => &$eventData) {
             list($class, $method) = explode(':', $eventData['action']);
-            $class = '\Ilfate\MageSurvival\Events\\' . $class;
-            $data = $class::$method($data, $eventData['data']);
+            $class       = '\Ilfate\MageSurvival\Events\\' . $class;
+            $triggerData = $class::$method($triggerData, $eventData['data']);
             if (isset($eventData['data'][self::KEY_TIMES])) {
                 $eventData['data'][self::KEY_TIMES]--;
                 self::update();
@@ -66,7 +66,7 @@ class Event
                 }
             }
         }
-        return $data;
+        return $triggerData;
     }
 
     public static function getEventKey($eventName, $data)

@@ -1,13 +1,14 @@
 
+<div class="tooltip-spell-area"></div>
 <div class="inventory-message-container"></div>
 <div class="inventory">
 
     <div class="craft-spell-overlay"></div>
     <div class="items-filters-panel">
         @foreach($viewData['game']['item-types'] as $id => $type)
-            <span class="items-filter name-{{$type['name']}}" data-name="{{$type['name']}}">
-                <svg class="svg-icon">
-                    <use xlink:href="/images/game/mage/game-icons.svg#{{$type['icon']}}"></use>
+            <span class="items-filter name-{{$type['name']}} {{isset($type['class']) ? $type['class'] : ''}}"
+                  data-name="{{$type['name']}}">
+                <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="{{$type['icon']}}">
                 </svg>
             </span>
         @endforeach

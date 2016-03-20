@@ -31,6 +31,9 @@ use Ilfate\MageSurvival\Event;
 class Water extends Event
 {
     public static function iceCrown($data) {
-        $data['value'] -= 1;
+        if ($data['value'] > 0) {
+            $data['value'] -= 1;
+        }
+        return $data;
     }
 }

@@ -273,17 +273,19 @@ MageS.Spellbook = function (game) {
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name, 'description' : data.viewData.description});
         var obj = $(rendered);
-        $('.tooltip-helper-area').append(obj);
-        spell.on({
-            'mouseenter': function() {
-                var id = $(this).data('id');
-                $('.tooltip-helper-area .spell-tooltip.id-' + id).show();
-            },
-            'mouseleave':function() {
-                var id = $(this).data('id');
-                $('.tooltip-helper-area .spell-tooltip.id-' + id).hide();
-            }
-        });
+        $('.tooltip-spell-area').append(obj);
+        if (this.game.device == 'pc') {
+            spell.on({
+                'mouseenter': function () {
+                    var id = $(this).data('id');
+                    $('.tooltip-spell-area .spell-tooltip.id-' + id).show();
+                },
+                'mouseleave': function () {
+                    var id = $(this).data('id');
+                    $('.tooltip-spell-area .spell-tooltip.id-' + id).hide();
+                }
+            });
+        }
     };
 
     this.spellCrafted = function(data) {

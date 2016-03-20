@@ -98,9 +98,7 @@ MageS.Animations = function (game) {
                 MageS.Game.animations.singleAnimationFinished();
                 break;
             case 'mage-damage':
-                info('Some one dealed ' + data.data.dHealth + ' damage to you');
-                $('.health-value').html(data.data.health);
-                this.showDamageAnimation(data.data, false);
+                this.mageDamageAnimation(data.data);
                 break;
             case 'unit-damage':
                 info('Unit got ' + data.data.value + ' damage');
@@ -246,6 +244,12 @@ MageS.Animations = function (game) {
                 MageS.Game.animations.singleAnimationFinished();
             }
         )});
+    };
+    this.mageDamageAnimation = function(data) {
+        info('Some one dealed ' + data.dHealth + ' damage to you');
+        //$('.health-value').html(data.health);
+        $('.health-bar .progress-bar-success').css('width', data.health + '%');
+        this.showDamageAnimation(data, false);
     };
 
     this.showDamageAnimation = function (data, enemy) {

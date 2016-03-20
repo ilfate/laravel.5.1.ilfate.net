@@ -49,7 +49,6 @@ MageS.Inventory = function (game) {
             'quantity': item.quantity,
         });
         var obj = $(rendered);
-        info(item.icon);
         var icon = $(this.game.svg).find('#' + item.icon + ' path');
         obj.find('svg').append(icon.clone());
         if (item.iconColor !== undefined) {
@@ -99,17 +98,18 @@ MageS.Inventory = function (game) {
         var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name, 'stats' : data.stats, 'item': data.type});
         var obj = $(rendered);
         $('.tooltip-helper-area').append(obj);
-
-        item.on({
-            'mouseenter': function() {
-                var id = $(this).data('id');
-                $('.tooltip-helper-area .item-tooltip.id-' + id).show();
-            },
-            'mouseleave':function() {
-                var id = $(this).data('id');
-                $('.tooltip-helper-area .item-tooltip.id-' + id).hide();
-            }
-        });
+        if (this.game.device == 'pc') {
+            item.on({
+                'mouseenter': function () {
+                    var id = $(this).data('id');
+                    $('.tooltip-helper-area .item-tooltip.id-' + id).show();
+                },
+                'mouseleave': function () {
+                    var id = $(this).data('id');
+                    $('.tooltip-helper-area .item-tooltip.id-' + id).hide();
+                }
+            });
+        }
     };
 
     this.itemClick = function (itemObj) {

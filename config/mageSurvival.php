@@ -56,8 +56,8 @@ return array(
         // Святая вода
     ],
     'item-types' => [
-        ['name' => 'carrier', 'icon' => 'icon-scroll-unfurled'],
-        ['name' => 'ingredient', 'icon' => 'icon-fizzing-flask'],
+        ['name' => 'carrier', 'icon' => 'icon-scroll-unfurled', 'class' => 'color-brown'],
+        ['name' => 'ingredient', 'icon' => 'icon-fizzing-flask', 'class' => 'color-dark-blue'],
     ],
 //    'spells' => [
 //

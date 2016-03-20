@@ -29,6 +29,7 @@ MageS.Game = function () {
         'black': '#584D3D',
         'white': '#FFFFFF'
     };
+    this.device = 'pc';
     this.inventory = {};
     this.spellbook = {};
     this.spells = {};
@@ -52,6 +53,14 @@ MageS.Game = function () {
         this.spellbook = spellbook;
         this.spells = spells;
         this.animations = animations;
+        if ($(window).width() < 992) {
+            this.device = 'tablet';
+            if ($(window).width() < 768) {
+                this.device = 'mobile';
+            }
+        }
+        this.deviceInit();
+        info( this.device);
         switch (this.gameStatus) {
             case 'mage-list':
                 $('a#mage-create-button').on('click', function () {
@@ -76,18 +85,23 @@ MageS.Game = function () {
                 });
                 break;
             case 'battle':
-                this.buildMap();
+
                 this.initSVG();
 
                 this.configureKeys();
 
-                $('a.craft-spell-button').on('click', function() {
+                $('.method-craft-spell a').on('click', function() {
                     MageS.Game.spellbook.showSpellCrafting();
                 });
 
                 break;
         }
-    }
+    };
+    this.deviceInit = function () {
+        if (this.device != 'tablet') {
+            $('tablet-button-panel').remove();
+        }
+    };
 
     this.buildMap = function() {
         this.rawData = mageSurvivalData;
@@ -105,7 +119,7 @@ MageS.Game = function () {
         }
 
         this.drawMage(this.rawData.mage);
-        this.updateActions(this.rawData.actions);
+        this.updateActions(this.rawData.actions, true);
     };
 
 
@@ -187,7 +201,9 @@ MageS.Game = function () {
             }
         }
         info(data);
-        this.updateActions(data.game.actions);
+        if (data.game.actions) {
+            this.updateActions(data.game.actions, false);
+        }
         if (data.game.items) {
             this.inventory.updateItems(data.game.items);
         }
@@ -207,21 +223,63 @@ MageS.Game = function () {
 
     };
 
-    this.updateActions = function (actions) {
+    this.updateActions = function (actions, isFirstLoad) {
+        actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
-        actionsEl.html('');
-        if (!actions) {
-            return;
-        }
+        //actionsEl.html('');
+        var existingActions = {};
+        actionsEl.find('.action').each(function() {
+            info($(this).data('method'));
+            existingActions[$(this).data('method')] = $(this);
+        });
         for (var i in actions) {
+            var method = actions[i].method;
+            //info(method);
+            //info(existingActions);
+            if (existingActions[method] !== undefined) {
+                existingActions[method] = false;
+                continue;
+            }
             var temaplate = $('#template-action-button').html();
             Mustache.parse(temaplate);
-            var rendered = Mustache.render(temaplate, {'name': actions[i].name});
+            var key = '';
+            if (actions[i].key !== undefined) {
+                key = actions[i].key;
+            }
+            var rendered = Mustache.render(temaplate, {'name': actions[i].name, 'method':method, 'key': key});
             var obj = $(rendered);
+            if (this.device != 'pc') {
+                var icon = $(this.svg).find('#' + actions[i].icon + ' path');
+                obj.find('svg').append(icon.clone());
+            }
             actionsEl.append(obj);
-            obj.on('click', function() {
-                MageS.Game.action('objectInteract', '{"method":"' + actions[i].method + '"}')
-            })
+            if (actions[i].noAjax == undefined) {
+                obj.on('click', function () {
+                    MageS.Game.action('objectInteract', '{"method":"' + $(this).data('method') + '"}')
+                });
+            }
+            if (!isFirstLoad) {
+                obj.find('a')
+                    .css({'background-color': '#FCEBB6', 'opacity': 0.3})
+                    .animate({'background-color': '#5E412F', 'opacity': 1}, {
+                        queue: false,
+                        duration: this.animationTime
+                });
+            }
+        }
+        for (var i in existingActions) {
+            if (existingActions[i]) {
+                existingActions[i].remove();
+            }
+        }
+    };
+
+    this.keyPressed = function(key) {
+        info(key);
+        var action = $('.actions .action.key-' + key);
+        info(action);
+        if (action.length) {
+            action.click();
         }
     };
 
@@ -238,6 +296,7 @@ MageS.Game = function () {
         jQuery.get(url, function(data) {
             // Get the SVG tag, ignore the rest
             MageS.Game.svg = jQuery(data).find('svg');
+            MageS.Game.buildMap();
             MageS.Game.spellbook.buildSpells();
             MageS.Game.inventory.buildItems();
             MageS.Game.buildUnits();
@@ -252,7 +311,7 @@ MageS.Game = function () {
             var icon = MageS.Game.svg.find('#' + $(this).data('svg') + ' path');
             $(this).removeClass('svg-replace').append(icon.clone());
         });
-    }
+    };
 
     this.startAction = function() {
         this.actionInProcess = true;
@@ -372,8 +431,11 @@ MageS.Game = function () {
                     break;
                 case 32 :  // space
                     break;
+                case 113 :  // q
+                    MageS.Game.spellbook.showSpellCrafting();
+                    break;
                 case 101 :  // e
-                    //CanvasActions.robot.destroyWall();
+                    MageS.Game.keyPressed('E');
                     break;
                 case 114 :  // r
                     break;
@@ -396,7 +458,10 @@ MageS.Game = function () {
                         case 32 :  // space
                             break;
                         case 101 :  // e
-                            //CanvasActions.robot.destroyWall();
+                            MageS.Game.keyPressed('E');
+                            break;
+                        case 113 :  // q
+                            MageS.Game.spellbook.showSpellCrafting()
                             break;
                         case 114 :  // r
                             break;
