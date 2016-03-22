@@ -32,6 +32,7 @@ class Event
 
     const EVENT_UNIT_GET_DAMAGE = 'unit-get-damage';
     const EVENT_MAGE_BEFORE_GET_DAMAGE = 'mage-before-get-damage';
+    const EVENT_MAGE_BEFORE_HEAL = 'mage-before-heal';
 
     protected static $withTarget = [
 //        self::EVENT_UNIT_GET_DAMAGE,

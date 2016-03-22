@@ -1,6 +1,7 @@
 
 <div class="tooltip-spell-area"></div>
 <div class="inventory-message-container"></div>
+<div class="inventory-shadow"></div>
 <div class="inventory">
 
     <div class="craft-spell-overlay"></div>

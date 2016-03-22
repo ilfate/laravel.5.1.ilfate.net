@@ -3133,6 +3133,10 @@ div.hex {
     color: #FF8360;
     margin-top: 6.4px;
     margin-left: 6.4px; }
+    .mage-survival .battle-border .damage.heal {
+      color: #069E2D; }
+    .mage-survival .battle-border .damage.armor {
+      color: #F0A830; }
 .mage-survival .battle-field {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -3197,6 +3201,16 @@ div.hex {
 .mage-survival .mage-profile .progress-bar-success {
   min-width: 1.5rem;
   background-color: #069E2D; }
+.mage-survival .inventory-shadow {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #5E412F;
+  opacity: 0;
+  z-index: 70;
+  display: none; }
 .mage-survival .inventory {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -3205,7 +3219,11 @@ div.hex {
   -ms-user-select: none;
   user-select: none;
   height: 247px;
-  width: 247px; }
+  width: 247px;
+  background-color: #FCEBB6; }
+  .mage-survival .inventory.craft {
+    position: absolute;
+    z-index: 71; }
   .mage-survival .inventory .items-filters-panel {
     border-bottom: 1px solid #5E412F; }
   .mage-survival .inventory .items-filter {
@@ -3268,8 +3286,12 @@ div.hex {
   .mage-survival .craft-spell-overlay .alert {
     padding: 2px; }
   .mage-survival .craft-spell-overlay .helper-spell-craft-step-1, .mage-survival .craft-spell-overlay .helper-spell-craft-step-2, .mage-survival .craft-spell-overlay .spell-craft-info {
+    background-color: #529BCA;
+    color: #ffffff;
     position: absolute;
-    width: 247px; }
+    width: 247px;
+    height: 34px;
+    text-align: center; }
 .mage-survival .item svg.svg-icon, .mage-survival .spell svg.svg-icon {
   opacity: 0.9; }
 .mage-survival .item:hover svg.svg-icon, .mage-survival .spell:hover svg.svg-icon {

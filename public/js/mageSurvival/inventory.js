@@ -31,13 +31,16 @@ MageS.Inventory = function (game) {
 
     this.filterItems = function(filterEl) {
         var activeFilter = $('.items-filter.active');
-        $('.items-filter.active').removeClass('active');
-        $('.inventory .item.filtered-out').removeClass('filtered-out');
+        this.turnOffFilters();
         if (activeFilter.length && activeFilter.data('name') == filterEl.data('name')) {
             return;
         }
         filterEl.addClass('active');
         $('.inventory .item:not(.type-' + filterEl.data('name') + ')').addClass('filtered-out');
+    };
+    this.turnOffFilters = function () {
+        $('.items-filter.active').removeClass('active');
+        $('.inventory .item.filtered-out').removeClass('filtered-out');
     };
 
     this.renderItem = function(template, item) {
@@ -58,6 +61,7 @@ MageS.Inventory = function (game) {
     };
 
     this.updateItems = function(items) {
+        this.turnOffFilters();
         for(var id in items) {
             var config = items[id];
             var existingEl = $('.inventory .item.id-' + id);

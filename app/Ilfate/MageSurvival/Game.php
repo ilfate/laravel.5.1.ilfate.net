@@ -40,6 +40,8 @@ class Game
     const EVENT_NAME_MAGE_SPELL_CAST = 'mage-spell-cast';
     const EVENT_NAME_OBJECT_DESTROY  = 'object-destroy';
     const EVENT_NAME_MAGE_DAMAGE     = 'mage-damage';
+    const EVENT_NAME_MAGE_HEAL       = 'mage-heal';
+    const EVENT_NAME_MAGE_ADD_ARMOR  = 'mage-add-armor';
     const EVENT_NAME_UNIT_DAMAGE     = 'unit-damage';
 
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';

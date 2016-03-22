@@ -30,10 +30,12 @@ use Ilfate\MageSurvival\Spells\Earth;
  */
 class StoneFace extends Earth
 {
-    protected $availablePatterns = [4];
+    protected $availablePatterns = [];
 
     protected function spellEffect($data)
     {
+        $this->mage->heal(3, $this->getNormalCastStage());
+        $this->mage->armor(3, $this->getNormalCastStage());
         return true;
     }
 }

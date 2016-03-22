@@ -93,6 +93,9 @@ MageS.Game = function () {
                 $('.method-craft-spell a').on('click', function() {
                     MageS.Game.spellbook.showSpellCrafting();
                 });
+                $('.inventory-shadow').on('click', function() {
+                    MageS.Game.spellbook.cancelCrafting();
+                });
 
                 break;
         }
@@ -291,6 +294,23 @@ MageS.Game = function () {
         }
     };
 
+    this.updateHealth = function(mage) {
+        var total = mage.maxHealth;
+        if (mage.armor !== undefined) {
+            total += mage.armor;
+        }
+        var health = Math.round(mage.health / total * 100);
+        var armor = 0;
+        if (mage.armor !== undefined) {
+            armor = Math.round(mage.armor / total * 100);
+        }
+        $('.health-bar .progress-bar-success').css('width', health + '%');
+        $('.health-bar .progress-bar-warning').css('width', armor + '%');
+
+        $('.health-bar .health-value').html(mage.health + 'HP');
+        $('.health-bar .armor-value').html(armor);
+    };
+
     this.initSVG = function() {
         var url = '/images/game/mage/game-icons.svg';
         jQuery.get(url, function(data) {
@@ -301,6 +321,7 @@ MageS.Game = function () {
             MageS.Game.inventory.buildItems();
             MageS.Game.buildUnits();
             MageS.Game.replaceMissingSvg();
+            MageS.Game.updateHealth(MageS.Game.rawData.mage);
 
         }, 'xml');
     };

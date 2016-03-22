@@ -100,10 +100,16 @@ MageS.Animations = function (game) {
             case 'mage-damage':
                 this.mageDamageAnimation(data.data);
                 break;
+            case 'mage-heal':
+                this.mageHealAnimation(data.data);
+                break;
+            case 'mage-add-armor':
+                this.mageAddArmorAnimation(data.data);
+                break;
             case 'unit-damage':
                 info('Unit got ' + data.data.value + ' damage');
                 //$('.health-value').html(data.data.health);
-                this.showDamageAnimation(data.data, true);
+                this.showDamageAnimation(data.data, 'damage', true);
                 break;
             case 'object-destroy':
                 this.objectDestroyAnimation(data.data);
@@ -246,13 +252,28 @@ MageS.Animations = function (game) {
         )});
     };
     this.mageDamageAnimation = function(data) {
-        info('Some one dealed ' + data.dHealth + ' damage to you');
+        info('Some one dealed ' + data.value + ' damage to you');
         //$('.health-value').html(data.health);
-        $('.health-bar .progress-bar-success').css('width', data.health + '%');
-        this.showDamageAnimation(data, false);
+        this.game.updateHealth(data);
+        //$('.health-bar .progress-bar-success').css('width', data.health + '%');
+        this.showDamageAnimation(data, 'damage', false);
+    };
+    this.mageHealAnimation = function(data) {
+        info('Healing for ' + data.value);
+        //$('.health-value').html(data.health);
+        this.game.updateHealth(data);
+        //$('.health-bar .progress-bar-success').css('width', data.health + '%');
+        this.showDamageAnimation(data, 'heal', false);
+    };
+    this.mageAddArmorAnimation = function(data) {
+        info('Adding armor ' + data.value);
+        //$('.health-value').html(data.health);
+        this.game.updateHealth(data);
+        //$('.health-bar .progress-bar-success').css('width', data.health + '%');
+        this.showDamageAnimation(data, 'armor', false);
     };
 
-    this.showDamageAnimation = function (data, enemy) {
+    this.showDamageAnimation = function (data, type, enemy) {
         var id = data.id;
         if (enemy) {
             var target = $('.unit.id-' + id);
@@ -260,8 +281,17 @@ MageS.Animations = function (game) {
         } else {
             var target = $('.battle-border .mage-container');
         }
-        info(data);
-        var el = $('<div>' + (-data.value) + '</div>').addClass('damage');
+        if (type == 'damage') {
+            var value = -data.value;
+        } else {
+            var value = data.value;
+        }
+        var el = $('<div>' + value + '</div>').addClass('damage');
+        if (type == 'heal') {
+            el.addClass('heal');
+        } if(type == 'armor') {
+            el.addClass('armor');
+        }
         target.prepend(el);
         if (rand(0,1) == 1) {
             var randX = 15;

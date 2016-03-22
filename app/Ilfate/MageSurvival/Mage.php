@@ -28,6 +28,7 @@ namespace Ilfate\MageSurvival;
  */
 abstract class Mage implements AliveInterface
 {
+    const DEFAULT_MAX_HEALTH = 100;
     /**
      * @var \Ilfate\Mage
      */
@@ -37,6 +38,8 @@ abstract class Mage implements AliveInterface
     protected $y;
     protected $d;
     protected $health;
+    protected $armor = 0;
+    protected $maxHealth;
     protected $was = [];
     protected $data;
     protected $items;
@@ -78,7 +81,38 @@ abstract class Mage implements AliveInterface
         if (isset($this->data['health'])) {
             $this->health = $this->data['health'];
             $this->was['health'] = $this->data['health'];
+            if (empty($this->data['maxHealth'])) {
+                $this->maxHealth = static::DEFAULT_MAX_HEALTH;
+                $this->was['maxHealth'] = static::DEFAULT_MAX_HEALTH;
+            } else {
+                $this->maxHealth = $this->data['maxHealth'];
+                $this->was['maxHealth'] = $this->data['maxHealth'];
+            }
+            if (!empty($this->data['armor'])) {
+                $this->armor = $this->data['armor'];
+            }
+        } else {
+            $this->health = static::DEFAULT_MAX_HEALTH;
+            $this->maxHealth = static::DEFAULT_MAX_HEALTH;
+            $this->was['health'] = static::DEFAULT_MAX_HEALTH;
+            $this->was['maxHealth'] = static::DEFAULT_MAX_HEALTH;
         }
+    }
+
+    public function save()
+    {
+        $data = $this->data;
+        $data['x'] = $this->getX();
+        $data['y'] = $this->getY();
+        $data['d'] = $this->getD();
+        $data['health'] = $this->getHealth();
+        $data['armor'] = $this->getArmor();
+        $data['maxHealth'] = $this->maxHealth;
+        $this->mageEntity->data   = json_encode($data);
+        $this->mageEntity->items  = json_encode($this->items);
+        $this->mageEntity->spells = json_encode($this->spells);
+        $this->mageEntity->turn   = $this->turn;
+        $this->mageEntity->save();
     }
 
     public function viewExport()
@@ -86,6 +120,8 @@ abstract class Mage implements AliveInterface
         $data = [
             'd' => $this->getD(),
             'health' => $this->getHealth(),
+            'maxHealth' => $this->maxHealth,
+            'armor' => $this->getArmor(),
             'items' => $this->exportItems(),
             'spells' => $this->exportSpells(),
             'spellSchools' => $this->exportSchools(),
@@ -100,9 +136,20 @@ abstract class Mage implements AliveInterface
             'x' => $this->getX(),
             'y' => $this->getY(),
             'health' => $this->getHealth(),
+            'armor' => $this->getArmor(),
+            'maxHealth' => $this->maxHealth,
             'was' => $this->was,
         ];
         return $data;
+    }
+
+    public function exportMageHealth($value) {
+        return [
+            'health' => $this->getHealth(),
+            'maxHealth' => $this->maxHealth,
+            'armor' => $this->getArmor(),
+            'value' => $value
+        ];
     }
 
     protected function exportItems()
@@ -184,6 +231,7 @@ abstract class Mage implements AliveInterface
             return $return;
         }
         $spellsViewData = \Config::get('mageSpells.list');
+        $schoolsViewData = \Config::get('mageSpells.schools');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
         //$turn = $this->getTurn();
         foreach ($this->spellsChanges as $spellId => $spell) {
@@ -199,6 +247,9 @@ abstract class Mage implements AliveInterface
                 'viewData' => $spellsViewData[$schoolId][$level][$name],
                 'status' => $spell['status']
             ];
+            if ($spell['status'] == 'new') {
+                $return[$spellId]['schoolViewData'] = $schoolsViewData[$schoolId];
+            }
             if (!empty($spell['config']['pattern'])) {
                 $return[$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
             }
@@ -374,20 +425,6 @@ abstract class Mage implements AliveInterface
         $this->update();
     }
 
-    public function save()
-    {
-        $data = $this->data;
-        $data['x'] = $this->getX();
-        $data['y'] = $this->getY();
-        $data['d'] = $this->getD();
-        $data['health'] = $this->getHealth();
-        $this->mageEntity->data   = json_encode($data);
-        $this->mageEntity->items  = json_encode($this->items);
-        $this->mageEntity->spells = json_encode($this->spells);
-        $this->mageEntity->turn   = $this->turn;
-        $this->mageEntity->save();
-    }
-
     public function saveIfUpdated()
     {
         if ($this->isUpdated) {
@@ -399,11 +436,40 @@ abstract class Mage implements AliveInterface
     {
         $eventData = Event::trigger(Event::EVENT_MAGE_BEFORE_GET_DAMAGE, ['value' => $value]);
         $value = $eventData['value'];
+        if ($this->armor > 0) {
+
+            //$value -= $this->armor;
+            if ($value <= $this->armor)  {
+                $this->armor -= $value;
+                $value = 0;
+            } else {
+                $value -= $this->armor;
+                $this->armor = 0;
+            }
+        }
         $this->health -= $value;
-        GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_DAMAGE, [
-            'health' => $this->getHealth(),
-            'value' => $value,
-        ], $animationStage);
+        GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_DAMAGE, $this->exportMageHealth($eventData['value']), $animationStage);
+    }
+
+    public function heal($value, $animationStage)
+    {
+        $healthWas = $this->getHealth();
+        $eventData = Event::trigger(Event::EVENT_MAGE_BEFORE_HEAL, ['value' => $value]);
+        $value = $eventData['value'];
+        $this->health += $value;
+        if ($this->health > $this->maxHealth) {
+            $this->health = $this->maxHealth;
+            $value = $this->health - $healthWas;
+        }
+        GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_HEAL, $this->exportMageHealth($value), $animationStage);
+    }
+
+    public function armor($value, $animationStage)
+    {
+        $this->armor += $value;
+        if ($value > 0) {
+            GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_ADD_ARMOR, $this->exportMageHealth($value), $animationStage);
+        }
     }
 
     public function update()
@@ -528,5 +594,13 @@ abstract class Mage implements AliveInterface
     {
         $this->mageEntity->events = json_encode($events);
         $this->update();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArmor()
+    {
+        return $this->armor;
     }
 }
