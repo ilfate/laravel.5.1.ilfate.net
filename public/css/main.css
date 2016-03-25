@@ -2953,6 +2953,11 @@ div.hex {
         border-left: 2px solid #78C0A8; }
 
 /* COLOR PALLETE */
+.mage-survival .btn.white {
+  background-color: #ffffff;
+  color: #529BCA; }
+  .mage-survival .btn.white:hover {
+    color: #F0A830; }
 .mage-survival .large-text {
   font-size: 1.5rem; }
 .mage-survival #create-mage-pop-up {
@@ -3066,28 +3071,24 @@ div.hex {
   .mage-survival .container.main .svg-icon {
     width: 32px;
     height: 32px; }
-.mage-survival .tooltip-helper-area {
+.mage-survival .tooltip-spell-area, .mage-survival .tooltip-helper-area {
   position: absolute;
-  z-index: 60; }
-  .mage-survival .tooltip-helper-area .item-tooltip {
+  z-index: 80;
+  color: #5E412F;
+  font-size: 0.7rem; }
+  .mage-survival .tooltip-spell-area .item-tooltip, .mage-survival .tooltip-spell-area .spell-tooltip, .mage-survival .tooltip-helper-area .item-tooltip, .mage-survival .tooltip-helper-area .spell-tooltip {
+    padding: 1.5rem;
     display: none;
     position: absolute;
-    background-color: whitesmoke;
-    padding: 1.5rem;
-    margin: 64px 0 0 64px;
-    width: 224px;
-    height: 224px;
-    opacity: 0.9; }
-.mage-survival .tooltip-spell-area {
-  position: absolute;
-  z-index: 60; }
-  .mage-survival .tooltip-spell-area .spell-tooltip {
-    display: none;
-    position: absolute;
-    background-color: whitesmoke;
-    padding: 1.5rem;
-    height: 247px;
-    width: 247px; }
+    background-color: #FCEBB6; }
+.mage-survival .tooltip-helper-area .item-tooltip {
+  margin: 64px 0 0 64px;
+  width: 224px;
+  height: 224px;
+  opacity: 0.9; }
+.mage-survival .tooltip-spell-area .spell-tooltip {
+  height: 247px;
+  width: 247px; }
 .mage-survival .battle-border {
   float: left;
   width: 352px;
@@ -3231,21 +3232,35 @@ div.hex {
     opacity: 0.5; }
     .mage-survival .inventory .items-filter.active {
       opacity: 1; }
-  .mage-survival .inventory .items .item {
-    float: left;
-    width: 34px;
-    height: 34px; }
-    .mage-survival .inventory .items .item.filtered-out {
-      display: none; }
-    .mage-survival .inventory .items .item svg {
-      position: absolute; }
-    .mage-survival .inventory .items .item .value {
-      position: absolute;
-      font-size: 10px;
-      background-color: #FCEBB6;
-      color: #5E412F;
-      padding-left: 2px;
-      padding-right: 2px; }
+.mage-survival .items .item {
+  float: left;
+  width: 34px;
+  height: 34px;
+  position: relative;
+  text-align: left; }
+  .mage-survival .items .item.filtered-out {
+    display: none; }
+  .mage-survival .items .item svg {
+    position: absolute; }
+  .mage-survival .items .item .value {
+    position: absolute;
+    font-size: 10px;
+    background-color: #FCEBB6;
+    color: #5E412F;
+    padding-left: 2px;
+    padding-right: 2px; }
+  .mage-survival .items .item .craft-value {
+    display: none;
+    position: absolute;
+    font-size: 10px;
+    background-color: #529BCA;
+    color: #ffffff;
+    padding-left: 2px;
+    padding-right: 2px;
+    bottom: 0;
+    right: 0; }
+    .mage-survival .items .item .craft-value.active {
+      display: block; }
 .mage-survival .spellBook {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -3292,6 +3307,15 @@ div.hex {
     width: 247px;
     height: 34px;
     text-align: center; }
+  .mage-survival .craft-spell-overlay .spell-craft-info .text-1 {
+    height: 51px; }
+  .mage-survival .craft-spell-overlay .spell-craft-info .craft-items {
+    height: 51px;
+    margin: 0 auto; }
+  .mage-survival .craft-spell-overlay .spell-craft-info .text-2 {
+    height: 104.2px;
+    padding: 0 1rem;
+    font-size: 11px; }
 .mage-survival .item svg.svg-icon, .mage-survival .spell svg.svg-icon {
   opacity: 0.9; }
 .mage-survival .item:hover svg.svg-icon, .mage-survival .spell:hover svg.svg-icon {

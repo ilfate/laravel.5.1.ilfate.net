@@ -312,8 +312,6 @@ MageS.Animations = function (game) {
         } else {
             x -= randX;
         }
-        info ('new x =' + x);
-        info ('new y =' + y);
         el.animate(
                 {'margin-top':y + 'px','margin-left':x + 'px', opacity: 0.3},
                 {duration:300, complete:function() {

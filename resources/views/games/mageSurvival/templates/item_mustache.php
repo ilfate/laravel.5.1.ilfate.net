@@ -8,5 +8,6 @@
         <svg class="svg-icon" viewBox="0 0 500 500">
         </svg>
         <span class="value">{{quantity}}</span>
+        <span class="craft-value"></span>
     </div>
 </script>

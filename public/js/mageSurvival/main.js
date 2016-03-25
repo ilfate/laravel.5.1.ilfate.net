@@ -43,6 +43,8 @@ MageS.Game = function () {
     /* CONFIG */
     this.fieldRadius = 5;
     this.cellSize = 32;
+    this.itemSize = 34;
+    this.mageInventorySize = 7 * this.itemSize + 9;
     this.animationTime = 300;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
 
@@ -393,10 +395,13 @@ MageS.Game = function () {
     this.postMessages = function(messages) {
         for (var i in messages) {
             var message = messages[i];
-            info(messages[i]);
-            if (message.type === undefined) {
+            this.postMessage(message);
+        }
+    };
+    this.postMessage = function (message) {
+        info(message);
+        if (message.type === undefined) {
 
-            }
         }
     };
 

@@ -7,6 +7,7 @@
 
 MageS.Inventory = function (game) {
     this.game = game;
+    this.items = {};
 
     this.buildItems = function() {
         var template = $('#template-item').html();
@@ -57,6 +58,7 @@ MageS.Inventory = function (game) {
         if (item.iconColor !== undefined) {
             obj.addClass(item.iconColor);
         }
+        this.items[item.id] = item;
         return obj;
     };
 
@@ -71,6 +73,7 @@ MageS.Inventory = function (game) {
                 var newQuantity = currentValue + config.quantity;
                 if (newQuantity > 0) {
                     existingEl.find('.value').html(newQuantity);
+                    this.items[id] = config;
                 } else {
                     existingEl.remove();
                 }
@@ -79,21 +82,12 @@ MageS.Inventory = function (game) {
                 var template = $('#template-item').html();
                 Mustache.parse(template);
                 var obj = this.renderItem(template, config);
-                //var rendered = Mustache.render(temaplate, {
-                //    'id': id,
-                //    'class': config.class,
-                //    'name': config.name,
-                //    'type': config.type,
-                //    'quantity': config.quantity,
-                //});
-                //var obj = $(rendered);
                 $('.inventory .items').append(obj);
 
                 this.addItemDescription(config, obj);
                 this.bindItem(obj);
             }
         }
-
     };
 
     this.addItemDescription = function(data, item) {
@@ -103,17 +97,21 @@ MageS.Inventory = function (game) {
         var obj = $(rendered);
         $('.tooltip-helper-area').append(obj);
         if (this.game.device == 'pc') {
-            item.on({
-                'mouseenter': function () {
-                    var id = $(this).data('id');
-                    $('.tooltip-helper-area .item-tooltip.id-' + id).show();
-                },
-                'mouseleave': function () {
-                    var id = $(this).data('id');
-                    $('.tooltip-helper-area .item-tooltip.id-' + id).hide();
-                }
-            });
+            this.bindItemTooltip(item);
         }
+    };
+
+    this.bindItemTooltip = function(item) {
+        item.on({
+            'mouseenter': function () {
+                var id = $(this).data('id');
+                $('.tooltip-helper-area .item-tooltip.id-' + id).show();
+            },
+            'mouseleave': function () {
+                var id = $(this).data('id');
+                $('.tooltip-helper-area .item-tooltip.id-' + id).hide();
+            }
+        });
     };
 
     this.itemClick = function (itemObj) {

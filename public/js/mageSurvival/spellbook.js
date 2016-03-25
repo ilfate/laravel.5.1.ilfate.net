@@ -328,8 +328,11 @@ MageS.Spellbook = function (game) {
     this.cancelCrafting = function () {
         $('.inventory').removeClass('craft');
         $('.inventory-shadow').animate({'opacity': 0}, {'duration': this.game.animationTime / 3,'complete':function(){
-            $(this.hide);
+            $(this).hide();
         }});
+        $('.helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info').remove();
+        $('.craft-value.active').removeClass('active').html('');
+        this.spellCraftProcess = {};
         this.game.inventory.turnOffFilters();
     };
 
@@ -352,7 +355,6 @@ MageS.Spellbook = function (game) {
         MageS.Game.inventory.filterItems($('.items-filter.name-carrier'));
 
         this.showSpellCraftHelperStep1();
-         //   MageS.Game.spellbook.SpellCraftStep2($(this));
     };
 
     this.itemClick = function(itemObj) {
@@ -365,17 +367,9 @@ MageS.Spellbook = function (game) {
 
     this.SpellCraftStep2 = function(carrierEl) {
         this.spellCraftProcess['carrier'] = carrierEl;
-        //$('.spell-craft-1').hide(200, function(){ $(this).remove(); });
-        //var ingridientsTab = this.craftingItemsTab('.items-tab.ingredient');
-        //ingridientsTab.addClass('spell-craft-2');
         MageS.Game.inventory.filterItems($('.items-filter.name-ingredient'));
         $('.helper-spell-craft-step-1').hide(200, function(){ $(this).remove(); });
         this.showSpellCraftHelperStep2();
-        //var newItems = ingridientsTab.find('.item');
-        //newItems.tooltip();
-        //newItems.on('click', function() {
-        //    MageS.Game.spellbook.SpellCraftStep3($(this));
-        //});
     };
 
     this.SpellCraftStep3 = function(ingridientEl) {
@@ -395,21 +389,36 @@ MageS.Spellbook = function (game) {
             }
         }
         if (parseInt(ingridientEl.find('.value').html()) < numberOfSameIds + 1) {
-            this.addCraftingMessageStep3('You don`t have enough of that ingredient');
+            this.game.postMessage('You don`t have enough of that ingredient');
+            var craftValue = ingridientEl.find('.craft-value');
+            craftValue.css({'background-color':'#FF8360'}).animate({'background-color':'#529BCA'});
             return;
         }
         this.spellCraftProcess['ingridients'].push(ingridientEl);
-        if (this.spellCraftProcess['ingridients'].length == 3) {
+        var isLastItem = this.spellCraftProcess['ingridients'].length == 3;
+        this.addSpellCraftItemValue(ingridientEl, isLastItem);
+        if (isLastItem) {
             $('.spell-craft-2').hide(200, function(){ $(this).remove(); });
             $('.helper-spell-craft-step-2').hide(200, function(){ $(this).remove(); });
 
             this.showSpellCraftInfo();
 
         } else {
-            ingridientEl.find('path').css({'fill': '#069E2D', transition: "2.0s"});
+            //ingridientEl.find('path').css({'fill': '#069E2D', transition: "2.0s"});
             var number = $('.select-mode-ingredients');
             number.html(3 - this.spellCraftProcess['ingridients'].length);
             number.css('color', '#FF8360').animate({'color' : '#FFF'});
+        }
+    };
+    this.addSpellCraftItemValue = function(ingridientEl, isLastItem) {
+        var craftValue = ingridientEl.find('.craft-value');
+        craftValue.addClass('active');
+        var currentNumber = parseInt(craftValue.html());
+        if (!currentNumber) currentNumber = 0;
+        currentNumber++;
+        craftValue.html(currentNumber);
+        if (!isLastItem) {
+            craftValue.css({'background-color': '#069E2D'}).animate({'background-color': '#529BCA'});
         }
     };
 
@@ -417,31 +426,14 @@ MageS.Spellbook = function (game) {
     {
         $('.spell-craft-info').remove();
         this.startSpellCraftAnimations();
-        this.cancelCrafting();
-        var data = {};
         var carrier = this.spellCraftProcess.carrier.data('id');
         var items = [];
         for(var i in this.spellCraftProcess.ingridients) {
             items.push(this.spellCraftProcess.ingridients[i].data('id'))
         }
-        data = '{"carrier" : "' + carrier + '", "ingredients": ["' + items[0] + '","' + items[1] + '","' + items[2] + '"]}';
+        this.cancelCrafting();
+        var data = '{"carrier" : "' + carrier + '", "ingredients": ["' + items[0] + '","' + items[1] + '","' + items[2] + '"]}';
         this.game.action('craftSpell', data);
-    };
-
-
-    this.craftingItemsTab = function(tabQuery) {
-        var carrierTab = $(tabQuery).clone();
-        carrierTab.show().removeAttr('role').removeAttr('id').removeClass('tab-pane')
-            .css('opacity', 0);
-        $('.craft-spell-overlay').append(carrierTab);
-        carrierTab.animate({
-            'width': (this.game.battleFieldSize / 2) + 'px',
-            'height': (this.game.battleFieldSize / 2) + 'px',
-            'margin-top': this.game.battleFieldSize / 4 + 'px',
-            'margin-left': this.game.battleFieldSize / 4 + 'px',
-            'opacity': 1
-        });
-        return carrierTab;
     };
 
     this.showSpellCraftHelperStep1 = function() {
@@ -462,17 +454,83 @@ MageS.Spellbook = function (game) {
     this.showSpellCraftInfo = function() {
         var temaplate = $('#template-spell-craft-info').html();
         Mustache.parse(temaplate);
-        var rendered = Mustache.render(temaplate);
+
+        var stats = {
+            'usagesMin':0,
+            'usagesMax':0,
+            'spell':0,
+            'school':{},
+            'cooldown':{},
+        };
+        var carrier = this.game.inventory.items[this.spellCraftProcess.carrier.data('id')];
+        var usagesArr = carrier.stats.usages.split('-');
+        stats.usagesMin = usagesArr[0];
+        stats.usagesMax = usagesArr[1];
+        var items = [carrier];
+        for(var i in this.spellCraftProcess.ingridients) {
+            items.push(this.game.inventory.items[this.spellCraftProcess.ingridients[i].data('id')]);
+        }
+        for (var i in items) {
+            var item = items[i];
+            if (item.stats.spell !== undefined) {
+                stats.spell += parseInt(item.stats.spell);
+            }
+            if (item.stats.school !== undefined) {
+                stats.isSchool = true;
+                for(var schoolName in item.stats.school) {
+                    if (stats.school[schoolName] === undefined) {
+                        stats.school[schoolName] = 0;
+                    }
+                    stats.school[schoolName] += item.stats.school[schoolName];
+                }
+            }
+            if (item.stats.cooldown !== undefined) {
+                stats.isCooldown = true;
+                if (stats.cooldown.min === undefined) {
+                    stats.cooldown.min = 0;
+                }
+                if (stats.cooldown.max === undefined) {
+                    stats.cooldown.max = 0;
+                }
+                stats.cooldown.min += parseInt(item.stats.cooldown.min);
+                stats.cooldown.max += parseInt(item.stats.cooldown.max);
+            }
+
+        }
+        if (stats.isSchool !== undefined) {
+            info('rebuild');
+            var schools = [];
+            for(var schoolName in stats.school) {
+                schools.push({'name':schoolName,'value':stats.school[schoolName]});
+            }
+            stats.school = schools;
+        }
+        var rendered = Mustache.render(temaplate, {
+            'stats': stats
+        });
         var obj = $(rendered);
+        var craftItemsEl = obj.find('.craft-items');
+        var itemsNum = 0
+        for (var i in items) {
+            // copy item
+            if (craftItemsEl.find('.id-' + items[i].id).length > 0) continue;
+            itemsNum++;
+            var newItem = $('.inventory .item.id-' + items[i].id).clone();
+            newItem.removeClass('filtered-out').find('.value').remove();
+            var craftValueEl = newItem.find('.craft-value');
+            if (parseInt(craftValueEl.html()) == 1) {
+                craftValueEl.remove();
+            }
+            craftItemsEl.append(newItem);
+            this.game.inventory.bindItemTooltip(newItem);
+            newItem.find('path').css({'fill': '#FFF'});
+        }
+        craftItemsEl.css('width', itemsNum * this.game.itemSize + 'px');
         $('.craft-spell-overlay').append(obj);
+        obj.animate({'height': this.game.mageInventorySize + 'px'}, {'duration':this.game.animationTime});
         $('.confirm-create-spell').on('click', function(){
             MageS.Game.spellbook.createSpellAction();
         });
-    };
-
-    this.addCraftingMessageStep3 = function(message) {
-        $('.helper-spell-craft-step-2').append($('<p class="large-text helper-spell-craft-step-2-error">' + message + '</p>'));
-        $('.helper-spell-craft-step-2-error').animate({'font-size' : '1rem'});
     };
 };
 

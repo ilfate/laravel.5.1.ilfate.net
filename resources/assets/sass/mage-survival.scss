@@ -24,8 +24,18 @@ $cell-size: 32;
 $item-size: 34;
 $spell-size: 34;
 $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
+$mage-inventory-size: 7 * $item-size + 9;
 
 .mage-survival {
+    .btn {
+        &.white {
+            background-color: $mage-colors-white;
+            color: $mage-colors-blue;
+            &:hover {
+                color: $mage-colors-gold;
+            }
+        }
+    }
     .large-text {
         font-size: 1.5rem;
     }
@@ -171,294 +181,325 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
         }
     }
     //.game-inteface {
-        .tooltip-helper-area  {
+    .tooltip-spell-area, .tooltip-helper-area {
+        position:absolute;
+        z-index: 80;
+        color:$mage-colors-brown;
+        font-size: 0.7rem;
+        .item-tooltip, .spell-tooltip {
+            padding: 1.5rem;
+            display: none;
             position:absolute;
-            z-index: 60;
-            .item-tooltip {
-                display: none;
-                position:absolute;
-                background-color: whitesmoke;
-                padding: 1.5rem;
-                margin: 2 * $cell-size + px 0 0 2 * $cell-size + px;
-                width: ($map-radius * 2 - 3) * $cell-size + px;
-                height: ($map-radius * 2 - 3) * $cell-size + px;
-                opacity: 0.9;
-            }
+            background-color: $mage-colors-clay;
         }
-        .tooltip-spell-area {
-            position:absolute;
-            z-index: 60;
-            .spell-tooltip {
-                display: none;
-                position:absolute;
-                background-color: whitesmoke;
-                padding: 1.5rem;
-                height: 7 * $item-size + 9 + px;
-                width: 7 * $item-size + 9 + px;
-            }
+    }
+    .tooltip-helper-area  {
+        .item-tooltip {
+            margin: 2 * $cell-size + px 0 0 2 * $cell-size + px;
+            width: ($map-radius * 2 - 3) * $cell-size + px;
+            height: ($map-radius * 2 - 3) * $cell-size + px;
+            opacity: 0.9;
         }
-        .battle-border {
-            float:left;
-            width:$battlefield-size + px;
-            height:$battlefield-size + px;
-            border:1px solid chocolate;
-            overflow:hidden;
-            position: relative;
-            box-shadow: 5px 5px 15px rgba(39, 200, 119, 1), -5px -5px 15px rgba(39, 200, 119, 1);
-            &.action {
-                box-shadow: 5px 5px 15px rgba(182, 189, 55, 1), -5px -5px 15px rgba(182, 189, 55, 1);
-            }
-            .mage-container {
-                position: absolute;
-                margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
-                .mage {
-                    position: absolute;
-                    width:$cell-size + px;
-                    height:$cell-size + px;
-                    z-index: 35;
-                    background-image: url('/images/game/mage/mage.png');
-                    &.d-1 { @include rotate(90deg); }
-                    &.d-2 { @include rotate(180deg); }
-                    &.d-3 { @include rotate(270deg); }
-                }
-            }
-            .unit {
+    }
+    .tooltip-spell-area {
+        .spell-tooltip {
+            height: $mage-inventory-size + px;
+            width: $mage-inventory-size + px;
+        }
+    }
+    .battle-border {
+        float:left;
+        width:$battlefield-size + px;
+        height:$battlefield-size + px;
+        border:1px solid chocolate;
+        overflow:hidden;
+        position: relative;
+        box-shadow: 5px 5px 15px rgba(39, 200, 119, 1), -5px -5px 15px rgba(39, 200, 119, 1);
+        &.action {
+            box-shadow: 5px 5px 15px rgba(182, 189, 55, 1), -5px -5px 15px rgba(182, 189, 55, 1);
+        }
+        .mage-container {
+            position: absolute;
+            margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
+            .mage {
                 position: absolute;
                 width:$cell-size + px;
                 height:$cell-size + px;
                 z-index: 35;
-
-            }
-            .damage {
-                position: absolute;
-                z-index: 80;
-                font-size: 0.8rem;
-                text-shadow: 1px 1px $color-clay;
-                padding: 0 3px;
-                color:$mage-colors-red;
-                margin-top: $cell-size * 0.2 + px;
-                margin-left: $cell-size * 0.2 + px;
-                &.heal {
-                    color:$mage-colors-green;
-                }
-                &.armor {
-                    color:$mage-colors-gold;
-                }
+                background-image: url('/images/game/mage/mage.png');
+                &.d-1 { @include rotate(90deg); }
+                &.d-2 { @include rotate(180deg); }
+                &.d-3 { @include rotate(270deg); }
             }
         }
-        .battle-field {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+        .unit {
             position: absolute;
-            margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
-            width:($map-radius + 1) * $cell-size + px;
-            height:($map-radius + 1) * $cell-size + px;
-            background-color: cornsilk;
-                &.current {
-                    z-index: 25;
-                }
-                &.new {
-                    z-index: 20;
-                }
-            .cell {
-                position: absolute;
-                width:$cell-size + px;
-                height:$cell-size + px;
-                z-index: 30;
-                overflow: visible;
-                background-color: black;
-            }
-            .object {
-                position: absolute;
-                width:$cell-size - 10 + px;
-                height:$cell-size - 10 + px;
-                z-index: 33;
-            }
-        }
-        .unit-field {
-            position: absolute;
-            margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
-            width:($map-radius + 1) * $cell-size + px;
-            height:($map-radius + 1) * $cell-size + px;
-        }
+            width:$cell-size + px;
+            height:$cell-size + px;
+            z-index: 35;
 
-        .battle-border.Tutorial {
-            .cell.bl { background-color: darkgrey; }
-            .cell.f1 { background-color: green; }
-            .cell.f2 { background-color: darkolivegreen; }
-            .cell.f3 { background-color: lawngreen; }
-            .cell.s  { background-color: grey; }
-            //.cell.bl { border: 1px solid darkgrey; }
-            //.cell.f1 { border: 1px solid green; }
-            //.cell.f2 { border: 1px solid darkolivegreen; }
-            //.cell.f3 { border: 1px solid lawngreen; }
-            //.cell.s  { border: 1px solid grey; }
         }
-        .battle-border.Tutorial {
-            .object.type-1 {
-                background-color: goldenrod;
+        .damage {
+            position: absolute;
+            z-index: 80;
+            font-size: 0.8rem;
+            text-shadow: 1px 1px $color-clay;
+            padding: 0 3px;
+            color:$mage-colors-red;
+            margin-top: $cell-size * 0.2 + px;
+            margin-left: $cell-size * 0.2 + px;
+            &.heal {
+                color:$mage-colors-green;
+            }
+            &.armor {
+                color:$mage-colors-gold;
             }
         }
-        .pattern-field {
-            position: absolute;
-
-            .pattern-cell {
-                border-radius: 2px;
-                position: absolute;
-                width:$cell-size + px;
-                height:$cell-size + px;
+    }
+    .battle-field {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: absolute;
+        margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
+        width:($map-radius + 1) * $cell-size + px;
+        height:($map-radius + 1) * $cell-size + px;
+        background-color: cornsilk;
+            &.current {
                 z-index: 25;
-                background-color: #770000;
-                opacity: 0;
-                &.visible {
-                    z-index: 45;
-                    opacity: 0.4;
-                }
-                &.active {
-                    z-index: 45;
-                    opacity: 0.7;
-                }
             }
-
-        }
-        .mage-profile {
-            .progress-bar-success {
-                min-width: 1.5rem;
-                background-color: $mage-colors-green;
+            &.new {
+                z-index: 20;
             }
-        }
-
-        .inventory-shadow {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background-color: $mage-colors-brown;
-            opacity: 0;
-            z-index: 70;
-            display: none;
-        }
-        .inventory {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            height: 7 * $item-size + 9 + px;
-            width: 7 * $item-size + 9 + px;
-            background-color: $mage-colors-clay;
-            &.craft {
-                position: absolute;
-                z-index: 71;
-            }
-            .items-filters-panel {
-                border-bottom: 1px solid $mage-colors-brown;
-            }
-            .items-filter {
-                cursor: pointer;
-                opacity: 0.5;
-                &.active {
-                    opacity: 1;
-                }
-            }
-            .items {
-                .item {
-                    float: left;
-                    width: $item-size + px;
-                    height: $item-size + px;
-                    &.filtered-out {
-                        display: none;
-                    }
-
-                    svg {
-                        position: absolute;
-                    }
-
-                    .value {
-                        //text-shadow: 2px 2px #fefefe;
-                        position:absolute;
-                        font-size: 10px;
-                        background-color: $color-clay;
-                        color:$color-brawn;
-                        padding-left:2px;
-                        padding-right:2px;
-                    }
-                }
-            }
-        }
-
-        .spellBook {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            height: 7 * $item-size + 9 + px;
-            width: 7 * $item-size + 9 + px;
-            .spells-filter-panel {
-                border-bottom: 1px solid $mage-colors-brown;
-            }
-            .spell-filter {
-                cursor: pointer;
-                opacity: 0.5;
-                &.active {
-                    opacity: 1;
-                }
-            }
-            .spells {
-
-                .spell {
-                    float: left;
-                    width: $item-size + px;
-                    height: $item-size + px;
-                    &.filtered-out {
-                        display: none;
-                    }
-                    &.cooldown {
-                        path {
-                            fill: #CCC;
-                        }
-                    }
-                    .value {
-                        //text-shadow: 2px 2px #fefefe;
-                        position:absolute;
-                        font-size: 10px;
-                        background-color: $color-clay;
-                        color:$color-brawn;
-                        padding-left:2px;
-                        padding-right:2px;
-                    }
-                    svg {
-                        position: absolute;
-                    }
-                }
-            }
-        }
-
-        .craft-spell-overlay{
+        .cell {
             position: absolute;
-            z-index: 60;
-            font-size: 13px;
-            .alert {
-                padding:2px;
+            width:$cell-size + px;
+            height:$cell-size + px;
+            z-index: 30;
+            overflow: visible;
+            background-color: black;
+        }
+        .object {
+            position: absolute;
+            width:$cell-size - 10 + px;
+            height:$cell-size - 10 + px;
+            z-index: 33;
+        }
+    }
+    .unit-field {
+        position: absolute;
+        margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
+        width:($map-radius + 1) * $cell-size + px;
+        height:($map-radius + 1) * $cell-size + px;
+    }
+
+    .battle-border.Tutorial {
+        .cell.bl { background-color: darkgrey; }
+        .cell.f1 { background-color: green; }
+        .cell.f2 { background-color: darkolivegreen; }
+        .cell.f3 { background-color: lawngreen; }
+        .cell.s  { background-color: grey; }
+        //.cell.bl { border: 1px solid darkgrey; }
+        //.cell.f1 { border: 1px solid green; }
+        //.cell.f2 { border: 1px solid darkolivegreen; }
+        //.cell.f3 { border: 1px solid lawngreen; }
+        //.cell.s  { border: 1px solid grey; }
+    }
+    .battle-border.Tutorial {
+        .object.type-1 {
+            background-color: goldenrod;
+        }
+    }
+    .pattern-field {
+        position: absolute;
+
+        .pattern-cell {
+            border-radius: 2px;
+            position: absolute;
+            width:$cell-size + px;
+            height:$cell-size + px;
+            z-index: 25;
+            background-color: #770000;
+            opacity: 0;
+            &.visible {
+                z-index: 45;
+                opacity: 0.4;
             }
-            .helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info {
-                background-color: $mage-colors-blue;
-                color: $mage-colors-white;
-                position: absolute;
-                width: 7 * $item-size + 9 + px;
-                height: $item-size + px;
-                text-align: center;
+            &.active {
+                z-index: 45;
+                opacity: 0.7;
             }
         }
-    //}
+    }
+    .mage-profile {
+        .progress-bar-success {
+            min-width: 1.5rem;
+            background-color: $mage-colors-green;
+        }
+    }
+
+    .inventory-shadow {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: $mage-colors-brown;
+        opacity: 0;
+        z-index: 70;
+        display: none;
+    }
+    .inventory {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        height: $mage-inventory-size + px;
+        width: $mage-inventory-size + px;
+        background-color: $mage-colors-clay;
+        &.craft {
+            position: absolute;
+            z-index: 71;
+        }
+        .items-filters-panel {
+            border-bottom: 1px solid $mage-colors-brown;
+        }
+        .items-filter {
+            cursor: pointer;
+            opacity: 0.5;
+            &.active {
+                opacity: 1;
+            }
+        }
+
+    }
+    .items {
+        .item {
+            float: left;
+            width: $item-size + px;
+            height: $item-size + px;
+            position: relative;
+            text-align: left;
+            &.filtered-out {
+                display: none;
+            }
+
+            svg {
+                position: absolute;
+            }
+
+            .value {
+                //text-shadow: 2px 2px #fefefe;
+                position:absolute;
+                font-size: 10px;
+                background-color: $mage-colors-clay;
+                color:$mage-colors-brown;
+                padding-left:2px;
+                padding-right:2px;
+            }
+            .craft-value {
+                display: none;
+                position: absolute;
+
+                font-size: 10px;
+                background-color: $mage-colors-blue;
+                color:$mage-colors-white;
+                padding-left:2px;
+                padding-right:2px;
+                bottom: 0;
+                right: 0;
+                &.active {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .spellBook {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        height: $mage-inventory-size + px;
+        width: $mage-inventory-size + px;
+        .spells-filter-panel {
+            border-bottom: 1px solid $mage-colors-brown;
+        }
+        .spell-filter {
+            cursor: pointer;
+            opacity: 0.5;
+            &.active {
+                opacity: 1;
+            }
+        }
+        .spells {
+
+            .spell {
+                float: left;
+                width: $item-size + px;
+                height: $item-size + px;
+                &.filtered-out {
+                    display: none;
+                }
+                &.cooldown {
+                    path {
+                        fill: #CCC;
+                    }
+                }
+                .value {
+                    //text-shadow: 2px 2px #fefefe;
+                    position:absolute;
+                    font-size: 10px;
+                    background-color: $color-clay;
+                    color:$color-brawn;
+                    padding-left:2px;
+                    padding-right:2px;
+                }
+                svg {
+                    position: absolute;
+                }
+            }
+        }
+    }
+
+    .craft-spell-overlay {
+        position: absolute;
+        z-index: 60;
+        font-size: 13px;
+        .alert {
+            padding:2px;
+        }
+        .helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info {
+            background-color: $mage-colors-blue;
+            color: $mage-colors-white;
+            position: absolute;
+            width: $mage-inventory-size + px;
+            height: $item-size + px;
+            text-align: center;
+        }
+        .spell-craft-info {
+            //height: $mage-inventory-size + px;
+            .text-1 {
+                height: 1.5 * $item-size + px;
+            }
+            .craft-items {
+                height: 1.5 * $item-size + px;
+                margin: 0 auto;
+            }
+            .text-2 {
+                height: $mage-inventory-size - (4.2 * $item-size) + px;
+                padding: 0 1rem;
+                font-size: 11px;
+            }
+        }
+    }
     .item svg.svg-icon,.spell svg.svg-icon {
         opacity: 0.9;
     }
