@@ -96,9 +96,9 @@ MageS.Inventory = function (game) {
         var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name, 'stats' : data.stats, 'item': data.type});
         var obj = $(rendered);
         $('.tooltip-helper-area').append(obj);
-        if (this.game.device == 'pc') {
+        //if (this.game.device == 'pc') {
             this.bindItemTooltip(item);
-        }
+        //}
     };
 
     this.bindItemTooltip = function(item) {
@@ -112,6 +112,21 @@ MageS.Inventory = function (game) {
                 $('.tooltip-helper-area .item-tooltip.id-' + id).hide();
             }
         });
+    };
+
+    this.toggleInventory = function() {
+        if ($('.items-col').hasClass('active')) {
+            this.hideInventory();
+        } else {
+            this.showInventory();
+        }
+    };
+    this.showInventory = function() {
+        this.game.spellbook.hideSpellbook();
+        $('.items-col').addClass('active').fadeIn();
+    };
+    this.hideInventory = function() {
+        $('.items-col').hide().removeClass('active');
     };
 
     this.itemClick = function (itemObj) {

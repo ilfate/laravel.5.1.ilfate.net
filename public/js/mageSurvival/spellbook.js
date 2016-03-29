@@ -297,24 +297,40 @@ MageS.Spellbook = function (game) {
         var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name, 'description' : data.viewData.description});
         var obj = $(rendered);
         $('.tooltip-spell-area').append(obj);
-        if (this.game.device == 'pc') {
-            spell.on({
-                'mouseenter': function () {
-                    var id = $(this).data('id');
-                    $('.tooltip-spell-area .spell-tooltip.id-' + id).show();
-                },
-                'mouseleave': function () {
-                    var id = $(this).data('id');
-                    $('.tooltip-spell-area .spell-tooltip.id-' + id).hide();
-                }
-            });
+        //if (this.game.device == 'pc') {
+        spell.on({
+            'mouseenter': function () {
+                var id = $(this).data('id');
+                $('.tooltip-spell-area .spell-tooltip.id-' + id).show();
+            },
+            'mouseleave': function () {
+                var id = $(this).data('id');
+                $('.tooltip-spell-area .spell-tooltip.id-' + id).hide();
+            }
+        });
+
+    };
+
+    this.toggleSpellbook = function() {
+        if ($('.spells-col').hasClass('active')) {
+            this.hideSpellbook();
+        } else {
+            this.showSpellbook();
         }
     };
+    this.showSpellbook = function() {
+        this.game.inventory.hideInventory();
+        $('.spells-col').addClass('active').fadeIn();
+    };
+    this.hideSpellbook = function() {
+        $('.spells-col').hide().removeClass('active');
+    };
+
 
     this.spellCrafted = function(data) {
         this.spellCraftProcess = [];
         this.endSpellCraftAnimations();
-
+        this.showSpellbook();
     };
 
     this.startSpellCraftAnimations = function () {
@@ -333,10 +349,17 @@ MageS.Spellbook = function (game) {
         $('.helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info').remove();
         $('.craft-value.active').removeClass('active').html('');
         this.spellCraftProcess = {};
+        this.craftingIsInProgress = false;
         this.game.inventory.turnOffFilters();
     };
 
     this.showSpellCrafting = function() {
+        if (this.craftingIsInProgress) {
+            return;
+        }
+        if (this.game.device != 'pc') {
+            this.game.inventory.showInventory();
+        }
         if (!$('.inventory .item.type-carrier').length) {
             this.itemsMessage('You have no Carrier to create a spell');
             return;
@@ -498,7 +521,6 @@ MageS.Spellbook = function (game) {
 
         }
         if (stats.isSchool !== undefined) {
-            info('rebuild');
             var schools = [];
             for(var schoolName in stats.school) {
                 schools.push({'name':schoolName,'value':stats.school[schoolName]});
@@ -517,6 +539,7 @@ MageS.Spellbook = function (game) {
             itemsNum++;
             var newItem = $('.inventory .item.id-' + items[i].id).clone();
             newItem.removeClass('filtered-out').find('.value').remove();
+            newItem.find('.craft-value').css({'background-color': '#529BCA'});
             var craftValueEl = newItem.find('.craft-value');
             if (parseInt(craftValueEl.html()) == 1) {
                 craftValueEl.remove();

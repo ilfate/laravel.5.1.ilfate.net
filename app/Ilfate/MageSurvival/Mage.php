@@ -369,11 +369,29 @@ abstract class Mage implements AliveInterface
 
     public function getAllPossibleActions(World $world)
     {
+        $actions = [];
         $object = $world->getObject($this->getX(), $this->getY());
         if ($object) {
-            return $object->getActions();
+            $actions = array_merge($actions, $object->getActions());
         }
-        return [];
+        $ds = [
+            [0, -1, 'icon-0'],
+            [1, 0, 'icon-1'],
+            [0, 1, 'icon-2'],
+            [-1, 0, 'icon-3'],
+        ];
+        $passableDirections = [];
+        foreach ($ds as $key => $d) {
+            if ($this->game->getWorld()->isPassable($this->getX() + $d[0], $this->getY() + $d[1])) {
+                $actions[] = [
+                    'name' => $key,
+                    'method' => 'move-' . $key,
+                    'icon' => $d[2],
+                    'location' => 'move-' . $key
+                ];
+            }
+        }
+        return $actions;
     }
 
     public function interactWithObject(World $world, $method)

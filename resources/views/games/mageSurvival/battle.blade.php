@@ -4,29 +4,30 @@
 <div class="game-container" >
     <input type="hidden" id="game-status" value="battle" />
 
-    <div class="middle-panel">
+    <div class="middle-panel" id="mage-middle-panel">
         <div class="responsive-container">
             <div class="battle-border {{ $viewData['game']['world'] }}">
-                <div class="mage-container"></div>
+                <div class="mage-container" id="mage-container"></div>
                 @include('games.mageSurvival.patternField')
                 <div class="battle-field current"></div>
                 <div class="unit-field"></div>
+
             </div>
             <div class="tooltip-helper-area"></div>
             <script> mageSurvivalData = {!!json_encode($viewData['game'])!!} </script>
         </div>
     </div>
     <div class="mage-info-panel">
-        @include('games.mageSurvival.actions')
         @include('games.mageSurvival.mageProfile')
+        @include('games.mageSurvival.actions')
     </div>
     <div class="right-panel">
         <div class="tablet-button-panel">
-            <a onclick="$('.items-col').toggle()">
+            <a class="toggle-inventory">
                 <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="icon-chest">
                 </svg>
             </a>
-            <a onclick="$('.spells-col').toggle()">
+            <a class="toggle-spellbook">
                 <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="icon-spell">
                 </svg>
             </a>
@@ -40,6 +41,6 @@
             </div>
         </div>
     </div>
-
+    @include('games.mageSurvival.mobile-controls')
 </div>
 @stop

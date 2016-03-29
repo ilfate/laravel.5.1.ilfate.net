@@ -12,6 +12,8 @@ module.exports = function (grunt) {
                 src: [
                     'resources/assets/js/vendor/jquery-1.8.2.min.js',
                     'resources/assets/js/vendor/jquery-additional.js',
+                    'resources/assets/js/vendor/hammer.min.js',
+                    'resources/assets/js/vendor/hammer-time.min.js',
                     'resources/assets/js/vendor/preloadjs-0.2.0.min.js',
                     'resources/assets/js/vendor/easeljs-0.5.0.min.js',
                     'resources/assets/js/vendor/imagesloaded.pkgd.min.js',
@@ -56,6 +58,7 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-svgstore');
     grunt.registerTask('default', ['concat', 'uglify']);
 };
 
