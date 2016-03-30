@@ -222,6 +222,7 @@ MageS.Spellbook = function (game) {
             return;
         }
         spell.addClass('active');
+        $('#move-control-field').hide();
         mageDirection = 0;
         for(var d = 0; d < 4; d++) {
             for (var key in pattern) {
@@ -262,6 +263,7 @@ MageS.Spellbook = function (game) {
         }
         $('.pattern-cell.active').removeClass('active');
         $('.pattern-cell.visible').removeClass('visible');
+        $('#move-control-field').show();
     };
 
     this.patternClick = function(patternCell) {
@@ -281,6 +283,7 @@ MageS.Spellbook = function (game) {
             return;
         }
         spell.addClass('active');
+        $('#move-control-field').hide();
 
         $('.battle-field.current .unit').each(function () {
             var cellElem = $(this).parent('.cell');
@@ -330,7 +333,9 @@ MageS.Spellbook = function (game) {
     this.spellCrafted = function(data) {
         this.spellCraftProcess = [];
         this.endSpellCraftAnimations();
-        this.showSpellbook();
+        if (this.game.device !== 'pc') {
+            this.showSpellbook();
+        }
     };
 
     this.startSpellCraftAnimations = function () {
@@ -550,7 +555,11 @@ MageS.Spellbook = function (game) {
         }
         craftItemsEl.css('width', itemsNum * this.game.itemSize + 'px');
         $('.craft-spell-overlay').append(obj);
-        obj.animate({'height': this.game.mageInventorySize + 'px'}, {'duration':this.game.animationTime});
+        var height = this.game.mageInventorySize;
+        if (this.game.device == 'mobile') {
+            height = this.game.mageMobileInventorySize;
+        }
+        obj.animate({'height': height + 'px'}, {'duration':this.game.animationTime});
         $('.confirm-create-spell').on('click', function(){
             MageS.Game.spellbook.createSpellAction();
         });

@@ -45,6 +45,7 @@ MageS.Game = function () {
     this.cellSize = 32;
     this.itemSize = 34;
     this.mageInventorySize = 7 * this.itemSize + 18;
+    this.mageMobileInventorySize = 6 * this.itemSize;
     this.animationTime = 300;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
 
@@ -102,7 +103,7 @@ MageS.Game = function () {
     };
     this.deviceInit = function () {
         if (this.device == 'pc') {
-            $('.tablet-button-panel').remove();
+            $('.interface-switch-panel').remove();
         } else {
             $('.toggle-inventory').on('click', function() {
                 MageS.Game.inventory.toggleInventory();
@@ -111,11 +112,15 @@ MageS.Game = function () {
                 MageS.Game.spellbook.toggleSpellbook();
             });
 
-            if (this.device == 'tablet') {
+            //$('.toggle-mage-info').on('click', function() {
+            //    MageS.Game.toggleMageInfo();
+            //});
+            if (this.device !== 'pc') {
                 //$('.right-panel').append($('#mobile-control-field'));
                 //$('.right-panel').prepend($('.actions-container'));
                 this.spellbook.showSpellbook();
             }
+
         }
     };
 
@@ -345,6 +350,20 @@ MageS.Game = function () {
         $('.health-bar .health-value').html(mage.health + 'HP');
         $('.health-bar .armor-value').html(armor);
     };
+    //this.toggleMageInfo = function() {
+    //    info('awdawd');
+    //    if ($('.mage-profile').hasClass('active')) {
+    //        this.hideMageInfo();
+    //    } else {
+    //        this.showMageInfo();
+    //    }
+    //};
+    //this.hideMageInfo = function() {
+    //    $('.mage-profile').removeClass('active');
+    //};
+    //this.showMageInfo = function() {
+    //    $('.mage-profile').addClass('active').fadeIn();
+    //};
 
     this.initSVG = function() {
         var url = '/images/game/mage/game-icons.svg';

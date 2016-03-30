@@ -22,13 +22,17 @@
         @include('games.mageSurvival.actions')
     </div>
     <div class="right-panel">
-        <div class="tablet-button-panel">
+        <div class="interface-switch-panel">
             <a class="toggle-inventory">
                 <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="icon-chest">
                 </svg>
             </a>
             <a class="toggle-spellbook">
                 <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="icon-spell">
+                </svg>
+            </a>
+            <a class="toggle-mage-info">
+                <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="icon-think">
                 </svg>
             </a>
         </div>

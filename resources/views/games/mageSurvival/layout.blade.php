@@ -4,9 +4,6 @@
 
 
 <div class="game-body">
-    <div class="top-navigation">
-        <a href="{{ @action('GamesController@index') }}">Back to games</a>
-    </div>
     <div class="container main">
         @yield('content')
     </div>
