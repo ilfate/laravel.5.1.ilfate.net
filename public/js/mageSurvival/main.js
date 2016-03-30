@@ -119,6 +119,31 @@ MageS.Game = function () {
                 //$('.right-panel').append($('#mobile-control-field'));
                 //$('.right-panel').prepend($('.actions-container'));
                 this.spellbook.showSpellbook();
+
+                var hammertime = new Hammer(document.getElementById('move-control-field'), {});
+                hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+                hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+
+                hammertime.on('panup', function(ev) {
+                    if (ev.distance > 25) {
+                        MageS.Game.action('move-up');
+                    }
+                });
+                hammertime.on('panright', function(ev) {
+                    if (ev.distance > 25) {
+                        MageS.Game.action('move-right');
+                    }
+                });
+                hammertime.on('pandown', function(ev) {
+                    if (ev.distance > 25) {
+                        MageS.Game.action('move-down');
+                    }
+                });
+                hammertime.on('panleft', function(ev) {
+                    if (ev.distance > 25) {
+                        MageS.Game.action('move-left');
+                    }
+                });
             }
 
         }
