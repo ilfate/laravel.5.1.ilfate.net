@@ -6,7 +6,7 @@
 
     <div class="middle-panel" id="mage-middle-panel">
         <div class="responsive-container">
-            <div class="battle-border {{ $viewData['game']['world'] }}">
+            <div class="battle-border {{ $viewData['game']['world'] }}" id="battle-border">
                 <div class="mage-container" id="mage-container"></div>
                 @include('games.mageSurvival.patternField')
                 <div class="battle-field current"></div>
@@ -36,6 +36,7 @@
                 </svg>
             </a>
         </div>
+        <div id="mobile-spell-info-container"></div>
         <div class="row spells-items-row">
             <div class="col-md-6 items-col">
                 @include('games.mageSurvival.items')

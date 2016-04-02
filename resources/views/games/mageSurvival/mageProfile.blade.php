@@ -8,7 +8,7 @@
                 <span class="health-value">{{$viewData['game']['mage']['health']}}HP</span>
             </div>
             <div class="progress-bar progress-bar-warning progress-bar-striped"
-                 style="width: {{isset($viewData['game']['mage']['armor']) ? $viewData['game']['mage']['armor'] : ''}}%"
+                 style="width: {{isset($viewData['game']['mage']['armor']) ? $viewData['game']['mage']['armor'] : 0}}%"
             >
                 <span class="armor-value">{{isset($viewData['game']['mage']['armor']) ? $viewData['game']['mage']['armor'] : ''}}</span>
             </div>

@@ -3001,7 +3001,8 @@ div.hex {
         height: 96px;
         padding-left: 15px; }
         .mage-survival .container.main .mage-info-panel .mage-profile {
-          display: block; } }
+          display: block;
+          float: none; } }
     @media (min-width: 992px) {
       .mage-survival .container.main .mage-info-panel {
         width: 625px;
@@ -3067,6 +3068,36 @@ div.hex {
     float: left;
     position: relative;
     width: 100%; }
+    .mage-survival .container.main .right-panel .spells-items-row {
+      width: 70%;
+      margin-left: 15%; }
+      .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
+        display: none;
+        padding: 0; }
+    .mage-survival .container.main .right-panel #mobile-spell-info-container {
+      display: none;
+      position: absolute;
+      height: 256px;
+      width: 256px;
+      margin-left: -208px;
+      z-index: 60; }
+      .mage-survival .container.main .right-panel #mobile-spell-info-container .spell-tooltip {
+        height: 256px;
+        width: 256px;
+        display: block; }
+        .mage-survival .container.main .right-panel #mobile-spell-info-container .spell-tooltip:after {
+          content: "Drag me!";
+          display: block;
+          position: absolute;
+          right: -1.4rem;
+          -webkit-transform: rotate(-90deg);
+          -moz-transform: rotate(-90deg);
+          -o-transform: rotate(-90deg); }
+      .mage-survival .container.main .right-panel #mobile-spell-info-container.active .spell-tooltip:after {
+        opacity: 0.3; }
+      .mage-survival .container.main .right-panel #mobile-spell-info-container .svg.cast-button {
+        position: absolute;
+        right: 8px; }
     .mage-survival .container.main .right-panel .interface-switch-panel {
       width: 15%;
       height: 144px;
@@ -3082,12 +3113,6 @@ div.hex {
           height: 48px; }
         .mage-survival .container.main .right-panel .interface-switch-panel a path {
           fill: #5E412F; }
-    .mage-survival .container.main .right-panel .spells-items-row {
-      width: 70%;
-      margin-left: 15%; }
-      .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
-        display: none;
-        padding: 0; }
     @media (min-width: 768px) {
       .mage-survival .container.main .right-panel {
         width: 398px;
@@ -3147,6 +3172,8 @@ div.hex {
     z-index: 40;
     opacity: 0.3;
     background-color: #ffffff; }
+    .mage-survival .container.main #move-control-field.disable {
+      display: none; }
     .mage-survival .container.main #move-control-field svg {
       position: absolute; }
       .mage-survival .container.main #move-control-field svg path {
@@ -3201,11 +3228,11 @@ div.hex {
   z-index: 80;
   color: #5E412F;
   font-size: 0.7rem; }
-  .mage-survival .tooltip-spell-area .item-tooltip, .mage-survival .tooltip-spell-area .spell-tooltip, .mage-survival .tooltip-helper-area .item-tooltip, .mage-survival .tooltip-helper-area .spell-tooltip {
-    padding: 1.5rem;
-    display: none;
-    position: absolute;
-    background-color: #FCEBB6; }
+.mage-survival .item-tooltip, .mage-survival .spell-tooltip {
+  padding: 0.7rem;
+  display: none;
+  position: absolute;
+  background-color: #FCEBB6; }
 .mage-survival .tooltip-helper-area .item-tooltip {
   margin: 64px 0 0 64px;
   width: 224px;

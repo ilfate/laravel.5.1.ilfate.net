@@ -13,6 +13,9 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'GuessSeries/*',
-        'hex/action'
+        'hex/action',
+        'MathEffect/save',
+        'MathEffect/saveName',
+        'MageSurvival/action',
     ];
 }

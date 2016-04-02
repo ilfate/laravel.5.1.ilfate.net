@@ -28,6 +28,10 @@ MageS.Inventory = function (game) {
                 MageS.Game.inventory.filterItems($(this));
             })
         });
+        $('.inventory .item').on('click', function() {
+            //MageS.Game.monimations.spinItem($(this));
+            MageS.Game.monimations.scaleIn($(this));
+        })
     };
 
     this.filterItems = function(filterEl) {
@@ -56,7 +60,7 @@ MageS.Inventory = function (game) {
         var icon = $(this.game.svg).find('#' + item.icon + ' path');
         obj.find('svg').append(icon.clone());
         if (item.iconColor !== undefined) {
-            obj.addClass(item.iconColor);
+            obj.find('.svg').addClass(item.iconColor);
         }
         this.items[item.id] = item;
         return obj;
@@ -64,6 +68,7 @@ MageS.Inventory = function (game) {
 
     this.updateItems = function(items) {
         this.turnOffFilters();
+
         for(var id in items) {
             var config = items[id];
             var existingEl = $('.inventory .item.id-' + id);
@@ -77,15 +82,26 @@ MageS.Inventory = function (game) {
                 } else {
                     existingEl.remove();
                 }
+                if (config.quantity > 0) {
+                   // existingEl.
+                   // this.game.monimations.spinItem(existingEl);
+                    this.showInventory();
+                    this.game.monimations.bounce(existingEl);
+                    existingEl.find('.value').css({'background-color': '#069E2D', 'color':'#fff'}).animate({
+                        'background-color': '#FCEBB6', 'color':'#5E412F'
+                    }, {'duration': 2000});
+                }
             } else {
+                this.showInventory();
                 //create new item
                 var template = $('#template-item').html();
                 Mustache.parse(template);
                 var obj = this.renderItem(template, config);
                 $('.inventory .items').append(obj);
-
+                MageS.Game.monimations.scaleIn(obj);
                 this.addItemDescription(config, obj);
                 this.bindItem(obj);
+
             }
         }
     };
@@ -122,8 +138,11 @@ MageS.Inventory = function (game) {
         }
     };
     this.showInventory = function() {
-        this.game.spellbook.hideSpellbook();
-        $('.items-col').addClass('active').fadeIn();
+        if (this.game.device !== 'pc') {
+            this.game.spellbook.hideSpellbook();
+            $('.items-col').addClass('active').fadeIn();
+            this.game.spellbook.turnOffPatterns();
+        }
     };
     this.hideInventory = function() {
         $('.items-col').hide().removeClass('active');

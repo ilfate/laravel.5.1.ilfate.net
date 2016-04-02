@@ -98,6 +98,7 @@ $mage-mobile-inventory-size: 6 * $item-size;
                 padding-left: 15px;
                 .mage-profile {
                     display: block;
+                    float: none;
                 }
             }
             @media (min-width: $screen-md-min + px) {
@@ -168,6 +169,45 @@ $mage-mobile-inventory-size: 6 * $item-size;
             float:left;
             position: relative;
             width:100%;
+            .spells-items-row {
+                width:70%;
+                margin-left: 15%;
+                .items-col, .spells-col {
+                    display: none;
+                    padding: 0;
+                }
+            }
+            #mobile-spell-info-container {
+                display: none;
+                position: absolute;
+                height: $mage-inventory-size + px;
+                width: $mage-inventory-size + px;
+                margin-left: - $mage-inventory-size + (1.5 * $cell-size) + px;
+                z-index: 60;
+                .spell-tooltip {
+                    height: $mage-inventory-size + px;
+                    width: $mage-inventory-size + px;
+                    display: block;
+                    &:after {
+                        content: "Drag me!";
+                        display: block;
+                        position: absolute;
+                        right: -1.4rem;
+                        @include rotate(-90deg);
+                    }
+                }
+                &.active {
+                    .spell-tooltip {
+                        &:after {
+                            opacity: 0.3;
+                        }
+                    }
+                }
+                .svg.cast-button {
+                    position: absolute;
+                    right: 0.25 * $cell-size + px;
+                }
+            }
             .interface-switch-panel {
                 width:15%;
                 height: 3 * $mobile-item-size + px;
@@ -186,14 +226,6 @@ $mage-mobile-inventory-size: 6 * $item-size;
                     path {
                         fill: $mage-colors-brown;
                     }
-                }
-            }
-            .spells-items-row {
-                width:70%;
-                margin-left: 15%;
-                .items-col, .spells-col {
-                    display: none;
-                    padding: 0;
                 }
             }
             @media (min-width: $screen-sm-min + px) {
@@ -267,7 +299,9 @@ $mage-mobile-inventory-size: 6 * $item-size;
             z-index: 40;
             opacity: 0.3;
             background-color: $mage-colors-white;
-
+            &.disable {
+                display: none;
+            }
             svg {
                 position: absolute;
                 path { fill: $mage-colors-black; }
@@ -323,12 +357,12 @@ $mage-mobile-inventory-size: 6 * $item-size;
         z-index: 80;
         color:$mage-colors-brown;
         font-size: 0.7rem;
-        .item-tooltip, .spell-tooltip {
-            padding: 1.5rem;
-            display: none;
-            position:absolute;
-            background-color: $mage-colors-clay;
-        }
+    }
+    .item-tooltip, .spell-tooltip {
+        padding: 0.7rem;
+        display: none;
+        position:absolute;
+        background-color: $mage-colors-clay;
     }
     .tooltip-helper-area  {
         .item-tooltip {

@@ -14,7 +14,8 @@ $(document).ready(function() {
         var inventory = new MageS.Inventory(MageS.Game);
         var spellbook = new MageS.Spellbook(MageS.Game);
         var spells = new MageS.Spells(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells, animations);
+        var monimations = new MageS.Monimations(MageS.Game);
+        MageS.Game.init(inventory, spellbook, spells, animations, monimations);
     }
 });
 
@@ -34,6 +35,7 @@ MageS.Game = function () {
     this.spellbook = {};
     this.spells = {};
     this.animations = {};
+    this.monimations = {};
     this.gameStatus = $('#game-status').val();
     this.rawData = [];
     this.svg = {};
@@ -51,11 +53,12 @@ MageS.Game = function () {
 
 
 
-    this.init = function (inventory, spellbook, spells, animations) {
+    this.init = function (inventory, spellbook, spells, animations, monimations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
         this.animations = animations;
+        this.monimations = monimations;
         if ($(window).width() < 992) {
             this.device = 'tablet';
             if ($(window).width() < 768) {
@@ -120,32 +123,47 @@ MageS.Game = function () {
                 //$('.right-panel').prepend($('.actions-container'));
                 this.spellbook.showSpellbook();
 
-                var hammertime = new Hammer(document.getElementById('move-control-field'), {});
+                var hammertime = new Hammer(document.getElementById('battle-border'), {});
                 hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
                 hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
 
-                hammertime.on('panup', function(ev) {
-                    if (ev.distance > 25) {
-                        MageS.Game.action('move-up');
-                    }
-                });
-                hammertime.on('panright', function(ev) {
-                    if (ev.distance > 25) {
-                        MageS.Game.action('move-right');
-                    }
-                });
-                hammertime.on('pandown', function(ev) {
-                    if (ev.distance > 25) {
-                        MageS.Game.action('move-down');
-                    }
-                });
-                hammertime.on('panleft', function(ev) {
-                    if (ev.distance > 25) {
-                        MageS.Game.action('move-left');
-                    }
-                });
-            }
+                hammertime.on('panup',    function(ev) { MageS.Game.swipe(ev,0); });
+                hammertime.on('panright', function(ev) { MageS.Game.swipe(ev,1); });
+                hammertime.on('pandown',  function(ev) { MageS.Game.swipe(ev,2); });
+                hammertime.on('panleft',  function(ev) { MageS.Game.swipe(ev,3); });
+                hammertime.on('panend',  function(ev) { MageS.Game.swipeEnd(ev); });
 
+                $('#mobile-spell-info-container').on('click', function() {
+                    MageS.Game.spellbook.toggleHiddenDescription();
+                });
+
+                var hammertime = new Hammer(document.getElementById('mobile-spell-info-container'), {});
+                hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+                hammertime.on('panright', function(ev) { MageS.Game.spellbook.panMobileSpellDescriptionRight(ev); });
+                hammertime.on('panleft', function(ev) { MageS.Game.spellbook.panMobileSpellDescriptionLeft(ev); });
+                hammertime.on('panend',  function(ev) { MageS.Game.spellbook.toggleHiddenDescription(); });
+            }
+        }
+    };
+
+    this.swipe = function (event, d) {
+        //if ($('#move-control-field').hasClass('disable')) { return false; }
+        //if (event.distance < 25) { return false; }
+        //switch (d) {
+        //    case 0: MageS.Game.action('move-up'); break;
+        //    case 1: MageS.Game.action('move-right'); break;
+        //    case 2: MageS.Game.action('move-down'); break;
+        //    case 3: MageS.Game.action('move-left'); break;
+        //}
+    };
+    this.swipeEnd = function (event) {
+        if ($('#move-control-field').hasClass('disable')) { return false; }
+        if (event.distance < 25) { return false; }
+        switch (event.additionalEvent) {
+            case 'panup': MageS.Game.action('move-up'); break;
+            case 'panright': MageS.Game.action('move-right'); break;
+            case 'pandown': MageS.Game.action('move-down'); break;
+            case 'panleft': MageS.Game.action('move-left'); break;
         }
     };
 
