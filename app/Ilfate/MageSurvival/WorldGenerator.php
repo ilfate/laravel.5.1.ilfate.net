@@ -137,7 +137,7 @@ abstract class WorldGenerator
         $objects = [];
         foreach ($this->visibleObjects as $y => $col) {
             foreach ($col as $x => $object) {
-                $objects[$y][$x] = $object->export();
+                $objects[$y][$x] = $object->exportForView();
             }
         }
         return $objects;

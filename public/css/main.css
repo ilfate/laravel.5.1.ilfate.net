@@ -3333,8 +3333,6 @@ div.hex {
   background-color: lawngreen; }
 .mage-survival .battle-border.Tutorial .cell.s {
   background-color: grey; }
-.mage-survival .battle-border.Tutorial .object.type-1 {
-  background-color: goldenrod; }
 .mage-survival .pattern-field {
   position: absolute; }
   .mage-survival .pattern-field .pattern-cell {
@@ -3503,6 +3501,8 @@ div.hex {
   fill: #069E2D; }
 .mage-survival .color-brown svg.svg-icon path {
   fill: #5E412F; }
+.mage-survival .color-clay svg.svg-icon path {
+  fill: #FCEBB6; }
 .mage-survival svg.rotate-90 {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);

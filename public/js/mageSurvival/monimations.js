@@ -65,6 +65,19 @@ MageS.Monimations = function (game) {
                 el[0].style.transform = 'scale(' + (extremeInOutProgress) + ') rotate(' +  (720 * normalProgression) + 'deg)';
             }
         }).run();
-    }
+    };
+
+    this.skweeze = function(el) {
+        new mojs.Tween({
+            repeat:   0,
+            delay:    10,
+            duration: 1500,
+            onUpdate: function (progress) {
+                var bounce50 = MageS.Game.monimations.bounce50(progress) * 2;
+                var degree = 35;
+                el[0].style.transform = 'skewX(' + (bounce50 * degree - degree) + 'deg) skewY(' + (bounce50 * degree - degree) + 'deg)';
+            }
+        }).run();
+    };
 };
 

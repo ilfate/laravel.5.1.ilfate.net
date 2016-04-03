@@ -479,11 +479,6 @@ $mage-mobile-inventory-size: 6 * $item-size;
         //.cell.f3 { border: 1px solid lawngreen; }
         //.cell.s  { border: 1px solid grey; }
     }
-    .battle-border.Tutorial {
-        .object.type-1 {
-            background-color: goldenrod;
-        }
-    }
     .pattern-field {
         position: absolute;
 
@@ -703,6 +698,7 @@ $mage-mobile-inventory-size: 6 * $item-size;
     .color-dark-blue svg.svg-icon path { fill:$mage-colors-dark-blue }
     .color-green svg.svg-icon path { fill:$mage-colors-green }
     .color-brown svg.svg-icon path { fill:$mage-colors-brown }
+    .color-clay svg.svg-icon path { fill:$mage-colors-clay }
     svg.rotate-90 { @include rotate(90deg) }
     svg.rotate-180 { @include rotate(180deg) }
     svg.rotate-270 { @include rotate(270deg) }

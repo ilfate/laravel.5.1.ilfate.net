@@ -29,8 +29,16 @@ MageS.Inventory = function (game) {
             })
         });
         $('.inventory .item').on('click', function() {
+            //MageS.Game.monimations.skweeze($(this));
             //MageS.Game.monimations.spinItem($(this));
-            MageS.Game.monimations.scaleIn($(this));
+            //MageS.Game.monimations.scaleIn($(this));
+            //$(this).animate({ textIndent2: 100 }, {
+            //    step: function(now,fx) {
+            //        info(now);
+            //        $(this)[0].style.transform = 'scale(' + now/ 100 + ')';
+            //    },
+            //    duration:'slow', 'easing':'easeOutElastic'
+            //});
         })
     };
 
@@ -149,8 +157,8 @@ MageS.Inventory = function (game) {
     };
 
     this.itemClick = function (itemObj) {
-        if (MageS.Game.spellbook.craftingIsInProgress) {
-            MageS.Game.spellbook.itemClick(itemObj);
+        if (MageS.Game.spellcraft.craftingIsInProgress) {
+            MageS.Game.spellcraft.itemClick(itemObj);
         }
     };
 

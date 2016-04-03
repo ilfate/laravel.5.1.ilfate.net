@@ -19,7 +19,7 @@ return array(
     ],
     'objects' => [
         'list' => [
-            1 => ['name' => 'Chest', 'class' => 'Chest'],
+            1 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay'],
         ],
         'chances' => [
             // World type

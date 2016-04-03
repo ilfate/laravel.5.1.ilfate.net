@@ -160,12 +160,15 @@ MageS.Animations = function (game) {
         newBattleField.animate({
             'margin-left': baseMargin + 'px',
             'margin-top': baseMargin + 'px',
-        },this.game.animationTime);
+        }, {'duration': this.game.animationTime,
+            'easing':'easeInOutCirc'});
         var that = this;
         $('.battle-field.current').animate({
             'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'px',
             'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'px',
-        }, {duration: (this.game.animationTime), complete:function(){
+        }, {duration: (this.game.animationTime),
+            'easing': 'easeInOutCirc',
+            complete:function(){
             $('.battle-field.current').remove();
             $('.battle-field.new').removeClass('new').addClass('current');
             MageS.Game.animations.singleAnimationFinished();

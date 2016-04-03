@@ -38,6 +38,7 @@
 <script src="/js/mageSurvival/animation.js"></script>
 <script src="/js/mageSurvival/spellbook.js"></script>
 <script src="/js/mageSurvival/spells.js"></script>
+<script src="/js/mageSurvival/spellcraft.js"></script>
 <script src="/js/mageSurvival/monimations.js"></script>
 {{--<script>--}}
     {{--require.config({--}}

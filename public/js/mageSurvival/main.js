@@ -14,8 +14,9 @@ $(document).ready(function() {
         var inventory = new MageS.Inventory(MageS.Game);
         var spellbook = new MageS.Spellbook(MageS.Game);
         var spells = new MageS.Spells(MageS.Game);
+        var spellcraft = new MageS.Spellcraft(MageS.Game);
         var monimations = new MageS.Monimations(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells, animations, monimations);
+        MageS.Game.init(inventory, spellbook, spells, spellcraft, animations, monimations);
     }
 });
 
@@ -34,6 +35,7 @@ MageS.Game = function () {
     this.inventory = {};
     this.spellbook = {};
     this.spells = {};
+    this.spellcraft = {};
     this.animations = {};
     this.monimations = {};
     this.gameStatus = $('#game-status').val();
@@ -53,10 +55,11 @@ MageS.Game = function () {
 
 
 
-    this.init = function (inventory, spellbook, spells, animations, monimations) {
+    this.init = function (inventory, spellbook, spells, spellcraft, animations, monimations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
+        this.spellcraft = spellcraft;
         this.animations = animations;
         this.monimations = monimations;
         if ($(window).width() < 992) {
@@ -97,7 +100,7 @@ MageS.Game = function () {
                 this.configureKeys();
 
                 $('.inventory-shadow').on('click', function() {
-                    MageS.Game.spellbook.cancelCrafting();
+                    MageS.Game.spellcraft.cancelCrafting();
                 });
 
 
@@ -250,7 +253,7 @@ MageS.Game = function () {
                     this.inventory.addItems(data.game);
                     break;
                 case 'craftSpell':
-                    this.spellbook.spellCrafted(data);
+                    this.spellcraft.spellCrafted(data);
                     break;
                 case 'spell':
                     this.spells.castSpell(data);
@@ -348,7 +351,7 @@ MageS.Game = function () {
             }
         }
         $('.method-craft-spell').on('click', function() {
-            MageS.Game.spellbook.showSpellCrafting();
+            MageS.Game.spellcraft.showSpellCrafting();
         });
         $('#move-control-field .control-arrow').on('click', function () {
             switch ($(this).data('d')) {
@@ -468,6 +471,11 @@ MageS.Game = function () {
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {'id': object.id, 'type':object.type});
         var obj = $(rendered);
+        var icon = $(this.svg).find('#' + object.config.icon + ' path');
+        obj.find('svg').append(icon.clone());
+        if (object.config.iconColor !== undefined) {
+            obj.find('.svg').addClass(object.config.iconColor);
+        }
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
     };
 
@@ -560,7 +568,7 @@ MageS.Game = function () {
                 case 32 :  // space
                     break;
                 case 113 :  // q
-                    MageS.Game.spellbook.showSpellCrafting();
+                    MageS.Game.spellcraft.showSpellCrafting();
                     break;
                 case 101 :  // e
                     MageS.Game.keyPressed('E');
@@ -589,7 +597,7 @@ MageS.Game = function () {
                             MageS.Game.keyPressed('E');
                             break;
                         case 113 :  // q
-                            MageS.Game.spellbook.showSpellCrafting();
+                            MageS.Game.spellcraft.showSpellCrafting();
                             break;
                         case 114 :  // r
                             break;

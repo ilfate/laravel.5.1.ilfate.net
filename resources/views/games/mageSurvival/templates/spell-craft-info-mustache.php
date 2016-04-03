@@ -3,7 +3,7 @@
 <script id="template-spell-craft-info" type="x-tmpl-mustache">
 
     <div class="alert alert-warning alert-dismissible spell-craft-info" role="alert">
-        <button type="button" class="close" onclick="MageS.Game.spellbook.cancelCrafting()" aria-label="Close">
+        <button type="button" class="close" onclick="MageS.Game.spellcraft.cancelCrafting()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         <div class="text-1">
@@ -33,6 +33,6 @@
         </div>
         <a class="confirm-create-spell btn white">Create</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="btn white" onclick="MageS.Game.spellbook.cancelCrafting()">Cancel</a>
+        <a class="btn white" onclick="MageS.Game.spellcraft.cancelCrafting()">Cancel</a>
     </div>
 </script>

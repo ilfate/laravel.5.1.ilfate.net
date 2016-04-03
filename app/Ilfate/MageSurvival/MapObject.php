@@ -35,6 +35,7 @@ abstract class MapObject
     protected $d;
     protected $data;
     protected $type;
+    protected $config;
 
     /**
      * @var Game
@@ -59,6 +60,7 @@ abstract class MapObject
         }
         $this->world = $world;
         $this->type = $type;
+        $this->config = \Config::get('mageSurvival.objects.list.' . $type);
     }
 
     /**
@@ -108,6 +110,16 @@ abstract class MapObject
             'id' => $this->getId(),
             'data' => $this->getData(),
             'type' => $this->getType(),
+        ];
+    }
+
+    public function exportForView()
+    {
+        return [
+            'id' => $this->getId(),
+            'data' => $this->getData(),
+            'type' => $this->getType(),
+            'config' => $this->config,
         ];
     }
 

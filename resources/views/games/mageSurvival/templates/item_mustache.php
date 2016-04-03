@@ -6,7 +6,7 @@
                                  data-placement="left"
                                  title="{{name}}" data-id="{{id}}">
         <div class="svg">
-            <svg class="svg-icon" viewBox="0 0 500 500">
+            <svg class="svg-icon" viewBox="0 0 512 512">
             </svg>
         </div>
         <span class="value">{{quantity}}</span>
