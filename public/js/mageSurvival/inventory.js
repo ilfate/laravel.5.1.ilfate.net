@@ -29,6 +29,7 @@ MageS.Inventory = function (game) {
             })
         });
         $('.inventory .item').on('click', function() {
+            //MageS.Game.spells.IceCrown();
             //MageS.Game.monimations.skweeze($(this));
             //MageS.Game.monimations.spinItem($(this));
             //MageS.Game.monimations.scaleIn($(this));

@@ -403,6 +403,16 @@ $mage-mobile-inventory-size: 6 * $item-size;
                 &.d-3 { @include rotate(270deg); }
             }
         }
+        .animation-field {
+            opacity: 1;
+            position: absolute;
+            margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
+            .animation {
+                opacity: 1;
+                position: absolute;
+                z-index: 90;
+            }
+        }
         .unit {
             position: absolute;
             width:$cell-size + px;
@@ -692,6 +702,9 @@ $mage-mobile-inventory-size: 6 * $item-size;
     .item:hover svg.svg-icon, .spell:hover svg.svg-icon {
         opacity: 1;
     }
+    div.svg {
+        display: inline;
+    }
     .item svg.svg-icon path { fill:$mage-colors-black }
     .color-red svg.svg-icon path { fill:$mage-colors-red }
     .color-blue svg.svg-icon path { fill:$mage-colors-blue }
@@ -699,9 +712,11 @@ $mage-mobile-inventory-size: 6 * $item-size;
     .color-green svg.svg-icon path { fill:$mage-colors-green }
     .color-brown svg.svg-icon path { fill:$mage-colors-brown }
     .color-clay svg.svg-icon path { fill:$mage-colors-clay }
-    svg.rotate-90 { @include rotate(90deg) }
-    svg.rotate-180 { @include rotate(180deg) }
-    svg.rotate-270 { @include rotate(270deg) }
-
+    .svg.rotate-90 svg { @include rotate(90deg) }
+    .svg.rotate-180 svg { @include rotate(180deg) }
+    .svg.rotate-270 svg { @include rotate(270deg) }
+    svg {
+        overflow: visible;
+    }
 }
 

@@ -11,6 +11,7 @@
                 @include('games.mageSurvival.patternField')
                 <div class="battle-field current"></div>
                 <div class="unit-field"></div>
+                <div class="animation-field"></div>
 
             </div>
             <div class="tooltip-helper-area"></div>
@@ -24,16 +25,22 @@
     <div class="right-panel">
         <div class="interface-switch-panel">
             <a class="toggle-inventory">
-                <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="icon-chest">
-                </svg>
+                <div class="svg svg-replace" data-svg="icon-chest">
+                    <svg class="svg-icon" viewBox="0 0 512 512" >
+                    </svg>
+                </div>
             </a>
             <a class="toggle-spellbook">
-                <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="icon-spell">
-                </svg>
+                <div class="svg svg-replace" data-svg="icon-spell">
+                    <svg class="svg-icon" viewBox="0 0 512 512">
+                    </svg>
+                </div>
             </a>
             <a class="toggle-mage-info">
-                <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="icon-think">
-                </svg>
+                <div class="svg svg-replace" data-svg="icon-think">
+                    <svg class="svg-icon" viewBox="0 0 512 512">
+                    </svg>
+                </div>
             </a>
         </div>
         <div id="mobile-spell-info-container"></div>

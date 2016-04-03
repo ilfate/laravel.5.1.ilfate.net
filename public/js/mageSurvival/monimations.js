@@ -12,6 +12,7 @@ MageS.Monimations = function (game) {
     //this.extremeInOutEasing = mojs.easing.path('M0,100 C50,100 50,100 50,50 C50,0 50,0 100,0');
     //this.fastSpin = mojs.easing.path('M 1.2711864,1.6949153 C 45.471519,8.8882369 41.125196,74.897877 49.035199,100.42373 57.256112,75.166388 55.374514,8.389801 100,0');
     this.parabola = mojs.easing.path('M -4.0677966e-8,0.42372886 C 50.556265,0.4136606 0.87095901,99.897877 49.035199,100.42373 99.628993,100.59012 50.713497,0.33895357 100,0');
+    this.singlePeak = mojs.easing.path('M 0,100 C 10.074957,75.575965 59.597896,94.558365 61.187447,5.4986503 61.889257,29.132172 84.521141,25.04019 100,25');
     this.bounce50 = mojs.easing.path('M 0,50 C 5.3102312,37.282606 2.5221993,12.853007 11.47837,12.648512 21.89607,12.410646 14.728785,69.440119 25.730114,69.491526 32.1567,70.369873 28.768715,24.96061 37.76202,25.02908 c 6.616381,0.05037 4.34318,33.035725 11.476824,33.230797 2.842319,0.07772 9.484178,-20.527049 18.631075,-18.920776 C 77.550759,41.039138 84.713696,50.105127 100,50');
     this.scaleInIntencePath = mojs.easing.path('M 0,100 C 5.3102312,87.282606 2.5221993,12.853007 11.47837,12.648512 21.89607,12.410646 14.728785,69.440119 25.730114,69.491526 32.1567,70.369873 28.768715,24.96061 37.76202,25.02908 c 6.616381,0.05037 4.34318,33.035725 11.476824,33.230797 2.842319,0.07772 9.484178,-20.527049 18.631075,-18.920776 C 77.550759,41.039138 84.713696,50.105127 100,50');
     this.normalProgressionPath = mojs.easing.path('M 0,100 C 12.100531,70.665506 7.5311473,0.24009095 100,0');
@@ -63,6 +64,46 @@ MageS.Monimations = function (game) {
                 var extremeInOutProgress = MageS.Game.monimations.scaleInIntencePath(progress) * 2;
                 var normalProgression = MageS.Game.monimations.normalProgressionPath(progress);
                 el[0].style.transform = 'scale(' + (extremeInOutProgress) + ') rotate(' +  (720 * normalProgression) + 'deg)';
+            }
+        }).run();
+    };
+
+    this.blastInScale = function(el, scale, callback) {
+        el[0].style.transform = 'scale(0)';
+        new mojs.Tween({
+            repeat:   0,
+            delay:    10,
+            duration: 500,
+            onUpdate: function (progress) {
+                var singlePeak = MageS.Game.monimations.singlePeak(progress) * scale;
+                //var normalProgression = MageS.Game.monimations.normalProgressionPath(progress);
+                el[0].style.transform = 'scale(' + (singlePeak) + ')';
+            }, onComplete: callback
+        }).run();
+    };
+    this.rotate = function (el,base, grad, duration, isReverce) {
+        new mojs.Tween({
+            repeat:   0,
+            delay:    10,
+            duration: duration,
+            onUpdate: function (progress) {
+                var normalProgression = MageS.Game.monimations.normalProgressionPath(progress) * grad - grad;
+                if (isReverce) {
+                    normalProgression *= -1;
+                }
+                el[0].style.transform = 'rotate(' + (base + normalProgression) + 'deg)';
+            }
+        }).run();
+    };
+    this.rotateWithScale = function (el,base, grad, sFrom, sTo, duration) {
+        new mojs.Tween({
+            repeat:   0,
+            delay:    10,
+            duration: duration,
+            onUpdate: function (progress) {
+                var normalProgression = MageS.Game.monimations.normalProgressionPath(progress) * grad - grad;
+                var normalProgressionScale = sFrom +MageS.Game.monimations.normalProgressionPath(progress) * sTo;
+                el[0].style.transform = 'rotate(' + (base + normalProgression) + 'deg) scale(' + ( normalProgressionScale) + ')';
             }
         }).run();
     };

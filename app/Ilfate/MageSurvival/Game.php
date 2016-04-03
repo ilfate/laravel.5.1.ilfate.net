@@ -175,11 +175,12 @@ class Game
             $return['spells'] = $this->mage->getUpdatedSpells();
         }
 
-        $return['actions'] = $this->mage->getAllPossibleActions($this->world);
+
         $this->nextTurn();
         $return['turn'] = $this->getTurn();
         $this->save();
 
+        $return['actions'] = $this->mage->getAllPossibleActions($this->world);
         if ($this->messages) {
             $return['messages'] = $this->messages;
         }

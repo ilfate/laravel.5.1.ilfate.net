@@ -375,10 +375,10 @@ abstract class Mage implements AliveInterface
             $actions = array_merge($actions, $object->getActions());
         }
         $ds = [
-            [0, -1, 'icon-0'],
-            [1, 0, 'icon-1'],
-            [0, 1, 'icon-2'],
-            [-1, 0, 'icon-3'],
+            [0, -1, 'icon-arrow'],
+            [1, 0, 'icon-arrow'],
+            [0, 1, 'icon-arrow'],
+            [-1, 0, 'icon-arrow'],
         ];
         $passableDirections = [];
         foreach ($ds as $key => $d) {
@@ -387,6 +387,13 @@ abstract class Mage implements AliveInterface
                     'name' => $key,
                     'method' => 'move-' . $key,
                     'icon' => $d[2],
+                    'location' => 'move-' . $key
+                ];
+            } else {
+                $actions[] = [
+                    'name' => $key,
+                    'method' => 'wall-' . $key,
+                    'icon' => 'icon-brick-wall',
                     'location' => 'move-' . $key
                 ];
             }

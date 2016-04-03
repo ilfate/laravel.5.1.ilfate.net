@@ -9,8 +9,10 @@
         @foreach($viewData['game']['item-types'] as $id => $type)
             <span class="items-filter name-{{$type['name']}} {{isset($type['class']) ? $type['class'] : ''}}"
                   data-name="{{$type['name']}}">
-                <svg class="svg-icon svg-replace" viewBox="0 0 500 500" data-svg="{{$type['icon']}}">
-                </svg>
+                <div class="svg svg-replace" data-svg="{{$type['icon']}}">
+                    <svg class="svg-icon" viewBox="0 0 512 512">
+                    </svg>
+                </div>
             </span>
         @endforeach
     </div>

@@ -256,7 +256,7 @@ MageS.Game = function () {
                     this.spellcraft.spellCrafted(data);
                     break;
                 case 'spell':
-                    this.spells.castSpell(data);
+                    //this.spells.castSpell(data);
                     break;
                 case 'error-message':
                     info(data.game.messages);
@@ -289,78 +289,98 @@ MageS.Game = function () {
 
     this.updateActions = function (actions, isFirstLoad) {
         actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
+        actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
-        //actionsEl.html('');
         var existingActions = {};
         actionsEl.find('.action').each(function() {
-            info($(this).data('method'));
             existingActions[$(this).data('method')] = $(this);
         });
         for (var i in actions) {
             var method = actions[i].method;
-            //info(method);
-            //info(existingActions);
             if (existingActions[method] !== undefined) {
                 existingActions[method] = false;
                 continue;
             }
-            var temaplate = $('#template-action-button').html();
-            Mustache.parse(temaplate);
-            var key = '';
-            if (actions[i].key !== undefined) {
-                key = actions[i].key;
-            }
-            var rendered = Mustache.render(temaplate, {'name': actions[i].name, 'method':method, 'key': key});
-            var obj = $(rendered);
-            if (this.device != 'pc') {
-                var icon = $(this.svg).find('#' + actions[i].icon + ' path');
-                obj.find('svg').append(icon.clone());
-            }
+
             switch (actions[i].location) {
                 case 'actions':
+                    var temaplate = $('#template-action-button').html();
+                    Mustache.parse(temaplate);
+                    var key = '';
+                    if (actions[i].key !== undefined) {
+                        key = actions[i].key;
+                    }
+                    var rendered = Mustache.render(temaplate, {'name': actions[i].name, 'method':method, 'key': key});
+                    var obj = $(rendered);
+                    var icon = $(this.svg).find('#' + actions[i].icon + ' path');
+                    obj.find('svg').append(icon.clone());
                     actionsEl.append(obj);
+                    if (actions[i].noAjax == undefined) {
+                        obj.on('click', function () {
+                            MageS.Game.action('objectInteract', '{"method":"' + $(this).data('method') + '"}')
+                        });
+                    }
+                    if (!isFirstLoad) {
+                        obj.find('a')
+                            .css({'background-color': '#FCEBB6', 'opacity': 0.3})
+                            .animate({'background-color': '#5E412F', 'opacity': 1}, {
+                                queue: false,
+                                duration: this.animationTime
+                            });
+                    }
                     break;
                 case 'move-0':
                 case 'move-1':
                 case 'move-2':
                 case 'move-3':
-                    if (this.device != 'pc') {
-                        var location = $('#mobile-control-field .' + actions[i].location);
-                        location.find('svg path').remove();
-                        location.find('svg').append(obj.find('path'));
+                    var location = $('#move-control-field .' + actions[i].location);
+                    if (location.data('method') == actions[i].method) {
+                        continue;
                     }
-                default: info('No location found for action');
+                    location.data('method', actions[i].method);
+                    if (location.hasClass('svg-replace')) {
+                        // page is not inited yet
+                        location.data('svg', actions[i].icon);
+                    } else {
+                        location.find('svg path').remove();
+                        var icon = $(this.svg).find('#' + actions[i].icon + ' path');
+                        location.find('svg').append(icon.clone());
+                    }
+                    break;
+                default: info('No location "' + actions[i].location + '" found for action');
             }
-            if (actions[i].noAjax == undefined) {
-                obj.on('click', function () {
-                    MageS.Game.action('objectInteract', '{"method":"' + $(this).data('method') + '"}')
-                });
-            }
-            if (!isFirstLoad) {
-                obj.find('a')
-                    .css({'background-color': '#FCEBB6', 'opacity': 0.3})
-                    .animate({'background-color': '#5E412F', 'opacity': 1}, {
-                        queue: false,
-                        duration: this.animationTime
-                });
-            }
+
+
         }
         for (var i in existingActions) {
             if (existingActions[i]) {
                 existingActions[i].remove();
             }
         }
-        $('.method-craft-spell').on('click', function() {
-            MageS.Game.spellcraft.showSpellCrafting();
-        });
-        $('#move-control-field .control-arrow').on('click', function () {
-            switch ($(this).data('d')) {
-                case 0: MageS.Game.action('move-up'); break;
-                case 1: MageS.Game.action('move-right'); break;
-                case 2: MageS.Game.action('move-down'); break;
-                case 3: MageS.Game.action('move-left'); break;
-            }
-        });
+        if (isFirstLoad) {
+            $('.method-craft-spell').on('click', function () {
+                MageS.Game.spellcraft.showSpellCrafting();
+            });
+            $('.method-test-spell').on('click', function () {
+                MageS.Game.spells.IceCrown();
+            });
+            $('#move-control-field .control-arrow').on('click', function () {
+                switch ($(this).data('d')) {
+                    case 0:
+                        MageS.Game.action('move-up');
+                        break;
+                    case 1:
+                        MageS.Game.action('move-right');
+                        break;
+                    case 2:
+                        MageS.Game.action('move-down');
+                        break;
+                    case 3:
+                        MageS.Game.action('move-left');
+                        break;
+                }
+            });
+        }
     };
 
     this.keyPressed = function(key) {
@@ -430,15 +450,15 @@ MageS.Game = function () {
     };
 
     this.replaceMissingSvg = function() {
-        $('svg.svg-replace').each(function() {
+        $('.svg.svg-replace').each(function() {
 
             MageS.Game.replaceSvg($(this));
         });
     };
 
-    this.replaceSvg = function(el) {
-        var icon = MageS.Game.svg.find('#' + el.data('svg') + ' path');
-        el.removeClass('svg-replace').append(icon.clone());
+    this.replaceSvg = function(svgContainerEl) {
+        var icon = MageS.Game.svg.find('#' + svgContainerEl.data('svg') + ' path');
+        svgContainerEl.removeClass('svg-replace').find('svg').append(icon.clone());
     };
 
     this.startAction = function() {

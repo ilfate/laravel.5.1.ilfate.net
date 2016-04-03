@@ -5,8 +5,10 @@
     <div class="action method-{{method}} {{#key}}key-{{key}}{{/key}}" data-method="{{method}}">
         <a>
             <span class="text">{{name}}{{#key}} [{{key}}]{{/key}}</span>
-            <svg class="svg-icon" viewBox="0 0 550 550">
-            </svg>
+            <div class="svg">
+                <svg class="svg-icon" viewBox="0 0 550 550">
+                </svg>
+            </div>
         </a>
     </div>
 </script>

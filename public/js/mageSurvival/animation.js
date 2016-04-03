@@ -75,7 +75,10 @@ MageS.Animations = function (game) {
 
     this.singleAnimationFinished = function() {
         this.animationsRunning--;
-        if (this.animationsRunning == 0) {
+        if (this.animationsRunning <= 0) {
+            if (this.animationsRunning < 0) {
+                info('Error. More animations finished then started');
+            }
             this.runSingleStageAnimation();
         }
     };
@@ -95,7 +98,7 @@ MageS.Animations = function (game) {
                 this.unitMoveAnimation(data.data);
                 break;
             case 'mage-spell-cast':
-                MageS.Game.animations.singleAnimationFinished();
+                this.spellCastAnimation(data.data);
                 break;
             case 'mage-damage':
                 this.mageDamageAnimation(data.data);
@@ -254,6 +257,11 @@ MageS.Animations = function (game) {
             }
         )});
     };
+    this.spellCastAnimation = function(data) {
+        info(data);
+        this.game.spells.cast(data);
+    };
+
     this.mageDamageAnimation = function(data) {
         info('Some one dealed ' + data.value + ' damage to you');
         //$('.health-value').html(data.health);

@@ -3272,6 +3272,14 @@ div.hex {
         -webkit-transform: rotate(270deg);
         -moz-transform: rotate(270deg);
         -o-transform: rotate(270deg); }
+  .mage-survival .battle-border .animation-field {
+    opacity: 1;
+    position: absolute;
+    margin: 160px 0 0 160px; }
+    .mage-survival .battle-border .animation-field .animation {
+      opacity: 1;
+      position: absolute;
+      z-index: 90; }
   .mage-survival .battle-border .unit {
     position: absolute;
     width: 32px;
@@ -3489,6 +3497,8 @@ div.hex {
   opacity: 0.9; }
 .mage-survival .item:hover svg.svg-icon, .mage-survival .spell:hover svg.svg-icon {
   opacity: 1; }
+.mage-survival div.svg {
+  display: inline; }
 .mage-survival .item svg.svg-icon path {
   fill: #584D3D; }
 .mage-survival .color-red svg.svg-icon path {
@@ -3503,18 +3513,20 @@ div.hex {
   fill: #5E412F; }
 .mage-survival .color-clay svg.svg-icon path {
   fill: #FCEBB6; }
-.mage-survival svg.rotate-90 {
+.mage-survival .svg.rotate-90 svg {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg); }
-.mage-survival svg.rotate-180 {
+.mage-survival .svg.rotate-180 svg {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg); }
-.mage-survival svg.rotate-270 {
+.mage-survival .svg.rotate-270 svg {
   -webkit-transform: rotate(270deg);
   -moz-transform: rotate(270deg);
   -o-transform: rotate(270deg); }
+.mage-survival svg {
+  overflow: visible; }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 i.rpg-icon-small {

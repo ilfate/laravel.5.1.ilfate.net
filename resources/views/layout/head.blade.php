@@ -33,6 +33,8 @@
 {{--<script src="/js/cosmos/main.js"></script>--}}
 {{--<script src="/js/hex/main.js"></script>--}}
 <script src="/packages/mo.min.js"></script>
+<script src="/packages/jquery.svg.package-1.5.0/jquery.svg.min.js"></script>
+<script src="/packages/jquery.svg.package-1.5.0/jquery.svganim.min.js"></script>
 <script src="/js/mageSurvival/main.js"></script>
 <script src="/js/mageSurvival/inventory.js"></script>
 <script src="/js/mageSurvival/animation.js"></script>
