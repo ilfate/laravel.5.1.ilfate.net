@@ -406,11 +406,19 @@ $mage-mobile-inventory-size: 6 * $item-size;
         .animation-field {
             opacity: 1;
             position: absolute;
+            overflow: visible;
             margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
             .animation {
+                overflow: visible;
                 opacity: 1;
                 position: absolute;
                 z-index: 90;
+                .circle {
+                    overflow: visible;
+                }
+            }
+            svg {
+                overflow: visible;
             }
         }
         .unit {
@@ -712,6 +720,7 @@ $mage-mobile-inventory-size: 6 * $item-size;
     .color-green svg.svg-icon path { fill:$mage-colors-green }
     .color-brown svg.svg-icon path { fill:$mage-colors-brown }
     .color-clay svg.svg-icon path { fill:$mage-colors-clay }
+    .color-white svg.svg-icon path { fill:$mage-colors-white }
     .svg.rotate-90 svg { @include rotate(90deg) }
     .svg.rotate-180 svg { @include rotate(180deg) }
     .svg.rotate-270 svg { @include rotate(270deg) }

@@ -27,6 +27,7 @@ MageS.Animations = function (game) {
     this.stagesDefenition = [
         'mage-action',
         'mage-action-2',
+        'mage-action-3',
         'mage-action-effect',
         'mage-action-effect-2',
         'unit-action',
@@ -117,6 +118,9 @@ MageS.Animations = function (game) {
             case 'object-destroy':
                 this.objectDestroyAnimation(data.data);
                 break;
+            case 'add-object':
+                this.addObjectAnimation(data.data);
+                break;
             case 'wait':
                 this.waitAnimation(data.data);
                 break;
@@ -163,14 +167,12 @@ MageS.Animations = function (game) {
         newBattleField.animate({
             'margin-left': baseMargin + 'px',
             'margin-top': baseMargin + 'px',
-        }, {'duration': this.game.animationTime,
-            'easing':'easeInOutCirc'});
+        }, {'duration': this.game.animationTime});
         var that = this;
         $('.battle-field.current').animate({
             'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'px',
             'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'px',
         }, {duration: (this.game.animationTime),
-            'easing': 'easeInOutCirc',
             complete:function(){
             $('.battle-field.current').remove();
             $('.battle-field.new').removeClass('new').addClass('current');
@@ -345,6 +347,14 @@ MageS.Animations = function (game) {
             $(this).remove();
             MageS.Game.animations.singleAnimationFinished();
         }});
+    };
+
+    this.addObjectAnimation = function(data)
+    {
+        info("new objec");
+        info(data);
+        var newObject = this.game.drawObject(data.object, data.object.x, data.object.y);
+        MageS.Game.animations.singleAnimationFinished();
     };
 };
 

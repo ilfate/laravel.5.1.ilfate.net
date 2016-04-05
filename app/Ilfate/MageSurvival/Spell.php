@@ -259,7 +259,7 @@ abstract class Spell
             }
             $this->targets = [$this->world->getUnit($mageX + $data['x'], $mageY + $data['y'])];
             $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
-                'spell' => $this->name, 'target-x' => $data['x'], 'target-y' => $data['y'],
+                'spell' => $this->name, 'targetX' => $data['x'], 'targetY' => $data['y'],
             ], $this->getNormalCastStage());
             $this->setEffectStage();
             $isSuccess = $this->spellEffect($data);

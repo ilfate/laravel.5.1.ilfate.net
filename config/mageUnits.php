@@ -8,7 +8,7 @@ return array(
         1 => [
             'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 2,
             'behaviour' => 'Passive', 'aggressiveRange' => 4, 'attacks' => ['teeth'],
-            'icon' => 'icon-mouse'
+            'icon' => 'icon-mouse', 'loot' => 2
         ],
     ],
     'chances' => [

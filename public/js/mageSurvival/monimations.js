@@ -81,18 +81,22 @@ MageS.Monimations = function (game) {
             }, onComplete: callback
         }).run();
     };
-    this.rotate = function (el,base, grad, duration, isReverce) {
+    this.rotate = function (el, base, grad, duration, isReverce, easing, callback) {
         new mojs.Tween({
             repeat:   0,
             delay:    10,
             duration: duration,
             onUpdate: function (progress) {
-                var normalProgression = MageS.Game.monimations.normalProgressionPath(progress) * grad - grad;
+                var normalProgression = progress;
+                if (easing) {
+                    normalProgression = easing(progress);
+                }
+                normalProgression = normalProgression * grad - grad;
                 if (isReverce) {
                     normalProgression *= -1;
                 }
                 el[0].style.transform = 'rotate(' + (base + normalProgression) + 'deg)';
-            }
+            }, onComplete: callback
         }).run();
     };
     this.rotateWithScale = function (el,base, grad, sFrom, sTo, duration) {
@@ -116,6 +120,17 @@ MageS.Monimations = function (game) {
             onUpdate: function (progress) {
                 var bounce50 = MageS.Game.monimations.bounce50(progress) * 2;
                 var degree = 35;
+                el[0].style.transform = 'skewX(' + (bounce50 * degree - degree) + 'deg) skewY(' + (bounce50 * degree - degree) + 'deg)';
+            }
+        }).run();
+    };
+    this.shake = function(el, duration, degree) {
+        new mojs.Tween({
+            repeat:   0,
+            delay:    1,
+            duration: duration,
+            onUpdate: function (progress) {
+                var bounce50 = MageS.Game.monimations.bounce50(progress) * 2;
                 el[0].style.transform = 'skewX(' + (bounce50 * degree - degree) + 'deg) skewY(' + (bounce50 * degree - degree) + 'deg)';
             }
         }).run();

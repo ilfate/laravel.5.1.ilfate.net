@@ -87,6 +87,24 @@ abstract class MapObject
         throw new \Exception('You went so far that you found the end of the world and crashed my server. You have to talk to administrator to fix that problem');
     }
 
+    /**
+     * @param       $x
+     * @param       $y
+     * @param       $objectType
+     * @param World $world
+     *
+     * @return MapObject
+     */
+    public static function getObject($x, $y, $objectType, World $world)
+    {
+        $config = \Config::get('mageSurvival.objects.list.' . $objectType);
+        if (empty($config)) {
+            throw new \Exception('Object with type "' . $objectType . '" not found in config');
+        }
+        $className = '\Ilfate\MageSurvival\MapObjects\\' . $config['class'];
+        return new $className($world, $objectType, $x, $y);
+    }
+
     public function getActions()
     {
         return [];
@@ -115,8 +133,11 @@ abstract class MapObject
 
     public function exportForView()
     {
+        list($x, $y) = GameBuilder::getRelativeCoordinats($this->x, $this->y);
         return [
             'id' => $this->getId(),
+            'x' => $x,
+            'y' => $y,
             'data' => $this->getData(),
             'type' => $this->getType(),
             'config' => $this->config,

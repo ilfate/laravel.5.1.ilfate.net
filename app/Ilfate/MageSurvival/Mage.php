@@ -57,8 +57,9 @@ abstract class Mage implements AliveInterface
     protected $spellsChanges;
     protected $events = [];
 
-    public function __construct(\Ilfate\Mage $mageEntity)
+    public function __construct(\Ilfate\Mage $mageEntity, Game $game)
     {
+        $this->setGame($game);
         $this->config = \Config::get('mageSurvival');
         $this->mageEntity = $mageEntity;
         $this->data = json_decode($mageEntity->data, true);
@@ -92,10 +93,13 @@ abstract class Mage implements AliveInterface
                 $this->armor = $this->data['armor'];
             }
         } else {
+            // this mage is just created
             $this->health = static::DEFAULT_MAX_HEALTH;
             $this->maxHealth = static::DEFAULT_MAX_HEALTH;
             $this->was['health'] = static::DEFAULT_MAX_HEALTH;
             $this->was['maxHealth'] = static::DEFAULT_MAX_HEALTH;
+            //let`s give him some Items
+            $this->addItems([1 => 5, 301 => 7]);
         }
     }
 
@@ -413,6 +417,12 @@ abstract class Mage implements AliveInterface
         return $result;
     }
 
+    public function addItems($items) {
+        foreach ($items as $item => $quantyty) {
+            $this->addItem($item, $quantyty);
+        }
+    }
+
     public function addItem($itemId, $quantity = 1)
     {
         if (isset($this->items[$itemId])) {
@@ -500,6 +510,11 @@ abstract class Mage implements AliveInterface
     public function update()
     {
         $this->isUpdated = true;
+    }
+
+    public function getRelativeCoordinats($x, $y)
+    {
+        return [$x - $this->getX(), $y - $this->getY()];
     }
 
     /**

@@ -35,6 +35,7 @@ class StoneFace extends Earth
     protected function spellEffect($data)
     {
         $this->mage->heal(3, $this->getNormalCastStage());
+        $this->setNexStage();
         $this->mage->armor(3, $this->getNormalCastStage());
         return true;
     }

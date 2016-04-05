@@ -3275,11 +3275,17 @@ div.hex {
   .mage-survival .battle-border .animation-field {
     opacity: 1;
     position: absolute;
+    overflow: visible;
     margin: 160px 0 0 160px; }
     .mage-survival .battle-border .animation-field .animation {
+      overflow: visible;
       opacity: 1;
       position: absolute;
       z-index: 90; }
+      .mage-survival .battle-border .animation-field .animation .circle {
+        overflow: visible; }
+    .mage-survival .battle-border .animation-field svg {
+      overflow: visible; }
   .mage-survival .battle-border .unit {
     position: absolute;
     width: 32px;

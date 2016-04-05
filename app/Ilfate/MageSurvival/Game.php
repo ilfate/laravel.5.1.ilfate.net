@@ -43,9 +43,11 @@ class Game
     const EVENT_NAME_MAGE_HEAL       = 'mage-heal';
     const EVENT_NAME_MAGE_ADD_ARMOR  = 'mage-add-armor';
     const EVENT_NAME_UNIT_DAMAGE     = 'unit-damage';
+    const EVENT_NAME_ADD_OBJECT      = 'add-object';
 
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
     const ANIMATION_STAGE_MAGE_ACTION_2 = 'mage-action-2';
+    const ANIMATION_STAGE_MAGE_ACTION_3 = 'mage-action-3';
     const ANIMATION_STAGE_MAGE_ACTION_EFFECT = 'mage-action-effect';
     const ANIMATION_STAGE_MAGE_ACTION_EFFECT_2 = 'mage-action-effect-2';
     const ANIMATION_STAGE_UNIT_ACTION = 'unit-action';
@@ -231,7 +233,7 @@ class Game
     {
         $class = $mageEntity->class;
         $name = 'Ilfate\MageSurvival\Mages\\' . $this->config['mages-types'][$class]['name'];
-        return new $name($mageEntity);
+        return new $name($mageEntity, $this);
     }
 
     /**

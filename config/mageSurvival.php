@@ -20,6 +20,7 @@ return array(
     'objects' => [
         'list' => [
             1 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay'],
+            2 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay'],
         ],
         'chances' => [
             // World type
@@ -42,6 +43,8 @@ return array(
                 'icon' => 'icon-fire-bottle', 'iconColor' => 'color-red'],
         303 => ['type'=>'ingredient', 'name'=>'Ore',  'stats'=>['spell' => '20', 'cooldown' => ['min' => 1, 'max' => 1]],
                 'icon' => 'icon-ore', 'iconColor' => 'color-red'],
+        304 => ['type'=>'ingredient', 'name'=>'Bone',  'stats'=>['spell' => '40', 'cooldown' => ['min' => 1, 'max' => 1]],
+                'icon' => 'icon-broken-bone', 'iconColor' => 'color-white'],
         // Сера
         // Горный хрусталь
         // Кость гоблина

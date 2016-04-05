@@ -258,7 +258,7 @@ abstract class Unit implements AliveInterface
         if ($this->data['health'] < 1) {
             // Unit dead
             $this->world->destroyUnit($this->x, $this->y);
-            GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
+            $this->dead($animationStage);
         } else {
             // unit damage
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_DAMAGE, [
@@ -269,6 +269,19 @@ abstract class Unit implements AliveInterface
                 $this->data[self::CONFIG_KEY_BEHAVIOUR] = $onDamageBehaviour;
             }
             $this->world->updateUnit($this);
+        }
+    }
+
+    public function dead($animationStage)
+    {
+        GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
+        if (!empty($this->config['loot'])) {
+            $object = $this->world->addObject($this->config['loot'], $this->getX(), $this->getY());
+            if ($object) {
+                GameBuilder::animateEvent(Game::EVENT_NAME_ADD_OBJECT,
+                    ['object' => $object->exportForView()],
+                    $animationStage);
+            }
         }
     }
 

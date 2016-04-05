@@ -8,7 +8,9 @@
         data-spell-type="{{spellType}}"
         data-target-type="{{targetType}}"
         data-placement="left"
-        title="{{name}}" data-id="{{id}}"
+        title="{{name}}"
+        data-spell="{{name}}"
+        data-id="{{id}}"
     >
         <div class="svg">
             <svg class="svg-icon" viewBox="0 0 512 512">

@@ -89,6 +89,16 @@ class World
         $this->objects[$y][$x] = $object->export();
     }
 
+    public function addObject($objectType, $x, $y)
+    {
+        if ($this->getObject($x, $y)) {
+            return null;
+        }
+        $object = MapObject::getObject($x, $y, $objectType, $this);
+        $this->objects[$y][$x] = $object->export();
+        return $object;
+    }
+
     public function addRandomUnit($x, $y)
     {
         if (!empty($this->units[$y][$x])) return ;

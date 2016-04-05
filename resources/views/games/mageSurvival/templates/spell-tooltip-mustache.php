@@ -4,6 +4,7 @@
 
     <div class="spell-tooltip id-{{id}} spell-{{spell}}" data-id="{{id}}">
         <p>{{name}}</p>
+        <p class="cooldown">Cooldown: <span class="value"></span></p>
         <p>
             {{description}}
         </p>

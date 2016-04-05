@@ -362,7 +362,9 @@ MageS.Game = function () {
                 MageS.Game.spellcraft.showSpellCrafting();
             });
             $('.method-test-spell').on('click', function () {
-                MageS.Game.spells.IceCrown();
+                MageS.Game.spells.isSecondPartWaiting = true;
+                MageS.Game.spells.currentSpellData = {'targetX': 4, 'targetY': -1};
+                MageS.Game.spells.startCast('Fireball');
             });
             $('#move-control-field .control-arrow').on('click', function () {
                 switch ($(this).data('d')) {
@@ -497,6 +499,7 @@ MageS.Game = function () {
             obj.find('.svg').addClass(object.config.iconColor);
         }
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
+        return obj;
     };
 
     this.drawUnit = function(unit, x, y, target) {

@@ -65,7 +65,7 @@ MageS.Spellbook = function (game) {
         switch (spellType) {
             case 'noTargetSpell':
                 if (isCastAllowed) {
-                    MageS.Game.action('spell', '{"id":"' + spellEl.data('id') + '"}');
+                    this.castSpellStart(spellEl, '{"id":"' + spellEl.data('id') + '"}');
                     spellEl.removeClass('active');
                 } else {
                     this.turnOffPatterns();
@@ -216,6 +216,8 @@ MageS.Spellbook = function (game) {
         $('.spellBook .spell.cooldown').each(function() {
             if ($(this).data('cooldown-mark') <= MageS.Game.turn) {
                 MageS.Game.spellbook.removeCooldown($(this));
+                var id = $(this).data('id');
+                $('.spell-tooltip.id-' + id+ ' .cooldown').hide();
             } else {
                 MageS.Game.spellbook.stepCooldown($(this));
             }
@@ -224,6 +226,11 @@ MageS.Spellbook = function (game) {
 
     this.addCooldown = function(spellEl) {
         spellEl.addClass('cooldown');
+        var id = spellEl.data('id');
+        $('.spell-tooltip.id-' + id + ' .cooldown')
+            .show()
+            .find('.value')
+            .html(spellEl.data('cooldown-mark') - this.game.turn);
     };
 
     this.removeCooldown = function(spellEl) {
@@ -232,7 +239,9 @@ MageS.Spellbook = function (game) {
     };
 
     this.stepCooldown = function(spellEl) {
-        //info('cooldown step');
+        var id = spellEl.data('id');
+        $('.spell-tooltip.id-' + id + ' .cooldown .value')
+            .html(spellEl.data('cooldown-mark') - this.game.turn);
     };
 
     this.filterSpells = function(filterEl) {
@@ -321,7 +330,14 @@ MageS.Spellbook = function (game) {
         var d = patternCell.data('d');
         var x = patternCell.data('x');
         var y = patternCell.data('y');
-        MageS.Game.action('spell', '{"id":"' + spell.data('id') + '","d":"' + d + '","x":"' + x + '","y":"' + y + '"}');
+        var dataString = '{"id":"' + spell.data('id') + '","d":"' + d + '","x":"' + x + '","y":"' + y + '"}';
+        this.castSpellStart(spell, dataString);
+    };
+
+    this.castSpellStart = function(spellEl, dataString) {
+        MageS.Game.action('spell', dataString);
+        var spellName = spellEl.data('spell');
+        this.game.spells.startCast(spellName);
     };
 
     this.showEnemyTargets = function(spell) {
