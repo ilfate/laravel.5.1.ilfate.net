@@ -3110,7 +3110,7 @@ div.hex {
     .mage-survival .spellBook {
       width: 12.8rem;
       height: 12.8rem; } }
-.mage-survival .bottom-panel .chat {
+.mage-survival .bottom-panel .chat-container {
   border: 0.05rem solid #529BCA;
   background-color: antiquewhite; }
 .mage-survival #mobile-spell-info-container {

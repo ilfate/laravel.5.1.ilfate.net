@@ -553,7 +553,7 @@ MageS.Game = function () {
             Mustache.parse(temaplate);
             var rendered = Mustache.render(temaplate, {'content': message, 'type': type});
             var obj = $(rendered);
-            $('.bottom-panel .chat').append(obj);
+            $('.bottom-panel .chat-container').append(obj);
         }
     };
 

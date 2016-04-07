@@ -56,7 +56,7 @@
         </div>
     </div>
     <div class="bottom-panel">
-        <div class="chat"></div>
+        <div class="chat-container"></div>
     </div>
     @include('games.mageSurvival.mobile-controls')
 </div>
