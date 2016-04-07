@@ -77,14 +77,20 @@ class GameBuilder
         $activeMage = $user->mages()->where('status', Mage::MAGE_STATUS_ACTIVE)->first();
         if ($activeMage) {
             // mage ready for battle
-            self::$game->setStatus(Game::STATUS_BATTLE);
+
             $mage = self::$game->createMageByMageEntity($activeMage);
             self::$game->setMage($mage);
             $worldsCollection = $activeMage->world()->get();
             if ($worldsCollection->isEmpty()) {
                 // lets create world
-                self::createWorld(self::$game, $activeMage);
+                self::$game->setStatus(Game::STATUS_HOME);
+
+                // TODO: USE IT AGAIN
+                // TODO: USE IT AGAIN
+                //self::createWorld(self::$game, $activeMage);
+
             } else {
+                self::$game->setStatus(Game::STATUS_BATTLE);
                 $worldEntity = $worldsCollection->first();
                 $world = new World($worldEntity);
                 self::$game->setWorld($world);

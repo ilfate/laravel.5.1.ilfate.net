@@ -14,7 +14,6 @@ MageS.Spells = function (game) {
     this.savedData = [];
 
     this.cast = function(data) {
-        info('Cast');
 
         if (this.spellAnimationRunning) {
             this.currentSpellData = data;
@@ -26,7 +25,6 @@ MageS.Spells = function (game) {
     };
 
     this.startCast = function(name) {
-        info('startCast');
         var isSpellAnimated = true;
         switch (name) {
            case 'IceCrown': this.startIceCrown() ; break;
@@ -41,7 +39,6 @@ MageS.Spells = function (game) {
         }
     };
     this.iterate = function(name) {
-        info('iterate');
         switch (name) {
             case 'IceCrown': this.iterateIceCrown() ; break;
             case 'Fireball': this.iterateFireball() ; break;
@@ -50,7 +47,6 @@ MageS.Spells = function (game) {
         }
     };
     this.continue = function(name) {
-        info('continue');
         switch (name) {
             case 'IceCrown': this.finishIceCrown(this.currentSpellData); break;
             case 'Fireball': this.finishFireball(this.currentSpellData); break;
@@ -60,7 +56,6 @@ MageS.Spells = function (game) {
         }
     };
     this.tryToEndFirstPart = function() {
-        info('tryToEndFirstPart');
         if (this.isSecondPartWaiting)  {
             this.continue(this.currentSpellName);
         } else {
@@ -92,16 +87,16 @@ MageS.Spells = function (game) {
     };
 
     this.sparklingAnimation = function(animationEl) {
-        var svgContEl = $('<div style="margin: 16px 0 0 16px;position:absolute;"></div>');
+        var svgContEl = $('<div class="animation-centred-block"></div>');
         for (var i = 0; i < 6; i++ ) {
-        var svgEl = $('<div></div>').width('1px').height('1px').css({'position':'absolute'});
+        var svgEl = $('<div></div>').width('0').height('0').css({'position':'absolute'});
             svgEl.svg({
                 onLoad: function (svg) {
-                    svg.circle(0, 0, 5,
+                    svg.circle(0, 0, 0.25 * MageS.Game.rem,
                         {fill: '#fff', stroke: 'none'});
                 }
             });
-            svgEl.find('svg circle').animate({'svgCx': 80 + 'px', 'svgR':1},
+            svgEl.find('svg circle').animate({'svgCx': 4 * this.game.rem, 'svgR':0.05 * this.game.rem},
                 {duration:500});
             svgEl[0].style.transform = 'rotate(' + parseInt(360 / 6 * i) + 'deg)';
             svgContEl.append(svgEl);
@@ -124,7 +119,8 @@ MageS.Spells = function (game) {
     this.iterateIceCrown = function() {
         var iterateTime = 400;
         MageS.Game.monimations.rotate(this.savedData[1], parseInt(30), 90, iterateTime, true, false);
-        if (this.savedData[2]) {var radius = 3; var range = 50;} else {var radius = 1; var range = 80;}
+        if (this.savedData[2]) {var radius = 0.15 * this.game.rem; var range = 2.5 * this.game.rem;}
+        else {var radius = 0.05 * this.game.rem; var range = 4 * this.game.rem;}
         this.savedData[1].find('circle').animate({'svgCx': range, 'svgR':radius}, {duration:iterateTime});
         this.savedData[2] = ! this.savedData[2];
 
@@ -136,7 +132,7 @@ MageS.Spells = function (game) {
             duration: iterateTime,
             onUpdate: function (progress) {
                 progress = progress * grad - grad;
-                el[0].style.transform = 'scale(3) rotate(' + (progress) + 'deg)';
+                el[0].style.transform = 'scale(2.25) rotate(' + (progress) + 'deg)';
 
             }, onComplete: function() {
                 MageS.Game.spells.tryToEndFirstPart();
@@ -146,12 +142,12 @@ MageS.Spells = function (game) {
 
     this.finishIceCrown = function (data) {
         MageS.Game.monimations.rotate(this.savedData[1], parseInt(30), 150, 1000, true, false);
-        this.savedData[1].find('circle').animate({'svgCx': 10 + 'px', 'svgR':3},
+        this.savedData[1].find('circle').animate({'svgCx': 0.5 * this.game.rem, 'svgR':0.15 * this.game.rem},
          {duration:1000, easing:'easeOutBounce'});
 
         var icon = this.savedData[0];
 
-        MageS.Game.monimations.rotateWithScale(icon.find('svg.svg-icon'), 0, 360, 3, -2, 1000);
+        MageS.Game.monimations.rotateWithScale(icon.find('svg.svg-icon'), 0, 360, 2.25, -2, 1000);
 
         $('.animation-field .animation').animate({
             opacity: '0'
@@ -165,27 +161,27 @@ MageS.Spells = function (game) {
     };
 
     this.startFireball = function() {
-        var svgContEl = $('<div class="animation" style="margin: 16px 0 0 16px;position:absolute;"></div>');
+        var svgContEl = $('<div class="animation animation-centred-block"></div>');
         for (var i = 0; i < 3; i++ ) {
-            var svgEl = $('<div class="circle n-' + i + '" data-n="' + i + '"></div>').width('1px').height('1px').css({'position':'absolute'});
+            var svgEl = $('<div class="circle n-' + i + '" data-n="' + i + '"></div>').width('0').height('0').css({'position':'absolute'});
             svgEl.svg({
                 onLoad: function (svg) {
-                    svg.circle(0, 0, 5,
+                    svg.circle(0, 0, 0.25 * MageS.Game.rem,
                         {fill: 'none', stroke: '#F07818'});
                 }
             });
-            svgEl.find('svg circle').animate({ 'svgR':15 + (i*5)}, {duration:250});
+            svgEl.find('svg circle').animate({ 'svgR':(0.75 + (i*0.25)) * this.game.rem}, {duration:250});
             svgContEl.append(svgEl);
         }
         for (var i = 0; i < 2; i++ ) {
-            var svgEl = $('<div class="fire-dot n-' + i +'"></div>').width('1px').height('1px').css({'position':'absolute'});
+            var svgEl = $('<div class="fire-dot n-' + i +'"></div>').width('0').height('0').css({'position':'absolute'});
             svgEl.svg({
                 onLoad: function (svg) {
-                    svg.circle(0, 0, 2,
+                    svg.circle(0, 0, 0.1 * MageS.Game.rem,
                         {fill: '#F07818', stroke: 'none'});
                 }
             });
-            svgEl.find('svg circle').animate({ 'svgCx':18 + (i*5)},
+            svgEl.find('svg circle').animate({ 'svgCx':(1 + (i*0.25)) * this.game.rem},
                 {duration:250});
             MageS.Game.monimations.rotate(svgEl, 0, 360, 250, i == 0, false);
             svgContEl.append(svgEl);
@@ -219,10 +215,10 @@ MageS.Spells = function (game) {
         MageS.Game.monimations.rotate(animEl.find('.fire-dot.n-0'), 180 + Math.random() * 180, 180, 500, true, false);
         MageS.Game.monimations.rotate(animEl.find('.fire-dot.n-1'), 180 + Math.random() * 180, 180, 500, false, false);
 
-        animEl.find('.fire-dot circle').animate({'svgCx':0}, {duration: 500, complete: function() {
+        animEl.find('.fire-dot circle').animate({'svgCx':0}, {duration: 350, complete: function() {
             animEl.find('.fire-dot').remove();
-        }});
-
+        //}, easing: 'easeInOutBack'});
+        }, easing: 'easeInBack'});
 
         var rad = Math.atan2(data.targetY, data.targetX); // In radians
         //Then you can convert it to degrees as easy as:
@@ -231,7 +227,7 @@ MageS.Spells = function (game) {
         var easings = ['easeOutCubic', 'easeOutQuart','easeOutExpo'];
         var range = Math.round(Math.sqrt(Math.pow(data.targetX, 2) + Math.pow(data.targetY, 2)) * this.game.cellSize);
         for (var i = 0; i < 3; i++ ) {
-            animEl.find('.circle.n-' + i + ' circle').animate({'svgR': 2 + i * 2}, {
+            animEl.find('.circle.n-' + i + ' circle').animate({'svgR': (0.1 + i * 0.1) * this.game.rem }, {
                 duration: 200, complete: function () {
                     var n = $(this).parents('.circle').data('n');
                     var obj = $(this);
@@ -240,7 +236,7 @@ MageS.Spells = function (game) {
                     obj.parent()[0].style.transform = 'rotate(' + deg + 'deg)';
                     obj.parent()[0].style['transform-origin'] = '0% 0%';
                     setTimeout( function() {
-                        obj.animate({'svgCx': range + 'px'}, {duration: 400, 'easing': easings[n]});
+                        obj.animate({'svgCx': range * MageS.Game.rem}, {duration: 400, 'easing': easings[n]});
                     }, 100);
                     setTimeout( function() {
                         obj.animate({'svgTransform': 'skewX(' + 40 * n + ')', 'svgFill': '#fff'},

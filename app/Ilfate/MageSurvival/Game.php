@@ -28,6 +28,7 @@ class Game
 {
     const STATUS_GAME_INIT = 'game_init';
     const STATUS_BATTLE = 'mage_battle';
+    const STATUS_HOME = 'mage_home';
 
     const ACTION_MOVE            = 'move';
     const ACTION_ROTATE          = 'rotate';
@@ -126,7 +127,7 @@ class Game
         $data['turn'] = $this->getTurn();
         $data['config'] = [
             'screenRadius' => $this->worldGenerator->getScreenRadius(),
-            'cellSize' => 32,
+            'cellSize' => 1.6,
         ];
 
         return ['game' => $data];
@@ -444,5 +445,13 @@ class Game
     public function getWorldGenerator()
     {
         return $this->worldGenerator;
+    }
+
+    public function getHomeData() {
+        $data = [];
+        $data['mage'] = $this->mage->viewExport();
+        $data['item-types'] = $this->config['item-types'];
+
+        return ['game' => $data];
     }
 }

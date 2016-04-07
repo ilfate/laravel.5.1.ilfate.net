@@ -233,13 +233,13 @@ MageS.Spellcraft = function (game) {
             this.game.inventory.bindItemTooltip(newItem);
             newItem.find('path').css({'fill': '#FFF'});
         }
-        craftItemsEl.css('width', itemsNum * this.game.itemSize + 'px');
+        craftItemsEl.css('width', itemsNum * this.game.itemSize + 'rem');
         $('.craft-spell-overlay').append(obj);
         var height = this.game.mageInventorySize;
         if (this.game.device == 'mobile') {
             height = this.game.mageMobileInventorySize;
         }
-        obj.animate({'height': height + 'px'}, {'duration':this.game.animationTime, 'easing':'easeInCirc'});
+        obj.animate({'height': height + 'rem'}, {'duration':this.game.animationTime, 'easing':'easeInCirc'});
         $('.confirm-create-spell').on('click', function(){
             MageS.Game.spellcraft.createSpellAction();
         });

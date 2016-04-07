@@ -15,17 +15,20 @@ $mage-colors-clay: #FCEBB6;
 
 $mage-color-background:#FCEBB6;
 
-$screen-md-min: 992;
-$screen-sm-min: 768;
-$area-size-sm-min: 750;
+//$screen-md-min: 992;
+$screen-md-min: 49.6;
+//$screen-sm-min: 768;
+$screen-sm-min: 38.4;
+//$area-size-sm-min: 750;
+$area-size-sm-min: 37.5;
 
 $map-radius: 5;
-$cell-size: 32;
-$item-size: 34;
+$cell-size: 1.6;
+$item-size: 1.7;
 $mobile-item-size: 1.5 * $cell-size;
-$spell-size: 34;
+$spell-size: 1.7;
 $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
-$mage-inventory-size: 7 * $item-size + 18;
+$mage-inventory-size: 7 * $item-size + 0.9;
 $mage-mobile-inventory-size: 6 * $item-size;
 
 
@@ -42,6 +45,17 @@ $mage-mobile-inventory-size: 6 * $item-size;
     .large-text {
         font-size: 1.5rem;
     }
+    .game-load-overlay {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: $mage-colors-brown;
+        opacity: 1;
+        z-index: 98;
+        display: block;
+    }
     #create-mage-pop-up {
         display: none;
         .mage-name {
@@ -53,305 +67,6 @@ $mage-mobile-inventory-size: 6 * $item-size;
             }
         }
     }
-    .container.main{
-        position: relative;
-        padding:0;
-        @media (min-width: $screen-md-min + px) {
-            width: 992px;
-        }
-        .middle-panel {
-            float:left;
-            width:100%;
-            height:100%;
-            .responsive-container {
-                margin: 0 auto;
-                width:$battlefield-size + px;
-                height:$battlefield-size + px;
-            }
-            @media (min-width: $screen-sm-min + px) {
-                width:$battlefield-size + px;
-                height:$battlefield-size + px;
-                .responsive-container {
-                    margin: 0;
-                    width: auto;
-                    height: auto;
-                }
-            }
-            @media (min-width: $screen-md-min + px) {
-            }
-        }
-        .mage-info-panel {
-            float: left;
-            width: 100%;
-            height: 1.5 * $cell-size + px;
-            .mage-profile {
-                width:70%;
-                float:left;
-                //display: none;
-                //&.active {
-                //    display: block;
-                //}
-            }
-            @media (min-width: $screen-sm-min + px) {
-                width: $area-size-sm-min - $battlefield-size + px;
-                height: 3 * $cell-size + px;
-                padding-left: 15px;
-                .mage-profile {
-                    display: block;
-                    float: none;
-                }
-            }
-            @media (min-width: $screen-md-min + px) {
-                width: $screen-md-min - $battlefield-size - 15 + px;
-                padding-left: 15px;
-            }
-        }
-        .actions-container {
-            float:left;
-            height: 1.5 * $cell-size + px;
-            width: auto;
-            .action {
-                float: left;
-                a {
-                    width: 1.5 * $cell-size + px;
-                    height: 1.5 * $cell-size + px;
-                    display: block;
-                    border: 1px solid $mage-colors-black;
-                    background-color: $mage-colors-brown;
-                    path { fill:$mage-colors-clay }
-                    .text { display: none; }
-                    svg {
-                        width: 1.5 * $cell-size + px;
-                        height: 1.5 * $cell-size + px;
-                    }
-                }
-            }
-            @media (min-width: $screen-sm-min + px) {
-                float: none;
-                position: absolute;
-                z-index: 40;
-                width: 1.5 * $cell-size + px;
-                height: 6 * $cell-size + px;
-                right: 0;
-                margin-top: 2 * $cell-size + px;
-                margin-right: 0.75 * $cell-size + px;
-                .action { margin: 2px 0; float: none; }
-            }
-            @media (min-width: $screen-md-min + px) {
-                position: relative;
-                width: 100%;
-                height: 1 * $cell-size + px;
-                margin:0;
-                .action {
-                    float:left;
-                    margin: 0 2px;
-                    line-height: 1.1rem;
-                    a {
-                        width:auto;
-                        height: auto;
-                        display: inline;
-                        font-size: 0.6rem;
-                        cursor: pointer;
-                        padding: 3px 6px;
-                        text-decoration: none;
-                        &:hover {
-                            color: $mage-colors-clay;
-                            border: 1px solid $mage-colors-orange;
-                        }
-                        svg { display: none; }
-                        .text { display: inherit; }
-                    }
-                }
-            }
-        }
-
-        .right-panel {
-            float:left;
-            position: relative;
-            width:100%;
-            .spells-items-row {
-                width:70%;
-                margin-left: 15%;
-                .items-col, .spells-col {
-                    display: none;
-                    padding: 0;
-                }
-            }
-            #mobile-spell-info-container {
-                display: none;
-                position: absolute;
-                height: $mage-inventory-size + px;
-                width: $mage-inventory-size + px;
-                margin-left: - $mage-inventory-size + (1.5 * $cell-size) + px;
-                z-index: 60;
-                .spell-tooltip {
-                    height: $mage-inventory-size + px;
-                    width: $mage-inventory-size + px;
-                    display: block;
-                    &:after {
-                        content: "Drag me!";
-                        display: block;
-                        position: absolute;
-                        right: -1.4rem;
-                        @include rotate(-90deg);
-                    }
-                }
-                &.active {
-                    .spell-tooltip {
-                        &:after {
-                            opacity: 0.3;
-                        }
-                    }
-                }
-                .svg.cast-button {
-                    position: absolute;
-                    right: 0.25 * $cell-size + px;
-                }
-            }
-            .interface-switch-panel {
-                width:15%;
-                height: 3 * $mobile-item-size + px;
-                right: 0;
-                position: absolute;
-                background-color: $mage-colors-clay;
-                a {
-                    display: block;
-                    width: $mobile-item-size + px;
-                    height: $mobile-item-size + px;
-
-                    .svg-icon {
-                        width: $mobile-item-size + px;
-                        height: $mobile-item-size + px;
-                    }
-                    path {
-                        fill: $mage-colors-brown;
-                    }
-                }
-            }
-            @media (min-width: $screen-sm-min + px) {
-                width:$area-size-sm-min - $battlefield-size + px;
-                height: $battlefield-size - (3 * $cell-size) + px;
-                padding-left: 15px;
-                .spells-items-row {
-                    margin-left: 0;
-                    width:100%;
-                    .items-col, .spells-col {
-                        margin-left:$cell-size + px;
-                    }
-                }
-                .interface-switch-panel {
-                    width: 1 * $cell-size + px;
-                    height: 2 * $cell-size + px;
-                    position: absolute;
-                    margin-top: 6 * $cell-size + px;
-                    z-index: 40;
-                    right: auto;
-                    a {
-                        width: $cell-size + px;
-                        height: $cell-size + px;
-                        .svg-icon {
-                            width: $cell-size + px;
-                            height: $cell-size + px;
-                        }
-                    }
-                    .toggle-mage-info {
-                        display: none;
-                    }
-                }
-
-            }
-            @media (min-width: $screen-md-min + px) {
-                width: $screen-md-min - $battlefield-size - 15 + px;
-                padding-left: 15px;
-                .interface-switch-panel {
-                    display: none;
-                }
-                .spells-items-row {
-                    width:100%;
-                    .items-col, .spells-col {
-                        display: block;
-                        position: relative;
-                        margin: 0;
-                    }
-                }
-            }
-        }
-        .move-control-field-container {
-            position: absolute;
-            margin: 0 auto;
-            right: 0;
-            left:0;
-            width: 3 * $cell-size + px;
-            height: 3 * $cell-size + px;
-            @media (min-width: $screen-sm-min + px) {
-                position: inherit;
-                margin: 0;
-                right: auto;
-                left: auto;
-            }
-        }
-        #move-control-field {
-            width: 3 * $cell-size + px;
-            height: 3 * $cell-size + px;
-            margin-top: 8 * $cell-size + px;
-            margin-left: 4 * $cell-size + px;
-            position: absolute;
-            z-index: 40;
-            opacity: 0.3;
-            background-color: $mage-colors-white;
-            &.disable {
-                display: none;
-            }
-            svg {
-                position: absolute;
-                path { fill: $mage-colors-black; }
-            }
-            .control-arrow {
-                position: absolute;
-                width: $cell-size + px;
-                height: $cell-size + px;
-                display: block;
-                cursor: pointer;
-            }
-            .top { margin-left: $cell-size + px; }
-            .right { margin-left:2 * $cell-size + px; margin-top: $cell-size + px; }
-            .bottom { margin-top: 2 * $cell-size + px; margin-left: $cell-size + px; }
-            .left { margin-top: $cell-size + px; }
-            .button-key { display:none; }
-
-            @media (min-width: $screen-sm-min + px) {
-                margin-left: 0;
-                right:0;
-                bottom: 0;
-                opacity: 1;
-                background-color: $mage-colors-blue;
-                svg path {
-                    fill: $mage-colors-white;
-                }
-            }
-            @media (min-width: $screen-md-min + px) {
-                margin-top: 0.8 * $cell-size + px;
-                height: 2 * $cell-size + px;
-                bottom: auto;
-                .button-key {
-                    margin-top: 6px;
-                    font-size: 0.7rem;
-                    width: $cell-size + px;
-                    text-align: center;
-                    color: $mage-colors-blue;
-                    display:block;
-                    position: absolute;
-                }
-                .bottom {margin-top: 1 * $cell-size + px; }
-            }
-        }
-        .svg-icon {
-            width:$cell-size + px;
-            height:$cell-size + px;
-        }
-
-    }
-    //.game-inteface {
     .tooltip-spell-area, .tooltip-helper-area {
         position:absolute;
         z-index: 80;
@@ -363,159 +78,39 @@ $mage-mobile-inventory-size: 6 * $item-size;
         display: none;
         position:absolute;
         background-color: $mage-colors-clay;
+        .close {
+            display: none;
+        }
+        .cast-button.text {
+            display: none;
+        }
+        &.hover {
+            display: block;
+        }
+        &.click {
+            display: block;
+            .close {
+                display: block;
+            }
+            &.noTargetSpell {
+                .cast-button.text {
+                    display: block;
+                }
+            }
+        }
     }
     .tooltip-helper-area  {
         .item-tooltip {
-            margin: 2 * $cell-size + px 0 0 2 * $cell-size + px;
-            width: ($map-radius * 2 - 3) * $cell-size + px;
-            height: ($map-radius * 2 - 3) * $cell-size + px;
+            margin: 2 * $cell-size + rem 0 0 2 * $cell-size + rem;
+            width: ($map-radius * 2 - 3) * $cell-size + rem;
+            height: ($map-radius * 2 - 3) * $cell-size + rem;
             opacity: 0.9;
         }
     }
     .tooltip-spell-area {
         .spell-tooltip {
-            height: $mage-inventory-size + px;
-            width: $mage-inventory-size + px;
-        }
-    }
-    .battle-border {
-        float:left;
-        width:$battlefield-size + px;
-        height:$battlefield-size + px;
-        border:1px solid chocolate;
-        overflow:hidden;
-        position: relative;
-        box-shadow: 5px 5px 15px rgba(39, 200, 119, 1), -5px -5px 15px rgba(39, 200, 119, 1);
-        &.action {
-            box-shadow: 5px 5px 15px rgba(182, 189, 55, 1), -5px -5px 15px rgba(182, 189, 55, 1);
-        }
-        .mage-container {
-            position: absolute;
-            margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
-            .mage {
-                position: absolute;
-                width:$cell-size + px;
-                height:$cell-size + px;
-                z-index: 35;
-                background-image: url('/images/game/mage/mage.png');
-                &.d-1 { @include rotate(90deg); }
-                &.d-2 { @include rotate(180deg); }
-                &.d-3 { @include rotate(270deg); }
-            }
-        }
-        .animation-field {
-            opacity: 1;
-            position: absolute;
-            overflow: visible;
-            margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
-            .animation {
-                overflow: visible;
-                opacity: 1;
-                position: absolute;
-                z-index: 90;
-                .circle {
-                    overflow: visible;
-                }
-            }
-            svg {
-                overflow: visible;
-            }
-        }
-        .unit {
-            position: absolute;
-            width:$cell-size + px;
-            height:$cell-size + px;
-            z-index: 35;
-
-        }
-        .damage {
-            position: absolute;
-            z-index: 80;
-            font-size: 0.8rem;
-            text-shadow: 1px 1px $color-clay;
-            padding: 0 3px;
-            color:$mage-colors-red;
-            margin-top: $cell-size * 0.2 + px;
-            margin-left: $cell-size * 0.2 + px;
-            &.heal {
-                color:$mage-colors-green;
-            }
-            &.armor {
-                color:$mage-colors-gold;
-            }
-        }
-    }
-    .battle-field {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        position: absolute;
-        margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
-        width:($map-radius + 1) * $cell-size + px;
-        height:($map-radius + 1) * $cell-size + px;
-        background-color: cornsilk;
-            &.current {
-                z-index: 25;
-            }
-            &.new {
-                z-index: 20;
-            }
-        .cell {
-            position: absolute;
-            width:$cell-size + px;
-            height:$cell-size + px;
-            z-index: 30;
-            overflow: visible;
-            background-color: black;
-        }
-        .object {
-            position: absolute;
-            width:$cell-size - 10 + px;
-            height:$cell-size - 10 + px;
-            z-index: 33;
-        }
-    }
-    .unit-field {
-        position: absolute;
-        margin:($map-radius) * $cell-size + px 0 0 ($map-radius) * $cell-size + px;
-        width:($map-radius + 1) * $cell-size + px;
-        height:($map-radius + 1) * $cell-size + px;
-    }
-
-    .battle-border.Tutorial {
-        .cell.bl { background-color: darkgrey; }
-        .cell.f1 { background-color: green; }
-        .cell.f2 { background-color: darkolivegreen; }
-        .cell.f3 { background-color: lawngreen; }
-        .cell.s  { background-color: grey; }
-        //.cell.bl { border: 1px solid darkgrey; }
-        //.cell.f1 { border: 1px solid green; }
-        //.cell.f2 { border: 1px solid darkolivegreen; }
-        //.cell.f3 { border: 1px solid lawngreen; }
-        //.cell.s  { border: 1px solid grey; }
-    }
-    .pattern-field {
-        position: absolute;
-
-        .pattern-cell {
-            border-radius: 2px;
-            position: absolute;
-            width:$cell-size + px;
-            height:$cell-size + px;
-            z-index: 25;
-            background-color: #770000;
-            opacity: 0;
-            &.visible {
-                z-index: 45;
-                opacity: 0.4;
-            }
-            &.active {
-                z-index: 45;
-                opacity: 0.7;
-            }
+            height: $mage-inventory-size + rem;
+            width: $mage-inventory-size + rem;
         }
     }
     .mage-profile {
@@ -543,7 +138,7 @@ $mage-mobile-inventory-size: 6 * $item-size;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        height:$mage-mobile-inventory-size + px;
+        height:$mage-mobile-inventory-size + rem;
         width:100%;
         background-color: $mage-colors-clay;
         &.craft {
@@ -551,7 +146,7 @@ $mage-mobile-inventory-size: 6 * $item-size;
             z-index: 71;
         }
         .items-filters-panel {
-            border-bottom: 1px solid $mage-colors-brown;
+            border-bottom: 0.05rem solid $mage-colors-brown;
         }
         .items-filter {
             cursor: pointer;
@@ -560,16 +155,16 @@ $mage-mobile-inventory-size: 6 * $item-size;
                 opacity: 1;
             }
         }
-        @media (min-width: $screen-sm-min + px) {
-            height: $mage-inventory-size + px;
-            width: $mage-inventory-size + px;
+        @media (min-width: $screen-sm-min + rem) {
+            height: $mage-inventory-size + rem;
+            width: $mage-inventory-size + rem;
         }
     }
     .items {
         .item {
             float: left;
-            width: $item-size + px;
-            height: $item-size + px;
+            width: $item-size + rem;
+            height: $item-size + rem;
             position: relative;
             text-align: left;
             &.filtered-out {
@@ -581,23 +176,22 @@ $mage-mobile-inventory-size: 6 * $item-size;
             }
 
             .value {
-                //text-shadow: 2px 2px #fefefe;
                 position:absolute;
-                font-size: 10px;
+                font-size: 0.5rem;
                 background-color: $mage-colors-clay;
                 color:$mage-colors-brown;
-                padding-left:2px;
-                padding-right:2px;
+                padding-left:0.1rem;
+                padding-right:0.1rem;
             }
             .craft-value {
                 display: none;
                 position: absolute;
 
-                font-size: 10px;
+                font-size: 0.5rem;
                 background-color: $mage-colors-blue;
                 color:$mage-colors-white;
-                padding-left:2px;
-                padding-right:2px;
+                padding-left:0.1rem;
+                padding-right:0.1rem;
                 bottom: 0;
                 right: 0;
                 &.active {
@@ -614,11 +208,11 @@ $mage-mobile-inventory-size: 6 * $item-size;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        height:$mage-mobile-inventory-size + px;
+        height:$mage-mobile-inventory-size + rem;
         width:100%;
         background-color: $mage-colors-clay;
         .spells-filter-panel {
-            border-bottom: 1px solid $mage-colors-brown;
+            border-bottom: 0.05rem solid $mage-colors-brown;
         }
         .spell-filter {
             cursor: pointer;
@@ -631,8 +225,8 @@ $mage-mobile-inventory-size: 6 * $item-size;
 
             .spell {
                 float: left;
-                width: $item-size + px;
-                height: $item-size + px;
+                width: $item-size + rem;
+                height: $item-size + rem;
                 &.filtered-out {
                     display: none;
                 }
@@ -642,65 +236,103 @@ $mage-mobile-inventory-size: 6 * $item-size;
                     }
                 }
                 .value {
-                    //text-shadow: 2px 2px #fefefe;
                     position:absolute;
-                    font-size: 10px;
+                    font-size: 0.5rem;
                     background-color: $color-clay;
                     color:$color-brawn;
-                    padding-left:2px;
-                    padding-right:2px;
+                    padding-left:0.1rem;
+                    padding-right:0.1rem;
                 }
                 svg {
                     position: absolute;
                 }
             }
         }
-        @media (min-width: $screen-sm-min + px) {
-            width: $mage-inventory-size + px;
-            height: $mage-inventory-size + px;
+        @media (min-width: $screen-sm-min + rem) {
+            width: $mage-inventory-size + rem;
+            height: $mage-inventory-size + rem;
+        }
+    }
+
+    .bottom-panel {
+        .chat {
+            border: 0.05rem solid $mage-colors-blue;
+            background-color: antiquewhite;
+        }
+    }
+
+    #mobile-spell-info-container {
+        display: none;
+        position: absolute;
+        height: $mage-inventory-size + rem;
+        width: $mage-inventory-size + rem;
+        margin-left: - $mage-inventory-size + (1.5 * $cell-size) + rem;
+        z-index: 60;
+        .spell-tooltip {
+            height: $mage-inventory-size + rem;
+            width: $mage-inventory-size + rem;
+            display: block;
+            &:after {
+                content: "Drag me!";
+                display: block;
+                position: absolute;
+                right: -1.4rem;
+                @include rotate(-90deg);
+            }
+        }
+        &.active {
+            .spell-tooltip {
+                &:after {
+                    opacity: 0.3;
+                }
+            }
+        }
+        .svg.cast-button {
+            position: absolute;
+            right: 0.25 * $cell-size + rem;
         }
     }
 
     .craft-spell-overlay {
         position: absolute;
         z-index: 60;
-        font-size: 13px;
+        font-size: 0.65rem;
         width:100%;
         .alert {
-            padding:2px;
+            padding:0.1rem;
         }
         .helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info {
             background-color: $mage-colors-blue;
             color: $mage-colors-white;
             position: absolute;
             width:100%;
-            //width: $mage-inventory-size + px;
-            height: $item-size + px;
+            //width: $mage-inventory-size + rem;
+            height: $item-size + rem;
             text-align: center;
         }
         .spell-craft-info {
-            //height: $mage-inventory-size + px;
+            //height: $mage-inventory-size + rem;
             .text-1 {
-                height: 1.1 * $item-size + px;
-                @media (min-width: $screen-sm-min + px) {
-                    height: 1.5 * $item-size + px;
+                height: 1.1 * $item-size + rem;
+                @media (min-width: $screen-sm-min + rem) {
+                    height: 1.5 * $item-size + rem;
                 }
             }
             .craft-items {
-                height: 1.1 * $item-size + px;
-                @media (min-width: $screen-sm-min + px) {
-                    height: 1.5 * $item-size + px;
+                height: 1.1 * $item-size + rem;
+                @media (min-width: $screen-sm-min + rem) {
+                    height: 1.5 * $item-size + rem;
                 }
                 margin: 0 auto;
             }
             .text-2 {
-                height: $mage-inventory-size - (5.2 * $item-size) + px;
-                @media (min-width: $screen-sm-min + px) {
-                    height: $mage-inventory-size - (4.2 * $item-size) + px;
+                height: $mage-inventory-size - (5.2 * $item-size) + rem;
+                @media (min-width: $screen-sm-min + rem) {
+                    height: $mage-inventory-size - (4.2 * $item-size) + rem;
                 }
 
                 padding: 0 1rem;
-                font-size: 11px;
+                font-size: 0.55rem;
             }
         }
     }
@@ -709,6 +341,10 @@ $mage-mobile-inventory-size: 6 * $item-size;
     }
     .item:hover svg.svg-icon, .spell:hover svg.svg-icon {
         opacity: 1;
+    }
+    .svg-icon {
+        width:$cell-size + rem;
+        height:$cell-size + rem;
     }
     div.svg {
         display: inline;

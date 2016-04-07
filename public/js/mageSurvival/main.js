@@ -46,9 +46,10 @@ MageS.Game = function () {
     this.actionInProcess = false;
     /* CONFIG */
     this.fieldRadius = 5;
-    this.cellSize = 32;
-    this.itemSize = 34;
-    this.mageInventorySize = 7 * this.itemSize + 18;
+    this.cellSize = 1.6;
+    this.itemSize = 1.7;
+    this.rem = 20;
+    this.mageInventorySize = 7 * this.itemSize + 0.9;
     this.mageMobileInventorySize = 6 * this.itemSize;
     this.animationTime = 300;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
@@ -93,9 +94,36 @@ MageS.Game = function () {
                     });
                 });
                 break;
+            case 'mage-home':
+                this.initSVG(function(data) {
+                    // Get the SVG tag, ignore the rest
+                    MageS.Game.svg = jQuery(data).find('svg');
+                    MageS.Game.spellbook.buildSpells();
+                    MageS.Game.inventory.buildItems();
+                    MageS.Game.replaceMissingSvg();
+                    MageS.Game.updateHealth(MageS.Game.rawData.mage);
+                });
+                break;
             case 'battle':
 
-                this.initSVG();
+                this.initSVG(function(data) {
+                    // Get the SVG tag, ignore the rest
+                    MageS.Game.svg = jQuery(data).find('svg');
+                    MageS.Game.buildMap();
+                    MageS.Game.drawMage(MageS.Game.rawData.mage);
+                    MageS.Game.updateActions(MageS.Game.rawData.actions, true);
+                    MageS.Game.spellbook.buildSpells();
+                    MageS.Game.inventory.buildItems();
+                    MageS.Game.buildUnits();
+                    MageS.Game.replaceMissingSvg();
+                    MageS.Game.updateHealth(MageS.Game.rawData.mage);
+
+                    setTimeout(function() {$('.game-load-overlay').animate({'opacity':'0'}, {duration:1000,
+                        complete:function(){
+                            $(this).remove();
+                        }})}, 150);
+
+                });
 
                 this.configureKeys();
 
@@ -122,8 +150,6 @@ MageS.Game = function () {
             //    MageS.Game.toggleMageInfo();
             //});
             if (this.device !== 'pc') {
-                //$('.right-panel').append($('#mobile-control-field'));
-                //$('.right-panel').prepend($('.actions-container'));
                 this.spellbook.showSpellbook();
 
                 var hammertime = new Hammer(document.getElementById('battle-border'), {});
@@ -161,7 +187,7 @@ MageS.Game = function () {
     };
     this.swipeEnd = function (event) {
         if ($('#move-control-field').hasClass('disable')) { return false; }
-        if (event.distance < 25) { return false; }
+        if (event.distance < 20) { return false; }
         switch (event.additionalEvent) {
             case 'panup': MageS.Game.action('move-up'); break;
             case 'panright': MageS.Game.action('move-right'); break;
@@ -185,8 +211,6 @@ MageS.Game = function () {
             }
         }
     };
-
-
 
     this.action = function(action, data) {
         if (this.actionInProcess) {
@@ -364,7 +388,8 @@ MageS.Game = function () {
             $('.method-test-spell').on('click', function () {
                 MageS.Game.spells.isSecondPartWaiting = true;
                 MageS.Game.spells.currentSpellData = {'targetX': 4, 'targetY': -1};
-                MageS.Game.spells.startCast('Fireball');
+                //MageS.Game.spells.startCast('Fireball');
+                MageS.Game.spells.startCast('IceCrown');
             });
             $('#move-control-field .control-arrow').on('click', function () {
                 switch ($(this).data('d')) {
@@ -433,22 +458,9 @@ MageS.Game = function () {
     //    $('.mage-profile').addClass('active').fadeIn();
     //};
 
-    this.initSVG = function() {
+    this.initSVG = function(callback) {
         var url = '/images/game/mage/game-icons.svg';
-        jQuery.get(url, function(data) {
-            // Get the SVG tag, ignore the rest
-            MageS.Game.svg = jQuery(data).find('svg');
-            MageS.Game.buildMap();
-            MageS.Game.drawMage(MageS.Game.rawData.mage);
-            MageS.Game.updateActions(MageS.Game.rawData.actions, true);
-            MageS.Game.spellbook.buildSpells();
-            MageS.Game.inventory.buildItems();
-            MageS.Game.buildUnits();
-            MageS.Game.replaceMissingSvg();
-            MageS.Game.updateHealth(MageS.Game.rawData.mage);
-
-
-        }, 'xml');
+        jQuery.get(url, callback, 'xml');
     };
 
     this.replaceMissingSvg = function() {
@@ -480,8 +492,8 @@ MageS.Game = function () {
         var obj = $(rendered);
         $('.battle-field').append(obj);
         obj.css({
-            'margin-left' : (x * this.cellSize) + 'px',
-            'margin-top' : (y * this.cellSize) + 'px',
+            'margin-left' : (x * this.cellSize) + 'rem',
+            'margin-top' : (y * this.cellSize) + 'rem'
         })
     };
 
@@ -528,13 +540,20 @@ MageS.Game = function () {
     this.postMessages = function(messages) {
         for (var i in messages) {
             var message = messages[i];
-            this.postMessage(message);
+            this.postMessage(message.message, message.type, message.data);
         }
     };
-    this.postMessage = function (message) {
+    this.postMessage = function (message, type, data) {
         info(message);
-        if (message.type === undefined) {
-
+        if (type === undefined) {
+            type = 'chat';
+        }
+        if (type == 'chat') {
+            var temaplate = $('#template-chat-message').html();
+            Mustache.parse(temaplate);
+            var rendered = Mustache.render(temaplate, {'content': message, 'type': type});
+            var obj = $(rendered);
+            $('.bottom-panel .chat').append(obj);
         }
     };
 

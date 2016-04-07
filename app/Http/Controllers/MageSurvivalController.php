@@ -107,6 +107,9 @@ class MageSurvivalController extends BaseController
             case 'games.mageSurvival.mage-list':
                 $data['mages-types'] = \Config::get('mageSurvival.mages-types');
                 break;
+            case 'games.mageSurvival.mage-home':
+                $data = $game->getHomeData();
+                break;
             case 'games.mageSurvival.battle':
                 $data = $game->getData();
                 break;

@@ -58,9 +58,10 @@ MageS.Spellbook = function (game) {
                 isCreateHiddenDescription = true;
             }
         } else if(this.game.device == 'pc') {
-            isCastAllowed = true;
+            isCastAllowed = false;
+
         } else if(this.game.device == 'tablet') {
-            isCastAllowed = true;
+            isCastAllowed = false;
         }
         switch (spellType) {
             case 'noTargetSpell':
@@ -68,9 +69,11 @@ MageS.Spellbook = function (game) {
                     this.castSpellStart(spellEl, '{"id":"' + spellEl.data('id') + '"}');
                     spellEl.removeClass('active');
                 } else {
-                    this.turnOffPatterns();
-                    isAddCastToDescription = true;
-                    spellEl.addClass('active');
+                    if (this.checkForActiveSpells(spellEl)) {
+                        isAddCastToDescription = true;
+                        spellEl.addClass('active');
+                        this.activateSpellTooltipPermanent(spellEl);
+                    }
                 }
                 break;
             case 'directTargetSpell':
@@ -93,6 +96,10 @@ MageS.Spellbook = function (game) {
         if (isAddCastToDescription) {
             this.addCastToDescription(spellEl);
         }
+    };
+    this.spellCastClick = function() {
+        var spellEl = $('.spell.active');
+        this.castSpellStart(spellEl, '{"id":"' + spellEl.data('id') + '"}');
     };
 
     this.updateSpells = function(spells) {
@@ -259,8 +266,9 @@ MageS.Spellbook = function (game) {
         var activeSpell = $('.spell.active');
         if (activeSpell.length) {
             this.turnOffPatterns();
+            this.removePermanentTooltip();
             activeSpell.removeClass('active');
-            if (activeSpell.data('id') == spell.data('id')) {
+            if (spell && activeSpell.data('id') == spell.data('id')) {
                 return false;
             }
         }
@@ -275,6 +283,7 @@ MageS.Spellbook = function (game) {
         if (!this.checkForActiveSpells(spell)) {
             return;
         }
+        this.activateSpellTooltipPermanent(spell);
         spell.addClass('active');
         $('#move-control-field').addClass('disable');
         mageDirection = 0;
@@ -335,6 +344,7 @@ MageS.Spellbook = function (game) {
     };
 
     this.castSpellStart = function(spellEl, dataString) {
+        this.removePermanentTooltip();
         MageS.Game.action('spell', dataString);
         var spellName = spellEl.data('spell');
         this.game.spells.startCast(spellName);
@@ -344,6 +354,7 @@ MageS.Spellbook = function (game) {
         if (!this.checkForActiveSpells(spell)) {
             return;
         }
+        this.activateSpellTooltipPermanent(spell);
         spell.addClass('active');
         $('#move-control-field').addClass('disable');
 
@@ -359,18 +370,22 @@ MageS.Spellbook = function (game) {
     this.addSpellDescription = function(data, spell) {
         var temaplate = $('#template-spell-tooltip').html();
         Mustache.parse(temaplate);
+
         var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name, 'description' : data.viewData.description});
         var obj = $(rendered);
+        if (data.viewData.noTargetSpell !== undefined) {
+            obj.addClass('noTargetSpell');
+        }
         $('.tooltip-spell-area').append(obj);
         if (this.game.device == 'pc') {
             spell.on({
                 'mouseenter': function () {
                     var id = $(this).data('id');
-                    $('.tooltip-spell-area .spell-tooltip.id-' + id).show();
+                    $('.tooltip-spell-area .spell-tooltip.id-' + id).addClass('hover');
                 },
                 'mouseleave': function () {
                     var id = $(this).data('id');
-                    $('.tooltip-spell-area .spell-tooltip.id-' + id).hide();
+                    $('.tooltip-spell-area .spell-tooltip.id-' + id).removeClass('hover');
                 }
             });
         }
@@ -389,13 +404,30 @@ MageS.Spellbook = function (game) {
     this.toggleHiddenDescription = function() {
         if ($('#mobile-spell-info-container').hasClass('active')) {
             $('#mobile-spell-info-container').removeClass('active').animate({
-                'margin-left': - this.game.mageInventorySize + (1.5 * this.game.cellSize) + 'px'
+                'margin-left': - this.game.mageInventorySize + (1.5 * this.game.cellSize) + 'rem'
             }, {'easing': 'easeOutElastic'});
         } else if (!$('#mobile-spell-info-container').hasClass('active')) {
             $('#mobile-spell-info-container').addClass('active').animate({
-                'margin-left': '0px'
+                'margin-left': '0'
             }, {'easing': 'easeOutElastic'});
         }
+    };
+    this.activateSpellTooltipPermanent = function(spellEl) {
+        var id = spellEl.data('id');
+        $('.tooltip-spell-area .spell-tooltip.id-' + id).addClass('click');
+        var spellType = spellEl.data('spell-type');
+        switch (spellType) {
+            case 'noTargetSpell':
+
+                break;
+            case 'directTargetSpell':
+            case 'pattern':
+
+                break;
+        }
+    };
+    this.removePermanentTooltip = function() {
+        $('.spell-tooltip.click').removeClass('click');
     };
     this.addCastToDescription = function(spellEl) {
         var newCastButton = spellEl.find('.svg').clone().addClass('cast-button');
@@ -411,7 +443,7 @@ MageS.Spellbook = function (game) {
             return;
         }
         $('#mobile-spell-info-container').css({
-            'margin-left': - this.game.mageInventorySize + (1.5 * this.game.cellSize) + event.distance + 'px'
+            'margin-left': - this.game.mageInventorySize + (1.5 * this.game.cellSize) + (event.distance / this.game.rem) + 'rem'
         });
     };
     this.panMobileSpellDescriptionLeft = function (event) {
@@ -419,7 +451,7 @@ MageS.Spellbook = function (game) {
             return;
         }
         $('#mobile-spell-info-container').css({
-            'margin-left': - event.distance + 'px'
+            'margin-left': - (event.distance / this.game.rem) + 'rem'
         });
     };
 
@@ -438,6 +470,7 @@ MageS.Spellbook = function (game) {
     };
     this.hideSpellbook = function() {
         $('.spells-col').hide().removeClass('active');
+        this.removePermanentTooltip();
         this.turnOffPatterns();
     };
 

@@ -138,8 +138,8 @@ MageS.Animations = function (game) {
                 var obj = $(rendered);
                 newBattleField.append(obj);
                 obj.css({
-                    'margin-left' : (x * this.game.cellSize) + 'px',
-                    'margin-top' : (y * this.game.cellSize) + 'px',
+                    'margin-left' : (x * this.game.cellSize) + 'rem',
+                    'margin-top' : (y * this.game.cellSize) + 'rem'
                 });
             }
         }
@@ -161,17 +161,17 @@ MageS.Animations = function (game) {
         var baseMargin = this.game.fieldRadius * this.game.cellSize;
 
         newBattleField.css({
-            'margin-left': baseMargin + (newX - oldX) * this.game.cellSize + 'px',
-            'margin-top': baseMargin + (newY - oldY) * this.game.cellSize + 'px',
+            'margin-left': baseMargin + (newX - oldX) * this.game.cellSize + 'rem',
+            'margin-top': baseMargin + (newY - oldY) * this.game.cellSize + 'rem'
         });
         newBattleField.animate({
-            'margin-left': baseMargin + 'px',
-            'margin-top': baseMargin + 'px',
+            'margin-left': baseMargin + 'rem',
+            'margin-top': baseMargin + 'rem'
         }, {'duration': this.game.animationTime});
         var that = this;
         $('.battle-field.current').animate({
-            'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'px',
-            'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'px',
+            'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'rem',
+            'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'rem'
         }, {duration: (this.game.animationTime),
             complete:function(){
             $('.battle-field.current').remove();
@@ -235,12 +235,12 @@ MageS.Animations = function (game) {
         var cellToGo = $('.battle-field.current .cell.x-' + data.x + '.y-' + data.y);
         $('.unit-field').append(unit);
         unit.css({
-            'margin-left': oldX * this.game.cellSize + 'px',
-            'margin-top': oldY * this.game.cellSize + 'px'
+            'margin-left': oldX * this.game.cellSize + 'rem',
+            'margin-top': oldY * this.game.cellSize + 'rem'
         });
         unit.animate({
-            'margin-left' : data.x * this.game.cellSize + 'px',
-            'margin-top' : data.y * this.game.cellSize + 'px'
+            'margin-left' : data.x * this.game.cellSize + 'rem',
+            'margin-top' : data.y * this.game.cellSize + 'rem'
         }, {
             duration:this.animationTime,
             'complete': (function () {
@@ -250,8 +250,8 @@ MageS.Animations = function (game) {
                         return;
                     }
                     $(this).css({
-                        'margin-left' : '0px',
-                        'margin-top' : '0px'
+                        'margin-left' : '0',
+                        'margin-top' : '0'
                     });
                     cellToGo.append($(this));
 
@@ -306,12 +306,13 @@ MageS.Animations = function (game) {
             el.addClass('armor');
         }
         target.prepend(el);
+        var distanceInRem = 0.75;
         if (rand(0,1) == 1) {
-            var randX = 15;
-            var randY = rand(0, 15);
+            var randX = distanceInRem;
+            var randY = rand(0, distanceInRem);
         } else {
-            var randX = rand(0, 15);
-            var randY = 15;
+            var randX = rand(0, distanceInRem);
+            var randY = distanceInRem;
         }
         var y = parseInt(el.css('margin-top'));
         var x = parseInt(el.css('margin-left'));
@@ -326,7 +327,7 @@ MageS.Animations = function (game) {
             x -= randX;
         }
         el.animate(
-                {'margin-top':y + 'px','margin-left':x + 'px', opacity: 0.3},
+                {'margin-top':y + 'rem','margin-left':x + 'rem', opacity: 0.3},
                 {duration:300, complete:function() {
             $(this).remove();
             MageS.Game.animations.singleAnimationFinished();

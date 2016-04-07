@@ -2,17 +2,19 @@
 $cell_type_normal = 'normal';
 $cell_type_passage = 'passage';
 return array(
-    'game' => [
-        'screen-radius' => 5,
-        'active-units-radius' => 8,
-    ],
     'status-to-page' => [
         'game_init' => 'mage-list',
+        'mage_home' => 'mage-home',
         'mage_battle' => 'battle',
     ],
     'pages' => [
         'mage-list' => 'games.mageSurvival.mage-list',
+        'mage-home' => 'games.mageSurvival.mage-home',
         'battle' => 'games.mageSurvival.battle',
+    ],
+    'game' => [
+        'screen-radius' => 5,
+        'active-units-radius' => 8,
     ],
     'world-types' => [
         1 => 'Tutorial'

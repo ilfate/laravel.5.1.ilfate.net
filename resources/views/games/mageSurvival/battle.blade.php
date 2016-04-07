@@ -1,6 +1,8 @@
 @extends('games.mageSurvival.layout')
 
 @section('content')
+
+@include('games.mageSurvival.overlay-load')
 <div class="game-container" >
     <input type="hidden" id="game-status" value="battle" />
 
@@ -52,6 +54,9 @@
                 @include('games.mageSurvival.spells')
             </div>
         </div>
+    </div>
+    <div class="bottom-panel">
+        <div class="chat"></div>
     </div>
     @include('games.mageSurvival.mobile-controls')
 </div>

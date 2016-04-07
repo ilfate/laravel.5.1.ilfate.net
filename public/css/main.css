@@ -2960,269 +2960,22 @@ div.hex {
     color: #F0A830; }
 .mage-survival .large-text {
   font-size: 1.5rem; }
+.mage-survival .game-load-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #5E412F;
+  opacity: 1;
+  z-index: 98;
+  display: block; }
 .mage-survival #create-mage-pop-up {
   display: none; }
   .mage-survival #create-mage-pop-up .mage-name {
     display: none; }
   .mage-survival #create-mage-pop-up .single-mage-type a.submit {
     display: none; }
-.mage-survival .container.main {
-  position: relative;
-  padding: 0; }
-  @media (min-width: 992px) {
-    .mage-survival .container.main {
-      width: 992px; } }
-  .mage-survival .container.main .middle-panel {
-    float: left;
-    width: 100%;
-    height: 100%; }
-    .mage-survival .container.main .middle-panel .responsive-container {
-      margin: 0 auto;
-      width: 352px;
-      height: 352px; }
-    @media (min-width: 768px) {
-      .mage-survival .container.main .middle-panel {
-        width: 352px;
-        height: 352px; }
-        .mage-survival .container.main .middle-panel .responsive-container {
-          margin: 0;
-          width: auto;
-          height: auto; } }
-  .mage-survival .container.main .mage-info-panel {
-    float: left;
-    width: 100%;
-    height: 48px; }
-    .mage-survival .container.main .mage-info-panel .mage-profile {
-      width: 70%;
-      float: left; }
-    @media (min-width: 768px) {
-      .mage-survival .container.main .mage-info-panel {
-        width: 398px;
-        height: 96px;
-        padding-left: 15px; }
-        .mage-survival .container.main .mage-info-panel .mage-profile {
-          display: block;
-          float: none; } }
-    @media (min-width: 992px) {
-      .mage-survival .container.main .mage-info-panel {
-        width: 625px;
-        padding-left: 15px; } }
-  .mage-survival .container.main .actions-container {
-    float: left;
-    height: 48px;
-    width: auto; }
-    .mage-survival .container.main .actions-container .action {
-      float: left; }
-      .mage-survival .container.main .actions-container .action a {
-        width: 48px;
-        height: 48px;
-        display: block;
-        border: 1px solid #584D3D;
-        background-color: #5E412F; }
-        .mage-survival .container.main .actions-container .action a path {
-          fill: #FCEBB6; }
-        .mage-survival .container.main .actions-container .action a .text {
-          display: none; }
-        .mage-survival .container.main .actions-container .action a svg {
-          width: 48px;
-          height: 48px; }
-    @media (min-width: 768px) {
-      .mage-survival .container.main .actions-container {
-        float: none;
-        position: absolute;
-        z-index: 40;
-        width: 48px;
-        height: 192px;
-        right: 0;
-        margin-top: 64px;
-        margin-right: 24px; }
-        .mage-survival .container.main .actions-container .action {
-          margin: 2px 0;
-          float: none; } }
-    @media (min-width: 992px) {
-      .mage-survival .container.main .actions-container {
-        position: relative;
-        width: 100%;
-        height: 32px;
-        margin: 0; }
-        .mage-survival .container.main .actions-container .action {
-          float: left;
-          margin: 0 2px;
-          line-height: 1.1rem; }
-          .mage-survival .container.main .actions-container .action a {
-            width: auto;
-            height: auto;
-            display: inline;
-            font-size: 0.6rem;
-            cursor: pointer;
-            padding: 3px 6px;
-            text-decoration: none; }
-            .mage-survival .container.main .actions-container .action a:hover {
-              color: #FCEBB6;
-              border: 1px solid #F07818; }
-            .mage-survival .container.main .actions-container .action a svg {
-              display: none; }
-            .mage-survival .container.main .actions-container .action a .text {
-              display: inherit; } }
-  .mage-survival .container.main .right-panel {
-    float: left;
-    position: relative;
-    width: 100%; }
-    .mage-survival .container.main .right-panel .spells-items-row {
-      width: 70%;
-      margin-left: 15%; }
-      .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
-        display: none;
-        padding: 0; }
-    .mage-survival .container.main .right-panel #mobile-spell-info-container {
-      display: none;
-      position: absolute;
-      height: 256px;
-      width: 256px;
-      margin-left: -208px;
-      z-index: 60; }
-      .mage-survival .container.main .right-panel #mobile-spell-info-container .spell-tooltip {
-        height: 256px;
-        width: 256px;
-        display: block; }
-        .mage-survival .container.main .right-panel #mobile-spell-info-container .spell-tooltip:after {
-          content: "Drag me!";
-          display: block;
-          position: absolute;
-          right: -1.4rem;
-          -webkit-transform: rotate(-90deg);
-          -moz-transform: rotate(-90deg);
-          -o-transform: rotate(-90deg); }
-      .mage-survival .container.main .right-panel #mobile-spell-info-container.active .spell-tooltip:after {
-        opacity: 0.3; }
-      .mage-survival .container.main .right-panel #mobile-spell-info-container .svg.cast-button {
-        position: absolute;
-        right: 8px; }
-    .mage-survival .container.main .right-panel .interface-switch-panel {
-      width: 15%;
-      height: 144px;
-      right: 0;
-      position: absolute;
-      background-color: #FCEBB6; }
-      .mage-survival .container.main .right-panel .interface-switch-panel a {
-        display: block;
-        width: 48px;
-        height: 48px; }
-        .mage-survival .container.main .right-panel .interface-switch-panel a .svg-icon {
-          width: 48px;
-          height: 48px; }
-        .mage-survival .container.main .right-panel .interface-switch-panel a path {
-          fill: #5E412F; }
-    @media (min-width: 768px) {
-      .mage-survival .container.main .right-panel {
-        width: 398px;
-        height: 256px;
-        padding-left: 15px; }
-        .mage-survival .container.main .right-panel .spells-items-row {
-          margin-left: 0;
-          width: 100%; }
-          .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
-            margin-left: 32px; }
-        .mage-survival .container.main .right-panel .interface-switch-panel {
-          width: 32px;
-          height: 64px;
-          position: absolute;
-          margin-top: 192px;
-          z-index: 40;
-          right: auto; }
-          .mage-survival .container.main .right-panel .interface-switch-panel a {
-            width: 32px;
-            height: 32px; }
-            .mage-survival .container.main .right-panel .interface-switch-panel a .svg-icon {
-              width: 32px;
-              height: 32px; }
-          .mage-survival .container.main .right-panel .interface-switch-panel .toggle-mage-info {
-            display: none; } }
-    @media (min-width: 992px) {
-      .mage-survival .container.main .right-panel {
-        width: 625px;
-        padding-left: 15px; }
-        .mage-survival .container.main .right-panel .interface-switch-panel {
-          display: none; }
-        .mage-survival .container.main .right-panel .spells-items-row {
-          width: 100%; }
-          .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
-            display: block;
-            position: relative;
-            margin: 0; } }
-  .mage-survival .container.main .move-control-field-container {
-    position: absolute;
-    margin: 0 auto;
-    right: 0;
-    left: 0;
-    width: 96px;
-    height: 96px; }
-    @media (min-width: 768px) {
-      .mage-survival .container.main .move-control-field-container {
-        position: inherit;
-        margin: 0;
-        right: auto;
-        left: auto; } }
-  .mage-survival .container.main #move-control-field {
-    width: 96px;
-    height: 96px;
-    margin-top: 256px;
-    margin-left: 128px;
-    position: absolute;
-    z-index: 40;
-    opacity: 0.3;
-    background-color: #ffffff; }
-    .mage-survival .container.main #move-control-field.disable {
-      display: none; }
-    .mage-survival .container.main #move-control-field svg {
-      position: absolute; }
-      .mage-survival .container.main #move-control-field svg path {
-        fill: #584D3D; }
-    .mage-survival .container.main #move-control-field .control-arrow {
-      position: absolute;
-      width: 32px;
-      height: 32px;
-      display: block;
-      cursor: pointer; }
-    .mage-survival .container.main #move-control-field .top {
-      margin-left: 32px; }
-    .mage-survival .container.main #move-control-field .right {
-      margin-left: 64px;
-      margin-top: 32px; }
-    .mage-survival .container.main #move-control-field .bottom {
-      margin-top: 64px;
-      margin-left: 32px; }
-    .mage-survival .container.main #move-control-field .left {
-      margin-top: 32px; }
-    .mage-survival .container.main #move-control-field .button-key {
-      display: none; }
-    @media (min-width: 768px) {
-      .mage-survival .container.main #move-control-field {
-        margin-left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 1;
-        background-color: #529BCA; }
-        .mage-survival .container.main #move-control-field svg path {
-          fill: #ffffff; } }
-    @media (min-width: 992px) {
-      .mage-survival .container.main #move-control-field {
-        margin-top: 25.6px;
-        height: 64px;
-        bottom: auto; }
-        .mage-survival .container.main #move-control-field .button-key {
-          margin-top: 6px;
-          font-size: 0.7rem;
-          width: 32px;
-          text-align: center;
-          color: #529BCA;
-          display: block;
-          position: absolute; }
-        .mage-survival .container.main #move-control-field .bottom {
-          margin-top: 32px; } }
-  .mage-survival .container.main .svg-icon {
-    width: 32px;
-    height: 32px; }
 .mage-survival .tooltip-spell-area, .mage-survival .tooltip-helper-area {
   position: absolute;
   z-index: 80;
@@ -3233,136 +2986,26 @@ div.hex {
   display: none;
   position: absolute;
   background-color: #FCEBB6; }
+  .mage-survival .item-tooltip .close, .mage-survival .spell-tooltip .close {
+    display: none; }
+  .mage-survival .item-tooltip .cast-button.text, .mage-survival .spell-tooltip .cast-button.text {
+    display: none; }
+  .mage-survival .item-tooltip.hover, .mage-survival .spell-tooltip.hover {
+    display: block; }
+  .mage-survival .item-tooltip.click, .mage-survival .spell-tooltip.click {
+    display: block; }
+    .mage-survival .item-tooltip.click .close, .mage-survival .spell-tooltip.click .close {
+      display: block; }
+    .mage-survival .item-tooltip.click.noTargetSpell .cast-button.text, .mage-survival .spell-tooltip.click.noTargetSpell .cast-button.text {
+      display: block; }
 .mage-survival .tooltip-helper-area .item-tooltip {
-  margin: 64px 0 0 64px;
-  width: 224px;
-  height: 224px;
+  margin: 3.2rem 0 0 3.2rem;
+  width: 11.2rem;
+  height: 11.2rem;
   opacity: 0.9; }
 .mage-survival .tooltip-spell-area .spell-tooltip {
-  height: 256px;
-  width: 256px; }
-.mage-survival .battle-border {
-  float: left;
-  width: 352px;
-  height: 352px;
-  border: 1px solid chocolate;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 5px 5px 15px #27c877, -5px -5px 15px #27c877; }
-  .mage-survival .battle-border.action {
-    box-shadow: 5px 5px 15px #b6bd37, -5px -5px 15px #b6bd37; }
-  .mage-survival .battle-border .mage-container {
-    position: absolute;
-    margin: 160px 0 0 160px; }
-    .mage-survival .battle-border .mage-container .mage {
-      position: absolute;
-      width: 32px;
-      height: 32px;
-      z-index: 35;
-      background-image: url("/images/game/mage/mage.png"); }
-      .mage-survival .battle-border .mage-container .mage.d-1 {
-        -webkit-transform: rotate(90deg);
-        -moz-transform: rotate(90deg);
-        -o-transform: rotate(90deg); }
-      .mage-survival .battle-border .mage-container .mage.d-2 {
-        -webkit-transform: rotate(180deg);
-        -moz-transform: rotate(180deg);
-        -o-transform: rotate(180deg); }
-      .mage-survival .battle-border .mage-container .mage.d-3 {
-        -webkit-transform: rotate(270deg);
-        -moz-transform: rotate(270deg);
-        -o-transform: rotate(270deg); }
-  .mage-survival .battle-border .animation-field {
-    opacity: 1;
-    position: absolute;
-    overflow: visible;
-    margin: 160px 0 0 160px; }
-    .mage-survival .battle-border .animation-field .animation {
-      overflow: visible;
-      opacity: 1;
-      position: absolute;
-      z-index: 90; }
-      .mage-survival .battle-border .animation-field .animation .circle {
-        overflow: visible; }
-    .mage-survival .battle-border .animation-field svg {
-      overflow: visible; }
-  .mage-survival .battle-border .unit {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    z-index: 35; }
-  .mage-survival .battle-border .damage {
-    position: absolute;
-    z-index: 80;
-    font-size: 0.8rem;
-    text-shadow: 1px 1px #FCEBB6;
-    padding: 0 3px;
-    color: #FF8360;
-    margin-top: 6.4px;
-    margin-left: 6.4px; }
-    .mage-survival .battle-border .damage.heal {
-      color: #069E2D; }
-    .mage-survival .battle-border .damage.armor {
-      color: #F0A830; }
-.mage-survival .battle-field {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  position: absolute;
-  margin: 160px 0 0 160px;
-  width: 192px;
-  height: 192px;
-  background-color: cornsilk; }
-  .mage-survival .battle-field.current {
-    z-index: 25; }
-  .mage-survival .battle-field.new {
-    z-index: 20; }
-  .mage-survival .battle-field .cell {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    z-index: 30;
-    overflow: visible;
-    background-color: black; }
-  .mage-survival .battle-field .object {
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    z-index: 33; }
-.mage-survival .unit-field {
-  position: absolute;
-  margin: 160px 0 0 160px;
-  width: 192px;
-  height: 192px; }
-.mage-survival .battle-border.Tutorial .cell.bl {
-  background-color: darkgrey; }
-.mage-survival .battle-border.Tutorial .cell.f1 {
-  background-color: green; }
-.mage-survival .battle-border.Tutorial .cell.f2 {
-  background-color: darkolivegreen; }
-.mage-survival .battle-border.Tutorial .cell.f3 {
-  background-color: lawngreen; }
-.mage-survival .battle-border.Tutorial .cell.s {
-  background-color: grey; }
-.mage-survival .pattern-field {
-  position: absolute; }
-  .mage-survival .pattern-field .pattern-cell {
-    border-radius: 2px;
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    z-index: 25;
-    background-color: #770000;
-    opacity: 0; }
-    .mage-survival .pattern-field .pattern-cell.visible {
-      z-index: 45;
-      opacity: 0.4; }
-    .mage-survival .pattern-field .pattern-cell.active {
-      z-index: 45;
-      opacity: 0.7; }
+  height: 12.8rem;
+  width: 12.8rem; }
 .mage-survival .mage-profile .progress-bar-success {
   min-width: 1.5rem;
   background-color: #069E2D; }
@@ -3383,27 +3026,27 @@ div.hex {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  height: 204px;
+  height: 10.2rem;
   width: 100%;
   background-color: #FCEBB6; }
   .mage-survival .inventory.craft {
     position: absolute;
     z-index: 71; }
   .mage-survival .inventory .items-filters-panel {
-    border-bottom: 1px solid #5E412F; }
+    border-bottom: 0.05rem solid #5E412F; }
   .mage-survival .inventory .items-filter {
     cursor: pointer;
     opacity: 0.5; }
     .mage-survival .inventory .items-filter.active {
       opacity: 1; }
-  @media (min-width: 768px) {
+  @media (min-width: 38.4rem) {
     .mage-survival .inventory {
-      height: 256px;
-      width: 256px; } }
+      height: 12.8rem;
+      width: 12.8rem; } }
 .mage-survival .items .item {
   float: left;
-  width: 34px;
-  height: 34px;
+  width: 1.7rem;
+  height: 1.7rem;
   position: relative;
   text-align: left; }
   .mage-survival .items .item.filtered-out {
@@ -3412,19 +3055,19 @@ div.hex {
     position: absolute; }
   .mage-survival .items .item .value {
     position: absolute;
-    font-size: 10px;
+    font-size: 0.5rem;
     background-color: #FCEBB6;
     color: #5E412F;
-    padding-left: 2px;
-    padding-right: 2px; }
+    padding-left: 0.1rem;
+    padding-right: 0.1rem; }
   .mage-survival .items .item .craft-value {
     display: none;
     position: absolute;
-    font-size: 10px;
+    font-size: 0.5rem;
     background-color: #529BCA;
     color: #ffffff;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
     bottom: 0;
     right: 0; }
     .mage-survival .items .item .craft-value.active {
@@ -3436,11 +3079,11 @@ div.hex {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  height: 204px;
+  height: 10.2rem;
   width: 100%;
   background-color: #FCEBB6; }
   .mage-survival .spellBook .spells-filter-panel {
-    border-bottom: 1px solid #5E412F; }
+    border-bottom: 0.05rem solid #5E412F; }
   .mage-survival .spellBook .spell-filter {
     cursor: pointer;
     opacity: 0.5; }
@@ -3448,61 +3091,91 @@ div.hex {
       opacity: 1; }
   .mage-survival .spellBook .spells .spell {
     float: left;
-    width: 34px;
-    height: 34px; }
+    width: 1.7rem;
+    height: 1.7rem; }
     .mage-survival .spellBook .spells .spell.filtered-out {
       display: none; }
     .mage-survival .spellBook .spells .spell.cooldown path {
       fill: #CCC; }
     .mage-survival .spellBook .spells .spell .value {
       position: absolute;
-      font-size: 10px;
+      font-size: 0.5rem;
       background-color: #FCEBB6;
       color: #5E412F;
-      padding-left: 2px;
-      padding-right: 2px; }
+      padding-left: 0.1rem;
+      padding-right: 0.1rem; }
     .mage-survival .spellBook .spells .spell svg {
       position: absolute; }
-  @media (min-width: 768px) {
+  @media (min-width: 38.4rem) {
     .mage-survival .spellBook {
-      width: 256px;
-      height: 256px; } }
+      width: 12.8rem;
+      height: 12.8rem; } }
+.mage-survival .bottom-panel .chat {
+  border: 0.05rem solid #529BCA;
+  background-color: antiquewhite; }
+.mage-survival #mobile-spell-info-container {
+  display: none;
+  position: absolute;
+  height: 12.8rem;
+  width: 12.8rem;
+  margin-left: -10.4rem;
+  z-index: 60; }
+  .mage-survival #mobile-spell-info-container .spell-tooltip {
+    height: 12.8rem;
+    width: 12.8rem;
+    display: block; }
+    .mage-survival #mobile-spell-info-container .spell-tooltip:after {
+      content: "Drag me!";
+      display: block;
+      position: absolute;
+      right: -1.4rem;
+      -webkit-transform: rotate(-90deg);
+      -moz-transform: rotate(-90deg);
+      -o-transform: rotate(-90deg); }
+  .mage-survival #mobile-spell-info-container.active .spell-tooltip:after {
+    opacity: 0.3; }
+  .mage-survival #mobile-spell-info-container .svg.cast-button {
+    position: absolute;
+    right: 0.4rem; }
 .mage-survival .craft-spell-overlay {
   position: absolute;
   z-index: 60;
-  font-size: 13px;
+  font-size: 0.65rem;
   width: 100%; }
   .mage-survival .craft-spell-overlay .alert {
-    padding: 2px; }
+    padding: 0.1rem; }
   .mage-survival .craft-spell-overlay .helper-spell-craft-step-1, .mage-survival .craft-spell-overlay .helper-spell-craft-step-2, .mage-survival .craft-spell-overlay .spell-craft-info {
     background-color: #529BCA;
     color: #ffffff;
     position: absolute;
     width: 100%;
-    height: 34px;
+    height: 1.7rem;
     text-align: center; }
   .mage-survival .craft-spell-overlay .spell-craft-info .text-1 {
-    height: 37.4px; }
-    @media (min-width: 768px) {
+    height: 1.87rem; }
+    @media (min-width: 38.4rem) {
       .mage-survival .craft-spell-overlay .spell-craft-info .text-1 {
-        height: 51px; } }
+        height: 2.55rem; } }
   .mage-survival .craft-spell-overlay .spell-craft-info .craft-items {
-    height: 37.4px;
+    height: 1.87rem;
     margin: 0 auto; }
-    @media (min-width: 768px) {
+    @media (min-width: 38.4rem) {
       .mage-survival .craft-spell-overlay .spell-craft-info .craft-items {
-        height: 51px; } }
+        height: 2.55rem; } }
   .mage-survival .craft-spell-overlay .spell-craft-info .text-2 {
-    height: 79.2px;
+    height: 3.96rem;
     padding: 0 1rem;
-    font-size: 11px; }
-    @media (min-width: 768px) {
+    font-size: 0.55rem; }
+    @media (min-width: 38.4rem) {
       .mage-survival .craft-spell-overlay .spell-craft-info .text-2 {
-        height: 113.2px; } }
+        height: 5.66rem; } }
 .mage-survival .item svg.svg-icon, .mage-survival .spell svg.svg-icon {
   opacity: 0.9; }
 .mage-survival .item:hover svg.svg-icon, .mage-survival .spell:hover svg.svg-icon {
   opacity: 1; }
+.mage-survival .svg-icon {
+  width: 1.6rem;
+  height: 1.6rem; }
 .mage-survival div.svg {
   display: inline; }
 .mage-survival .item svg.svg-icon path {
@@ -3519,6 +3192,8 @@ div.hex {
   fill: #5E412F; }
 .mage-survival .color-clay svg.svg-icon path {
   fill: #FCEBB6; }
+.mage-survival .color-white svg.svg-icon path {
+  fill: #ffffff; }
 .mage-survival .svg.rotate-90 svg {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -3533,6 +3208,372 @@ div.hex {
   -o-transform: rotate(270deg); }
 .mage-survival svg {
   overflow: visible; }
+
+/* COLOR PALLETE */
+.mage-survival .battle-border {
+  float: left;
+  width: 17.6rem;
+  height: 17.6rem;
+  border: 0.05rem solid chocolate;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0.25rem 0.25rem 0.75rem #27c877, -0.25rem -0.25rem 0.75rem #27c877; }
+  .mage-survival .battle-border.action {
+    box-shadow: 0.25rem 0.25rem 0.75rem #b6bd37, -0.25rem -0.25rem 0.75rem #b6bd37; }
+  .mage-survival .battle-border .mage-container {
+    position: absolute;
+    margin: 8rem 0 0 8rem; }
+    .mage-survival .battle-border .mage-container .mage {
+      position: absolute;
+      width: 1.6rem;
+      height: 1.6rem;
+      z-index: 35;
+      background-image: url("/images/game/mage/mage.png"); }
+      .mage-survival .battle-border .mage-container .mage.d-1 {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg); }
+      .mage-survival .battle-border .mage-container .mage.d-2 {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -o-transform: rotate(180deg); }
+      .mage-survival .battle-border .mage-container .mage.d-3 {
+        -webkit-transform: rotate(270deg);
+        -moz-transform: rotate(270deg);
+        -o-transform: rotate(270deg); }
+  .mage-survival .battle-border .animation-field {
+    opacity: 1;
+    position: absolute;
+    overflow: visible;
+    margin: 8rem 0 0 8rem; }
+    .mage-survival .battle-border .animation-field .animation {
+      overflow: visible;
+      opacity: 1;
+      position: absolute;
+      z-index: 90; }
+      .mage-survival .battle-border .animation-field .animation .circle {
+        overflow: visible; }
+    .mage-survival .battle-border .animation-field .animation-centred-block {
+      margin: 0.8rem 0 0 0.8rem;
+      position: absolute; }
+    .mage-survival .battle-border .animation-field svg {
+      overflow: visible; }
+  .mage-survival .battle-border .unit {
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    z-index: 35; }
+  .mage-survival .battle-border .damage {
+    position: absolute;
+    z-index: 80;
+    font-size: 0.8rem;
+    text-shadow: 0.05rem 0.05rem #FCEBB6;
+    padding: 0 0.15rem;
+    color: #FF8360;
+    margin-top: 0.32rem;
+    margin-left: 0.32rem; }
+    .mage-survival .battle-border .damage.heal {
+      color: #069E2D; }
+    .mage-survival .battle-border .damage.armor {
+      color: #F0A830; }
+.mage-survival .battle-field {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: absolute;
+  margin: 8rem 0 0 8rem;
+  width: 9.6rem;
+  height: 9.6rem;
+  background-color: cornsilk; }
+  .mage-survival .battle-field.current {
+    z-index: 25; }
+  .mage-survival .battle-field.new {
+    z-index: 20; }
+  .mage-survival .battle-field .cell {
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    z-index: 30;
+    overflow: visible;
+    background-color: black; }
+  .mage-survival .battle-field .object {
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    z-index: 33; }
+.mage-survival .unit-field {
+  position: absolute;
+  margin: 8rem 0 0 8rem;
+  width: 9.6rem;
+  height: 9.6rem; }
+.mage-survival .battle-border.Tutorial .cell.bl {
+  background-color: darkgrey; }
+.mage-survival .battle-border.Tutorial .cell.f1 {
+  background-color: green; }
+.mage-survival .battle-border.Tutorial .cell.f2 {
+  background-color: darkolivegreen; }
+.mage-survival .battle-border.Tutorial .cell.f3 {
+  background-color: lawngreen; }
+.mage-survival .battle-border.Tutorial .cell.s {
+  background-color: grey; }
+.mage-survival .pattern-field {
+  position: absolute; }
+  .mage-survival .pattern-field .pattern-cell {
+    border-radius: 0.1rem;
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    z-index: 25;
+    background-color: #770000;
+    opacity: 0; }
+    .mage-survival .pattern-field .pattern-cell.visible {
+      z-index: 45;
+      opacity: 0.4; }
+    .mage-survival .pattern-field .pattern-cell.active {
+      z-index: 45;
+      opacity: 0.7; }
+
+/* COLOR PALLETE */
+.mage-survival .container.main {
+  position: relative;
+  padding: 0; }
+  @media (min-width: 49.6rem) {
+    .mage-survival .container.main {
+      width: 49.6rem; } }
+  .mage-survival .container.main .middle-panel {
+    float: left;
+    width: 100%;
+    height: 100%; }
+    .mage-survival .container.main .middle-panel .responsive-container {
+      margin: 0 auto;
+      width: 17.6rem;
+      height: 17.6rem; }
+    @media (min-width: 38.4rem) {
+      .mage-survival .container.main .middle-panel {
+        width: 17.6rem;
+        height: 17.6rem; }
+        .mage-survival .container.main .middle-panel .responsive-container {
+          margin: 0;
+          width: auto;
+          height: auto; } }
+  .mage-survival .container.main .mage-info-panel {
+    float: left;
+    width: 100%;
+    height: 2.4rem; }
+    .mage-survival .container.main .mage-info-panel .mage-profile {
+      width: 70%;
+      float: left; }
+    @media (min-width: 38.4rem) {
+      .mage-survival .container.main .mage-info-panel {
+        width: 19.9rem;
+        height: 4.8rem;
+        padding-left: 0.75rem; }
+        .mage-survival .container.main .mage-info-panel .mage-profile {
+          display: block;
+          float: none; } }
+    @media (min-width: 49.6rem) {
+      .mage-survival .container.main .mage-info-panel {
+        width: 31.25rem;
+        padding-left: 0.75rem; } }
+  .mage-survival .container.main .actions-container {
+    float: left;
+    height: 2.4rem;
+    width: auto; }
+    .mage-survival .container.main .actions-container .action {
+      float: left; }
+      .mage-survival .container.main .actions-container .action a {
+        width: 2.4rem;
+        height: 2.4rem;
+        display: block;
+        border: 0.05rem solid #584D3D;
+        background-color: #5E412F; }
+        .mage-survival .container.main .actions-container .action a path {
+          fill: #FCEBB6; }
+        .mage-survival .container.main .actions-container .action a .text {
+          display: none; }
+        .mage-survival .container.main .actions-container .action a svg {
+          width: 2.4rem;
+          height: 2.4rem; }
+    @media (min-width: 38.4rem) {
+      .mage-survival .container.main .actions-container {
+        float: none;
+        position: absolute;
+        z-index: 40;
+        width: 2.4rem;
+        height: 9.6rem;
+        right: 0;
+        margin-top: 3.2rem;
+        margin-right: 1.2rem; }
+        .mage-survival .container.main .actions-container .action {
+          margin: 0.1rem 0;
+          float: none; } }
+    @media (min-width: 49.6rem) {
+      .mage-survival .container.main .actions-container {
+        position: relative;
+        width: 100%;
+        height: 1.6rem;
+        margin: 0; }
+        .mage-survival .container.main .actions-container .action {
+          float: left;
+          margin: 0 0.1rem;
+          line-height: 1.1rem; }
+          .mage-survival .container.main .actions-container .action a {
+            width: auto;
+            height: auto;
+            display: inline;
+            font-size: 0.6rem;
+            cursor: pointer;
+            padding: 0.15rem 0.3rem;
+            text-decoration: none; }
+            .mage-survival .container.main .actions-container .action a:hover {
+              color: #FCEBB6;
+              border: 0.05rem solid #F07818; }
+            .mage-survival .container.main .actions-container .action a svg {
+              display: none; }
+            .mage-survival .container.main .actions-container .action a .text {
+              display: inherit; } }
+  .mage-survival .container.main .right-panel {
+    float: left;
+    position: relative;
+    width: 100%; }
+    .mage-survival .container.main .right-panel .spells-items-row {
+      width: 70%;
+      margin-left: 15%; }
+      .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
+        display: none;
+        padding: 0; }
+    .mage-survival .container.main .right-panel .interface-switch-panel {
+      width: 15%;
+      height: 7.2rem;
+      right: 0;
+      position: absolute;
+      background-color: #FCEBB6; }
+      .mage-survival .container.main .right-panel .interface-switch-panel a {
+        display: block;
+        width: 2.4rem;
+        height: 2.4rem; }
+        .mage-survival .container.main .right-panel .interface-switch-panel a .svg-icon {
+          width: 2.4rem;
+          height: 2.4rem; }
+        .mage-survival .container.main .right-panel .interface-switch-panel a path {
+          fill: #5E412F; }
+    @media (min-width: 38.4rem) {
+      .mage-survival .container.main .right-panel {
+        width: 19.9rem;
+        height: 12.8rem;
+        padding-left: 0.75rem; }
+        .mage-survival .container.main .right-panel .spells-items-row {
+          margin-left: 0;
+          width: 100%; }
+          .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
+            margin-left: 1.6rem; }
+        .mage-survival .container.main .right-panel .interface-switch-panel {
+          width: 1.6rem;
+          height: 3.2rem;
+          position: absolute;
+          margin-top: 9.6rem;
+          z-index: 40;
+          right: auto; }
+          .mage-survival .container.main .right-panel .interface-switch-panel a {
+            width: 1.6rem;
+            height: 1.6rem; }
+            .mage-survival .container.main .right-panel .interface-switch-panel a .svg-icon {
+              width: 1.6rem;
+              height: 1.6rem; }
+          .mage-survival .container.main .right-panel .interface-switch-panel .toggle-mage-info {
+            display: none; } }
+    @media (min-width: 49.6rem) {
+      .mage-survival .container.main .right-panel {
+        width: 31.25rem;
+        padding-left: 0.75rem; }
+        .mage-survival .container.main .right-panel .interface-switch-panel {
+          display: none; }
+        .mage-survival .container.main .right-panel .spells-items-row {
+          width: 100%; }
+          .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
+            display: block;
+            position: relative;
+            margin: 0; } }
+  .mage-survival .container.main .move-control-field-container {
+    position: absolute;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+    width: 4.8rem;
+    height: 4.8rem; }
+    @media (min-width: 38.4rem) {
+      .mage-survival .container.main .move-control-field-container {
+        position: inherit;
+        margin: 0;
+        right: auto;
+        left: auto; } }
+  .mage-survival .container.main #move-control-field {
+    width: 4.8rem;
+    height: 4.8rem;
+    margin-top: 12.8rem;
+    margin-left: 6.4rem;
+    position: absolute;
+    z-index: 40;
+    opacity: 0.3;
+    background-color: #ffffff; }
+    .mage-survival .container.main #move-control-field.disable {
+      display: none; }
+    .mage-survival .container.main #move-control-field svg {
+      position: absolute; }
+      .mage-survival .container.main #move-control-field svg path {
+        fill: #584D3D; }
+    .mage-survival .container.main #move-control-field .control-arrow {
+      position: absolute;
+      width: 1.6rem;
+      height: 1.6rem;
+      display: block;
+      cursor: pointer; }
+    .mage-survival .container.main #move-control-field .top {
+      margin-left: 1.6rem; }
+    .mage-survival .container.main #move-control-field .right {
+      margin-left: 3.2rem;
+      margin-top: 1.6rem; }
+    .mage-survival .container.main #move-control-field .bottom {
+      margin-top: 3.2rem;
+      margin-left: 1.6rem; }
+    .mage-survival .container.main #move-control-field .left {
+      margin-top: 1.6rem; }
+    .mage-survival .container.main #move-control-field .button-key {
+      display: none; }
+    @media (min-width: 38.4rem) {
+      .mage-survival .container.main #move-control-field {
+        margin-left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 1;
+        background-color: #529BCA; }
+        .mage-survival .container.main #move-control-field svg path {
+          fill: #ffffff; } }
+    @media (min-width: 49.6rem) {
+      .mage-survival .container.main #move-control-field {
+        margin-top: 1.28rem;
+        height: 3.2rem;
+        bottom: auto; }
+        .mage-survival .container.main #move-control-field .button-key {
+          margin-top: 0.3rem;
+          font-size: 0.7rem;
+          width: 1.6rem;
+          text-align: center;
+          color: #529BCA;
+          display: block;
+          position: absolute; }
+        .mage-survival .container.main #move-control-field .bottom {
+          margin-top: 1.6rem; } }
+  .mage-survival .container.main .bottom-panel {
+    width: 100%;
+    float: left; }
+    .mage-survival .container.main .bottom-panel .chat {
+      margin: 0.25rem 5% 0 5%;
+      width: 90%;
+      height: "9.6rem"; }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 i.rpg-icon-small {

@@ -1,0 +1,273 @@
+/* COLOR PALLETE */
+
+.mage-survival {
+
+    .container.main{
+        position: relative;
+        padding:0;
+        @media (min-width: $screen-md-min + rem) {
+            width: $screen-md-min + rem;
+        }
+        .middle-panel {
+            float:left;
+            width:100%;
+            height:100%;
+            .responsive-container {
+                margin: 0 auto;
+                width:$battlefield-size + rem;
+                height:$battlefield-size + rem;
+            }
+            @media (min-width: $screen-sm-min + rem) {
+                width:$battlefield-size + rem;
+                height:$battlefield-size + rem;
+                .responsive-container {
+                    margin: 0;
+                    width: auto;
+                    height: auto;
+                }
+            }
+            @media (min-width: $screen-md-min + rem) {
+            }
+        }
+        .mage-info-panel {
+            float: left;
+            width: 100%;
+            height: 1.5 * $cell-size + rem;
+            .mage-profile {
+                width:70%;
+                float:left;
+            }
+            @media (min-width: $screen-sm-min + rem) {
+                width: $area-size-sm-min - $battlefield-size + rem;
+                height: 3 * $cell-size + rem;
+                padding-left: 0.75rem;
+                .mage-profile {
+                    display: block;
+                    float: none;
+                }
+            }
+            @media (min-width: $screen-md-min + rem) {
+                width: $screen-md-min - $battlefield-size - 0.75 + rem;
+                padding-left: 0.75rem;
+            }
+        }
+        .actions-container {
+            float:left;
+            height: 1.5 * $cell-size + rem;
+            width: auto;
+            .action {
+                float: left;
+                a {
+                    width: 1.5 * $cell-size + rem;
+                    height: 1.5 * $cell-size + rem;
+                    display: block;
+                    border: 0.05rem solid $mage-colors-black;
+                    background-color: $mage-colors-brown;
+                    path { fill:$mage-colors-clay }
+                    .text { display: none; }
+                    svg {
+                        width: 1.5 * $cell-size + rem;
+                        height: 1.5 * $cell-size + rem;
+                    }
+                }
+            }
+            @media (min-width: $screen-sm-min + rem) {
+                float: none;
+                position: absolute;
+                z-index: 40;
+                width: 1.5 * $cell-size + rem;
+                height: 6 * $cell-size + rem;
+                right: 0;
+                margin-top: 2 * $cell-size + rem;
+                margin-right: 0.75 * $cell-size + rem;
+                .action { margin: 0.1rem 0; float: none; }
+            }
+            @media (min-width: $screen-md-min + rem) {
+                position: relative;
+                width: 100%;
+                height: 1 * $cell-size + rem;
+                margin:0;
+                .action {
+                    float:left;
+                    margin: 0 0.1rem;
+                    line-height: 1.1rem;
+                    a {
+                        width:auto;
+                        height: auto;
+                        display: inline;
+                        font-size: 0.6rem;
+                        cursor: pointer;
+                        padding: 0.15rem 0.3rem;
+                        text-decoration: none;
+                        &:hover {
+                            color: $mage-colors-clay;
+                            border: 0.05rem solid $mage-colors-orange;
+                        }
+                        svg { display: none; }
+                        .text { display: inherit; }
+                    }
+                }
+            }
+        }
+
+        .right-panel {
+            float:left;
+            position: relative;
+            width:100%;
+            .spells-items-row {
+                width:70%;
+                margin-left: 15%;
+                .items-col, .spells-col {
+                    display: none;
+                    padding: 0;
+                }
+            }
+            .interface-switch-panel {
+                width:15%;
+                height: 3 * $mobile-item-size + rem;
+                right: 0;
+                position: absolute;
+                background-color: $mage-colors-clay;
+                a {
+                    display: block;
+                    width: $mobile-item-size + rem;
+                    height: $mobile-item-size + rem;
+
+                    .svg-icon {
+                        width: $mobile-item-size + rem;
+                        height: $mobile-item-size + rem;
+                    }
+                    path {
+                        fill: $mage-colors-brown;
+                    }
+                }
+            }
+            @media (min-width: $screen-sm-min + rem) {
+                width:$area-size-sm-min - $battlefield-size + rem;
+                height: $battlefield-size - (3 * $cell-size) + rem;
+                padding-left: 0.75rem;
+                .spells-items-row {
+                    margin-left: 0;
+                    width:100%;
+                    .items-col, .spells-col {
+                        margin-left:$cell-size + rem;
+                    }
+                }
+                .interface-switch-panel {
+                    width: 1 * $cell-size + rem;
+                    height: 2 * $cell-size + rem;
+                    position: absolute;
+                    margin-top: 6 * $cell-size + rem;
+                    z-index: 40;
+                    right: auto;
+                    a {
+                        width: $cell-size + rem;
+                        height: $cell-size + rem;
+                        .svg-icon {
+                            width: $cell-size + rem;
+                            height: $cell-size + rem;
+                        }
+                    }
+                    .toggle-mage-info {
+                        display: none;
+                    }
+                }
+
+            }
+            @media (min-width: $screen-md-min + rem) {
+                width: $screen-md-min - $battlefield-size - 0.75 + rem;
+                padding-left: 0.75rem;
+                .interface-switch-panel {
+                    display: none;
+                }
+                .spells-items-row {
+                    width:100%;
+                    .items-col, .spells-col {
+                        display: block;
+                        position: relative;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+        .move-control-field-container {
+            position: absolute;
+            margin: 0 auto;
+            right: 0;
+            left:0;
+            width: 3 * $cell-size + rem;
+            height: 3 * $cell-size + rem;
+            @media (min-width: $screen-sm-min + rem) {
+                position: inherit;
+                margin: 0;
+                right: auto;
+                left: auto;
+            }
+        }
+        #move-control-field {
+            width: 3 * $cell-size + rem;
+            height: 3 * $cell-size + rem;
+            margin-top: 8 * $cell-size + rem;
+            margin-left: 4 * $cell-size + rem;
+            position: absolute;
+            z-index: 40;
+            opacity: 0.3;
+            background-color: $mage-colors-white;
+            &.disable {
+                display: none;
+            }
+            svg {
+                position: absolute;
+                path { fill: $mage-colors-black; }
+            }
+            .control-arrow {
+                position: absolute;
+                width: $cell-size + rem;
+                height: $cell-size + rem;
+                display: block;
+                cursor: pointer;
+            }
+            .top { margin-left: $cell-size + rem; }
+            .right { margin-left:2 * $cell-size + rem; margin-top: $cell-size + rem; }
+            .bottom { margin-top: 2 * $cell-size + rem; margin-left: $cell-size + rem; }
+            .left { margin-top: $cell-size + rem; }
+            .button-key { display:none; }
+
+            @media (min-width: $screen-sm-min + rem) {
+                margin-left: 0;
+                right:0;
+                bottom: 0;
+                opacity: 1;
+                background-color: $mage-colors-blue;
+                svg path {
+                    fill: $mage-colors-white;
+                }
+            }
+            @media (min-width: $screen-md-min + rem) {
+                margin-top: 0.8 * $cell-size + rem;
+                height: 2 * $cell-size + rem;
+                bottom: auto;
+                .button-key {
+                    margin-top: 0.3rem;
+                    font-size: 0.7rem;
+                    width: $cell-size + rem;
+                    text-align: center;
+                    color: $mage-colors-blue;
+                    display:block;
+                    position: absolute;
+                }
+                .bottom {margin-top: 1 * $cell-size + rem; }
+            }
+        }
+        .bottom-panel {
+            width: 100%;
+            float: left;
+            .chat {
+                margin: 0.25rem 5% 0 5%;
+                width:90%;
+                height: $cell-size * 6 + 'rem';
+            }
+        }
+    }
+}
+
