@@ -14,6 +14,8 @@
                 <div class="battle-field current"></div>
                 <div class="unit-field"></div>
                 <div class="animation-field"></div>
+                <div class="dialog-field"></div>
+
 
             </div>
             <div class="tooltip-helper-area"></div>
@@ -38,14 +40,15 @@
                     </svg>
                 </div>
             </a>
-            <a class="toggle-mage-info">
-                <div class="svg svg-replace" data-svg="icon-think">
+            <a class="toggle-chat">
+                <div class="svg svg-replace" data-svg="icon-conversation">
                     <svg class="svg-icon" viewBox="0 0 512 512">
                     </svg>
                 </div>
             </a>
         </div>
         <div id="mobile-spell-info-container"></div>
+
         <div class="row spells-items-row">
             <div class="col-md-6 items-col">
                 @include('games.mageSurvival.items')
@@ -55,9 +58,26 @@
             </div>
         </div>
     </div>
-    <div class="bottom-panel">
+    @include('games.mageSurvival.mobile-controls')
+    <div class="clearfix"></div>
+    <div class="bottom-panel" id="bottom-panel">
+        <div class="last-message" id="last-message"><div class="cover">
+                <div class="left">
+                    <div class="svg svg-replace color-white rotate-180" data-svg="icon-fall-down">
+                        <svg class="svg-icon" viewBox="0 0 512 512">
+                        </svg>
+                    </div>
+                </div>
+                <div class="middle"></div>
+                <div class="right">
+                    <div class="svg svg-replace color-white rotate-180" data-svg="icon-fall-down">
+                        <svg class="svg-icon" viewBox="0 0 512 512">
+                        </svg>
+                    </div>
+                </div>
+            </div><div class="content"></div></div>
         <div class="chat-container"></div>
     </div>
-    @include('games.mageSurvival.mobile-controls')
+
 </div>
 @stop

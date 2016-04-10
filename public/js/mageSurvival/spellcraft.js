@@ -46,7 +46,7 @@ MageS.Spellcraft = function (game) {
             this.game.inventory.showInventory();
         }
         if (!$('.inventory .item.type-carrier').length) {
-            this.game.postMessage('You have no Carrier to create a spell');
+            this.game.chat.postMessage('You have no Carrier to create a spell');
             return;
         }
         var itemsCount = 0;
@@ -54,7 +54,7 @@ MageS.Spellcraft = function (game) {
             itemsCount += parseInt($(this).html());
         });
         if (itemsCount < 3) {
-            this.game.postMessage('You need more then 3 ingredients to create a spell');
+            this.game.chat.postMessage('You need more then 3 ingredients to create a spell');
             return;
         }
         this.craftingIsInProgress = true;
@@ -97,7 +97,7 @@ MageS.Spellcraft = function (game) {
             }
         }
         if (parseInt(ingridientEl.find('.value').html()) < numberOfSameIds + 1) {
-            this.game.postMessage('You don`t have enough of that ingredient');
+            this.game.chat.postMessage('You don`t have enough of that ingredient');
             var craftValue = ingridientEl.find('.craft-value');
             craftValue.css({'background-color':'#FF8360'}).animate({'background-color':'#529BCA'});
             return;

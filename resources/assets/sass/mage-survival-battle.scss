@@ -9,9 +9,9 @@
         border:0.05rem solid chocolate;
         overflow:hidden;
         position: relative;
-        box-shadow: 0.25rem 0.25rem 0.75rem rgba(39, 200, 119, 1), -0.25rem -0.25rem 0.75rem rgba(39, 200, 119, 1);
+        //box-shadow: 0.25rem 0.25rem 0.75rem rgba(39, 200, 119, 1), -0.25rem -0.25rem 0.75rem rgba(39, 200, 119, 1);
         &.action {
-            box-shadow: 0.25rem 0.25rem 0.75rem rgba(182, 189, 55, 1), -0.25rem -0.25rem 0.75rem rgba(182, 189, 55, 1);
+            //box-shadow: 0.25rem 0.25rem 0.75rem rgba(182, 189, 55, 1), -0.25rem -0.25rem 0.75rem rgba(182, 189, 55, 1);
         }
         .mage-container {
             position: absolute;
@@ -48,6 +48,12 @@
             svg {
                 overflow: visible;
             }
+        }
+        .dialog-field {
+            position: absolute;
+            z-index: 40;
+            width: $battlefield-size + rem;
+            height: $battlefield-size + rem;
         }
         .unit {
             position: absolute;
@@ -98,6 +104,12 @@
             z-index: 30;
             overflow: visible;
             background-color: black;
+            .svg-cell {
+                position: absolute;
+                width:$cell-size + rem;
+                height:$cell-size + rem;
+                z-index: 31;
+            }
         }
         .object {
             position: absolute;
@@ -117,8 +129,8 @@
         .cell.bl { background-color: darkgrey; }
         .cell.f1 { background-color: green; }
         .cell.f2 { background-color: darkolivegreen; }
-        .cell.f3 { background-color: lawngreen; }
-        .cell.s  { background-color: grey; }
+        .cell.f3 { background-color: green; }
+        .cell.s  { background-color: green; }
     }
     .pattern-field {
         position: absolute;

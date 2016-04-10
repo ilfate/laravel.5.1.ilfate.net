@@ -151,6 +151,7 @@ MageS.Inventory = function (game) {
             this.game.spellbook.hideSpellbook();
             $('.items-col').addClass('active').fadeIn();
             this.game.spellbook.turnOffPatterns();
+            this.game.spellbook.turnOffActiveSpell();
         }
     };
     this.hideInventory = function() {

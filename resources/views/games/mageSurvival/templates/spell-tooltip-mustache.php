@@ -7,7 +7,10 @@
             <span aria-hidden="true">&times;</span>
         </button>
         <p>{{name}}</p>
-        <p class="cooldown">Cooldown: <span class="value"></span></p>
+        <p class="cooldown">
+            Cooldown:  <span class="value">{{cooldown}}</span>
+            <span class="active">(<span class="value"></span>)</span>
+        </p>
         <p>
             {{description}}
         </p>

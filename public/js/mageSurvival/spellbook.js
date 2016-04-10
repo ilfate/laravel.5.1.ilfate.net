@@ -19,7 +19,7 @@ MageS.Spellbook = function (game) {
             var obj = this.renderSpell(template, spells[id]);
             spellsEl.append(obj);
             MageS.Game.spellbook.buildSpell(obj);
-            MageS.Game.spellbook.addSpellDescription(spells[id], obj);
+
         }
         spellsEl.data('spells', '').attr('data-spells', '');
 
@@ -42,7 +42,7 @@ MageS.Spellbook = function (game) {
     };
 
     this.spellClick = function(spellEl) {
-        if (spellEl.hasClass('cooldown')) {
+        if (spellEl.hasClass('cooldown') && this.game.device !== 'mobile') {
             info('This spell is on cooldown');
             return;
         }
@@ -65,7 +65,7 @@ MageS.Spellbook = function (game) {
         }
         switch (spellType) {
             case 'noTargetSpell':
-                if (isCastAllowed) {
+                if (isCastAllowed && !spellEl.hasClass('cooldown')) {
                     this.castSpellStart(spellEl, '{"id":"' + spellEl.data('id') + '"}');
                     spellEl.removeClass('active');
                 } else {
@@ -212,6 +212,7 @@ MageS.Spellbook = function (game) {
         if (spell.viewData.iconColor !== undefined) {
             obj.find('.svg').addClass(spell.viewData.iconColor);
         }
+        MageS.Game.spellbook.addSpellDescription(spell, obj);
         if (this.game.turn < spell.config.cooldownMark) {
             // this spell is on cooldown
             this.addCooldown(obj);
@@ -223,8 +224,7 @@ MageS.Spellbook = function (game) {
         $('.spellBook .spell.cooldown').each(function() {
             if ($(this).data('cooldown-mark') <= MageS.Game.turn) {
                 MageS.Game.spellbook.removeCooldown($(this));
-                var id = $(this).data('id');
-                $('.spell-tooltip.id-' + id+ ' .cooldown').hide();
+
             } else {
                 MageS.Game.spellbook.stepCooldown($(this));
             }
@@ -235,19 +235,20 @@ MageS.Spellbook = function (game) {
         spellEl.addClass('cooldown');
         var id = spellEl.data('id');
         $('.spell-tooltip.id-' + id + ' .cooldown')
-            .show()
-            .find('.value')
+            .find('.active').show().find('.value')
             .html(spellEl.data('cooldown-mark') - this.game.turn);
     };
 
     this.removeCooldown = function(spellEl) {
         info('removing cooldown');
         spellEl.removeClass('cooldown');
+        var id = spellEl.data('id');
+        $('.spell-tooltip.id-' + id + ' .cooldown .active').hide();
     };
 
     this.stepCooldown = function(spellEl) {
         var id = spellEl.data('id');
-        $('.spell-tooltip.id-' + id + ' .cooldown .value')
+        $('.spell-tooltip.id-' + id + ' .cooldown .active .value')
             .html(spellEl.data('cooldown-mark') - this.game.turn);
     };
 
@@ -267,12 +268,16 @@ MageS.Spellbook = function (game) {
         if (activeSpell.length) {
             this.turnOffPatterns();
             this.removePermanentTooltip();
-            activeSpell.removeClass('active');
+            this.turnOffActiveSpell();
             if (spell && activeSpell.data('id') == spell.data('id')) {
                 return false;
             }
         }
         return true;
+    };
+
+    this.turnOffActiveSpell = function() {
+        $('.spell.active').removeClass('active');
     };
 
     this.showPattern = function (spell, pattern) {
@@ -371,7 +376,9 @@ MageS.Spellbook = function (game) {
         var temaplate = $('#template-spell-tooltip').html();
         Mustache.parse(temaplate);
 
-        var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name, 'description' : data.viewData.description});
+        var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name,
+            'description' : data.viewData.description, 'cooldown': data.config.cooldown
+        });
         var obj = $(rendered);
         if (data.viewData.noTargetSpell !== undefined) {
             obj.addClass('noTargetSpell');
@@ -431,10 +438,14 @@ MageS.Spellbook = function (game) {
     };
     this.addCastToDescription = function(spellEl) {
         var newCastButton = spellEl.find('.svg').clone().addClass('cast-button');
-        newCastButton.on('click', function(e) {
-            e.stopPropagation();
-            MageS.Game.spellbook.spellClick($('.spellBook .spell.active'));
-        });
+        if (spellEl.hasClass('cooldown')) {
+            newCastButton.find('path').css({'fill': '#ccc'});
+        } else {
+            newCastButton.on('click', function (e) {
+                e.stopPropagation();
+                MageS.Game.spellbook.spellClick($('.spellBook .spell.active'));
+            });
+        }
         $('#mobile-spell-info-container .spell-tooltip').prepend(newCastButton);
     };
 

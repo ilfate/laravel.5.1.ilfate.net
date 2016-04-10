@@ -131,16 +131,7 @@ MageS.Animations = function (game) {
         var newBattleField = $('<div class="battle-field new"></div>');
         for (var y in data.map) {
             for (var x in data.map[y]) {
-
-                var temaplate = $('#template-map-cell').html();
-                Mustache.parse(temaplate);
-                var rendered = Mustache.render(temaplate, {'x': x, 'y': y, 'class': data.map[y][x]});
-                var obj = $(rendered);
-                newBattleField.append(obj);
-                obj.css({
-                    'margin-left' : (x * this.game.cellSize) + 'rem',
-                    'margin-top' : (y * this.game.cellSize) + 'rem'
-                });
+                this.game.drawCell(data.map[y][x], x, y, newBattleField);
             }
         }
         $('.battle-border').append(newBattleField);
@@ -290,7 +281,6 @@ MageS.Animations = function (game) {
         var id = data.id;
         if (enemy) {
             var target = $('.unit.id-' + id);
-            info(target);
         } else {
             var target = $('.battle-border .mage-container');
         }
@@ -308,14 +298,16 @@ MageS.Animations = function (game) {
         target.prepend(el);
         var distanceInRem = 0.75;
         if (rand(0,1) == 1) {
-            var randX = distanceInRem;
-            var randY = rand(0, distanceInRem);
+            var randX = distanceInRem * 100;
+            var randY = rand(0, distanceInRem * 100);
         } else {
-            var randX = rand(0, distanceInRem);
-            var randY = distanceInRem;
+            var randX = rand(0, distanceInRem * 100);
+            var randY = distanceInRem * 100;
         }
-        var y = parseInt(el.css('margin-top'));
-        var x = parseInt(el.css('margin-left'));
+        randX = randX / 100;
+        randY = randY / 100;
+        var y = parseInt(el.css('margin-top'))/20;
+        var x = parseInt(el.css('margin-left'))/20;
         if (rand(0,1) == 1) {
             y += randY;
         } else {
@@ -328,7 +320,7 @@ MageS.Animations = function (game) {
         }
         el.animate(
                 {'margin-top':y + 'rem','margin-left':x + 'rem', opacity: 0.3},
-                {duration:300, complete:function() {
+                {duration:400, complete:function() {
             $(this).remove();
             MageS.Game.animations.singleAnimationFinished();
         }})
@@ -352,8 +344,6 @@ MageS.Animations = function (game) {
 
     this.addObjectAnimation = function(data)
     {
-        info("new objec");
-        info(data);
         var newObject = this.game.drawObject(data.object, data.object.x, data.object.y);
         MageS.Game.animations.singleAnimationFinished();
     };
