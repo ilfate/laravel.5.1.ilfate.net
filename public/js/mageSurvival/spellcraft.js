@@ -63,7 +63,7 @@ MageS.Spellcraft = function (game) {
                 animationEl.animate({
                     'top': thisTop + destinations[i][1] + 'px', 'left': thisLeft + destinations[i][0] + 'px'
                 }, {
-                    duration: 1000, queue: false, easing: 'easeInOutCirc', complete: function () {
+                    duration: 300, queue: false, easing: 'easeInOutCirc', complete: function () {
 
                     }
                 });
