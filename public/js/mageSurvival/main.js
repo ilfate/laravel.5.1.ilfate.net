@@ -206,6 +206,16 @@ MageS.Game = function () {
                 hammertime.on('panright', function(ev) { MageS.Game.spellbook.panMobileSpellDescriptionRight(ev); });
                 hammertime.on('panleft', function(ev) { MageS.Game.spellbook.panMobileSpellDescriptionLeft(ev); });
                 hammertime.on('panend',  function(ev) { MageS.Game.spellbook.toggleHiddenDescription(); });
+
+                if (this.device == 'mobile') {
+                    window.addEventListener("load", function() { window. scrollTo(0, 0); });
+                    document.addEventListener("touchmove", function(e) { e.preventDefault() });
+                    var body = document.documentElement;
+                    if (body.requestFullscreen) { body.requestFullscreen(); }
+                    else if (body.webkitrequestFullscreen) { body.webkitrequestFullscreen(); }
+                    else if (body.mozrequestFullscreen) { body.mozrequestFullscreen(); }
+                    else if (body.msrequestFullscreen) { body.msrequestFullscreen(); }
+                }
             }
         }
     };

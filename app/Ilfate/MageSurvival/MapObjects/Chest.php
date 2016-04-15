@@ -35,7 +35,7 @@ class Chest extends MapObject
 {
     const ID = 1;
 
-    protected $possibleItems = [1,2,301,302,303];
+    protected $possibleItems = [1,2,3,4,5];
 
     public function getActions()
     {

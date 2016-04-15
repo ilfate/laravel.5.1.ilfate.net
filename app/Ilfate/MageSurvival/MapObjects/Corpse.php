@@ -34,7 +34,7 @@ use Ilfate\MageSurvival\ChanceHelper;
 class Corpse extends MapObject
 {
 
-    protected $possibleItems = [304];
+    protected $possibleItems = [1001];
 
     public function getActions()
     {
