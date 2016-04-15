@@ -186,16 +186,7 @@ MageS.Game = function () {
             //else if (body.webkitrequestFullscreen) { info('MOBIL FULLSCREEN 2'); body.webkitrequestFullscreen(); }
             //else if (body.mozrequestFullscreen) { info('MOBIL FULLSCREEN 3'); body.mozrequestFullscreen(); }
             //else if (body.msrequestFullscreen) { info('MOBIL FULLSCREEN 4'); body.msrequestFullscreen(); }
-            var doc = window.document;
-            var docEl = doc.documentElement;
-            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-            var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-            if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-                requestFullScreen.call(docEl);
-            }
-            else {
-                cancelFullScreen.call(doc);
-            }
+            MageS.Game.toggleFullScreen();
         }
         $('.game-load-overlay').animate({'opacity': '0'}, {
             duration: 1000,
@@ -270,6 +261,12 @@ MageS.Game = function () {
             cancelFullScreen.call(doc);
         }
     };
+    this.trytoGoFullScreen = function() {
+        var doc = window.document;
+        if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+            this.toggleFullScreen();
+        }
+    };
 
     this.pageResize = function() {
         //$(window).bind('orientationchange resize', function(event){
@@ -294,9 +291,10 @@ MageS.Game = function () {
                 else if (width <= 300) { rem = 17; }
                 else if (width <= 320) { rem = 18; }
                 else if (width <= 338) { rem = 19; }
+                else if (width <= 360) { rem = 20; }
                 break;
         }
-        info('rem=' + rem);
+        //info('rem=' + rem);
         this.rem = rem;
         $('html').css('font-size', rem + 'px');
     };
@@ -385,6 +383,7 @@ MageS.Game = function () {
             data: 'action=' + actionName + '&data=' + dataString,
             callBack : function(data){ MageS.Game.callback(data) }
         });
+        MageS.Game.trytoGoFullScreen();
     };
 
     this.callback = function(data) {

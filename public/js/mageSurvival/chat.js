@@ -20,6 +20,7 @@ MageS.Chat = function (game) {
             hammertime.on('panend', function (ev) { MageS.Game.chat.swipeEnd(ev); });
         }
         $( window ).resize(function() { MageS.Game.chat.windowResize()});
+        $( window ).bind('orientationchange', function() { MageS.Game.chat.windowResize()});
         this.windowResize();
     };
 
@@ -31,8 +32,9 @@ MageS.Chat = function (game) {
         if (this.game.device == 'mobile') {
             var rightPanel = $('.right-panel');
             var rightPanelOffset = rightPanel.offset().top;
+            rightPanel.hide();
             var inventorySize = (($(document).height() - rightPanelOffset) / this.game.rem) - this.game.cellSize;
-
+            rightPanel.show();
 
             $('.inventory, .spellBook, .right-panel').css({'height':inventorySize + 'rem'});
             chatSize = inventorySize;

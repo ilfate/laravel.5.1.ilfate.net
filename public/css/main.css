@@ -2953,6 +2953,12 @@ div.hex {
         border-left: 2px solid #78C0A8; }
 
 /* COLOR PALLETE */
+body {
+  /* for safari's tint */
+  background-color: #5E412F;
+  /* for the document's body background color */
+  background-image: linear-gradient(to bottom, #5E412F 0%, #5E412F 100%); }
+
 .mage-survival .container.main:after {
   content: "";
   display: none; }
