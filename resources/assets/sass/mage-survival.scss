@@ -357,7 +357,7 @@ $mage-mobile-inventory-size: 6 * $item-size;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-
+        overflow-y: scroll;
         width:100%;
         background-color: $mage-colors-clay;
         .spells-filter-panel {

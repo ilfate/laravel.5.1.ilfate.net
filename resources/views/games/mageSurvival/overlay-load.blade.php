@@ -66,7 +66,8 @@
                 </svg>
             </div>
         </div>
-        <p>LOADING</p>
+        <p id="overlay-loading-text">LOADING</p>
+        <p id="overlay-tap-text" style="display: none;">TAP TO CONTINUE</p>
     </div>
 
 </div>

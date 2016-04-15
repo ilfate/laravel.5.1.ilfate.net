@@ -73,6 +73,9 @@ MageS.Monimations = function (game) {
     };
 
     this.blastInScale = function(el, scale, callback) {
+        if (!scale) {
+            scale = 1.33;
+        }
         el[0].style.transform = 'scale(0)';
         new mojs.Tween({
             repeat:   0,

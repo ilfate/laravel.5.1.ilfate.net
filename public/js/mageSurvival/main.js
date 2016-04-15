@@ -84,7 +84,7 @@ MageS.Game = function () {
         this.spellcraft = spellcraft;
         this.animations = animations;
         this.monimations = monimations;
-        info($(window).width());
+
         if ($(window).width() < 992) {
             this.device = 'tablet';
             if ($(window).width() < 768) {
@@ -143,18 +143,21 @@ MageS.Game = function () {
                     MageS.Game.updateHealth(MageS.Game.rawData.mage);
                     MageS.Game.chat.buildChat();
 
-                    setTimeout(function() {$('.game-load-overlay').animate({'opacity':'0'}, {duration:1000,
-                        complete:function(){
-                            $('.loading-field').append(
-                                $(this).find('.load-animation').css({
-                                    'width':'140%',
-                                    'height':'100%',
-                                    'margin-top':'5%'
-                                    })
-                            );
-                            $(this).remove();
-                        }})}, 150);
-                    MageS.Game.gameInited = true;
+                    if (MageS.Game.device !== 'mobile') {
+                        setTimeout(function () {
+                            MageS.Game.hideGameLoadOverlay();
+                        }, 150);
+                    } else {
+                        $('#overlay-loading-text').hide();
+                        var textEl = $('#overlay-tap-text');
+                        textEl.show();
+                        MageS.Game.monimations.blastInScale(textEl, 2);
+                        $('.game-load-overlay').on('click', function(){
+                            MageS.Game.hideGameLoadOverlay();
+                        })
+
+                    }
+
                 });
 
                 this.configureKeys();
@@ -166,6 +169,43 @@ MageS.Game = function () {
 
                 break;
         }
+    };
+    this.hideGameLoadOverlay = function() {
+        if (MageS.Game.gameInited) { return; }
+        if (this.device == 'mobile') {
+            //document.addEventListener("touchmove", function(e) { e.preventDefault() });
+
+
+            //var body = document.documentElement;
+            //if (body.requestFullscreen) { info('MOBIL FULLSCREEN 1'); body.requestFullscreen(); }
+            //else if (body.webkitrequestFullscreen) { info('MOBIL FULLSCREEN 2'); body.webkitrequestFullscreen(); }
+            //else if (body.mozrequestFullscreen) { info('MOBIL FULLSCREEN 3'); body.mozrequestFullscreen(); }
+            //else if (body.msrequestFullscreen) { info('MOBIL FULLSCREEN 4'); body.msrequestFullscreen(); }
+            var doc = window.document;
+            var docEl = doc.documentElement;
+            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+            if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                requestFullScreen.call(docEl);
+            }
+            else {
+                cancelFullScreen.call(doc);
+            }
+        }
+        $('.game-load-overlay').animate({'opacity': '0'}, {
+            duration: 1000,
+            complete: function () {
+                $('.loading-field').append(
+                    $(this).find('.load-animation').css({
+                        'width': '140%',
+                        'height': '100%',
+                        'margin-top': '5%'
+                    })
+                );
+                $(this).remove();
+            }
+        });
+        MageS.Game.gameInited = true;
     };
     this.deviceInit = function () {
         if (this.device == 'pc') {
@@ -207,16 +247,22 @@ MageS.Game = function () {
                 hammertime.on('panleft', function(ev) { MageS.Game.spellbook.panMobileSpellDescriptionLeft(ev); });
                 hammertime.on('panend',  function(ev) { MageS.Game.spellbook.toggleHiddenDescription(); });
 
-                if (this.device == 'mobile') {
-                    window.addEventListener("load", function() { window. scrollTo(0, 0); });
-                    document.addEventListener("touchmove", function(e) { e.preventDefault() });
-                    var body = document.documentElement;
-                    if (body.requestFullscreen) { body.requestFullscreen(); }
-                    else if (body.webkitrequestFullscreen) { body.webkitrequestFullscreen(); }
-                    else if (body.mozrequestFullscreen) { body.mozrequestFullscreen(); }
-                    else if (body.msrequestFullscreen) { body.msrequestFullscreen(); }
-                }
+
             }
+        }
+    };
+    this.toggleFullScreen = function () {
+        var doc = window.document;
+        var docEl = doc.documentElement;
+
+        var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+        var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+        if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+            requestFullScreen.call(docEl);
+        }
+        else {
+            cancelFullScreen.call(doc);
         }
     };
 

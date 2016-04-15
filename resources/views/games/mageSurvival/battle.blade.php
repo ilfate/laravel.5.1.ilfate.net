@@ -3,6 +3,9 @@
 @section('content')
 
 @include('games.mageSurvival.overlay-load')
+<script>
+    window.addEventListener("load", function() { window. scrollTo(0, 0); });
+</script>
 <div class="game-container" >
     <input type="hidden" id="game-status" value="battle" />
 

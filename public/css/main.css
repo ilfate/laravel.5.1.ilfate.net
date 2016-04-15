@@ -3203,6 +3203,7 @@ div.hex {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  overflow-y: scroll;
   width: 100%;
   background-color: #FCEBB6; }
   .mage-survival .spellBook .spells-filter-panel {
