@@ -8,30 +8,36 @@ MageS.Chat = function (game) {
     this.inventorySize = 0;
 
     this.buildChat = function() {
+
+        if (this.game.device == 'mobile') {
+            var hammertime = new Hammer(document.getElementById('last-message'), {});
+            hammertime.get('pan').set({direction: Hammer.DIRECTION_ALL});
+            hammertime.get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
+
+            hammertime.on('panstart', function (ev) { MageS.Game.chat.swipeStart(ev); });
+            hammertime.on('panup', function (ev) { MageS.Game.chat.swipeUp(ev); });
+            hammertime.on('pandown', function (ev) { MageS.Game.chat.swipeDown(ev); });
+            hammertime.on('panend', function (ev) { MageS.Game.chat.swipeEnd(ev); });
+        }
+        $( window ).resize(function() { MageS.Game.chat.windowResize()});
+        this.windowResize();
+    };
+
+    this.windowResize = function() {
+        MageS.Game.pageResize();
         var chat = $('.bottom-panel');
         var lastMessage = $('.bottom-panel .last-message');
         var chatSize = 0;
-
         if (this.game.device == 'mobile') {
             var rightPanel = $('.right-panel');
             var rightPanelOffset = rightPanel.offset().top;
             var inventorySize = (($(document).height() - rightPanelOffset) / this.game.rem) - this.game.cellSize;
-            info('page height = ' +$(document).height());
-            //$('.spellBook').css({'height':inventorySize + 'rem'});
+
+
             $('.inventory, .spellBook, .right-panel').css({'height':inventorySize + 'rem'});
             chatSize = inventorySize;
             this.baseHeight = this.game.cellSize;
-            //$('#mobile-spell-info-container .spell-tooltip').css({'height':inventorySize + 'rem'});
             this.inventorySize = inventorySize;
-
-            var hammertime = new Hammer(document.getElementById('last-message'), {});
-            hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-            hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-
-            hammertime.on('panstart',    function(ev) { MageS.Game.chat.swipeStart(ev); });
-            hammertime.on('panup',    function(ev) { MageS.Game.chat.swipeUp(ev); });
-            hammertime.on('pandown',  function(ev) { MageS.Game.chat.swipeDown(ev); });
-            hammertime.on('panend',  function(ev) { MageS.Game.chat.swipeEnd(ev); });
         } else {
             var distanceToBottom = $(document).height() - chat.offset().top - chat.height();
             if (distanceToBottom > 10) {

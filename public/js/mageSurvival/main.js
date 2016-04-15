@@ -73,7 +73,16 @@ MageS.Game = function () {
     this.animationTime = 300;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
 
-
+    this.deviceCheck = function() {
+        if ($(window).width() < 992) {
+            this.device = 'tablet';
+            if ($(window).width() < 768) {
+                this.device = 'mobile';
+            }
+        } else {
+            this.device = 'pc';
+        }
+    };
 
     this.init = function (inventory, spellbook, spells, worlds, chat, spellcraft, animations, monimations) {
         this.inventory = inventory;
@@ -85,12 +94,7 @@ MageS.Game = function () {
         this.animations = animations;
         this.monimations = monimations;
 
-        if ($(window).width() < 992) {
-            this.device = 'tablet';
-            if ($(window).width() < 768) {
-                this.device = 'mobile';
-            }
-        }
+        this.deviceCheck();
 
         switch (this.gameStatus) {
             case 'mage-list':
@@ -131,7 +135,8 @@ MageS.Game = function () {
                 this.initSVG(function() {
                     // Get the SVG tag, ignore the rest
 
-                    MageS.Game.pageResize();
+                    //MageS.Game.pageResize();
+                    MageS.Game.chat.buildChat();
                     MageS.Game.buildMap();
                     MageS.Game.drawMage(MageS.Game.rawData.mage);
                     MageS.Game.updateActions(MageS.Game.rawData.actions, true);
@@ -141,7 +146,7 @@ MageS.Game = function () {
                     MageS.Game.replaceMissingSvg();
                     info(MageS.Game.rawData.mage);
                     MageS.Game.updateHealth(MageS.Game.rawData.mage);
-                    MageS.Game.chat.buildChat();
+
 
                     if (MageS.Game.device !== 'mobile') {
                         setTimeout(function () {
@@ -267,17 +272,17 @@ MageS.Game = function () {
     };
 
     this.pageResize = function() {
-        $(window).bind('orientationchange resize', function(event){
-            if (event.orientation) {
-                if (event.orientation == 'landscape') {
-                    if (window.rotation == 90) {
-                        windowRotate(this, -90);
-                    } else {
-                        windowRotate(this, 90);
-                    }
-                }
-            }
-        });
+        //$(window).bind('orientationchange resize', function(event){
+        //    if (event.orientation) {
+        //        if (event.orientation == 'landscape') {
+        //            if (window.rotation == 90) {
+        //                windowRotate(this, -90);
+        //            } else {
+        //                windowRotate(this, 90);
+        //            }
+        //        }
+        //    }
+        //});
         var rem = this.rem;
         var width = $(window).width();
         switch (this.device) {
@@ -292,7 +297,6 @@ MageS.Game = function () {
                 break;
         }
         info('rem=' + rem);
-
         this.rem = rem;
         $('html').css('font-size', rem + 'px');
     };
