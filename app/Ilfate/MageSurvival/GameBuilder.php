@@ -83,11 +83,12 @@ class GameBuilder
             $worldsCollection = $activeMage->world()->get();
             if ($worldsCollection->isEmpty()) {
                 // lets create world
-                self::$game->setStatus(Game::STATUS_HOME);
+                self::$game->setStatus(Game::STATUS_BATTLE);
+//                self::$game->setStatus(Game::STATUS_HOME);
 
                 // TODO: USE IT AGAIN
                 // TODO: USE IT AGAIN
-                //self::createWorld(self::$game, $activeMage);
+                self::createWorld(self::$game, $activeMage);
 
             } else {
                 self::$game->setStatus(Game::STATUS_BATTLE);
