@@ -120,11 +120,13 @@
             }
         }
         .inventory {
-            &.craft {
-                .craft-demo-zone {
-                    margin-top: 0;
-                    margin-left: -100%;
-                    height: $mage-inventory-size + rem;
+            @media (min-width: $screen-sm-min + rem) {
+                &.craft {
+                    .craft-demo-zone {
+                        margin-top: 0;
+                        margin-left: -100%;
+                        height: $mage-inventory-size + rem;
+                    }
                 }
             }
         }

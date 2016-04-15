@@ -91,8 +91,7 @@ MageS.Game = function () {
                 this.device = 'mobile';
             }
         }
-        this.deviceInit();
-        info( this.device);
+
         switch (this.gameStatus) {
             case 'mage-list':
                 $('a#mage-create-button').on('click', function () {
@@ -126,6 +125,8 @@ MageS.Game = function () {
                 });
                 break;
             case 'battle':
+                this.deviceInit();
+                info( this.device);
 
                 this.initSVG(function() {
                     // Get the SVG tag, ignore the rest

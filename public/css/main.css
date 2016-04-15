@@ -3652,10 +3652,11 @@ div.hex {
               display: none; }
             .mage-survival .container.main .actions-container .action a .text {
               display: inherit; } }
-  .mage-survival .container.main .inventory.craft .craft-demo-zone {
-    margin-top: 0;
-    margin-left: -100%;
-    height: 12.8rem; }
+  @media (min-width: 38.4rem) {
+    .mage-survival .container.main .inventory.craft .craft-demo-zone {
+      margin-top: 0;
+      margin-left: -100%;
+      height: 12.8rem; } }
   .mage-survival .container.main .right-panel {
     float: left;
     position: relative;
