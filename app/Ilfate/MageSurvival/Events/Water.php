@@ -14,6 +14,7 @@
 namespace Ilfate\MageSurvival\Events;
 
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\GameBuilder;
 
 /**
  * TODO: Short description.
@@ -34,6 +35,29 @@ class Water extends Event
         if ($data['value'] > 0) {
             $data['value'] -= 1;
         }
+        return $data;
+    }
+    public static function iceSlide($data) {
+        $newX = $x = $data['x'];
+        $newY = $y = $data['y'];
+        $world = GameBuilder::getGame()->getWorld();
+        for ($i = 0; $i < 5; $i++) {
+            switch ($data['d']) {
+                case 0 : $newY--; break;
+                case 1 : $newX++; break;
+                case 2 : $newY++; break;
+                case 3 : $newX--; break;
+            }
+            if ($world->isPassable($newX, $newY)) {
+                $x = $newX;
+                $y = $newY;
+            } else {
+                break;
+            }
+        }
+        $data['x'] = $x;
+        $data['y'] = $y;
+
         return $data;
     }
 }

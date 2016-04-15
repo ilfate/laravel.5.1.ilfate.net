@@ -28,6 +28,9 @@ namespace Ilfate\MageSurvival;
  */
 abstract class Mage implements AliveInterface
 {
+    const ITEM_TYPE_INGREDIENT = 'ingredient';
+    const ITEM_TYPE_CATALYST = 'catalyst';
+
     const DEFAULT_MAX_HEALTH = 100;
     /**
      * @var \Ilfate\Mage
@@ -45,6 +48,7 @@ abstract class Mage implements AliveInterface
     protected $items;
     protected $turn;
     protected $spells = [];
+    protected $itemSeed = '';
 
     /**
      * @var Game
@@ -53,6 +57,7 @@ abstract class Mage implements AliveInterface
 
     protected $isUpdated = false;
     protected $config;
+    protected $itemsConfig;
     protected $itemsChanges;
     protected $spellsChanges;
     protected $events = [];
@@ -158,12 +163,13 @@ abstract class Mage implements AliveInterface
 
     protected function exportItems()
     {
+        $config = $this->getItemsConfig();
         $return = [];
         if (!$this->items) {
             return [];
         }
         foreach ($this->items as $itemId => $quantity) {
-            $itemConfig = $this->config['items'][$itemId];
+            $itemConfig = $config['list'][$itemId];
             $itemConfig['quantity'] = $quantity;
             $itemConfig['id'] = $itemId;
             $return[$itemId] = $itemConfig;
@@ -173,9 +179,10 @@ abstract class Mage implements AliveInterface
 
     public function getUpdatedItems()
     {
+        $config = $this->getItemsConfig();
         $return = [];
         foreach ($this->itemsChanges as $itemId => $quantity) {
-            $itemConfig = $this->config['items'][$itemId];
+            $itemConfig = $config['list'][$itemId];
             $itemConfig['quantity'] = $quantity;
             $itemConfig['id'] = $itemId;
             $return[$itemId] = $itemConfig;
@@ -196,14 +203,13 @@ abstract class Mage implements AliveInterface
 
             //$cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
             //$spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
-            list($name, $schoolId, $level) = explode('#', $spell['code']);
+            list($name, $schoolId, $number) = explode('#', $spell['code']);
             $return[$spellId] = [
                 'id' => $spellId,
                 'name' => $name,
                 'schoolId' => $schoolId,
-                'level' => $level,
                 'config' => $spell['config'],
-                'viewData' => $spellsViewData['list'][$schoolId][$level][$name],
+                'viewData' => $spellsViewData['list'][$schoolId][$number],
             ];
             if (!empty($spell['config']['pattern'])) {
                 $return[$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
@@ -220,7 +226,7 @@ abstract class Mage implements AliveInterface
         $return = [];
         $spellsViewData = \Config::get('mageSpells.schools');
         foreach ($this->spells as $spellId => $spell) {
-            list($name, $schoolId, $level) = explode('#', $spell['code']);
+            list($name, $schoolId, $number) = explode('#', $spell['code']);
             if (empty($return[$schoolId])) {
                 $return[$schoolId] = $spellsViewData[$schoolId];
             }
@@ -241,15 +247,14 @@ abstract class Mage implements AliveInterface
         foreach ($this->spellsChanges as $spellId => $spell) {
             //$cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
             //$spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
-            list($name, $schoolId, $level) = explode('#', $spell['code']);
+            list($name, $schoolId, $number) = explode('#', $spell['code']);
             $return[$spellId] = [
                 'id' => $spellId,
                 'name' => $name,
-                'schoolId' => $schoolId,
-                'level' => $level,
                 'config' => $spell['config'],
-                'viewData' => $spellsViewData[$schoolId][$level][$name],
-                'status' => $spell['status']
+                'viewData' => $spellsViewData[$schoolId][$number],
+                'status' => $spell['status'],
+                'schoolId' => $schoolId
             ];
             if ($spell['status'] == 'new') {
                 $return[$spellId]['schoolViewData'] = $schoolsViewData[$schoolId];
@@ -291,8 +296,9 @@ abstract class Mage implements AliveInterface
             $stageForMove = Game::ANIMATION_STAGE_MAGE_ACTION_2;
         }
 
-        $this->x = $x;
-        $this->y = $y;
+        $eventData = Event::trigger(Event::EVENT_MAGE_AFTER_MOVE, ['x' => $x, 'y' => $y, 'd' => $this->d]);
+        $this->x = $eventData['x'];
+        $this->y = $eventData['y'];
         $this->update();
         $this->game->setIsMageMoved();
         $this->game->addAnimationEvent('mage-move', [
@@ -315,12 +321,12 @@ abstract class Mage implements AliveInterface
 
     public function craftSpell($data)
     {
-        $carrierId = $data['carrier'];
+        //$carrierId = $data['carrier'];
         $itemIds = $data['ingredients'];
-        if (empty($this->items[$carrierId])) {
-            throw new \Exception('Item for crafting is missing');
-        }
-        $this->addItem($carrierId, -1);
+//        if (empty($this->items[$carrierId])) {
+//            throw new \Exception('Item for crafting is missing');
+//        }
+        //$this->addItem($carrierId, -1);
         foreach ($itemIds as $itemId) {
             if (empty($this->items[$itemId])) {
                 throw new MessageException('Item for crafting is missing');
@@ -328,7 +334,7 @@ abstract class Mage implements AliveInterface
             $this->addItem($itemId, -1);
         }
         // ok we spend items let`s get the spell
-        $result = Spell::craftSpellFromItems($carrierId, $itemIds);
+        $result = Spell::craftSpellFromItems($itemIds);
         if (!empty($result['spell'])) {
             $this->addSpell($result['spell']);
         }
@@ -517,6 +523,25 @@ abstract class Mage implements AliveInterface
         return [$x - $this->getX(), $y - $this->getY()];
     }
 
+    public function getRandomIngredientsConfig()
+    {
+        $result = [];
+        $arr = [0,1,2,3,4,5,6,7,8,9];
+        for ($i = 0; $i < 10; $i++) {
+            $key = array_rand($arr);
+            $result[] = $arr[$key];
+            unset($arr[$key]);
+        }
+        return implode('', $result);
+    }
+
+    public function translateItemValueForMage($value) {
+        $base = floor($value / 10);
+        $flexPart = $value % 10;
+        $translatedFlexPart = $this->itemSeed[$flexPart];
+        return (int) ($base . $translatedFlexPart);
+    }
+
     /**
      * @return \Ilfate\Mage
      */
@@ -604,6 +629,13 @@ abstract class Mage implements AliveInterface
     {
         $this->turn += $value;
         $this->update();
+    }
+
+    public function getItemsConfig() {
+        if (!$this->itemsConfig) {
+            $this->itemsConfig = \Config::get('mageItems');
+        }
+        return $this->itemsConfig;
     }
 
     /**

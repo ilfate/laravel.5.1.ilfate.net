@@ -77,6 +77,7 @@ MageS.Spellbook = function (game) {
                 }
                 break;
             case 'directTargetSpell':
+                isAddCastToDescription = true;
                 switch (targetType) {
                     case 'enemy':
                         //find all enemies/
@@ -86,6 +87,7 @@ MageS.Spellbook = function (game) {
                 }
                 break;
             case 'pattern':
+                isAddCastToDescription = true;
                 // display the pattern
                 MageS.Game.spellbook.showPattern(spellEl, this.spellsPatterns[spellEl.data('id')]);
                 break;
@@ -112,7 +114,7 @@ MageS.Spellbook = function (game) {
                 Mustache.parse(template);
                 var obj = this.renderSpell(template, spell);
                 $('.spellBook .spells').append(obj);
-                this.game.monimations.scaleIn(obj);
+                this.game.monimations.scaleIn(obj, 2000);
                 obj.tooltip();
                 MageS.Game.spellbook.buildSpell(obj);
                 MageS.Game.spellbook.addSpellDescription(spell, obj);
@@ -400,6 +402,7 @@ MageS.Spellbook = function (game) {
     this.createHiddenDescription = function(spellEl) {
         var id = spellEl.data('id');
         var tooltip = $('.tooltip-spell-area .spell-tooltip.id-' + id).clone();
+        tooltip.height(this.game.chat.inventorySize + 'rem');
         $('#mobile-spell-info-container').show().append(tooltip);
     };
     this.deleteHiddenDescription = function() {
@@ -411,7 +414,7 @@ MageS.Spellbook = function (game) {
     this.toggleHiddenDescription = function() {
         if ($('#mobile-spell-info-container').hasClass('active')) {
             $('#mobile-spell-info-container').removeClass('active').animate({
-                'margin-left': - this.game.mageInventorySize + (1.5 * this.game.cellSize) + 'rem'
+                'margin-left': - this.game.mageInventorySize + ((parseInt($('.right-panel').width()) * 15) / (this.game.rem * 100)) + 'rem'
             }, {'easing': 'easeOutElastic'});
         } else if (!$('#mobile-spell-info-container').hasClass('active')) {
             $('#mobile-spell-info-container').addClass('active').animate({
@@ -468,19 +471,24 @@ MageS.Spellbook = function (game) {
 
     this.toggleSpellbook = function() {
         if ($('.spells-col').hasClass('active')) {
-            this.hideSpellbook();
+            //this.hideSpellbook();
         } else {
             this.showSpellbook();
         }
     };
     this.showSpellbook = function() {
+        info('showSpellbook')
         if (this.game.device !== 'pc') {
             this.game.inventory.hideInventory();
             $('.spells-col').addClass('active').fadeIn();
+            $('.toggle-spellbook').addClass('active');
+            this.game.chat.hideChat();
         }
     };
     this.hideSpellbook = function() {
+        info ("hideSpellbook")
         $('.spells-col').hide().removeClass('active');
+        $('.toggle-spellbook').removeClass('active');
         this.removePermanentTooltip();
         this.turnOffPatterns();
     };

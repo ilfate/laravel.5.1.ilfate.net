@@ -17,7 +17,9 @@
             {{#spell}}
                 <li>Chane to successfully create spell: <strong>{{spell}}%</strong></li>
             {{/spell}}
+            {{#usagesMin}}
             <li>Amount of usages: <strong>{{usagesMin}}-{{usagesMax}}</strong></li>
+            {{/usagesMin}}
             {{#isSchool}}
                 {{#school}}
                     <li>+ <strong>{{value}}</strong> additional chance to create <strong>{{name}}</strong> spell</li>

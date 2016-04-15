@@ -5,21 +5,25 @@
 MageS.Chat = function (game) {
     this.game = game;
     this.baseHeight = 0;
+    this.inventorySize = 0;
 
     this.buildChat = function() {
         var chat = $('.bottom-panel');
         var lastMessage = $('.bottom-panel .last-message');
-        var distanceToBottom = $(document).height() - chat.offset().top - chat.height();
-
-        if (distanceToBottom > 10) {
-            this.baseHeight = (chat.height() + distanceToBottom - 2 ) / this.game.rem;
-            //chat.height(this.baseHeight + 'rem');
-            lastMessage.height(this.baseHeight + 'rem');
-
-            $('.chat-container').height((5 * this.game.cellSize) + 'rem');
-        }
+        var chatSize = 0;
 
         if (this.game.device == 'mobile') {
+            var rightPanel = $('.right-panel');
+            var rightPanelOffset = rightPanel.offset().top;
+            var inventorySize = (($(document).height() - rightPanelOffset) / this.game.rem) - this.game.cellSize;
+            info('page height = ' +$(document).height());
+            //$('.spellBook').css({'height':inventorySize + 'rem'});
+            $('.inventory, .spellBook, .right-panel').css({'height':inventorySize + 'rem'});
+            chatSize = inventorySize;
+            this.baseHeight = this.game.cellSize;
+            //$('#mobile-spell-info-container .spell-tooltip').css({'height':inventorySize + 'rem'});
+            this.inventorySize = inventorySize;
+
             var hammertime = new Hammer(document.getElementById('last-message'), {});
             hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
             hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
@@ -28,6 +32,44 @@ MageS.Chat = function (game) {
             hammertime.on('panup',    function(ev) { MageS.Game.chat.swipeUp(ev); });
             hammertime.on('pandown',  function(ev) { MageS.Game.chat.swipeDown(ev); });
             hammertime.on('panend',  function(ev) { MageS.Game.chat.swipeEnd(ev); });
+        } else {
+            var distanceToBottom = $(document).height() - chat.offset().top - chat.height();
+            if (distanceToBottom > 10) {
+                this.baseHeight = (chat.height() + distanceToBottom - 2 ) / this.game.rem;
+            }
+            chatSize = 5 * this.game.cellSize;
+        }
+        lastMessage.height(this.baseHeight + 'rem');
+        $('.chat-container').height(chatSize + 'rem');
+    };
+
+    this.hideChat = function() {
+        if (this.game.device == 'mobile') {
+            var bottomEl = $('.bottom-panel');
+            if (bottomEl.hasClass('mobile-open')) {
+                $('.bottom-panel .chat-container').hide();
+                bottomEl.animate({
+                    'margin-top':'0rem',
+                    'height': this.baseHeight + 'rem'
+                }, {'easing': 'easeOutElastic'});
+                bottomEl.removeClass('mobile-open');
+                $('.bottom-panel .last-message .cover .svg-icon').css({'transform': 'rotate(180deg)'});
+                $('.bottom-panel .last-message .cover .middle').css({ 'opacity':0 });
+            }
+        }
+    };
+    this.showChat = function() {
+        var bottomEl = $('.bottom-panel');
+        if (!bottomEl.hasClass('mobile-open') && parseInt(bottomEl.height()) > this.baseHeight + this.game.rem) {
+            bottomEl.addClass('mobile-open');
+            var size = this.inventorySize;
+            bottomEl.animate({
+                'margin-top': '-' + size + 'rem',
+                'height': this.baseHeight + size + 'rem'
+            }, {'easing': 'easeOutElastic'});
+            bottomEl.find('.chat-container').css({opacity: 1, 'overflow-y':'scroll'});
+            $('.bottom-panel .last-message .cover .svg-icon').css({'transform': 'rotate(0deg)'});
+            $('.bottom-panel .last-message .cover .middle').css({'opacity': 1});
         }
     };
 
@@ -39,25 +81,9 @@ MageS.Chat = function (game) {
     this.swipeEnd = function(event) {
         var bottomEl = $('.bottom-panel');
         if (bottomEl.hasClass('mobile-open')) {
-            $('.bottom-panel .chat-container').hide();
-            bottomEl.animate({
-                'margin-top':'0rem',
-                'height': this.baseHeight + 'rem'
-            }, {'easing': 'easeOutElastic'});
-            bottomEl.removeClass('mobile-open');
-            $('.bottom-panel .last-message .cover .svg-icon').css({'transform': 'rotate(180deg)'});
-            $('.bottom-panel .last-message .cover .middle').css({ 'opacity':0 });
+            this.hideChat();
         } else {
-            if (parseInt(bottomEl.height()) > this.baseHeight + this.game.rem) {
-                bottomEl.addClass('mobile-open');
-                bottomEl.animate({
-                    'margin-top':'-' + (5 * this.game.cellSize) + 'rem',
-                    'height': this.baseHeight + (5 * this.game.cellSize) + 'rem'
-                }, {'easing': 'easeOutElastic'});
-                bottomEl.find('.chat-container').css({opacity:1});
-                $('.bottom-panel .last-message .cover .svg-icon').css({'transform': 'rotate(0deg)'});
-                $('.bottom-panel .last-message .cover .middle').css({ 'opacity':1 });
-            }
+            this.showChat();
         }
     };
 
@@ -73,8 +99,9 @@ MageS.Chat = function (game) {
         $('.bottom-panel .last-message .cover .middle').css({
             'opacity':event.distance / 50
         });
-        if (180 - event.distance * 2 > 0) {
-            $('.bottom-panel .last-message .cover .svg-icon').css({'transform': 'rotate(' + (180 - event.distance * 2) + 'deg)'});
+        var angle = 180 - event.distance * 2;
+        if (angle >= 0) {
+            $('.bottom-panel .last-message .cover .svg-icon').css({'transform': 'rotate(' + angle + 'deg)'});
         }
     };
 
@@ -90,8 +117,9 @@ MageS.Chat = function (game) {
         $('.bottom-panel .last-message .cover .middle').css({
             'opacity':1 - event.distance / 50
         });
-        if (event.distance * 2 < 180) {
-            $('.bottom-panel .last-message .cover .svg-icon').css({'transform': 'rotate(' + (event.distance * 2) + 'deg)'});
+        var angle = event.distance * 1.5;
+        if (angle <= 180) {
+            $('.bottom-panel .last-message .cover .svg-icon').css({'transform': 'rotate(' + angle + 'deg)'});
         }
     };
 

@@ -14,6 +14,7 @@ MageS.Monimations = function (game) {
     this.parabola = mojs.easing.path('M -4.0677966e-8,0.42372886 C 50.556265,0.4136606 0.87095901,99.897877 49.035199,100.42373 99.628993,100.59012 50.713497,0.33895357 100,0');
     this.singlePeak = mojs.easing.path('M 0,100 C 10.074957,75.575965 59.597896,94.558365 61.187447,5.4986503 61.889257,29.132172 84.521141,25.04019 100,25');
     this.bounce50 = mojs.easing.path('M 0,50 C 5.3102312,37.282606 2.5221993,12.853007 11.47837,12.648512 21.89607,12.410646 14.728785,69.440119 25.730114,69.491526 32.1567,70.369873 28.768715,24.96061 37.76202,25.02908 c 6.616381,0.05037 4.34318,33.035725 11.476824,33.230797 2.842319,0.07772 9.484178,-20.527049 18.631075,-18.920776 C 77.550759,41.039138 84.713696,50.105127 100,50');
+    this.wave50 = mojs.easing.path('M 0,50 C 0.07849772,36.786 7.8365117,25.510818 20.649999,25.43824 72.008172,25.14734 27.752226,74.270293 75.305916,73.840196 91.127102,74.004292 100.57868,60.132927 100,50');
     this.scaleInIntencePath = mojs.easing.path('M 0,100 C 5.3102312,87.282606 2.5221993,12.853007 11.47837,12.648512 21.89607,12.410646 14.728785,69.440119 25.730114,69.491526 32.1567,70.369873 28.768715,24.96061 37.76202,25.02908 c 6.616381,0.05037 4.34318,33.035725 11.476824,33.230797 2.842319,0.07772 9.484178,-20.527049 18.631075,-18.920776 C 77.550759,41.039138 84.713696,50.105127 100,50');
     this.normalProgressionPath = mojs.easing.path('M 0,100 C 12.100531,70.665506 7.5311473,0.24009095 100,0');
 
@@ -41,12 +42,15 @@ MageS.Monimations = function (game) {
         }).run();
     };
 
-    this.scaleIn = function(el) {
+    this.scaleIn = function(el, duration) {
+        if (!duration) {
+            duration = 1500;
+        }
         el[0].style.transform = 'scale(0)';
         new mojs.Tween({
             repeat:   0,
             delay:    10,
-            duration: 1500,
+            duration: duration,
             onUpdate: function (progress) {
                 var extremeInOutProgress = (MageS.Game.monimations.scaleInIntencePath(progress) * 3) - 0.5;
                 el[0].style.transform = 'scale(' + (extremeInOutProgress) + ')';
@@ -124,14 +128,15 @@ MageS.Monimations = function (game) {
             }
         }).run();
     };
-    this.shake = function(el, duration, degree) {
-        new mojs.Tween({
-            repeat:   0,
+
+    this.skweezeSlow = function(el) {
+        return new mojs.Tween({
+            repeat:   999,
             delay:    1,
-            duration: duration,
+            duration: 1500,
             onUpdate: function (progress) {
-                var bounce50 = MageS.Game.monimations.bounce50(progress) * 2;
-                el[0].style.transform = 'skewX(' + (bounce50 * degree - degree) + 'deg) skewY(' + (bounce50 * degree - degree) + 'deg)';
+                var bounce50 = (MageS.Game.monimations.wave50(progress) / 2) + 0.75;
+                el[0].style.transform = 'scaleX(' + (bounce50) + ') scaleY(' + (2 - bounce50) + ')';
             }
         }).run();
     };

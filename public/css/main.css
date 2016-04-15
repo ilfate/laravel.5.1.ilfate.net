@@ -2953,6 +2953,9 @@ div.hex {
         border-left: 2px solid #78C0A8; }
 
 /* COLOR PALLETE */
+.mage-survival .container.main:after {
+  content: "";
+  display: none; }
 .mage-survival .btn.white {
   background-color: #ffffff;
   color: #529BCA; }
@@ -3056,6 +3059,10 @@ div.hex {
 .mage-survival .actions-container .loading-field {
   width: 2.4rem;
   height: 2.4rem; }
+.mage-survival .interface-switch-panel path {
+  fill: #5E412F; }
+.mage-survival .interface-switch-panel .active path {
+  fill: #529BCA; }
 .mage-survival .inventory-shadow {
   position: fixed;
   width: 100%;
@@ -3076,9 +3083,74 @@ div.hex {
   height: 10.2rem;
   width: 100%;
   background-color: #FCEBB6; }
+  .mage-survival .inventory .craft-demo-zone {
+    display: none; }
   .mage-survival .inventory.craft {
     position: absolute;
     z-index: 71; }
+    .mage-survival .inventory.craft .craft-demo-zone {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 7.2rem;
+      margin-top: -7.2rem;
+      background-color: #529BCA; }
+      .mage-survival .inventory.craft .craft-demo-zone .confirm-create-spell {
+        display: none;
+        position: absolute;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        width: 3.36rem;
+        margin-top: 5.44rem; }
+        .mage-survival .inventory.craft .craft-demo-zone .confirm-create-spell.active {
+          display: inline-block; }
+      .mage-survival .inventory.craft .craft-demo-zone .chemical-animation {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: 3.2rem auto 0 auto;
+        left: 0;
+        right: 0; }
+      .mage-survival .inventory.craft .craft-demo-zone .rotating-table {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 4.32rem auto 0 auto;
+        width: 0px;
+        height: 0px; }
+      .mage-survival .inventory.craft .craft-demo-zone .item-drop-zone .svg {
+        position: absolute;
+        margin-left: 1.6rem;
+        margin-top: -1.2rem;
+        width: 2.4rem;
+        height: 2.4rem; }
+      .mage-survival .inventory.craft .craft-demo-zone .item-drop-zone svg {
+        -webkit-animation: rotate-linear 3s linear 0s infinite reverse;
+        -o-animation: rotate-linear 3s linear 0s infinite reverse;
+        animation: rotate-linear 3s linear 0s infinite reverse;
+        width: 2.4rem;
+        height: 2.4rem; }
+      .mage-survival .inventory.craft .craft-demo-zone .item-drop-zone.filled svg {
+        -webkit-animation: rotate-linear 1s linear 0s infinite reverse;
+        -o-animation: rotate-linear 1s linear 0s infinite reverse;
+        animation: rotate-linear 1s linear 0s infinite reverse; }
+      .mage-survival .inventory.craft .craft-demo-zone .zone-1 {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg); }
+      .mage-survival .inventory.craft .craft-demo-zone .zone-2 {
+        -webkit-transform: rotate(15deg);
+        -moz-transform: rotate(15deg);
+        -o-transform: rotate(15deg); }
+        .mage-survival .inventory.craft .craft-demo-zone .zone-2 .svg {
+          margin-left: 2.4rem; }
+      .mage-survival .inventory.craft .craft-demo-zone .zone-3 {
+        -webkit-transform: rotate(165deg);
+        -moz-transform: rotate(165deg);
+        -o-transform: rotate(165deg); }
+        .mage-survival .inventory.craft .craft-demo-zone .zone-3 .svg {
+          margin-left: 2.4rem; }
   .mage-survival .inventory .items-filters-panel {
     border-bottom: 0.05rem solid #5E412F; }
   .mage-survival .inventory .items-filter {
@@ -3098,6 +3170,11 @@ div.hex {
   text-align: left; }
   .mage-survival .items .item.filtered-out {
     display: none; }
+  .mage-survival .items .item.animation {
+    z-index: 80;
+    position: fixed; }
+    .mage-survival .items .item.animation .value {
+      display: none; }
   .mage-survival .items .item svg {
     position: absolute; }
   .mage-survival .items .item .value {
@@ -3126,7 +3203,6 @@ div.hex {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  height: 10.2rem;
   width: 100%;
   background-color: #FCEBB6; }
   .mage-survival .spellBook .spells-filter-panel {
@@ -3170,23 +3246,27 @@ div.hex {
       height: 12.8rem; } }
 .mage-survival .bottom-panel {
   position: absolute;
-  z-index: auto;
+  z-index: 65;
   width: 100%;
-  border: 0.05rem solid #529BCA;
-  background-color: antiquewhite; }
+  background-color: antiquewhite;
+  overflow-x: hidden; }
   .mage-survival .bottom-panel .chat-container {
     display: none;
-    overflow-y: scroll;
     height: 8rem; }
   .mage-survival .bottom-panel .last-message {
-    position: relative; }
+    position: relative;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
     .mage-survival .bottom-panel .last-message .cover {
       position: absolute;
       width: 100%;
       height: 100%; }
       .mage-survival .bottom-panel .last-message .cover .svg {
         position: absolute;
-        margin-left: -0.35rem; }
+        margin-left: -0.35rem;
+        height: 1.6rem; }
+        .mage-survival .bottom-panel .last-message .cover .svg .svg-icon {
+          height: 1.5rem; }
       .mage-survival .bottom-panel .last-message .cover .left {
         float: left;
         width: 5%;
@@ -3210,12 +3290,11 @@ div.hex {
 .mage-survival #mobile-spell-info-container {
   display: none;
   position: absolute;
-  height: 12.8rem;
   width: 12.8rem;
-  margin-left: -10.4rem;
+  margin-left: calc(-12.8rem + 15% );
   z-index: 60; }
   .mage-survival #mobile-spell-info-container .spell-tooltip {
-    height: 12.8rem;
+    border-right: 1px solid #5E412F;
     width: 12.8rem;
     display: block; }
     .mage-survival #mobile-spell-info-container .spell-tooltip:before {
@@ -3232,19 +3311,23 @@ div.hex {
   .mage-survival #mobile-spell-info-container .svg.cast-button {
     position: absolute;
     right: 0.4rem; }
+.mage-survival .craft-animation-item {
+  position: fixed;
+  z-index: 90; }
 .mage-survival .craft-spell-overlay {
   position: absolute;
   z-index: 60;
   font-size: 0.65rem;
   width: 100%; }
   .mage-survival .craft-spell-overlay .alert {
-    padding: 0.1rem; }
+    padding: 0.1rem;
+    border-color: #FCEBB6; }
   .mage-survival .craft-spell-overlay .helper-spell-craft-step-1, .mage-survival .craft-spell-overlay .helper-spell-craft-step-2, .mage-survival .craft-spell-overlay .spell-craft-info {
     background-color: #529BCA;
     color: #ffffff;
     position: absolute;
     width: 100%;
-    height: 1.7rem;
+    height: 1.955rem;
     text-align: center; }
   .mage-survival .craft-spell-overlay .spell-craft-info .text-1 {
     height: 1.87rem; }
@@ -3263,7 +3346,7 @@ div.hex {
     font-size: 0.55rem; }
     @media (min-width: 38.4rem) {
       .mage-survival .craft-spell-overlay .spell-craft-info .text-2 {
-        height: 5.66rem; } }
+        height: 5.32rem; } }
 .mage-survival .item svg.svg-icon, .mage-survival .spell svg.svg-icon {
   opacity: 0.9; }
 .mage-survival .item:hover svg.svg-icon, .mage-survival .spell:hover svg.svg-icon {
@@ -3306,12 +3389,36 @@ div.hex {
 .mage-survival svg {
   overflow: visible; }
 
+@keyframes rotate-linear {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(-360deg); } }
+@-o-keyframes rotate-linear {
+  0% {
+    -o-transform: rotate(0deg); }
+  100% {
+    -o-transform: rotate(-360deg); } }
+@-ms-keyframes rotate-linear {
+  0% {
+    -ms-transform: rotate(0deg); }
+  100% {
+    -ms-transform: rotate(-360deg); } }
+@-moz-keyframes rotate-linear {
+  0% {
+    -moz-transform: rotate(0deg); }
+  100% {
+    -moz-transform: rotate(-360deg); } }
+@-webkit-keyframes rotate-linear {
+  0% {
+    -webkit-transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(-360deg); } }
 /* COLOR PALLETE */
 .mage-survival .battle-border {
   float: left;
   width: 17.6rem;
   height: 17.6rem;
-  border: 0.05rem solid chocolate;
   overflow: hidden;
   position: relative; }
   .mage-survival .battle-border .mage-container {
@@ -3545,6 +3652,10 @@ div.hex {
               display: none; }
             .mage-survival .container.main .actions-container .action a .text {
               display: inherit; } }
+  .mage-survival .container.main .inventory.craft .craft-demo-zone {
+    margin-top: 0;
+    margin-left: -100%;
+    height: 12.8rem; }
   .mage-survival .container.main .right-panel {
     float: left;
     position: relative;
@@ -3570,8 +3681,6 @@ div.hex {
         .mage-survival .container.main .right-panel .interface-switch-panel > a .svg-icon {
           width: 2.4rem;
           height: 2.4rem; }
-        .mage-survival .container.main .right-panel .interface-switch-panel > a path {
-          fill: #5E412F; }
     @media (min-width: 38.4rem) {
       .mage-survival .container.main .right-panel {
         width: 19.9rem;
@@ -3695,12 +3804,19 @@ div.hex {
       display: block;
       opacity: 0.7; } }
   @media (min-width: 38.4rem) {
-    .mage-survival .container.main .spellBook .spells .spell {
-      width: 1.7rem;
-      height: 1.7rem; }
-      .mage-survival .container.main .spellBook .spells .spell .svg-icon {
+    .mage-survival .container.main .spellBook {
+      height: 10.2rem; }
+      .mage-survival .container.main .spellBook .spells .spell {
         width: 1.7rem;
-        height: 1.7rem; } }
+        height: 1.7rem; }
+        .mage-survival .container.main .spellBook .spells .spell .svg-icon {
+          width: 1.7rem;
+          height: 1.7rem; } }
+  @media (min-width: 38.4rem) {
+    .mage-survival .container.main #mobile-spell-info-container {
+      height: 12.8rem; }
+      .mage-survival .container.main #mobile-spell-info-container .spell-tooltip {
+        height: 12.8rem; } }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 i.rpg-icon-small {

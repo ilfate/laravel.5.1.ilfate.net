@@ -45,6 +45,7 @@ class Game
     const EVENT_NAME_MAGE_ADD_ARMOR  = 'mage-add-armor';
     const EVENT_NAME_UNIT_DAMAGE     = 'unit-damage';
     const EVENT_NAME_ADD_OBJECT      = 'add-object';
+    const EVENT_NAME_SPELL_CRAFT     = 'spell-craft';
 
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
     const ANIMATION_STAGE_MAGE_ACTION_2 = 'mage-action-2';
@@ -122,7 +123,7 @@ class Game
         $data['units'] = $this->worldGenerator->exportVisibleUnits();
         $data['world'] = $this->config['world-types'][$this->world->getType()];
         $data['mage'] = $this->mage->viewExport();
-        $data['item-types'] = $this->config['item-types'];
+        $data['item-types'] = $this->mage->getItemsConfig()['item-types'];
         $data['actions'] = $this->mage->getAllPossibleActions($this->world);
         $data['turn'] = $this->getTurn();
         $data['config'] = [

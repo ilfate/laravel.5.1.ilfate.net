@@ -5,77 +5,84 @@ return array(
 
     'list' => [
         1 => [ //fire
+            0 => [
+                'name' => 'Fireball',
+                'description' => 'Hit a single target with fire',
+                'iconClass' => 'icon-flame',
+                'iconColor' => 'color-red',
+                'directTargetSpell' => 'enemy',
+            ],
             1 => [
-                'Fireball' => [
-                    'description' => 'Hit a single target with fire',
-                    'iconClass' => 'icon-flame',
-                    'iconColor' => 'color-red',
-                    'directTargetSpell' => 'enemy',
-                ],
-                'FireNova' => [
-                    'description' => 'Create ring of Fire to bern all the enemies around',
-                    'iconClass' => 'icon-flame',
-                    'iconColor' => 'color-red',
-
-                ],
+                'name' => 'FireNova',
+                'description' => 'Create ring of Fire to bern all the enemies around',
+                'iconClass' => 'icon-flame',
+                'iconColor' => 'color-red',
+            ],
+            2 => [
+                'name' => 'FireLady',
+                'description' => 'Create ring of Fire to bern all the enemies around',
+                'iconClass' => 'icon-flame',
+                'iconColor' => 'color-red',
             ],
         ],
 
         // level 2
 
         2 => [ // water
+            0 => [
+                'name' => 'IceSlide',
+                'description' => 'Default description',
+                'iconClass' => 'icon-frozen-orb',
+                'iconColor' => 'color-dark-blue',
+                'noTargetSpell' => true,
+            ],
             1 => [
-                'IceCrown' => [
-                    'description' => 'Default description',
-                    'iconClass' => 'icon-frozen-orb',
-                    'iconColor' => 'color-dark-blue',
-                    'noTargetSpell' => true,
-                ],
+                'name' => 'IceCrown',
+                'description' => 'Default description',
+                'iconClass' => 'icon-frozen-orb',
+                'iconColor' => 'color-dark-blue',
+                'noTargetSpell' => true,
             ],
         ],
         3 => [ // air
-            1 => [
-                'Push' => [
-                    'description' => 'Default description',
-                    'iconColor' => 'color-blue',
-                    'iconClass' => 'icon-cloud-ring',
-                ],
+            0 => [
+                'name' => 'Push',
+                'description' => 'Default description',
+                'iconColor' => 'color-blue',
+                'iconClass' => 'icon-cloud-ring',
             ],
         ],
         4 => [ // earth
-            1 => [
-                'StoneFace' => [
-                    'description' => 'Default description',
-                    'iconClass' => 'icon-iron-mask',
-                    'iconColor' => 'color-brown',
-                    'noTargetSpell' => true,
-                ],
+            0 => [
+                'name' => 'StoneFace',
+                'description' => 'Default description',
+                'iconClass' => 'icon-iron-mask',
+                'iconColor' => 'color-brown',
+                'noTargetSpell' => true,
             ],
         ],
         5 => [ // light
-            1 => [
-                'SmallHeal' => [
-                    'description' => 'Default description',
-                    'iconClass' => 'icon-flame',
-                    'noTargetSpell' => true,
-                ],
+            0 => [
+                'name' => 'SmallHeal',
+                'description' => 'Default description',
+                'iconClass' => 'icon-flame',
+                'noTargetSpell' => true,
             ],
         ],
         6 => [ // death
-            1 => [
-                'BoneArrow' => [
-                    'description' => 'Default description',
-                    'iconClass' => 'icon-flame',
-                    'directTargetSpell' => 'enemy',
-                ],
+            0 => [
+                'name' => 'BoneArrow',
+                'description' => 'Default description',
+                'iconClass' => 'icon-flame',
+                'directTargetSpell' => 'enemy',
             ],
         ],
     ],
     'school-chances' => [
         1,1,1,1,1,1,1,1,   //fire
         2,2,2,2,2,2,2,2, // water
-        3,3,3,3,3,3,     // air
-        4,4,4,4,4,4,     // earth
+//        3,3,3,3,3,3,     // air
+//        4,4,4,4,4,4,     // earth
         //  5,5,             // light
         //  6,6,             // death
 //            7,7,

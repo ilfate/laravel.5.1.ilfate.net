@@ -101,6 +101,9 @@ MageS.Animations = function (game) {
             case 'mage-spell-cast':
                 this.spellCastAnimation(data.data);
                 break;
+            case 'spell-craft':
+                this.game.spellcraft.endSpellCraftAnimations(data.data);
+                break;
             case 'mage-damage':
                 this.mageDamageAnimation(data.data);
                 break;

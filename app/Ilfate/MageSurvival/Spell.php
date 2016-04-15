@@ -33,6 +33,7 @@ abstract class Spell
     const KEY_CARRIER_USAGES_FROM    = 'carrier-usages-from';
     const KEY_CARRIER_USAGES_TO      = 'carrier-usages-to';
     const KEY_COOLDOWN               = 'cooldown';
+    const KEY_ITEMS_SUM_VALUE        = 'items-sum-value';
 
     const STAT_SPELL  = 'spell';
     const STAT_SCHOOL = 'school';
@@ -66,6 +67,7 @@ abstract class Spell
     protected $id;
     protected $d = false;
     protected $name;
+    protected $number;
     protected $schoolId;
     protected $config;
     protected $level;
@@ -78,9 +80,8 @@ abstract class Spell
 
 
     public function __construct(
-        $name,
+        $number,
         $schoolId,
-        $level,
         $config,
         $id = null, Game $game = null, World $world = null, Mage $mage = null
     )
@@ -99,33 +100,39 @@ abstract class Spell
         if ($mage) {
             $this->mage = $mage;
         }
-        $this->name     = $name;
         $this->schoolId = $schoolId;
-        $this->level    = $level;
         $this->config   = $config;
-        $this->configuration = \Config::get('mageSpells.list.' . $schoolId. '.' . $level . '.' . $name);
+        $this->configuration = \Config::get('mageSpells.list.' . $schoolId. '.' . $number);
         if (!empty($this->config[self::CONFIG_FIELD_PATTERN])) {
             $this->pattern = \Config::get('mageSpellPatterns.list.' . $this->config[self::CONFIG_FIELD_PATTERN]);
 
         }
+        $this->number = $number;
     }
 
-    public static function craftSpellFromItems($carrierId, array $itemIds)
+    public static function craftSpellFromItems(array $itemIds)
     {
         $game = GameBuilder::getGame();
         $result = ['spell' => false];
         $spellsConfig = \Config::get('mageSpells');
-        $itemsConfig = \Config::get('mageSurvival.items');
+        $itemsConfig = \Config::get('mageItems.list');
 
         $spellRandomizerConfig = [
             self::KEY_SCHOOL_CHANCES => $spellsConfig[self::KEY_SCHOOL_CHANCES],
-            self::KEY_CHANCE_TO_CREATE_SPELL => 0,
-            self::KEY_CARRIER_USAGES_FROM => 0,
-            self::KEY_CARRIER_USAGES_TO => 0,
+            //self::KEY_CHANCE_TO_CREATE_SPELL => 0,
+            self::KEY_CARRIER_USAGES_FROM => 5,
+            self::KEY_CARRIER_USAGES_TO => 10,
+            self::KEY_ITEMS_SUM_VALUE => 0,
         ];
-        $itemIds[] = $carrierId;
+
         foreach ($itemIds as $itemId) {
             $item = $itemsConfig[$itemId];
+            if ($item['type'] == Mage::ITEM_TYPE_INGREDIENT) {
+                $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE] += $item['value'];
+            } else if ($item['type'] == Mage::ITEM_TYPE_CATALYST) {
+                $spellRandomizerConfig[self::KEY_SCHOOL_CHANCES] = [$item['school']];
+            }
+            if (empty($item['stats'])) { continue; }
             foreach ($item['stats'] as $statName => $statValue) {
                 switch ($statName) {
                     case self::STAT_USAGES:
@@ -167,32 +174,32 @@ abstract class Spell
             }
         }
         // ok config is done
-        if (!ChanceHelper::chance($spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL])) {
-            $game->addMessage(
-                     'You had a chance of ' . $spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL] . '% and you failed to create a spell. Next time bro!'
-            );
-            return $result;
-        }
+//        if (!ChanceHelper::chance($spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL])) {
+//            $game->addMessage(
+//                     'You had a chance of ' . $spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL] . '% and you failed to create a spell. Next time bro!'
+//            );
+//            return $result;
+//        }
         // yea we got a new spell
-        $game->addMessage(
-                 'You had a chance of ' . $spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL] . '% and you successfully created a spell.'
-        );
+//        $game->addMessage(
+//                 'You had a chance of ' . $spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL] . '% and you successfully created a spell.'
+//        );
 
         $schoolId = ChanceHelper::oneFromArray($spellRandomizerConfig[self::KEY_SCHOOL_CHANCES]);
         $schoolName = $spellsConfig['schools'][$schoolId]['name'];
-        $game->addMessage('School of your spell is ' . $schoolName);
+        $game->addMessage('School of your new spell is ' . $schoolName);
 
-        $level = 1;
-        $game->addMessage('Your new spell is level ' . $level);
+//        $level = 1;
+//        $game->addMessage('Your new spell is level ' . $level);
 
-        $allPossibleSpells = $spellsConfig['list'][$schoolId][$level];
-        $spellName = array_rand($allPossibleSpells);
+        $allPossibleSpells = $spellsConfig['list'][$schoolId];
+        $spellConfiguration = self::getSpellByValue($allPossibleSpells, $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE]);
+        $spellName = $spellConfiguration['name'];
 
-        $spellConfig = [
-            'usages' => mt_rand(
+        $spellConfig = [];
+        $spellConfig['usages'] = mt_rand(
                 $spellRandomizerConfig[self::KEY_CARRIER_USAGES_FROM], $spellRandomizerConfig[self::KEY_CARRIER_USAGES_TO]
-            ),
-        ];
+            );
         $class = self::getSpellClass($schoolName, $spellName);
         if (!class_exists($class)) {
             throw new \Exception('Spell with name "' . $spellName . '" not found at "' . $class . '"' );
@@ -200,14 +207,17 @@ abstract class Spell
         /**
          * @var Spell $spell
          */
-        $spell = new $class($spellName, $schoolId, $level, $spellConfig);
+        $spell = new $class($spellConfiguration['number'], $schoolId, $spellConfig);
         $spell->generateCoolDown(isset($spellRandomizerConfig[self::KEY_COOLDOWN]) ? $spellRandomizerConfig[self::KEY_COOLDOWN] : []);
         $spell->setUpPattern();
-        $spell->setLevel($level);
+        //$spell->setLevel($level);
         $result['spell'] = $spell;
 
-        return $result;
+        GameBuilder::getGame()->addAnimationEvent(Game::EVENT_NAME_SPELL_CRAFT, [
+            'spell' => $spell->getId()
+        ], Game::ANIMATION_STAGE_MAGE_ACTION);
 
+        return $result;
     }
 
     public static function getSpellClass($schoolName, $spellName)
@@ -227,11 +237,52 @@ abstract class Spell
      */
     public static function createSpellByCode($code, $config, $id, Game $game = null, World $world = null, Mage $mage = null)
     {
-        list($name, $schoolId, $level) = explode('#', $code);
+        list($name, $schoolId, $number) = explode('#', $code);
         $schoolName = \Config::get('mageSpells.schools.' . $schoolId)['name'];
         $class = self::getSpellClass($schoolName, $name);
-        return new $class($name, $schoolId, $level, $config, $id, $game, $world, $mage);
+        return new $class($number, $schoolId, $config, $id, $game, $world, $mage);
     }
+    public function exportSpellCode()
+    {
+        return $this->configuration['name'] . '#' . $this->schoolId . '#' . $this->number;
+    }
+
+    private static function getSpellByValue($allPossibleSpells, $value)
+    {
+        $value = abs($value);
+        if (!empty($allPossibleSpells[$value])) {
+            $allPossibleSpells[$value]['number'] = $value;
+            return $allPossibleSpells[$value];
+        }
+        end($allPossibleSpells);
+        $lastKey = key($allPossibleSpells);
+        if ($value > $lastKey) {
+            $newValue = $lastKey - ($value % $lastKey);
+        } else {
+            $newValue = $value - 1;
+        }
+        return self::getSpellByValue($allPossibleSpells, $newValue);
+    }
+/*
+    $all = [0 => '_0'];
+    function getSpellByValue($allPossibleSpells, $value)
+    {
+        $value = abs($value);
+        if (!empty($allPossibleSpells[$value])) {
+            return $allPossibleSpells[$value];
+        }
+        end($allPossibleSpells);
+        $lastKey = key($allPossibleSpells);
+        if ($value > $lastKey) {
+            $newValue = $lastKey - ($value % $lastKey);
+echo $lastKey;
+        } else {
+            $newValue = $value - 1;
+        }
+        return getSpellByValue($allPossibleSpells, $newValue);
+    }
+    for($i=-20; $i<20; $i++) {var_dump($i . ' -> ' . getSpellByValue($all, $i));}
+*/
 
     /**
      * @param $data
@@ -345,11 +396,6 @@ abstract class Spell
         $usages += $value;
         $this->config['usages'] = $usages;
 
-    }
-
-    public function exportSpellCode()
-    {
-        return $this->name . '#' . $this->schoolId . '#' . $this->level;
     }
 
     public function exportConfig()

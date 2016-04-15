@@ -119,7 +119,15 @@
                 }
             }
         }
-
+        .inventory {
+            &.craft {
+                .craft-demo-zone {
+                    margin-top: 0;
+                    margin-left: -100%;
+                    height: $mage-inventory-size + rem;
+                }
+            }
+        }
         .right-panel {
             float:left;
             position: relative;
@@ -148,9 +156,6 @@
                     .svg-icon {
                         width: $mobile-action-size + rem;
                         height: $mobile-action-size + rem;
-                    }
-                    path {
-                        fill: $mage-colors-brown;
                     }
                 }
             }
@@ -301,9 +306,11 @@
         }
 
         .spellBook {
-            .spells {
-                .spell {
-                    @media (min-width: $screen-sm-min + rem) {
+            @media (min-width: $screen-sm-min + rem) {
+                height:$mage-mobile-inventory-size + rem;
+                .spells {
+                    .spell {
+
                         width: $item-size + rem;
                         height: $item-size + rem;
                         .svg-icon {
@@ -311,6 +318,14 @@
                             height: $item-size + rem;
                         }
                     }
+                }
+            }
+        }
+        #mobile-spell-info-container {
+            @media (min-width: $screen-sm-min + rem) {
+                height: $mage-inventory-size + rem;
+                .spell-tooltip {
+                    height: $mage-inventory-size + rem;
                 }
             }
         }

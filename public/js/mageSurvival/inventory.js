@@ -50,7 +50,7 @@ MageS.Inventory = function (game) {
             return;
         }
         filterEl.addClass('active');
-        $('.inventory .item:not(.type-' + filterEl.data('name') + ')').addClass('filtered-out');
+        $('.inventory .item:not(.type-' + filterEl.data('name') + '):not(.type-all)').addClass('filtered-out');
     };
     this.turnOffFilters = function () {
         $('.items-filter.active').removeClass('active');
@@ -129,6 +129,9 @@ MageS.Inventory = function (game) {
     this.bindItemTooltip = function(item) {
         item.on({
             'mouseenter': function () {
+                if (MageS.Game.device == 'mobile' && MageS.Game.spellcraft.craftingIsInProgress) {
+                    return;
+                }
                 var id = $(this).data('id');
                 $('.tooltip-helper-area .item-tooltip.id-' + id).show();
             },
@@ -141,21 +144,26 @@ MageS.Inventory = function (game) {
 
     this.toggleInventory = function() {
         if ($('.items-col').hasClass('active')) {
-            this.hideInventory();
+            //this.hideInventory();
         } else {
             this.showInventory();
         }
     };
     this.showInventory = function() {
         if (this.game.device !== 'pc') {
-            this.game.spellbook.hideSpellbook();
-            $('.items-col').addClass('active').fadeIn();
-            this.game.spellbook.turnOffPatterns();
-            this.game.spellbook.turnOffActiveSpell();
+            if (!$('.items-col').hasClass('active')) {
+                this.game.spellbook.hideSpellbook();
+                $('.items-col').addClass('active').fadeIn();
+                $('.toggle-inventory').addClass('active');
+                this.game.spellbook.turnOffPatterns();
+                this.game.spellbook.turnOffActiveSpell();
+            }
+                this.game.chat.hideChat();
         }
     };
     this.hideInventory = function() {
         $('.items-col').hide().removeClass('active');
+        $('.toggle-inventory').removeClass('active');
     };
 
     this.itemClick = function (itemObj) {

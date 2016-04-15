@@ -176,6 +176,9 @@ MageS.Game = function () {
             $('.toggle-spellbook').on('click', function() {
                 MageS.Game.spellbook.toggleSpellbook();
             });
+            $('.toggle-chat').on('click', function() {
+                MageS.Game.chat.swipeEnd();
+            });
 
             //$('.toggle-mage-info').on('click', function() {
             //    MageS.Game.toggleMageInfo();

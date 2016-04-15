@@ -64,18 +64,18 @@
         <div class="last-message" id="last-message"><div class="cover">
                 <div class="left">
                     <div class="svg svg-replace color-white rotate-180" data-svg="icon-fall-down">
-                        <svg class="svg-icon" viewBox="0 0 512 512">
-                        </svg>
+                        <svg class="svg-icon" viewBox="0 0 512 512"></svg>
                     </div>
                 </div>
                 <div class="middle"></div>
                 <div class="right">
                     <div class="svg svg-replace color-white rotate-180" data-svg="icon-fall-down">
-                        <svg class="svg-icon" viewBox="0 0 512 512">
-                        </svg>
+                        <svg class="svg-icon" viewBox="0 0 512 512"></svg>
                     </div>
                 </div>
-            </div><div class="content"></div></div>
+            </div>
+            <div class="content"></div>
+        </div>
         <div class="chat-container"></div>
     </div>
 
