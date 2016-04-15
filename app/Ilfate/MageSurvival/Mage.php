@@ -104,7 +104,7 @@ abstract class Mage implements AliveInterface
             $this->was['health'] = static::DEFAULT_MAX_HEALTH;
             $this->was['maxHealth'] = static::DEFAULT_MAX_HEALTH;
             //let`s give him some Items
-            $this->addItems([1 => 5, 301 => 7]);
+            $this->addItems([1 => 3, 2 => 3, 3 => 3, 4 => 3, 5 => 3, 1001 => 2]);
         }
     }
 
