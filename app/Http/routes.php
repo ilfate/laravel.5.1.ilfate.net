@@ -67,9 +67,11 @@ Route::post('hex/action', 'HexController@action');
 
 Route::get('Cosmos', 'CosmosController@index');
 
-Route::get('MageSurvival', 'MageSurvivalController@index');
-Route::post('MageSurvival/createMage', 'MageSurvivalController@createMage');
-Route::post('MageSurvival/action', 'MageSurvivalController@action');
+Route::get('MageSurvival', 'MageSurvivalController@redirect');
+Route::get('spellcraft', 'MageSurvivalController@redirect');
+Route::get('Spellcraft', 'MageSurvivalController@index');
+Route::post('Spellcraft/createMage', 'MageSurvivalController@createMage');
+Route::post('Spellcraft/action', 'MageSurvivalController@action');
 
 
 Route::get('deplotment/resetopcache', 'DeploymentController@resetopcache');

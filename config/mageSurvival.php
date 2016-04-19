@@ -38,7 +38,7 @@ return array(
         ],
     ],
     'mages-types' => [
-        'apprentice'   => ['name' => 'Apprentice', 'available' => true],
+        'apprentice'   => ['name' => 'Apprentice', 'available' => true, 'icon' => 'icon-sensuousness'],
         'wizard'       => ['name' => 'Wizard'],
         'archmage'     => ['name' => 'Archmage'],
         'sorcerer'     => ['name' => 'Sorcerer'],

@@ -84,6 +84,9 @@ abstract class Mage implements AliveInterface
             $this->d = $this->data['d'];
             $this->was['d'] = $this->data['d'];
         }
+        if (!isset($this->data['iseed'])) {
+            $this->data['iseed'] = $this->getRandomIngredientsSeed();
+        }
         if (isset($this->data['health'])) {
             $this->health = $this->data['health'];
             $this->was['health'] = $this->data['health'];
@@ -523,7 +526,7 @@ abstract class Mage implements AliveInterface
         return [$x - $this->getX(), $y - $this->getY()];
     }
 
-    public function getRandomIngredientsConfig()
+    public function getRandomIngredientsSeed()
     {
         $result = [];
         $arr = [0,1,2,3,4,5,6,7,8,9];
@@ -536,10 +539,23 @@ abstract class Mage implements AliveInterface
     }
 
     public function translateItemValueForMage($value) {
+        $isNegative = false;
+        if ($value < 0) {
+            $isNegative = true;
+            $value = abs($value);
+        }
         $base = floor($value / 10);
         $flexPart = $value % 10;
-        $translatedFlexPart = $this->itemSeed[$flexPart];
-        return (int) ($base . $translatedFlexPart);
+        $translatedFlexPart = $this->getIngredientsSeed()[$flexPart];
+        return (int) ($base . $translatedFlexPart) * ($isNegative ? -1 : 1);
+    }
+
+    /**
+     * @return \Ilfate\Mage
+     */
+    public function getIngredientsSeed()
+    {
+        return $this->data['iseed'];
     }
 
     /**

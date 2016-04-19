@@ -94,6 +94,7 @@ class Game
     protected $isItemsUpdated = false;
     protected $isSpellsUpdated = false;
     protected $isUnitsUpdated = false;
+    protected $inactiveMages = [];
 
     /**
      * @var WorldGenerator
@@ -451,8 +452,21 @@ class Game
     public function getHomeData() {
         $data = [];
         $data['mage'] = $this->mage->viewExport();
-        $data['item-types'] = $this->config['item-types'];
+        $data['item-types'] = $this->mage->getItemsConfig()['item-types'];
 
         return ['game' => $data];
+    }
+
+    public function setInactiveMages($allMages)
+    {
+        $this->inactiveMages = $allMages;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInactiveMages()
+    {
+        return $this->inactiveMages;
     }
 }

@@ -1,0 +1,67 @@
+
+
+.game-container.home {
+
+    .home-portal-animation {
+        width: 100%;
+        height: 8rem;
+        background-color: $mage-colors-brown;
+        overflow-y: hidden;
+        position: relative;
+        .svg-portal {
+            position: absolute;
+            width: 8rem;
+            margin: 0 auto;
+            left:0; right: 0;
+            ;
+            svg {
+                width: 8rem;
+                height: 8rem;
+            }
+            &.main {
+                z-index: 6;
+                svg {
+                    fill: $mage-colors-blue;
+                }
+            }
+            &.inside {
+                background-color: $mage-colors-black;
+                z-index: 4;
+                svg {
+                    fill: $mage-colors-brown;
+                }
+            }
+            &.border {
+                z-index: 7;
+                svg {
+                    fill: $mage-colors-clay;
+                }
+            }
+        }
+        .animation-layer {
+            position: absolute;
+            width: 8rem;
+            height: 4rem;
+            margin: 3.5rem auto 0 auto;
+            padding-left: 4rem;
+            left:0; right: 0;
+            z-index: 5;
+            svg {
+                width:1px;
+                height: 1px;
+                circle {
+                    fill: $mage-colors-gold;
+                }
+            }
+        }
+    }
+    .home-h1 {
+        width: 100%;
+        padding: 1rem 0.5rem;
+        color: $mage-colors-gold;
+        font-size: 1.3rem;
+        background-color: $mage-colors-clay;
+        margin-top: 0;
+        z-index: 10;
+    }
+}

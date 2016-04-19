@@ -100,12 +100,18 @@ class MageSurvivalController extends BaseController
         return json_encode($result);
     }
 
+    public function redirect()
+    {
+        return redirect('/Spellcraft');
+    }
+
     protected function getDataForView($view, Game $game)
     {
         $data = [];
         switch($view) {
             case 'games.mageSurvival.mage-list':
                 $data['mages-types'] = \Config::get('mageSurvival.mages-types');
+                $data['mages'] = $game->getInactiveMages();
                 break;
             case 'games.mageSurvival.mage-home':
                 $data = $game->getHomeData();

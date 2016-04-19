@@ -477,7 +477,6 @@ MageS.Spellbook = function (game) {
         }
     };
     this.showSpellbook = function() {
-        info('showSpellbook')
         if (this.game.device !== 'pc') {
             this.game.inventory.hideInventory();
             $('.spells-col').addClass('active').fadeIn();
@@ -486,7 +485,6 @@ MageS.Spellbook = function (game) {
         }
     };
     this.hideSpellbook = function() {
-        info ("hideSpellbook")
         $('.spells-col').hide().removeClass('active');
         $('.toggle-spellbook').removeClass('active');
         this.removePermanentTooltip();

@@ -43,6 +43,7 @@
 <script src="/js/mageSurvival/spells.js"></script>
 <script src="/js/mageSurvival/worlds.js"></script>
 <script src="/js/mageSurvival/chat.js"></script>
+<script src="/js/mageSurvival/home.js"></script>
 <script src="/js/mageSurvival/spellcraft.js"></script>
 <script src="/js/mageSurvival/monimations.js"></script>
 {{--<script>--}}

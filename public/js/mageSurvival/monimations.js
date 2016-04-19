@@ -54,6 +54,9 @@ MageS.Monimations = function (game) {
             onUpdate: function (progress) {
                 var extremeInOutProgress = (MageS.Game.monimations.scaleInIntencePath(progress) * 3) - 0.5;
                 el[0].style.transform = 'scale(' + (extremeInOutProgress) + ')';
+            },
+            onComplete: function () {
+                el[0].style.transform = '';
             }
         }).run();
     }
@@ -115,6 +118,22 @@ MageS.Monimations = function (game) {
                 var normalProgression = MageS.Game.monimations.normalProgressionPath(progress) * grad - grad;
                 var normalProgressionScale = sFrom +MageS.Game.monimations.normalProgressionPath(progress) * sTo;
                 el[0].style.transform = 'rotate(' + (base + normalProgression) + 'deg) scale(' + ( normalProgressionScale) + ')';
+            }
+        }).run();
+    };
+    this.portalStar = function (el, cx, r, base, delay) {
+        new mojs.Tween({
+            repeat:   9999,
+            delay:    delay,
+            duration: 1500,
+            onUpdate: function (progress) {
+                var normalProgression = MageS.Game.monimations.normalProgressionPath(progress);
+                //var normalProgressionScale = sFrom +MageS.Game.monimations.normalProgressionPath(progress) * sTo;
+                //scale(' + ( 1 - normalProgression) + ')
+                el.find('svg')[0].style.transform = 'rotate(' + (base - normalProgression * 60) + 'deg) ';
+
+                el.find('circle').css({'svgR' : r - (r * normalProgression), 'svgCx' : cx - (cx * normalProgression)});
+                //el.find('svg').css('margin-left', cx - (cx * normalProgression));
             }
         }).run();
     };

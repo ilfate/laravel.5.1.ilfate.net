@@ -1,0 +1,61 @@
+
+
+.player-mage-list {
+    width: 100%;
+    .mage {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        background-color: $mage-colors-clay;
+        border-bottom: 1px solid $mage-colors-brown;
+    }
+    #create-mage-pop-up {
+        display: none;
+    }
+    .single-mage-type {
+        display: block;
+        width: 100%;
+        background-color: $mage-colors-blue;
+        padding: 0.5rem 1rem;
+        height: 2.5rem;
+        vertical-align: middle;
+        border-bottom: 1px solid $mage-colors-white;
+        .svg {
+            height: 1.5rem;
+            width: 1.5rem;
+            display: block;
+            float: left;
+            svg {
+                width: 1.5rem;
+                height: 1.5rem;
+                path {
+                    fill: $mage-colors-white;
+                }
+            }
+        }
+        .mage-type-name {
+            margin-left: 1rem;
+            line-height: 1.5rem;
+            color: $mage-colors-white;
+        }
+    }
+    .last-step {
+        display: none;
+        height: 4rem;
+        width: 100%;
+        background-color: $mage-colors-brown;
+        text-align: center;
+        .mage-name {
+            width: 100%;
+            background-color: $mage-colors-clay;
+            border: 1px solid $mage-colors-gold;
+        }
+        .btn.submit {
+            width: 50%;
+            font-size: 1rem;
+            margin: 0.2rem 0 0 0;
+            font-weight: bold;
+            background-color: $mage-colors-gold;
+            color: $mage-colors-black;
+        }
+    }
+}

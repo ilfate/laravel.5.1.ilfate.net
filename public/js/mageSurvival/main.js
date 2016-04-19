@@ -30,9 +30,10 @@ $(document).ready(function() {
         var spells = new MageS.Spells(MageS.Game);
         var worlds = new MageS.Worlds(MageS.Game);
         var chat = new MageS.Chat(MageS.Game);
+        var home = new MageS.Home(MageS.Game);
         var spellcraft = new MageS.Spellcraft(MageS.Game);
         var monimations = new MageS.Monimations(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells, worlds, chat, spellcraft, animations, monimations);
+        MageS.Game.init(inventory, spellbook, spells, worlds, chat, home, spellcraft, animations, monimations);
     }
 });
 
@@ -53,6 +54,7 @@ MageS.Game = function () {
     this.spells = {};
     this.worlds = {};
     this.chat = {};
+    this.home = {};
     this.spellcraft = {};
     this.animations = {};
     this.monimations = {};
@@ -84,12 +86,13 @@ MageS.Game = function () {
         }
     };
 
-    this.init = function (inventory, spellbook, spells, worlds, chat, spellcraft, animations, monimations) {
+    this.init = function (inventory, spellbook, spells, worlds, chat, home, spellcraft, animations, monimations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
         this.worlds = worlds;
         this.chat = chat;
+        this.home = home;
         this.spellcraft = spellcraft;
         this.animations = animations;
         this.monimations = monimations;
@@ -98,34 +101,24 @@ MageS.Game = function () {
 
         switch (this.gameStatus) {
             case 'mage-list':
-                $('a#mage-create-button').on('click', function () {
-                    MageS.Game.showCreateMagePopUp();
+                this.home.init();
+                this.initSVG(function() {
+                    MageS.Game.replaceMissingSvg();
                 });
-                $('#create-mage-pop-up a.mage-type').on('click', function() {
-                    var parent = $(this).parent();
-                    parent.find('.mage-name').show();
-                    parent.find('a.submit').show();
-                });
-                $('#create-mage-pop-up a.submit').on('click', function() {
-                    var name = $(this).prev().prev().val();
-                    var type = $(this).prev().val();
-                    if (!name || !type) {
-                        //display error
-                        return false;
-                    }
-                    Ajax.json('/MageSurvival/createMage', {
-                        data: 'name=' + name + '&type=' + type,
-                        callBack : function(data){ MageS.Game.callback(data) }
-                    });
-                });
+
                 break;
             case 'mage-home':
                 this.initSVG(function() {
                     // Get the SVG tag, ignore the rest
-                    MageS.Game.spellbook.buildSpells();
-                    MageS.Game.inventory.buildItems();
+                    //MageS.Game.spellbook.buildSpells();
+                    //MageS.Game.inventory.buildItems();
                     MageS.Game.replaceMissingSvg();
-                    MageS.Game.updateHealth(MageS.Game.rawData.mage);
+                    //MageS.Game.updateHealth(MageS.Game.rawData.mage);
+                    MageS.Game.home.startAnimation();
+
+                    setTimeout(function () {
+                        MageS.Game.hideGameLoadOverlay();
+                    }, 150);
                 });
                 break;
             case 'battle':
@@ -379,18 +372,20 @@ MageS.Game = function () {
                 info('action not found');
                 return;
         }
-        Ajax.json('/MageSurvival/action', {
+        Ajax.json('/Spellcraft/action', {
             data: 'action=' + actionName + '&data=' + dataString,
             callBack : function(data){ MageS.Game.callback(data) }
         });
-        MageS.Game.trytoGoFullScreen();
+        if (this.device == 'mobile') {
+            MageS.Game.trytoGoFullScreen();
+        }
     };
 
     this.callback = function(data) {
         if (data.action) {
             switch (data.action) {
                 case 'mage-create':
-                    window.location = '/MageSurvival';
+                    window.location = '/Spellcraft';
                     break;
                 case 'move':
                     //this.moveAnimate(data);
@@ -707,11 +702,6 @@ MageS.Game = function () {
         setTimeout(function(){
             $('.inventory-message-container .alert').hide(500);
         }, 3000);
-    };
-
-
-    this.showCreateMagePopUp = function() {
-        $('#create-mage-pop-up').show();
     };
 
     this.configureKeys = function() {

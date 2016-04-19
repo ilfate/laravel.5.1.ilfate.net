@@ -193,7 +193,11 @@ abstract class Spell
 //        $game->addMessage('Your new spell is level ' . $level);
 
         $allPossibleSpells = $spellsConfig['list'][$schoolId];
-        $spellConfiguration = self::getSpellByValue($allPossibleSpells, $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE]);
+        $baseSumValue = $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE];
+        $game->addMessage('Base value = ' . $baseSumValue);
+        $translatedSumValue = GameBuilder::getGame()->getMage()->translateItemValueForMage($baseSumValue);
+        $game->addMessage('Translated value = ' . $translatedSumValue);
+        $spellConfiguration = self::getSpellByValue($allPossibleSpells, $translatedSumValue);
         $spellName = $spellConfiguration['name'];
 
         $spellConfig = [];

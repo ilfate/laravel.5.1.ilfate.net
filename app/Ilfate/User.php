@@ -153,6 +153,7 @@ class User extends Model implements AuthenticatableContract,
 
     /**
      * Get all mages
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function mages()
     {

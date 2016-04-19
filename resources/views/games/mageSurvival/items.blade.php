@@ -41,6 +41,7 @@
         @endforeach
     </div>
 
+    <div class="clear"></div>
 
     <div class="items" data-items='{!! json_encode($viewData['game']['mage']['items'])!!}'>
     </div>

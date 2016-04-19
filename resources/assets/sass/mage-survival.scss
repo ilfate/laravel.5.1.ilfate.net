@@ -2,6 +2,7 @@
 
 $mage-colors-blue:#529BCA;
 $mage-colors-black:#584D3D;
+$mage-colors-black-absolute:#000;
 $mage-colors-brown:#5E412F;
 $mage-colors-clay: #FCEBB6;
 $mage-colors-dark-blue:#428BBA;
@@ -72,17 +73,6 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         height: 100%;
         z-index: 70;
         text-align: center;
-    }
-    #create-mage-pop-up {
-        display: none;
-        .mage-name {
-            display: none;
-        }
-        .single-mage-type {
-            a.submit {
-                display: none;    
-            }
-        }
     }
     .tooltip-spell-area, .tooltip-helper-area {
         position:absolute;
@@ -290,9 +280,12 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
             }
         }
         .items-filters-panel {
+            height: $cell-size + rem;
             border-bottom: 0.05rem solid $mage-colors-brown;
         }
         .items-filter {
+            height: $cell-size + rem;
+            float: left;
             cursor: pointer;
             opacity: 0.5;
             &.active {
@@ -305,6 +298,8 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         }
     }
     .items {
+        overflow-y: scroll;
+        height: calc(100% - #{$cell-size + rem});
         .item {
             float: left;
             width: $item-size + rem;
@@ -358,13 +353,15 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        overflow-y: scroll;
         width:100%;
         background-color: $mage-colors-clay;
         .spells-filter-panel {
+            height: $cell-size + rem;
             border-bottom: 0.05rem solid $mage-colors-brown;
         }
         .spell-filter {
+            height: $cell-size + rem;
+            float: left;
             cursor: pointer;
             opacity: 0.5;
             &.active {
@@ -372,8 +369,10 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
             }
         }
         .spells {
-
+            overflow-y: scroll;
+            height: calc(100% - #{$cell-size + rem});
             .spell {
+                position: relative;
                 float: left;
                 width: $mobile-item-size + rem;
                 height: $mobile-item-size + rem;
