@@ -38,18 +38,18 @@ MageS.Home = function (game) {
     };
 
     this.startAnimation = function() {
-        info('awdawd');
         var containerEl = $('.animation-layer');
+        var size = containerEl.width() / 10 * 6;
         var base = 0;
         for (var i = 0; i < 10; i++) {
             var svgEl = $('<div></div>').width('1').height('1').css({'position': 'absolute'});
             svgEl.svg({
                 onLoad: function (svg) {
-                    svg.circle(2 * MageS.Game.rem, 0, 0.25 * MageS.Game.rem,
+                    svg.circle(0, size, 0.25 * MageS.Game.rem,
                         {fill: 'none', stroke: 'none'});
                 }
             });
-            MageS.Game.monimations.portalStar(svgEl, 2 * MageS.Game.rem, 0.25 * MageS.Game.rem, base, Math.random() * 1500);
+            MageS.Game.monimations.portalStar(svgEl, size, 0.25 * MageS.Game.rem, base, Math.random() * 1500);
             base += 36;
             containerEl.append(svgEl);
         }

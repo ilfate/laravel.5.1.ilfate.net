@@ -160,4 +160,9 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('Ilfate\Mage', 'player_id', 'id');
     }
 
+    public function mage_user()
+    {
+        return $this->hasOne('Ilfate\MageUser', 'user_id', 'id');
+    }
+
 }

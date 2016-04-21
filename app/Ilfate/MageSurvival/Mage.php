@@ -48,7 +48,6 @@ abstract class Mage implements AliveInterface
     protected $items;
     protected $turn;
     protected $spells = [];
-    protected $itemSeed = '';
 
     /**
      * @var Game
@@ -83,9 +82,6 @@ abstract class Mage implements AliveInterface
         if (isset($this->data['d'])) {
             $this->d = $this->data['d'];
             $this->was['d'] = $this->data['d'];
-        }
-        if (!isset($this->data['iseed'])) {
-            $this->data['iseed'] = $this->getRandomIngredientsSeed();
         }
         if (isset($this->data['health'])) {
             $this->health = $this->data['health'];
@@ -555,7 +551,13 @@ abstract class Mage implements AliveInterface
      */
     public function getIngredientsSeed()
     {
-        return $this->data['iseed'];
+        $iseed = $this->game->getMageUser()->iseed;
+        if (!$iseed) {
+            $iseed = $this->getRandomIngredientsSeed();
+            $this->game->getMageUser()->iseed = $iseed;
+            $this->game->mageUserUpdated();
+        }
+        return $iseed;
     }
 
     /**
@@ -690,5 +692,11 @@ abstract class Mage implements AliveInterface
     public function getArmor()
     {
         return $this->armor;
+    }
+
+    public function leaveWorld()
+    {
+        $this->mageEntity->world_id = 0;
+        $this->update();
     }
 }

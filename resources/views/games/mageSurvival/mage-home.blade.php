@@ -25,23 +25,14 @@
         <h1 class="home-h1">
            Here you can choose a world
         </h1>
-        <div class="mage-info-panel">
-            @include('games.mageSurvival.mageProfile')
+        <div class="worlds-container">
+            @foreach($viewData['game']['available-worlds'] as $availableWorldId)
+                <a class="world" href="/Spellcraft/world/{{$viewData['game']['worlds'][$availableWorldId]['map-type']}}">
+                    {{$viewData['game']['worlds'][$availableWorldId]['name']}}
+                </a>
+            @endforeach
+
         </div>
 
-
-
-
-        <div class="right-panel">
-            <div id="mobile-spell-info-container"></div>
-            <div class="row spells-items-row">
-                <div class="col-md-6 items-col">
-{{--                    @include('games.mageSurvival.items')--}}
-                </div>
-                <div class="col-md-6 spells-col">
-{{--                    @include('games.mageSurvival.spells')--}}
-                </div>
-            </div>
-        </div>
     </div>
 @stop

@@ -132,7 +132,7 @@ MageS.Monimations = function (game) {
                 //scale(' + ( 1 - normalProgression) + ')
                 el.find('svg')[0].style.transform = 'rotate(' + (base - normalProgression * 60) + 'deg) ';
 
-                el.find('circle').css({'svgR' : r - (r * normalProgression), 'svgCx' : cx - (cx * normalProgression)});
+                el.find('circle').css({'svgR' : r - (r * normalProgression), 'svgCy' : cx - (cx * normalProgression)});
                 //el.find('svg').css('margin-left', cx - (cx * normalProgression));
             }
         }).run();

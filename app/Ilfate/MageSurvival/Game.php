@@ -13,6 +13,8 @@
  */
 namespace Ilfate\MageSurvival;
 use Ilfate\Mage;
+use Ilfate\MageUser;
+use Ilfate\MageWorld;
 use Ilfate\User;
 
 /**
@@ -43,6 +45,7 @@ class Game
     const EVENT_NAME_MAGE_DAMAGE     = 'mage-damage';
     const EVENT_NAME_MAGE_HEAL       = 'mage-heal';
     const EVENT_NAME_MAGE_ADD_ARMOR  = 'mage-add-armor';
+    const EVENT_NAME_MAGE_USE_PORTAL = 'mage-use-portal';
     const EVENT_NAME_UNIT_DAMAGE     = 'unit-damage';
     const EVENT_NAME_ADD_OBJECT      = 'add-object';
     const EVENT_NAME_SPELL_CRAFT     = 'spell-craft';
@@ -95,6 +98,11 @@ class Game
     protected $isSpellsUpdated = false;
     protected $isUnitsUpdated = false;
     protected $inactiveMages = [];
+    /**
+     * @var MageUser
+     */
+    protected $mageUser;
+    protected $mageUserUpdated = false;
 
     /**
      * @var WorldGenerator
@@ -220,6 +228,9 @@ class Game
         }
         $this->mage->saveIfUpdated();
         $this->world->saveIfChanged();
+        if ($this->mageUserUpdated) {
+            $this->mageUser->save();
+        }
     }
 
     public function getTurn()
@@ -453,6 +464,8 @@ class Game
         $data = [];
         $data['mage'] = $this->mage->viewExport();
         $data['item-types'] = $this->mage->getItemsConfig()['item-types'];
+        $data['worlds'] = $this->config['worlds'];
+        $data['available-worlds'] = [1,2];
 
         return ['game' => $data];
     }
@@ -469,4 +482,51 @@ class Game
     {
         return $this->inactiveMages;
     }
+
+    public function setWorldType($name)
+    {
+        if ($this->status !== self::STATUS_HOME) {
+            throw new \Exception('Wrong status');
+        }
+        $this->status = self::STATUS_BATTLE;
+        $allWorlds = \Config::get('mageSurvival.worlds');
+        $type = 0;
+        foreach ($allWorlds as $typeId => $worldConfig) {
+            if ($worldConfig['name'] == $name) {
+                $type = $typeId;
+                break;
+            }
+        }
+        if (!$type) {
+            throw new \Exception('Wrong world type');
+        }
+        $existingWorld = MageWorld::where('type', '=', $type)->where('player_id', '=', User::getUser()->id)->get()->first();
+        if ($existingWorld) {
+            $mageEntity = $this->mage->getMageEntity();
+            $mageEntity->world_id = $existingWorld->id;
+            $mageEntity->save();
+        } else {
+            GameBuilder::createWorld($this, $this->mage->getMageEntity());
+        }
+        return true;
+    }
+
+    public function setMageUser(MageUser $mageUser)
+    {
+        $this->mageUser = $mageUser;
+    }
+
+    /**
+     * @return MageUser
+     */
+    public function getMageUser()
+    {
+        return $this->mageUser;
+    }
+
+    public function mageUserUpdated()
+    {
+        $this->mageUserUpdated = true;
+    }
+
 }

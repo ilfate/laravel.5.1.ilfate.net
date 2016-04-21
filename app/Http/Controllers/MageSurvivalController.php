@@ -45,7 +45,7 @@ class MageSurvivalController extends BaseController
 
         $name = $request->session()->get('userName', null);
 
-        view()->share('page_title', 'Mage Survival - battle with your magic.');
+        view()->share('page_title', 'Spellcraft - turn based magic crafting Rogue like RPG game!');
         //view()->share('facebookEnabled', true);
         view()->share('bodyClass', 'mage-survival');
 
@@ -98,6 +98,13 @@ class MageSurvivalController extends BaseController
             ];
         }
         return json_encode($result);
+    }
+
+    public function world($name, Request $request)
+    {
+        $game = $this->getGame($request);
+        $game->setWorldType($name);
+        return redirect('/Spellcraft');
     }
 
     public function redirect()

@@ -19,10 +19,21 @@ return array(
     'world-types' => [
         1 => 'Tutorial'
     ],
+    'worlds' => [
+        1 => [
+            'name' => 'Tutorial',
+            'map-type' => 'Tutorial'
+        ],
+        2 => [
+            'name' => 'Witch forest',
+            'map-type' => 'WitchForest'
+        ],
+    ],
     'objects' => [
         'list' => [
             1 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay'],
             2 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay'],
+            1000 => ['name' => 'Portal', 'class' => 'Portal', 'icon' => 'icon-magic-portal', 'iconColor' => 'color-black'],
         ],
         'chances' => [
             // World type

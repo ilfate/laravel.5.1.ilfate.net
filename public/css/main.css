@@ -3883,19 +3883,19 @@ body {
 
 .game-container.home .home-portal-animation {
   width: 100%;
-  height: 8rem;
+  height: 12rem;
   background-color: #5E412F;
   overflow-y: hidden;
   position: relative; }
   .game-container.home .home-portal-animation .svg-portal {
     position: absolute;
-    width: 8rem;
+    width: 12rem;
     margin: 0 auto;
     left: 0;
     right: 0; }
     .game-container.home .home-portal-animation .svg-portal svg {
-      width: 8rem;
-      height: 8rem; }
+      width: 12rem;
+      height: 12rem; }
     .game-container.home .home-portal-animation .svg-portal.main {
       z-index: 6; }
       .game-container.home .home-portal-animation .svg-portal.main svg {
@@ -3911,10 +3911,10 @@ body {
         fill: #FCEBB6; }
   .game-container.home .home-portal-animation .animation-layer {
     position: absolute;
-    width: 8rem;
-    height: 4rem;
-    margin: 3.5rem auto 0 auto;
-    padding-left: 4rem;
+    width: 12rem;
+    height: 6rem;
+    margin: 6rem auto 0 auto;
+    padding-left: 6rem;
     left: 0;
     right: 0;
     z-index: 5; }
@@ -3929,8 +3929,18 @@ body {
   color: #F0A830;
   font-size: 1.3rem;
   background-color: #FCEBB6;
-  margin-top: 0;
+  margin: 0;
   z-index: 10; }
+.game-container.home .worlds-container .world {
+  display: block;
+  background-color: #529BCA;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-top: 1px solid #FCEBB6;
+  text-align: center;
+  text-shadow: #F0A830 1px 1px;
+  color: #5E412F; }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 i.rpg-icon-small {

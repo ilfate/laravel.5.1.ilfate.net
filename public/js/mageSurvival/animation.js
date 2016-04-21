@@ -113,6 +113,9 @@ MageS.Animations = function (game) {
             case 'mage-add-armor':
                 this.mageAddArmorAnimation(data.data);
                 break;
+            case 'mage-use-portal':
+                this.mageUsePortalAnimation(data.data);
+                break;
             case 'unit-damage':
                 info('Unit got ' + data.data.value + ' damage');
                 //$('.health-value').html(data.data.health);
@@ -278,6 +281,25 @@ MageS.Animations = function (game) {
         this.game.updateHealth(data);
         //$('.health-bar .progress-bar-success').css('width', data.health + '%');
         this.showDamageAnimation(data, 'armor', false);
+    };
+    this.mageUsePortalAnimation = function(data) {
+        info('PORTAL');
+        $('.battle-field.current .cell').css('position', 'fixed').each(function() {
+            //var thisTop = parseInt($(this).offset().top);
+            //var thisLeft = parseInt($(this).offset().left);
+            //info(thisTop);
+            //$(this).css({'top' : thisTop, 'left': thisLeft})
+            $(this).animate({
+                'margin-top': Math.random() * 500
+            }, {'easing': 'easeOutBack'});
+            $(this).animate({
+                'margin-left': Math.random() * 500
+            }, {'easing': 'easeInBack'})
+        });
+        setTimeout(function(){
+            window.location = '/Spellcraft';
+        }, 500);
+            //.animate()
     };
 
     this.showDamageAnimation = function (data, type, enemy) {

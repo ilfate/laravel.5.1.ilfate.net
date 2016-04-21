@@ -42,6 +42,7 @@ abstract class WorldGenerator
         'spawnLocation' => [
             'radius' => 1,
         ],
+        'portalLocation' => ['x' => 0, 'y' => 1]
     ];
 
     protected $visibleObjects = [];
@@ -63,10 +64,14 @@ abstract class WorldGenerator
         $map = [];
         //create spawn
         $radius = $this->generatorConfig['spawnLocation']['radius'];
+        $portalLocation = $this->generatorConfig['portalLocation'];
 
         for ($y = -$radius; $y <= $radius; $y++) {
             for ($x = -$radius; $x <= $radius; $x++) {
                 $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_SPAWN);
+                if ($x == $portalLocation['x'] && $y == $portalLocation['y']) {
+                    $this->world->addObject(1000, $x, $y);
+                }
             }
         }
         // generate cell for rest of the screen

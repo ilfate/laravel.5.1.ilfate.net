@@ -15,6 +15,7 @@ namespace Ilfate\MageSurvival;
 
 use Ilfate\Mage as MageModel;
 use Ilfate\Mage;
+use Ilfate\MageUser;
 use Ilfate\MageWorld;
 use Ilfate\User;
 use Illuminate\Http\Request;
@@ -73,6 +74,12 @@ class GameBuilder
         }
 
         $user = User::getUser();
+        $mageUser = $user->mage_user()->first();
+        if (!$mageUser) {
+            self::createMageUser($user, self::$game);
+        } else {
+            self::$game->setMageUser($mageUser);
+        }
         self::$game->setUser($user);
         $activeMage = $user->mages()->where('status', Mage::MAGE_STATUS_ACTIVE)->first();
         if ($activeMage) {
@@ -111,11 +118,11 @@ class GameBuilder
         return self::getGame()->getMage()->getRelativeCoordinats($x, $y);
     }
 
-    protected static function createWorld(Game $game, Mage $mage)
+    public static function createWorld(Game $game, Mage $mage, $type = 1)
     {
         $mageWorld = new MageWorld();
         $mageWorld->player_id = $game->getUser()->id;
-        $mageWorld->type = 1;
+        $mageWorld->type = $type;
         $mageWorld->save();
         $mage->world_id = $mageWorld->id;
         $world = new World($mageWorld);
@@ -127,5 +134,16 @@ class GameBuilder
         $game->initWorld();
     }
 
+    /**
+     * @param      $user
+     * @param Game $game
+     */
+    protected static function createMageUser($user, Game $game)
+    {
+        $mageUser = new MageUser();
+        $mageUser->user_id = $user->id;
+        $mageUser->save();
+        $game->setMageUser($mageUser);
+    }
 
 }
