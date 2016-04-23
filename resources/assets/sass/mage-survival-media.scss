@@ -47,6 +47,7 @@
                 .mage-profile {
                     display: block;
                     float: none;
+                    width: 100%;
                     .health-bar {
                         display: block;
                     }
@@ -101,6 +102,7 @@
                     float:left;
                     margin: 0 0.1rem;
                     line-height: 1.1rem;
+                    background-color: $mage-colors-gold;
                     a {
                         width:auto;
                         height: auto;
@@ -109,9 +111,15 @@
                         cursor: pointer;
                         padding: 0.15rem 0.3rem;
                         text-decoration: none;
+                        background-color: $mage-colors-blue;
+                        color: $mage-colors-white;
+                        border: none;
+                        //transition: background-color 0.5s ease;
+                        @include transition(all 0.25s ease);
                         &:hover {
-                            color: $mage-colors-clay;
-                            border: 0.05rem solid $mage-colors-orange;
+                            color: $mage-colors-gold;
+                            background-color: $mage-colors-dark-blue;
+                            transform: rotate(3deg);
                         }
                         .svg { display: none; }
                         .text { display: inherit; }

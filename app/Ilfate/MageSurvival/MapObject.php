@@ -36,6 +36,9 @@ abstract class MapObject
     protected $data;
     protected $type;
     protected $config;
+    protected $viewData = [];
+
+    protected $isPassable = true;
 
     /**
      * @var Game
@@ -139,6 +142,7 @@ abstract class MapObject
             'x' => $x,
             'y' => $y,
             'data' => $this->getData(),
+            'viewData' => $this->viewData,
             'type' => $this->getType(),
             'config' => $this->config,
         ];
@@ -153,6 +157,11 @@ abstract class MapObject
     {
         $this->world->deleteObject($this->x, $this->y);
         GameBuilder::animateEvent(Game::EVENT_NAME_OBJECT_DESTROY, ['id' => $this->getId()], $stage);
+    }
+
+    public function update()
+    {
+        $this->world->updateObject($this);
     }
 
     /**
@@ -201,5 +210,26 @@ abstract class MapObject
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getX()
+    {
+        return $this->x;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getY()
+    {
+        return $this->y;
+    }
+
+    public function isPassable()
+    {
+        return $this->isPassable;
     }
 }

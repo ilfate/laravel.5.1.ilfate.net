@@ -38,7 +38,7 @@ abstract class WorldGenerator
 
     protected $config;
 
-    protected $generatorConfig = [
+    protected static $generatorConfig = [
         'spawnLocation' => [
             'radius' => 1,
         ],
@@ -57,34 +57,68 @@ abstract class WorldGenerator
     }
 
     /**
+     * @return array
+     */
+    public static function getGeneratorConfig()
+    {
+        return static::$generatorConfig;
+    }
+
+    /**
      * INit new world
      */
     public function init()
     {
         $map = [];
         //create spawn
-        $radius = $this->generatorConfig['spawnLocation']['radius'];
-        $portalLocation = $this->generatorConfig['portalLocation'];
-
-        for ($y = -$radius; $y <= $radius; $y++) {
-            for ($x = -$radius; $x <= $radius; $x++) {
-                $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_SPAWN);
-                if ($x == $portalLocation['x'] && $y == $portalLocation['y']) {
-                    $this->world->addObject(1000, $x, $y);
+        if (!empty(static::$generatorConfig['world-predefined'])) {
+            $tempMap = static::$generatorConfig['full-world'];
+            foreach ($tempMap as $y => $row) {
+                foreach ($row as $x => $cellData) {
+                    if (strpos($cellData, '-') !== false) {
+                        list($cell, $unitId) = explode('-', $cellData);
+                        $this->world->addUnit($unitId, $x, $y);
+                    } else if (strpos($cellData, '+') !== false) {
+                        list($cell, $objectId) = explode('+', $cellData);
+                        $this->world->addObject($objectId, $x, $y);
+                    } else {
+                        $cell = $cellData;
+                    }
+                    $map[$y][$x] = $cell;
                 }
             }
-        }
-        // generate cell for rest of the screen
-        $radius = $this->config['game']['screen-radius'];
-        for ($y = -$radius; $y <= $radius; $y++) {
-            for ($x = -$radius; $x <= $radius; $x++) {
-                if (!isset($map[$y][$x])) {
-                    $map[$y][$x] = $this->getOrGenerateCell($x, $y);
+            unset($tempMap);
+        } else {
+            $radius         = static::$generatorConfig['spawnLocation']['radius'];
+            $portalLocation = static::$generatorConfig['portalLocation'];
+
+            for ($y = -$radius; $y <= $radius; $y++) {
+                for ($x = -$radius; $x <= $radius; $x++) {
+                    $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_SPAWN);
+                    if ($x == $portalLocation['x'] && $y == $portalLocation['y']) {
+                        $this->world->addObject(1000, $x, $y);
+                    }
+                }
+            }
+            // generate cell for rest of the screen
+            $radius = $this->config['game']['screen-radius'];
+            for ($y = -$radius; $y <= $radius; $y++) {
+                for ($x = -$radius; $x <= $radius; $x++) {
+                    if (!isset($map[$y][$x])) {
+                        $map[$y][$x] = $this->getOrGenerateCell($x, $y);
+                    }
                 }
             }
         }
         $this->world->setMap($map);
         $this->world->save();
+        $this->mage->setX(0);
+        $this->mage->setY(0);
+        $this->mage->save();
+    }
+
+    public function mageEnter()
+    {
         $this->mage->setX(0);
         $this->mage->setY(0);
         $this->mage->save();
@@ -212,6 +246,7 @@ abstract class WorldGenerator
      * @return string
      */
     abstract public function getCellByType($type);
+
 
 
 }

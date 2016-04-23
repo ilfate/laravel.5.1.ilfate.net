@@ -42,10 +42,12 @@
 <script src="/js/mageSurvival/spellbook.js"></script>
 <script src="/js/mageSurvival/spells.js"></script>
 <script src="/js/mageSurvival/worlds.js"></script>
+<script src="/js/mageSurvival/objects.js"></script>
 <script src="/js/mageSurvival/chat.js"></script>
 <script src="/js/mageSurvival/home.js"></script>
 <script src="/js/mageSurvival/spellcraft.js"></script>
 <script src="/js/mageSurvival/monimations.js"></script>
+<script src="/js/mageSurvival/map-builder.js"></script>
 {{--<script>--}}
     {{--require.config({--}}
         {{--paths: {--}}

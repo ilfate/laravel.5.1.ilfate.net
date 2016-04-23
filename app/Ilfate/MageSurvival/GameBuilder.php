@@ -118,17 +118,19 @@ class GameBuilder
         return self::getGame()->getMage()->getRelativeCoordinats($x, $y);
     }
 
-    public static function createWorld(Game $game, Mage $mage, $type = 1)
+    public static function createWorld(Game $game, Mage $mageEntity, $type = 1)
     {
         $mageWorld = new MageWorld();
         $mageWorld->player_id = $game->getUser()->id;
         $mageWorld->type = $type;
         $mageWorld->save();
-        $mage->world_id = $mageWorld->id;
+
+        $mageEntity->world_id = $mageWorld->id;
+
         $world = new World($mageWorld);
 
-        $mageEntity = $game->getMage();
-        $mageEntity->world_id = $mageWorld->id;
+        $mage = $game->getMage();
+        $mage->world_id = $mageWorld->id;
         $game->setWorld($world);
 
         $game->initWorld();

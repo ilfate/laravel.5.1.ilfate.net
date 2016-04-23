@@ -62,6 +62,7 @@ $mage-portal-animation-size:12;
         background-color: $mage-colors-clay;
         margin: 0;
         z-index: 10;
+        text-align: center;
     }
     .worlds-container {
         .world {
@@ -74,6 +75,10 @@ $mage-portal-animation-size:12;
             text-align: center;
             text-shadow: $mage-colors-gold 1px 1px;
             color: $mage-colors-brown;
+            &:hover {
+                color: $mage-colors-clay;
+                text-shadow: $mage-colors-gold 3px 3px 5px;
+            }
         }
     }
 }

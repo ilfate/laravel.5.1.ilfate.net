@@ -29,11 +29,12 @@ $(document).ready(function() {
         var spellbook = new MageS.Spellbook(MageS.Game);
         var spells = new MageS.Spells(MageS.Game);
         var worlds = new MageS.Worlds(MageS.Game);
+        var objects = new MageS.Objects(MageS.Game);
         var chat = new MageS.Chat(MageS.Game);
         var home = new MageS.Home(MageS.Game);
         var spellcraft = new MageS.Spellcraft(MageS.Game);
         var monimations = new MageS.Monimations(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells, worlds, chat, home, spellcraft, animations, monimations);
+        MageS.Game.init(inventory, spellbook, spells, worlds, objects, chat, home, spellcraft, animations, monimations);
     }
 });
 
@@ -53,6 +54,7 @@ MageS.Game = function () {
     this.spellbook = {};
     this.spells = {};
     this.worlds = {};
+    this.objects = {};
     this.chat = {};
     this.home = {};
     this.spellcraft = {};
@@ -86,11 +88,12 @@ MageS.Game = function () {
         }
     };
 
-    this.init = function (inventory, spellbook, spells, worlds, chat, home, spellcraft, animations, monimations) {
+    this.init = function (inventory, spellbook, spells, worlds, objects, chat, home, spellcraft, animations, monimations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
         this.worlds = worlds;
+        this.objects = objects;
         this.chat = chat;
         this.home = home;
         this.spellcraft = spellcraft;
@@ -459,18 +462,18 @@ MageS.Game = function () {
                     var icon = $(this.svg).find('#' + actions[i].icon + ' path');
                     obj.find('svg').append(icon.clone());
                     actionsEl.append(obj);
+                    if (!isFirstLoad) {
+                        obj.find('a')
+                            .css({'opacity': 0.3})
+                            .animate({'opacity': 1}, {
+                                queue: false,
+                                duration: this.animationTime / 2
+                            });
+                    }
                     if (actions[i].noAjax == undefined) {
                         obj.on('click', function () {
                             MageS.Game.action('objectInteract', '{"method":"' + $(this).data('method') + '"}')
                         });
-                    }
-                    if (!isFirstLoad) {
-                        obj.find('a')
-                            .css({'background-color': '#FCEBB6', 'opacity': 0.3})
-                            .animate({'background-color': '#5E412F', 'opacity': 1}, {
-                                queue: false,
-                                duration: this.animationTime
-                            });
                     }
                     break;
                 case 'move-0':
@@ -527,6 +530,9 @@ MageS.Game = function () {
                         break;
                 }
             });
+        } else {
+            // we need to show action again
+
         }
     };
 
@@ -623,7 +629,7 @@ MageS.Game = function () {
                 $('.loading-field').fadeIn();
                 break;
         }
-        $('.actions-container .actions').fadeOut();
+        $('.actions-container .actions').fadeOut(this.animationTime / 2);
         this.actionInProcess = true;
     };
 
@@ -655,7 +661,11 @@ MageS.Game = function () {
         }
         var temaplate = $('#template-object').html();
         Mustache.parse(temaplate);
-        var rendered = Mustache.render(temaplate, {'id': object.id, 'type':object.type});
+        var addClass = '';
+        if (object.viewData.class !== undefined) {
+            addClass = object.viewData.class;
+        }
+        var rendered = Mustache.render(temaplate, {'id': object.id, 'type':object.type, 'addClass' : addClass});
         var obj = $(rendered);
         var icon = $(this.svg).find('#' + object.config.icon + ' path');
         obj.find('svg').append(icon.clone());

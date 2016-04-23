@@ -124,6 +124,9 @@ MageS.Animations = function (game) {
             case 'object-destroy':
                 this.objectDestroyAnimation(data.data);
                 break;
+            case 'object-activate':
+                this.game.objects.activate(data.data);
+                break;
             case 'add-object':
                 this.addObjectAnimation(data.data);
                 break;
@@ -284,18 +287,19 @@ MageS.Animations = function (game) {
     };
     this.mageUsePortalAnimation = function(data) {
         info('PORTAL');
-        $('.battle-field.current .cell').css('position', 'fixed').each(function() {
-            //var thisTop = parseInt($(this).offset().top);
-            //var thisLeft = parseInt($(this).offset().left);
-            //info(thisTop);
-            //$(this).css({'top' : thisTop, 'left': thisLeft})
-            $(this).animate({
-                'margin-top': Math.random() * 500
-            }, {'easing': 'easeOutBack'});
-            $(this).animate({
-                'margin-left': Math.random() * 500
-            }, {'easing': 'easeInBack'})
-        });
+        //$('.battle-field.current .cell').css('position', 'fixed').each(function() {
+        //    //var thisTop = parseInt($(this).offset().top);
+        //    //var thisLeft = parseInt($(this).offset().left);
+        //    //info(thisTop);
+        //    //$(this).css({'top' : thisTop, 'left': thisLeft})
+        //    $(this).animate({
+        //        'margin-top': Math.random() * 500
+        //    }, {'easing': 'easeOutBack'});
+        //    $(this).animate({
+        //        'margin-left': Math.random() * 500
+        //    }, {'easing': 'easeInBack'})
+        //});
+        this.game.monimations.rotateWithScale($('body'), 0, 540, 1, -1, 1000);
         setTimeout(function(){
             window.location = '/Spellcraft';
         }, 500);

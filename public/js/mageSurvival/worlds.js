@@ -10,7 +10,17 @@ MageS.Worlds = function (game) {
 
     this.worlds = {
         'Tutorial' : {
-            's' : {'icon':'icon-rock', 'icon-color': 'color-grey'}
+            's' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
+            'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey'},
+            'w2' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey-darker'},
+            'w3' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey-lighter'},
+            'w4' : {'icon':'icon-brick-wall-damaged', 'icon-color': 'color-grey'},
+            'w5' : {'icon':'icon-brick-wall-damaged', 'icon-color': 'color-grey-darker'},
+            'w6' : {'icon':'icon-brick-wall-damaged', 'icon-color': 'color-grey-lighter'},
+        },
+        'WitchForest' : {
+            's' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
+            'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey'},
         }
     };
 

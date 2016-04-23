@@ -10,10 +10,15 @@ return array(
             'behaviour' => 'Passive', 'aggressiveRange' => 4, 'attacks' => ['teeth'],
             'icon' => 'icon-mouse', 'loot' => 2
         ],
+        2 => [
+            'name' => 'Dummy', 'class' => 'Stationary\\Dummy', 'health' => 1,
+            'behaviour' => 'Passive',
+            'icon' => 'icon-police-target', 'icon-color' => 'color-dark-blue'
+        ],
     ],
     'chances' => [
         // World type
-        1 => [ // Tutorial world
+        2 => [ // Tutorial world
             // Range from world center
 
             /* 0 - 50 */        50 => [1],

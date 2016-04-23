@@ -1,0 +1,26 @@
+
+
+.mage-map-builder {
+    .buttons-right {
+        position: absolute;
+        right:0;
+        width: 40px;
+    }
+    .map {
+        color: $mage-colors-clay;
+    }
+
+    .cell {
+        font-size: 12px;
+        border-top: 1px solid $mage-colors-clay;
+        border-left: 1px solid $mage-colors-clay;
+        position: absolute;
+        &.x-0.y-0 {
+            background-color: #5e5e5e;
+        }
+        input {
+            width: 40px;
+            color:$mage-colors-black;
+        }
+    }
+}

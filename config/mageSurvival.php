@@ -22,22 +22,25 @@ return array(
     'worlds' => [
         1 => [
             'name' => 'Tutorial',
-            'map-type' => 'Tutorial'
+            'map-type' => 'Tutorial',
+            'is-available' => true,
         ],
         2 => [
             'name' => 'Witch forest',
-            'map-type' => 'WitchForest'
+            'map-type' => 'WitchForest',
+            'is-available' => true,
         ],
     ],
     'objects' => [
         'list' => [
             1 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay'],
             2 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay'],
+            50 => ['name' => 'Door', 'class' => 'DoorQuest', 'icon' => 'icon-wooden-door', 'iconColor' => 'color-brown'],
             1000 => ['name' => 'Portal', 'class' => 'Portal', 'icon' => 'icon-magic-portal', 'iconColor' => 'color-black'],
         ],
         'chances' => [
             // World type
-            1 => [ // Tutorial world
+            2 => [ // WitchForest world
                 // Range from world center
 
                 /* 0 - 50 */        50 => [1],

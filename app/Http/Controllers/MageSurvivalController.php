@@ -112,6 +112,65 @@ class MageSurvivalController extends BaseController
         return redirect('/Spellcraft');
     }
 
+    public function mapBuilder($name,Request $request)
+    {
+        $x = $request->get('x', 0);
+        $y = $request->get('y', 0);
+        $value = $request->session()->get('mapBuilder.' . $name);
+        if ($value) {
+            view()->share('mapValue', json_encode($value));
+        }
+        view()->share('bodyClass', 'mage-map-builder');
+        view()->share('mapName', $name);
+        view()->share('offsetX', $x);
+        view()->share('offsetY', $y);
+        return view('games.mageSurvival.map-builder');
+    }
+    public function saveMapName(Request $request)
+    {
+        $name = $request->get('name');
+        $map = $request->get('map');
+        $map = str_replace(' ', '+', $map);
+        $newMapPart = json_decode($map, true);
+        $oldFullMap = $request->session()->get('mapBuilder.' . $name);
+        if ($oldFullMap) {
+            foreach ($newMapPart as $y => $row) {
+                foreach ($row as $x => $cell) {
+                    $oldFullMap[$y][$x] = $cell;
+                }
+            }
+        }
+        $request->session()->set('mapBuilder.' . $name, $oldFullMap);
+//        return redirect('/Spellcraft/mapBuilder/show/' . $name);
+        return '{}';
+    }
+    public function showMap($name, Request $request)
+    {
+        $value = $request->session()->get('mapBuilder.'. $name);
+        return var_export($value);
+    }
+
+    public function editMap($name, Request $request)
+    {
+        $worlds = \Config::get('mageSurvival.worlds');
+        $type = 0;
+        foreach ($worlds as $typeId => $world) {
+            if ($world['map-type'] == $name) {
+                $type = $typeId;
+            }
+        }
+        if (!$type) {
+            return redirect('/Spellcraft/mapBuilder');
+        }
+        $className = '\Ilfate\MageSurvival\Generators\WorldGenerator' . $worlds[$type]['map-type'];
+        $mapConfig = $className::getGeneratorConfig();
+        if (empty($mapConfig['full-world'])) {
+            return redirect('/Spellcraft/mapBuilder');
+        }
+        $request->session()->set('mapBuilder.'. $name, $mapConfig['full-world']);
+        return redirect('/Spellcraft/mapBuilder/' . $name);
+    }
+
     protected function getDataForView($view, Game $game)
     {
         $data = [];

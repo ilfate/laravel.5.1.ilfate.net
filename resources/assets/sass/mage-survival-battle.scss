@@ -125,13 +125,7 @@
         height:($map-radius + 1) * $cell-size + rem;
     }
 
-    .battle-border.Tutorial {
-        .cell.bl { background-color: darkgrey; }
-        .cell.f1 { background-color: green; }
-        .cell.f2 { background-color: darkolivegreen; }
-        .cell.f3 { background-color: green; }
-        .cell.s  { background-color: green; }
-    }
+
     .pattern-field {
         position: absolute;
 
@@ -153,5 +147,20 @@
             }
         }
     }
+}
+
+.battle-border.Tutorial {
+    .cell.bl { background-color: darkgrey; }
+    .cell.f1 { background-color: green; }
+    .cell.f2 { background-color: darkolivegreen; }
+    .cell.f3 { background-color: green; }
+    .cell.s  { background-color: green; }
+}
+.battle-border.WitchForest {
+    .cell.bl { background-color: darkgrey; }
+    .cell.f1 { background-color: green; }
+    .cell.f2 { background-color: darkolivegreen; }
+    .cell.f3 { background-color: green; }
+    .cell.s  { background-color: green; }
 }
 

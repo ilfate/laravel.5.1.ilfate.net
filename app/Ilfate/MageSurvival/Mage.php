@@ -59,7 +59,6 @@ abstract class Mage implements AliveInterface
     protected $itemsConfig;
     protected $itemsChanges;
     protected $spellsChanges;
-    protected $events = [];
 
     public function __construct(\Ilfate\Mage $mageEntity, Game $game)
     {
@@ -69,7 +68,6 @@ abstract class Mage implements AliveInterface
         $this->data = json_decode($mageEntity->data, true);
         $this->items = json_decode($mageEntity->items, true);
         $this->spells = json_decode($mageEntity->spells, true);
-        Event::import(json_decode($mageEntity->events, true));
         $this->turn = $mageEntity->turn;
         if (isset($this->data['x'])) {
             $this->x = $this->data['x'];
@@ -675,15 +673,6 @@ abstract class Mage implements AliveInterface
     public function getId()
     {
         return 'mage';
-    }
-
-    /**
-     * @param array $events
-     */
-    public function setEvents($events)
-    {
-        $this->mageEntity->events = json_encode($events);
-        $this->update();
     }
 
     /**

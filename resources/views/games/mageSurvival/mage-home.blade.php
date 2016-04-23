@@ -27,8 +27,8 @@
         </h1>
         <div class="worlds-container">
             @foreach($viewData['game']['available-worlds'] as $availableWorldId)
-                <a class="world" href="/Spellcraft/world/{{$viewData['game']['worlds'][$availableWorldId]['map-type']}}">
-                    {{$viewData['game']['worlds'][$availableWorldId]['name']}}
+                <a class="world" href="/Spellcraft/world/{{$availableWorldId['map-type']}}">
+                    {{$availableWorldId['name']}}
                 </a>
             @endforeach
 

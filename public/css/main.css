@@ -3340,7 +3340,7 @@ body {
     color: #ffffff;
     position: absolute;
     width: 100%;
-    height: 1.955rem;
+    height: 1.7rem;
     text-align: center; }
   .mage-survival .craft-spell-overlay .spell-craft-info .text-1 {
     height: 1.87rem; }
@@ -3379,8 +3379,12 @@ body {
   fill: #428BBA; }
 .mage-survival .color-green svg.svg-icon path {
   fill: #069E2D; }
-.mage-survival .color-grey svg.svg-icon path {
+.mage-survival .color-grey-lighter svg.svg-icon path {
   fill: #999; }
+.mage-survival .color-grey svg.svg-icon path {
+  fill: #777; }
+.mage-survival .color-grey-darker svg.svg-icon path {
+  fill: #555; }
 .mage-survival .color-brown svg.svg-icon path {
   fill: #5E412F; }
 .mage-survival .color-clay svg.svg-icon path {
@@ -3427,6 +3431,16 @@ body {
     -webkit-transform: rotate(0deg); }
   100% {
     -webkit-transform: rotate(-360deg); } }
+.object {
+  -webkit-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  transition: all 0.5s linear; }
+  .object.openDoor {
+    transform: skewY(-20deg) scaleX(0.4) translate(1rem, 0px);
+    -webkit-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    transition: all 0.5s linear; }
+
 /* COLOR PALLETE */
 .mage-survival .battle-border {
   float: left;
@@ -3533,16 +3547,6 @@ body {
   margin: 8rem 0 0 8rem;
   width: 9.6rem;
   height: 9.6rem; }
-.mage-survival .battle-border.Tutorial .cell.bl {
-  background-color: darkgrey; }
-.mage-survival .battle-border.Tutorial .cell.f1 {
-  background-color: green; }
-.mage-survival .battle-border.Tutorial .cell.f2 {
-  background-color: darkolivegreen; }
-.mage-survival .battle-border.Tutorial .cell.f3 {
-  background-color: green; }
-.mage-survival .battle-border.Tutorial .cell.s {
-  background-color: green; }
 .mage-survival .pattern-field {
   position: absolute; }
   .mage-survival .pattern-field .pattern-cell {
@@ -3559,6 +3563,28 @@ body {
     .mage-survival .pattern-field .pattern-cell.active {
       z-index: 45;
       opacity: 0.7; }
+
+.battle-border.Tutorial .cell.bl {
+  background-color: darkgrey; }
+.battle-border.Tutorial .cell.f1 {
+  background-color: green; }
+.battle-border.Tutorial .cell.f2 {
+  background-color: darkolivegreen; }
+.battle-border.Tutorial .cell.f3 {
+  background-color: green; }
+.battle-border.Tutorial .cell.s {
+  background-color: green; }
+
+.battle-border.WitchForest .cell.bl {
+  background-color: darkgrey; }
+.battle-border.WitchForest .cell.f1 {
+  background-color: green; }
+.battle-border.WitchForest .cell.f2 {
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.f3 {
+  background-color: green; }
+.battle-border.WitchForest .cell.s {
+  background-color: green; }
 
 .mage-survival .container.main {
   position: relative;
@@ -3599,7 +3625,8 @@ body {
         padding-left: 0.75rem; }
         .mage-survival .container.main .mage-info-panel .mage-profile {
           display: block;
-          float: none; }
+          float: none;
+          width: 100%; }
           .mage-survival .container.main .mage-info-panel .mage-profile .health-bar {
             display: block; }
         .mage-survival .container.main .mage-info-panel .health-mobile-info {
@@ -3649,7 +3676,8 @@ body {
         .mage-survival .container.main .actions-container .action {
           float: left;
           margin: 0 0.1rem;
-          line-height: 1.1rem; }
+          line-height: 1.1rem;
+          background-color: #F0A830; }
           .mage-survival .container.main .actions-container .action a {
             width: auto;
             height: auto;
@@ -3657,10 +3685,17 @@ body {
             font-size: 0.6rem;
             cursor: pointer;
             padding: 0.15rem 0.3rem;
-            text-decoration: none; }
+            text-decoration: none;
+            background-color: #529BCA;
+            color: #ffffff;
+            border: none;
+            -webkit-transition: all 0.25s ease;
+            -o-transition: all 0.25s ease;
+            transition: all 0.25s ease; }
             .mage-survival .container.main .actions-container .action a:hover {
-              color: #FCEBB6;
-              border: 0.05rem solid #F07818; }
+              color: #F0A830;
+              background-color: #428BBA;
+              transform: rotate(3deg); }
             .mage-survival .container.main .actions-container .action a .svg {
               display: none; }
             .mage-survival .container.main .actions-container .action a .text {
@@ -3930,7 +3965,8 @@ body {
   font-size: 1.3rem;
   background-color: #FCEBB6;
   margin: 0;
-  z-index: 10; }
+  z-index: 10;
+  text-align: center; }
 .game-container.home .worlds-container .world {
   display: block;
   background-color: #529BCA;
@@ -3941,6 +3977,26 @@ body {
   text-align: center;
   text-shadow: #F0A830 1px 1px;
   color: #5E412F; }
+  .game-container.home .worlds-container .world:hover {
+    color: #FCEBB6;
+    text-shadow: #F0A830 3px 3px 5px; }
+
+.mage-map-builder .buttons-right {
+  position: absolute;
+  right: 0;
+  width: 40px; }
+.mage-map-builder .map {
+  color: #FCEBB6; }
+.mage-map-builder .cell {
+  font-size: 12px;
+  border-top: 1px solid #FCEBB6;
+  border-left: 1px solid #FCEBB6;
+  position: absolute; }
+  .mage-map-builder .cell.x-0.y-0 {
+    background-color: #5e5e5e; }
+  .mage-map-builder .cell input {
+    width: 40px;
+    color: #584D3D; }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 i.rpg-icon-small {

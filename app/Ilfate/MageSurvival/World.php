@@ -32,6 +32,7 @@ class World
     protected $units;
     protected $unitsInited;
     protected $type;
+    protected $events = [];
 
     protected $isWorldChanged = false;
 
@@ -50,6 +51,8 @@ class World
         $this->objects = json_decode($mageWorld->objects, true);
         $this->units = json_decode($mageWorld->units, true);
         $this->type = $mageWorld->type;
+
+        Event::import(json_decode($mageWorld->events, true));
     }
 
     public function getCell($x, $y)
@@ -97,6 +100,16 @@ class World
         $object = MapObject::getObject($x, $y, $objectType, $this);
         $this->objects[$y][$x] = $object->export();
         return $object;
+    }
+
+    public function addUnit($unitType, $x, $y)
+    {
+        if ($this->getUnit($x, $y)) {
+            return null;
+        }
+        $unit = Unit::getUnit($x, $y, $unitType, $this, GameBuilder::getGame()->getMage());
+        $this->units[$y][$x] = $unit->export();
+        return $unit;
     }
 
     public function addRandomUnit($x, $y)
@@ -183,6 +196,21 @@ class World
         $this->update();
     }
 
+    public function updateObject(MapObject $object)
+    {
+        $x = $object->getX();
+        $y = $object->getY();
+        if (empty($this->objects[$y][$x])) {
+            throw new \Exception('We trying to update object, but there is no object here...');
+        }
+        $oldObject = $this->objects[$y][$x];
+        if ($oldObject['id'] != $object->getId()) {
+            throw new \Exception('Looks like we are updating object, but here we have another object id mismatch...');
+        }
+        $this->objects[$y][$x] = $object->export();
+        $this->update();
+    }
+
 
     public function getNextMoveToGetTo($from, $to)
     {
@@ -261,6 +289,11 @@ class World
         if ($this->getUnit($x, $y)) {
             return false;
         }
+        if ($object = $this->getObject($x, $y)) {
+            if (!$object->isPassable()) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -287,6 +320,15 @@ class World
     public function setCell($x, $y, $cell)
     {
         $this->map[$y][$x] = $cell;
+        $this->update();
+    }
+
+    /**
+     * @param array $events
+     */
+    public function setEvents($events)
+    {
+        $this->mageWorldEntity->events = json_encode($events);
         $this->update();
     }
 

@@ -31,6 +31,7 @@ class Event
     const KEY_TIMES = 'times';
 
     const EVENT_UNIT_GET_DAMAGE = 'unit-get-damage';
+    const EVENT_UNIT_AFTER_DYING = 'unit-after-dying';
     const EVENT_MAGE_BEFORE_GET_DAMAGE = 'mage-before-get-damage';
     const EVENT_MAGE_BEFORE_HEAL = 'mage-before-heal';
     const EVENT_MAGE_AFTER_MOVE = 'mage-after-move';
@@ -39,7 +40,8 @@ class Event
 //        self::EVENT_UNIT_GET_DAMAGE,
     ];
     protected static $withOwner = [
-        self::EVENT_UNIT_GET_DAMAGE
+        self::EVENT_UNIT_GET_DAMAGE,
+        self::EVENT_UNIT_AFTER_DYING,
     ];
     protected static $bindings;
     protected static $isUpdated = false;
@@ -78,7 +80,10 @@ class Event
             $key .= '-t-' . $data['target']->getId();
         }
         if (in_array($eventName, self::$withOwner)) {
-            $key .= '-o-' . $data['target']->getId();
+            if (!is_object($data['owner'])) {
+                throw new \Exception('Event owner not found for "' . $eventName .'"');
+            }
+            $key .= '-o-' . $data['owner']->getId();
         }
         return $key;
     }

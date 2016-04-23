@@ -117,14 +117,33 @@ abstract class Unit implements AliveInterface
         $config = \Config::get('mageUnits');
         $chances = $config['chances'][$world->getType()];
         $distance = abs($x) + abs($y);
+        $unitType = 0;
         foreach ($chances as $minDistance => $objectChances) {
             if ($distance < $minDistance) {
                 $unitType = ChanceHelper::oneFromArray($objectChances);
-                $className = '\Ilfate\MageSurvival\Units\\' . $config['list'][$unitType]['class'];
-                return new $className($world, $mage, $x, $y, $unitType);
+                break;
             }
         }
-        throw new MessageException('You went so far that you found the end of the world and crashed my server. You have to talk to administrator to fix that problem');
+        if (!$unitType) {
+            throw new MessageException('You went so far that you found the end of the world and crashed my server. You have to talk to administrator to fix that problem');
+        }
+        return static::getUnit($x, $y, $unitType, $world, $mage);
+    }
+
+    /**
+     * @param       $x
+     * @param       $y
+     * @param       $unitId
+     * @param World $world
+     * @param Mage  $mage
+     *
+     * @return Unit
+     */
+    public static function getUnit($x, $y, $unitId, World $world, Mage $mage)
+    {
+        $config = \Config::get('mageUnits');
+        $className = '\Ilfate\MageSurvival\Units\\' . $config['list'][$unitId]['class'];
+        return new $className($world, $mage, $x, $y, $unitId);
     }
 
     /**
@@ -283,6 +302,7 @@ abstract class Unit implements AliveInterface
                     $animationStage);
             }
         }
+        Event::trigger(Event::EVENT_UNIT_AFTER_DYING, ['owner' => $this]);
     }
 
     public function getOnDamageBehaviour() {

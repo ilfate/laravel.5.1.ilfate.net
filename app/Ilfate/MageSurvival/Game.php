@@ -49,6 +49,7 @@ class Game
     const EVENT_NAME_UNIT_DAMAGE     = 'unit-damage';
     const EVENT_NAME_ADD_OBJECT      = 'add-object';
     const EVENT_NAME_SPELL_CRAFT     = 'spell-craft';
+    const EVENT_NAME_OBJECT_ACTIVATE = 'object-activate';
 
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
     const ANIMATION_STAGE_MAGE_ACTION_2 = 'mage-action-2';
@@ -103,6 +104,7 @@ class Game
      */
     protected $mageUser;
     protected $mageUserUpdated = false;
+    protected $userFlags;
 
     /**
      * @var WorldGenerator
@@ -130,7 +132,7 @@ class Game
         $data['map'] = $this->worldGenerator->exportMapForView($this->mage);
         $data['objects'] = $this->worldGenerator->exportVisibleObjects();
         $data['units'] = $this->worldGenerator->exportVisibleUnits();
-        $data['world'] = $this->config['world-types'][$this->world->getType()];
+        $data['world'] = $this->config['worlds'][$this->world->getType()]['map-type'];
         $data['mage'] = $this->mage->viewExport();
         $data['item-types'] = $this->mage->getItemsConfig()['item-types'];
         $data['actions'] = $this->mage->getAllPossibleActions($this->world);
@@ -224,11 +226,12 @@ class Game
     protected function save()
     {
         if (Event::isUpdated()) {
-            $this->mage->setEvents(Event::export());
+            $this->world->setEvents(Event::export());
         }
         $this->mage->saveIfUpdated();
         $this->world->saveIfChanged();
         if ($this->mageUserUpdated) {
+            $this->mageUser->flags = json_encode($this->getUserFlags());
             $this->mageUser->save();
         }
     }
@@ -259,10 +262,10 @@ class Game
      */
     public function getGenerator(World $world, \Ilfate\MageSurvival\Mage $mage)
     {
-        if (empty($this->config['world-types'][$world->getType()])) {
+        if (empty($this->config['worlds'][$world->getType()])) {
             throw new \Exception('Generator for world type "' . $world->getType() . '" not configured');
         }
-        $name = '\Ilfate\MageSurvival\Generators\WorldGenerator' . $this->config['world-types'][$world->getType()];
+        $name = '\Ilfate\MageSurvival\Generators\WorldGenerator' . $this->config['worlds'][$world->getType()]['map-type'];
         return new $name($world, $mage);
     }
 
@@ -287,6 +290,42 @@ class Game
         $this->world->setGame($this);
     }
 
+    public function getUserFlag($flagName)
+    {
+        if (!$this->userFlags) {
+            $this->loadFlags();
+        }
+        if (isset($this->userFlags[$flagName])) {
+            return $this->userFlags[$flagName];
+        }
+        return null;
+    }
+
+    public function getUserFlags()
+    {
+        if (!$this->userFlags) {
+            $this->loadFlags();
+        }
+        return $this->userFlags;
+    }
+    protected function loadFlags()
+    {
+        $rawFlags = $this->getMageUser()->flags;
+        $flags = [];
+        if ($rawFlags) {
+            $flags = json_decode($rawFlags, true);
+        }
+        $this->userFlags = $flags;
+    }
+
+    public function setUserFlag($name, $value)
+    {
+        if (!$this->userFlags) {
+            $this->loadFlags();
+        }
+        $this->userFlags[$name] = $value;
+        $this->mageUserUpdated();
+    }
 
 
     /**
@@ -464,8 +503,8 @@ class Game
         $data = [];
         $data['mage'] = $this->mage->viewExport();
         $data['item-types'] = $this->mage->getItemsConfig()['item-types'];
-        $data['worlds'] = $this->config['worlds'];
-        $data['available-worlds'] = [1,2];
+//        $data['worlds'] = $this->config['worlds'];
+        $data['available-worlds'] = $this->getAvailableWorldsList();
 
         return ['game' => $data];
     }
@@ -492,7 +531,7 @@ class Game
         $allWorlds = \Config::get('mageSurvival.worlds');
         $type = 0;
         foreach ($allWorlds as $typeId => $worldConfig) {
-            if ($worldConfig['name'] == $name) {
+            if ($worldConfig['map-type'] == $name) {
                 $type = $typeId;
                 break;
             }
@@ -505,10 +544,30 @@ class Game
             $mageEntity = $this->mage->getMageEntity();
             $mageEntity->world_id = $existingWorld->id;
             $mageEntity->save();
+            $world = new World($existingWorld);
+            $this->setWorld($world);
+            $this->worldGenerator->mageEnter();
         } else {
-            GameBuilder::createWorld($this, $this->mage->getMageEntity());
+            GameBuilder::createWorld($this, $this->mage->getMageEntity(), $type);
         }
         return true;
+    }
+
+    public function getAvailableWorldsList()
+    {
+        $allWorlds = \Config::get('mageSurvival.worlds');
+        $flags = $this->getUserFlags();
+        $available = [];
+        foreach ($allWorlds as $world) {
+            if (($world['is-available']
+                && (empty($flags[$world['map-type']]) || $flags[$world['map-type']] != 'closed'))
+                ||
+                (!empty($flags[$world['map-type']]) && $flags[$world['map-type']] == 'open')
+            ) {
+                $available[] = $world;
+            }
+        }
+        return $available;
     }
 
     public function setMageUser(MageUser $mageUser)
@@ -528,5 +587,6 @@ class Game
     {
         $this->mageUserUpdated = true;
     }
+
 
 }
