@@ -42,6 +42,7 @@ abstract class Spell
 
     const CONFIG_NO_TARGET_SPELL = 'noTargetSpell';
     const CONFIG_DIRECT_TARGET_SPELL = 'directTargetSpell';
+    const CONFIG_NO_AUTO_ANIMATION_TRIGGER = 'noAutoAnimationTrigger';
 
     const CONFIG_FIELD_PATTERN = 'pattern';
     const CONFIG_FIELD_COOLDOWN = 'cooldown';
@@ -198,7 +199,7 @@ abstract class Spell
         $translatedSumValue = GameBuilder::getGame()->getMage()->translateItemValueForMage($baseSumValue);
         $game->addMessage('Translated value = ' . $translatedSumValue);
         $spellConfiguration = self::getSpellByValue($allPossibleSpells, $translatedSumValue);
-        $spellName = $spellConfiguration['name'];
+        $spellName = $spellConfiguration['class'];
 
         $spellConfig = [];
         $spellConfig['usages'] = mt_rand(
@@ -231,6 +232,7 @@ abstract class Spell
 
     /**
      * @param            $code
+     * @param            $schoolId
      * @param            $config
      * @param            $id
      * @param Game|null  $game
@@ -239,16 +241,13 @@ abstract class Spell
      *
      * @return Spell
      */
-    public static function createSpellByCode($code, $config, $id, Game $game = null, World $world = null, Mage $mage = null)
+    public static function createSpell($code, $schoolId, $config, $id, Game $game = null, World $world = null, Mage $mage = null)
     {
-        list($name, $schoolId, $number) = explode('#', $code);
+        $spellConfiguration = \Config::get('mageSpells.list.' . $schoolId . '.' . $code);
+        $className = $spellConfiguration['class'];
         $schoolName = \Config::get('mageSpells.schools.' . $schoolId)['name'];
-        $class = self::getSpellClass($schoolName, $name);
-        return new $class($number, $schoolId, $config, $id, $game, $world, $mage);
-    }
-    public function exportSpellCode()
-    {
-        return $this->configuration['name'] . '#' . $this->schoolId . '#' . $this->number;
+        $class = self::getSpellClass($schoolName, $className);
+        return new $class($code, $schoolId, $config, $id, $game, $world, $mage);
     }
 
     private static function getSpellByValue($allPossibleSpells, $value)
@@ -267,26 +266,6 @@ abstract class Spell
         }
         return self::getSpellByValue($allPossibleSpells, $newValue);
     }
-/*
-    $all = [0 => '_0'];
-    function getSpellByValue($allPossibleSpells, $value)
-    {
-        $value = abs($value);
-        if (!empty($allPossibleSpells[$value])) {
-            return $allPossibleSpells[$value];
-        }
-        end($allPossibleSpells);
-        $lastKey = key($allPossibleSpells);
-        if ($value > $lastKey) {
-            $newValue = $lastKey - ($value % $lastKey);
-echo $lastKey;
-        } else {
-            $newValue = $value - 1;
-        }
-        return getSpellByValue($allPossibleSpells, $newValue);
-    }
-    for($i=-20; $i<20; $i++) {var_dump($i . ' -> ' . getSpellByValue($all, $i));}
-*/
 
     /**
      * @param $data
@@ -314,15 +293,18 @@ echo $lastKey;
             }
             $this->targets = [$this->world->getUnit($mageX + $data['x'], $mageY + $data['y'])];
             $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
-                'spell' => $this->name, 'targetX' => $data['x'], 'targetY' => $data['y'],
+                'spell' => $this->configuration['class'], 'targetX' => $data['x'], 'targetY' => $data['y'],
             ], $this->getNormalCastStage());
             $this->setEffectStage();
             $isSuccess = $this->spellEffect($data);
         } else if (!empty($this->configuration[self::CONFIG_NO_TARGET_SPELL])) {
-            $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
-                'spell' => $this->name, 'd' => $this->d
-            ], $this->getNormalCastStage());
-            $this->setEffectStage();
+            if (empty($this->configuration[self::CONFIG_NO_AUTO_ANIMATION_TRIGGER])) {
+                // do not trigger animation
+                $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
+                    'spell' => $this->configuration['class'], 'd' => $this->d
+                ], $this->getNormalCastStage());
+                $this->setEffectStage();
+            }
             $isSuccess = $this->spellEffect($data);
         } else {
             // pattern here
@@ -352,7 +334,7 @@ echo $lastKey;
                 }
             }
             $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
-                'spell' => $this->name, 'd' => $this->d
+                'spell' => $this->configuration['class'], 'd' => $this->d
             ], $this->getNormalCastStage());
             $this->setEffectStage();
             $isSuccess = $this->spellEffect($data);
@@ -411,7 +393,8 @@ echo $lastKey;
     {
         return [
             'id' => $this->id,
-            'code' => $this->exportSpellCode(),
+            'code' => $this->getNumber(),
+            'school' => $this->getSchoolId(),
             'config' => $this->exportConfig()
         ];
     }
@@ -508,5 +491,21 @@ echo $lastKey;
         }
         if (in_array($currentD, [3,2])) return $currentD;
         return ChanceHelper::oneFromArray([3,2]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSchoolId()
+    {
+        return $this->schoolId;
     }
 }

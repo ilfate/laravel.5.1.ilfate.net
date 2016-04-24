@@ -260,10 +260,8 @@ MageS.Animations = function (game) {
         )});
     };
     this.spellCastAnimation = function(data) {
-        info(data);
         this.game.spells.cast(data);
     };
-
     this.mageDamageAnimation = function(data) {
         info('Some one dealed ' + data.value + ' damage to you');
         //$('.health-value').html(data.health);

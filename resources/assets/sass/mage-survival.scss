@@ -13,6 +13,7 @@ $mage-colors-grey-darker: #555;
 $mage-colors-gold: #F0A830;
 $mage-colors-light-blue:#ABCDEF;
 $mage-colors-red:#FF8360;
+$mage-colors-red-bright: #ff3f03;
 $mage-colors-orange: #F07818;
 $mage-colors-yellow:#FFD416;
 $mage-colors-white:#ffffff;
@@ -531,10 +532,8 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         .spell-craft-info {
             //height: $mage-inventory-size + rem;
             .text-1 {
-                height: 1.1 * $item-size + rem;
-                @media (min-width: $screen-sm-min + rem) {
-                    height: 1.5 * $item-size + rem;
-                }
+                height: 1 * $item-size + rem;
+                font-size: 0.6rem;
             }
             .craft-items {
                 height: 1.1 * $item-size + rem;
@@ -569,6 +568,8 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
     }
     .item svg.svg-icon path { fill:$mage-colors-black }
     .color-red svg.svg-icon path { fill:$mage-colors-red }
+    .color-red-bright svg.svg-icon path { fill:$mage-colors-red-bright }
+    .color-yellow svg.svg-icon path { fill:$mage-colors-yellow }
     .color-blue svg.svg-icon path { fill:$mage-colors-blue }
     .color-dark-blue svg.svg-icon path { fill:$mage-colors-dark-blue }
     .color-green svg.svg-icon path { fill:$mage-colors-green }

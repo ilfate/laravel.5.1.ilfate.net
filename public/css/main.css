@@ -3343,10 +3343,8 @@ body {
     height: 1.7rem;
     text-align: center; }
   .mage-survival .craft-spell-overlay .spell-craft-info .text-1 {
-    height: 1.87rem; }
-    @media (min-width: 38.4rem) {
-      .mage-survival .craft-spell-overlay .spell-craft-info .text-1 {
-        height: 2.55rem; } }
+    height: 1.7rem;
+    font-size: 0.6rem; }
   .mage-survival .craft-spell-overlay .spell-craft-info .craft-items {
     height: 1.87rem;
     margin: 0 auto; }
@@ -3373,6 +3371,10 @@ body {
   fill: #584D3D; }
 .mage-survival .color-red svg.svg-icon path {
   fill: #FF8360; }
+.mage-survival .color-red-bright svg.svg-icon path {
+  fill: #ff3f03; }
+.mage-survival .color-yellow svg.svg-icon path {
+  fill: #FFD416; }
 .mage-survival .color-blue svg.svg-icon path {
   fill: #529BCA; }
 .mage-survival .color-dark-blue svg.svg-icon path {

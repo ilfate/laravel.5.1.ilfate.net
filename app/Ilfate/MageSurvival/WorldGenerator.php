@@ -48,6 +48,7 @@ abstract class WorldGenerator
     protected $visibleObjects = [];
     protected $visibleUnits = [];
     protected $notPassable = [];
+    protected $activeUnits = [];
 
     public function __construct(World $world, Mage $mage)
     {
@@ -154,21 +155,40 @@ abstract class WorldGenerator
 
     public function getActiveUnits(Mage $mage)
     {
-        $activeUnits = [];
+        if ($this->activeUnits) {
+            return $this->activeUnits;
+        }
         $centerX = $mage->getX();
         $centerY = $mage->getY();
         $radius = $this->config['game']['active-units-radius'];
-        $map = [];
         for ($y = -$radius; $y <= $radius; $y++) {
             for ($x = -$radius; $x <= $radius; $x++) {
                 $dX = $centerX + $x;
                 $dY = $centerY + $y;
                 if ($unit = $this->world->getUnit($dX, $dY)) {
-                    $activeUnits[] = $unit;
+                    $this->activeUnits[] = $unit;
                 }
             }
         }
-        return $activeUnits;
+        return $this->activeUnits;
+    }
+
+    public function getVisibleUnits(Mage $mage)
+    {
+        $visible = [];
+        $centerX = $mage->getX();
+        $centerY = $mage->getY();
+        $radius = $this->config['game']['screen-radius'];
+        for ($y = -$radius; $y <= $radius; $y++) {
+            for ($x = -$radius; $x <= $radius; $x++) {
+                $dX = $centerX + $x;
+                $dY = $centerY + $y;
+                if ($unit = $this->world->getUnit($dX, $dY)) {
+                    $visible[] = $unit;
+                }
+            }
+        }
+        return $visible;
     }
 
     public function exportVisibleObjects()

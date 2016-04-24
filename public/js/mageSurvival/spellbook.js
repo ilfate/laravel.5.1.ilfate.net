@@ -202,7 +202,7 @@ MageS.Spellbook = function (game) {
         //<use xlink:href="/images/game/mage/game-icons.svg#{{icon-class}}"></use>
         var rendered = Mustache.render(template, {
             'id': spell.id,
-            'name': spell.name,
+            'viewData': spell.viewData,
             'quantity': spell.config.usages,
             'cooldownMark': spell.config.cooldownMark,
             'spellType': spellType,
@@ -338,6 +338,7 @@ MageS.Spellbook = function (game) {
     };
 
     this.patternClick = function(patternCell) {
+        info("pattern Click");
         var spell = $('.spell.active');
         if (spell.length !== 1) {
             info('ERROR not one spell active');
@@ -378,7 +379,7 @@ MageS.Spellbook = function (game) {
         var temaplate = $('#template-spell-tooltip').html();
         Mustache.parse(temaplate);
 
-        var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.name,
+        var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.viewData.name,
             'description' : data.viewData.description, 'cooldown': data.config.cooldown
         });
         var obj = $(rendered);

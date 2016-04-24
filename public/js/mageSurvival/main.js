@@ -92,6 +92,7 @@ MageS.Game = function () {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
+        spells.init();
         this.worlds = worlds;
         this.objects = objects;
         this.chat = chat;
@@ -436,7 +437,7 @@ MageS.Game = function () {
 
     this.updateActions = function (actions, isFirstLoad) {
         actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
-        //actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
+        actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
         var existingActions = {};
         actionsEl.find('.action').each(function() {
@@ -510,9 +511,10 @@ MageS.Game = function () {
             });
             $('.method-test-spell').on('click', function () {
                 MageS.Game.spells.isSecondPartWaiting = true;
-                MageS.Game.spells.currentSpellData = {'targetX': 4, 'targetY': -1};
+                MageS.Game.spells.currentSpellData = {'targetX': -1, 'targetY': -4};
                 //MageS.Game.spells.startCast('Fireball');
-                MageS.Game.spells.startCast('IceCrown');
+                //MageS.Game.spells.startCast('IceCrown');
+                MageS.Game.spells.startCast('FireLady');
             });
             $('#move-control-field .control-arrow').on('click', function () {
                 switch ($(this).data('d')) {

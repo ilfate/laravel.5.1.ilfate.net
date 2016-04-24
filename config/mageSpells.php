@@ -7,6 +7,7 @@ return array(
         1 => [ //fire
             0 => [
                 'name' => 'Fireball',
+                'class' => 'Fireball',
                 'description' => 'Hit a single target with fire',
                 'iconClass' => 'icon-flame',
                 'iconColor' => 'color-red',
@@ -14,15 +15,27 @@ return array(
             ],
             1 => [
                 'name' => 'FireNova',
-                'description' => 'Create ring of Fire to bern all the enemies around',
-                'iconClass' => 'icon-flame',
+                'class' => 'FireNova',
+                'description' => 'Create ring of Fire to burn all the enemies around',
+                'iconClass' => 'icon-fire-ring',
                 'iconColor' => 'color-red',
             ],
             2 => [
+                'name' => 'Exploding Bees',
+                'class' => 'ExplodingBees',
+                'description' => 'Bees all hunt your enemy down',
+                'iconClass' => 'icon-bee',
+                'iconColor' => 'color-red',
+                'directTargetSpell' => 'enemy',
+            ],
+            3 => [
                 'name' => 'FireLady',
-                'description' => 'Create ring of Fire to bern all the enemies around',
+                'class' => 'FireLady',
+                'description' => 'Lady will go around battle field and put your enemies on fire',
                 'iconClass' => 'icon-flame',
                 'iconColor' => 'color-red',
+                'noTargetSpell' => true,
+                'noAutoAnimationTrigger' => true,
             ],
         ],
 
@@ -31,6 +44,7 @@ return array(
         2 => [ // water
             0 => [
                 'name' => 'IceSlide',
+                'class' => 'IceSlide',
                 'description' => 'Default description',
                 'iconClass' => 'icon-frozen-orb',
                 'iconColor' => 'color-dark-blue',
@@ -38,6 +52,7 @@ return array(
             ],
             1 => [
                 'name' => 'IceCrown',
+                'class' => 'IceCrown',
                 'description' => 'Default description',
                 'iconClass' => 'icon-frozen-orb',
                 'iconColor' => 'color-dark-blue',
@@ -47,6 +62,7 @@ return array(
         3 => [ // air
             0 => [
                 'name' => 'Push',
+                'class' => 'Push',
                 'description' => 'Default description',
                 'iconColor' => 'color-blue',
                 'iconClass' => 'icon-cloud-ring',
@@ -55,6 +71,7 @@ return array(
         4 => [ // earth
             0 => [
                 'name' => 'StoneFace',
+                'class' => 'StoneFace',
                 'description' => 'Default description',
                 'iconClass' => 'icon-iron-mask',
                 'iconColor' => 'color-brown',
@@ -63,7 +80,8 @@ return array(
         ],
         5 => [ // light
             0 => [
-                'name' => 'SmallHeal',
+                'name' => 'Small Heal',
+                'class' => 'SmallHeal',
                 'description' => 'Default description',
                 'iconClass' => 'icon-flame',
                 'noTargetSpell' => true,
@@ -71,7 +89,8 @@ return array(
         ],
         6 => [ // death
             0 => [
-                'name' => 'BoneArrow',
+                'name' => 'Bone Arrow',
+                'class' => 'BoneArrow',
                 'description' => 'Default description',
                 'iconClass' => 'icon-flame',
                 'directTargetSpell' => 'enemy',

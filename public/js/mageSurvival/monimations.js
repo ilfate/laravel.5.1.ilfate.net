@@ -75,7 +75,10 @@ MageS.Monimations = function (game) {
         }).run();
     };
 
-    this.blastInScale = function(el, scale, callback) {
+    this.blastInScale = function(el, scale, callback, duration) {
+        if (!duration) {
+            duration = 500;
+        }
         if (!scale) {
             scale = 1.33;
         }
@@ -83,7 +86,7 @@ MageS.Monimations = function (game) {
         new mojs.Tween({
             repeat:   0,
             delay:    10,
-            duration: 500,
+            duration: duration,
             onUpdate: function (progress) {
                 var singlePeak = MageS.Game.monimations.singlePeak(progress) * scale;
                 //var normalProgression = MageS.Game.monimations.normalProgressionPath(progress);
@@ -160,6 +163,24 @@ MageS.Monimations = function (game) {
                 var bounce50 = (MageS.Game.monimations.wave50(progress) / 2) + 0.75;
                 el[0].style.transform = 'scaleX(' + (bounce50) + ') scaleY(' + (2 - bounce50) + ')';
             }
+        }).run();
+    };
+
+    this.flame = function(el, callback) {
+        return new mojs.Tween({
+            repeat:   0,
+            delay:    1,
+            duration: 200,
+            onUpdate: function (progress) {
+                if (Math.random() > 0.5) return;
+                //var bounce50 = (MageS.Game.monimations.wave50(progress) / 2) + 0.75;
+                //var scaleX = (Math.random() * 0.4) + 0.8;
+                //var scaleY = (Math.random() * 0.4) + 0.8;
+                var skewX = (Math.random() * 30) - 15;
+                var skewY = (Math.random() * 30) - 15;
+
+                el[0].style.transform = 'skewX(' + (skewX) + 'deg) skewY(' + (skewY) + 'deg)';
+            }, onComplete: callback
         }).run();
     };
 };

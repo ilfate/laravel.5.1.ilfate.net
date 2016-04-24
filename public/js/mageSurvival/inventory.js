@@ -129,7 +129,7 @@ MageS.Inventory = function (game) {
     this.bindItemTooltip = function(item) {
         item.on({
             'mouseenter': function () {
-                if (MageS.Game.device == 'mobile' && MageS.Game.spellcraft.craftingIsInProgress) {
+                if (MageS.Game.spellcraft.craftingIsInProgress) {
                     return;
                 }
                 var id = $(this).data('id');

@@ -193,20 +193,15 @@ abstract class Mage implements AliveInterface
         if (!$this->spells) {
             return [];
         }
-        $spellsViewData = \Config::get('mageSpells');
+        $spellsViewData = \Config::get('mageSpells.list');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
         //$turn = $this->getTurn();
         foreach ($this->spells as $spellId => $spell) {
-
-            //$cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
-            //$spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
-            list($name, $schoolId, $number) = explode('#', $spell['code']);
             $return[$spellId] = [
                 'id' => $spellId,
-                'name' => $name,
-                'schoolId' => $schoolId,
+                'schoolId' => $spell['school'],
                 'config' => $spell['config'],
-                'viewData' => $spellsViewData['list'][$schoolId][$number],
+                'viewData' => $spellsViewData[$spell['school']][$spell['code']],
             ];
             if (!empty($spell['config']['pattern'])) {
                 $return[$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
@@ -223,9 +218,9 @@ abstract class Mage implements AliveInterface
         $return = [];
         $spellsViewData = \Config::get('mageSpells.schools');
         foreach ($this->spells as $spellId => $spell) {
-            list($name, $schoolId, $number) = explode('#', $spell['code']);
-            if (empty($return[$schoolId])) {
-                $return[$schoolId] = $spellsViewData[$schoolId];
+            //list($name, $schoolId, $number) = explode('#', $spell['code']);
+            if (empty($return[$spell['school']])) {
+                $return[$spell['school']] = $spellsViewData[$spell['school']];
             }
         }
         return $return;
@@ -244,17 +239,16 @@ abstract class Mage implements AliveInterface
         foreach ($this->spellsChanges as $spellId => $spell) {
             //$cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
             //$spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
-            list($name, $schoolId, $number) = explode('#', $spell['code']);
+            //list($name, $schoolId, $number) = explode('#', $spell['code']);
             $return[$spellId] = [
                 'id' => $spellId,
-                'name' => $name,
                 'config' => $spell['config'],
-                'viewData' => $spellsViewData[$schoolId][$number],
+                'viewData' => $spellsViewData[$spell['school']][$spell['code']],
                 'status' => $spell['status'],
-                'schoolId' => $schoolId
+                'schoolId' => $spell['school']
             ];
             if ($spell['status'] == 'new') {
-                $return[$spellId]['schoolViewData'] = $schoolsViewData[$schoolId];
+                $return[$spellId]['schoolViewData'] = $schoolsViewData[$spell['school']];
             }
             if (!empty($spell['config']['pattern'])) {
                 $return[$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
@@ -347,8 +341,9 @@ abstract class Mage implements AliveInterface
             throw new \Exception('Spell not found');
         }
         $spellData = $this->spells[$spellId];
-        $spell = Spell::createSpellByCode(
+        $spell = Spell::createSpell(
             $spellData['code'],
+            $spellData['school'],
             $spellData['config'],
             $spellId,
             $this->game,
@@ -413,6 +408,7 @@ abstract class Mage implements AliveInterface
         $object = $world->getObject($this->getX(), $this->getY());
         if ($object && method_exists($object, $method)) {
             $result = $object->$method($this);
+            Event::trigger(Event::EVENT_MAGE_AFTER_OBJECT_ACTIVATE, ['target' => $object]);
         } else {
             throw new \Exception('No object was found to interact with');
         }

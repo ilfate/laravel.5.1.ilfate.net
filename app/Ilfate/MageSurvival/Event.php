@@ -30,14 +30,15 @@ class Event
     const KEY_OWNER = 'owner';
     const KEY_TIMES = 'times';
 
-    const EVENT_UNIT_GET_DAMAGE = 'unit-get-damage';
-    const EVENT_UNIT_AFTER_DYING = 'unit-after-dying';
-    const EVENT_MAGE_BEFORE_GET_DAMAGE = 'mage-before-get-damage';
-    const EVENT_MAGE_BEFORE_HEAL = 'mage-before-heal';
-    const EVENT_MAGE_AFTER_MOVE = 'mage-after-move';
+    const EVENT_UNIT_GET_DAMAGE = 'u-get-dmg';
+    const EVENT_UNIT_AFTER_DYING = 'u-a-die';
+    const EVENT_MAGE_BEFORE_GET_DAMAGE = 'm-b-get-dmg';
+    const EVENT_MAGE_BEFORE_HEAL = 'm-b-heal';
+    const EVENT_MAGE_AFTER_MOVE = 'm-a-move';
+    const EVENT_MAGE_AFTER_OBJECT_ACTIVATE = 'm-a-o-actv';
 
     protected static $withTarget = [
-//        self::EVENT_UNIT_GET_DAMAGE,
+        self::EVENT_MAGE_AFTER_OBJECT_ACTIVATE,
     ];
     protected static $withOwner = [
         self::EVENT_UNIT_GET_DAMAGE,
@@ -67,6 +68,9 @@ class Event
                 self::update();
                 if ($eventData['data'][self::KEY_TIMES] < 1) {
                     unset(self::$bindings[$key][$num]);
+                    if (empty(self::$bindings[$key])) {
+                        unset(self::$bindings[$key]);
+                    }
                 }
             }
         }
@@ -77,6 +81,9 @@ class Event
     {
         $key = $eventName;
         if (in_array($eventName, self::$withTarget)) {
+            if (!is_object($data['target'])) {
+                throw new \Exception('Event target not found for "' . $eventName .'"');
+            }
             $key .= '-t-' . $data['target']->getId();
         }
         if (in_array($eventName, self::$withOwner)) {

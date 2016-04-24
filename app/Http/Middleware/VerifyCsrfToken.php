@@ -16,6 +16,6 @@ class VerifyCsrfToken extends BaseVerifier
         'hex/action',
         'MathEffect/save',
         'MathEffect/saveName',
-        'MageSurvival/action',
+        'Spellcraft/action',
     ];
 }
