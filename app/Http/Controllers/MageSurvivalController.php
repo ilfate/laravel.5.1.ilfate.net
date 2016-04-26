@@ -133,11 +133,9 @@ class MageSurvivalController extends BaseController
         $map = str_replace(' ', '+', $map);
         $newMapPart = json_decode($map, true);
         $oldFullMap = $request->session()->get('mapBuilder.' . $name);
-        if ($oldFullMap) {
-            foreach ($newMapPart as $y => $row) {
-                foreach ($row as $x => $cell) {
-                    $oldFullMap[$y][$x] = $cell;
-                }
+        foreach ($newMapPart as $y => $row) {
+            foreach ($row as $x => $cell) {
+                $oldFullMap[$y][$x] = $cell;
             }
         }
         $request->session()->set('mapBuilder.' . $name, $oldFullMap);

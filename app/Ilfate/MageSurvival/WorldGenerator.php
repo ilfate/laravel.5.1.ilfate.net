@@ -42,8 +42,10 @@ abstract class WorldGenerator
         'spawnLocation' => [
             'radius' => 1,
         ],
+        'mapLimit' => 50,
         'portalLocation' => ['x' => 0, 'y' => 1]
     ];
+    protected $walls = [];
 
     protected $visibleObjects = [];
     protected $visibleUnits = [];
@@ -111,6 +113,7 @@ abstract class WorldGenerator
                 }
             }
         }
+        $this->addAdditionalToMap($map);
         $this->world->setMap($map);
         $this->world->save();
         $this->mage->setX(0);
@@ -234,7 +237,11 @@ abstract class WorldGenerator
     {
         $cell = $this->world->getCell($x, $y);
         if ($cell === false) {
-            $cell = $this->getCellByType(self::CELL_TYPE_RANDOM);
+            if ($this->isWallReached($x, $y) && $this->wallChance($x, $y)) {
+                $cell = $this->getWall();
+            } else {
+                $cell = $this->getCellByType(self::CELL_TYPE_RANDOM);
+            }
             $this->world->setCell($x, $y, $cell);
 
             if ($this->world->isPassable($x, $y)) {
@@ -248,6 +255,68 @@ abstract class WorldGenerator
             }
         }
         return $cell;
+    }
+
+    public function addLocation($x, $y, array $location, array $map)
+    {
+        $newMap = $map;
+        foreach ($location as $locationY => $row) {
+            foreach ($row as $locationX => $cell) {
+                $dx = $x + $locationX;
+                $dy = $y + $locationY;
+                if (isset($newMap[$dy][$dx])) {
+                    return $map;
+                }
+                $newMap[$dy][$dx] = $cell;
+            }
+        }
+        return $newMap;
+    }
+
+    public function isWallReached($x, $y)
+    {
+        if (empty(static::$generatorConfig['mapLimit'])) {
+            return false;
+        }
+        $limit = static::$generatorConfig['mapLimit'];
+        if (abs($x) > $limit || abs($y) > $limit) {
+            return true;
+        }
+        return false;
+    }
+
+    public function wallChance($x, $y)
+    {
+        $limit = static::$generatorConfig['mapLimit'];
+        if (abs($x) > $limit &&  abs($y) > $limit) {
+            // both are more
+            return true;
+        } else if (abs($x) > $limit) {
+            if (abs($x) > $limit + 10) {
+                return true;
+            } else {
+                if (ChanceHelper::chance((abs($x) - $limit) * 10)) {
+                    return true;
+                }
+                return false;
+            }
+        } else if ( abs($y) > $limit) {
+            if (abs($y) > $limit + 10) {
+                return true;
+            } else {
+                if (ChanceHelper::chance((abs($y) - $limit) * 10)) {
+                    return true;
+                }
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function getWall()
+    {
+        return ChanceHelper::oneFromArray($this->walls);
     }
 
     /**
@@ -266,6 +335,16 @@ abstract class WorldGenerator
      * @return string
      */
     abstract public function getCellByType($type);
+
+    /**
+     * @param array $map
+     *
+     * @return mixed
+     */
+    public function addAdditionalToMap(array &$map)
+    {
+       // nothing by default
+    }
 
 
 

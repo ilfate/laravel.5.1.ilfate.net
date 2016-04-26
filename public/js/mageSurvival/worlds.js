@@ -20,7 +20,24 @@ MageS.Worlds = function (game) {
         },
         'WitchForest' : {
             's' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
-            'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey'},
+            'f2' : {'icon':'icon-grass', 'icon-color': 'color-yellow'},
+            't0' : {'icon':'icon-forest', 'icon-color': 'color-green-darker', 'icon2' : {
+                'icon':'icon-forest-base', 'icon-color':'color-brown'
+            }},
+            'tf' : {'icon':'icon-forest', 'icon-color': 'color-green', 'icon2' : {
+                'icon':'icon-forest-base', 'icon-color':'color-brown'
+            }},
+            'tF' : {'icon':'icon-forest', 'icon-color': 'color-green-darkest', 'icon2' : {
+                'icon':'icon-forest-base', 'icon-color':'color-brown'
+            }},
+            't1' : {'icon':'icon-pine-tree', 'icon-color': 'color-green-darker', 'icon2' : {
+                'icon':'icon-pine-tree-base', 'icon-color':'color-brown'
+            }},
+            't2' : {'icon':'icon-pine-tree', 'icon-color': 'color-green-darkest'},
+            't3' : {'icon':'icon-pine-tree', 'icon-color': 'color-green'},
+            't4' : {'icon':'icon-tree-oak', 'icon-color': 'color-green-darker', 'icon2':{
+                'icon':'icon-tree-oak-base', 'icon-color':'color-brown'
+            }},
         }
     };
 
@@ -33,14 +50,21 @@ MageS.Worlds = function (game) {
         }
         var cellConfig = this.worlds[world][cell];
         if (cellConfig['icon'] !== undefined) {
-            var icon = $(this.game.svg).find('#' + cellConfig['icon'] + ' path');
-            var svgContainerEl = $('<div></div>').addClass('svg svg-cell').append($('<svg class="svg-icon" viewBox="0 0 512 512"></svg>'));
+            this.addIcon(cellConfig, cellObj);
+        }
+        if (cellConfig['icon2'] !== undefined) {
+            this.addIcon(cellConfig['icon2'], cellObj);
+        }
+    };
 
-            svgContainerEl.find('svg').append(icon.clone());
-            cellObj.append(svgContainerEl);
-            if (cellConfig['icon-color'] !== undefined) {
-                svgContainerEl.addClass(cellConfig['icon-color']);
-            }
+    this.addIcon = function(cellConfig, cellObj) {
+        var icon = $(this.game.svg).find('#' + cellConfig['icon'] + ' path');
+        var svgContainerEl = $('<div></div>').addClass('svg svg-cell').append($('<svg class="svg-icon" viewBox="0 0 512 512"></svg>'));
+
+        svgContainerEl.find('svg').append(icon.clone());
+        cellObj.append(svgContainerEl);
+        if (cellConfig['icon-color'] !== undefined) {
+            svgContainerEl.addClass(cellConfig['icon-color']);
         }
     }
 

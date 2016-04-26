@@ -150,6 +150,9 @@ MageS.Monimations = function (game) {
                 var bounce50 = MageS.Game.monimations.bounce50(progress) * 2;
                 var degree = 35;
                 el[0].style.transform = 'skewX(' + (bounce50 * degree - degree) + 'deg) skewY(' + (bounce50 * degree - degree) + 'deg)';
+            },
+            onComplete: function() {
+                el[0].style.transform = '';
             }
         }).run();
     };

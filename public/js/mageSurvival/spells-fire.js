@@ -158,16 +158,6 @@ MageS.Spells.Fire = function (game, spells) {
                 }})
             }, 500);
         }, 500);
-        //this.blastSunRing('color-red-bright');
-        //setTimeout(function() {
-        //    MageS.Game.spells.fire.blastSunRing('color-yellow');
-        //}, 100);
-        //setTimeout(function() {
-        //    MageS.Game.spells.fire.blastSunRing('color-white');
-        //}, 200);
-        //setTimeout(function() {
-        //    MageS.Game.spells.endSpellAnimation();
-        //}, 1400);
     };
 
 
@@ -253,7 +243,6 @@ MageS.Spells.Fire = function (game, spells) {
                         obj.animate({'svgTransform': 'skewX(' + 40 * n + ')', 'svgFill': '#fff'},
                             {duration:300, 'easing': easings[n], queue:false});
                     }, 420);
-
                 }
             });
         }

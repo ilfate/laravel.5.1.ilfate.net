@@ -30,32 +30,64 @@ class WorldGeneratorWitchForest extends WorldGenerator
     const CELL_FIELD_2 = 'f2';
     const CELL_FIELD_3 = 'f3';
     const CELL_STONE = 's';
+    const CELL_TREE_PINE = 't1';
+    const CELL_TREE_PINE_2 = 't2';
+    const CELL_TREE_PINE_3 = 't3';
+    const CELL_TREE_OAK = 't4';
+    const CELL_FOREST = 't0';
+    const CELL_FOREST_2 = 'tf';
+    const CELL_FOREST_3 = 'tF';
+    const CELL_RIVER = 'r1';
 
     protected $cells = [
         self::CELL_BURNT_LANDING, // birnedLanding
+    ];
+
+    protected $walls = [
+        self::CELL_FOREST,
+        self::CELL_FOREST,
+        self::CELL_FOREST,
+        self::CELL_FOREST_2,
+        self::CELL_FOREST_3,
     ];
 
     protected $random = [
         self::CELL_FIELD_1,
         self::CELL_FIELD_1,
         self::CELL_FIELD_1,
-        self::CELL_FIELD_2,
-        self::CELL_FIELD_2,
+        self::CELL_FIELD_1,
+        self::CELL_FIELD_1,
         self::CELL_FIELD_2,
         self::CELL_FIELD_3,
-        self::CELL_STONE,
+        self::CELL_TREE_PINE,
+        self::CELL_TREE_OAK,
     ];
 
     protected $notPassable = [
         self::CELL_STONE,
+        self::CELL_TREE_PINE,
+        self::CELL_TREE_PINE_2,
+        self::CELL_TREE_PINE_3,
+        self::CELL_TREE_OAK,
+        self::CELL_FOREST,
+        self::CELL_FOREST_2,
+        self::CELL_FOREST_3,
+        self::CELL_RIVER,
     ];
 
     protected static $generatorConfig = [
         'spawnLocation' => [
             'radius' => 1,
         ],
+        'mapLimit' => 30,
         'portalLocation' => ['x' => 0, 'y' => 1]
     ];
+
+    public function addAdditionalToMap(array &$map)
+    {
+        $newMap = $this->addLocation(0, 20, LocationsForest::$lakeWithIsland, $map);
+        $map = $newMap;
+    }
 
     /**
      * @param $type

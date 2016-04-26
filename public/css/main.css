@@ -3381,6 +3381,10 @@ body {
   fill: #428BBA; }
 .mage-survival .color-green svg.svg-icon path {
   fill: #069E2D; }
+.mage-survival .color-green-darker svg.svg-icon path {
+  fill: #07B26A; }
+.mage-survival .color-green-darkest svg.svg-icon path {
+  fill: #1C3923; }
 .mage-survival .color-grey-lighter svg.svg-icon path {
   fill: #999; }
 .mage-survival .color-grey svg.svg-icon path {
@@ -3578,15 +3582,31 @@ body {
   background-color: green; }
 
 .battle-border.WitchForest .cell.bl {
-  background-color: darkgrey; }
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.t0 {
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.tf {
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.tF {
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.t1 {
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.t2 {
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.t3 {
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.t4 {
+  background-color: darkolivegreen; }
 .battle-border.WitchForest .cell.f1 {
-  background-color: green; }
+  background-color: darkolivegreen; }
 .battle-border.WitchForest .cell.f2 {
   background-color: darkolivegreen; }
 .battle-border.WitchForest .cell.f3 {
-  background-color: green; }
+  background-color: darkolivegreen; }
 .battle-border.WitchForest .cell.s {
-  background-color: green; }
+  background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.r1 {
+  background-color: cornflowerblue; }
 
 .mage-survival .container.main {
   position: relative;
