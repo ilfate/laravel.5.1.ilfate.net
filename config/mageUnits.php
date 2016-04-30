@@ -15,6 +15,11 @@ return array(
             'behaviour' => 'Passive',
             'icon' => 'icon-police-target', 'icon-color' => 'color-dark-blue'
         ],
+        3 => [
+            'name' => 'Witch', 'class' => 'Stationary\\Dummy', 'health' => 3,
+            'behaviour' => 'Passive',
+            'icon' => 'icon-police-target', 'icon-color' => 'color-red'
+        ],
     ],
     'chances' => [
         // World type

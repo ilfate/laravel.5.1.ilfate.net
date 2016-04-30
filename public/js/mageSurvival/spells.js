@@ -35,8 +35,10 @@ MageS.Spells = function (game) {
         switch (name) {
            case 'Fireball': this.fire.startFireball() ; break;
            case 'FireNova': this.fire.startStandartFire() ; break;
-           //case 'FireLady': this.fire.startStandartFire() ; break;
+           case 'FireLady': this.fire.startStandartFire() ; break;
            case 'ExplodingBees': this.fire.startStandartFire() ; break;
+           case 'FaceCanon': this.fire.startStandartFire() ; break;
+           case 'PhoenixStrike': this.fire.startStandartFire() ; break;
            case 'IceCrown': this.water.startIceCrown() ; break;
            default:
                isSpellAnimated = false;
@@ -51,8 +53,10 @@ MageS.Spells = function (game) {
         switch (name) {
             case 'Fireball': this.fire.iterateFireball() ; break;
             case 'FireNova': this.fire.iterateStandartFire() ; break;
-            //case 'FireLady': this.fire.iterateStandartFire() ; break;
+            case 'FireLady': this.fire.iterateStandartFire() ; break;
             case 'ExplodingBees': this.fire.iterateStandartFire() ; break;
+            case 'FaceCanon': this.fire.iterateStandartFire() ; break;
+            case 'PhoenixStrike': this.fire.iterateStandartFire() ; break;
             case 'IceCrown': this.water.iterateIceCrown() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
@@ -62,8 +66,10 @@ MageS.Spells = function (game) {
         switch (name) {
             case 'Fireball': this.fire.finishFireball(this.currentSpellData); break;
             case 'FireNova': this.fire.finishFireNova(this.currentSpellData); break;
-            //case 'FireLady': this.fire.finishFireLady(this.currentSpellData); break;
+            case 'FireLady': this.fire.finishExplodingBees(this.currentSpellData); break;
             case 'ExplodingBees': this.fire.finishExplodingBees(this.currentSpellData); break;
+            case 'FaceCanon': this.fire.finishFaceCanon(this.currentSpellData); break;
+            case 'PhoenixStrike': this.fire.finishPhoenixStrike(this.currentSpellData); break;
             case 'IceCrown': this.water.finishIceCrown(this.currentSpellData); break;
             default:
                 info('No last animation for "' + name + '"');
@@ -99,6 +105,23 @@ MageS.Spells = function (game) {
         }
         return svg;
     };
+
+    this.angle_trunc = function(a) {
+        while (a < 0.0) {
+            a += Math.PI * 2
+        }
+        return a
+    };
+    this.getDistanceBetweenTwoDots = function(x1, y1, x2, y2) {
+        var deltaY = y2 - y1;
+        var deltaX = x2 - x1;
+        var rad = this.angle_trunc(Math.atan2(deltaY, deltaX));
+        //var rad = Math.atan2(data.targetY, data.targetX); // In radians
+        //Then you can convert it to degrees as easy as:
+        var deg = rad * (180 / Math.PI);
+        var distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+        return [deg, distance];
+    }
 
 };
 

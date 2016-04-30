@@ -50,6 +50,7 @@ class Game
     const EVENT_NAME_ADD_OBJECT      = 'add-object';
     const EVENT_NAME_SPELL_CRAFT     = 'spell-craft';
     const EVENT_NAME_OBJECT_ACTIVATE = 'object-activate';
+    const EVENT_CELL_CHANGE          = 'cell-change';
 
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
     const ANIMATION_STAGE_MAGE_ACTION_2 = 'mage-action-2';
@@ -62,6 +63,7 @@ class Game
     public static $stagesList = [
         self::ANIMATION_STAGE_MAGE_ACTION,
         self::ANIMATION_STAGE_MAGE_ACTION_2,
+        self::ANIMATION_STAGE_MAGE_ACTION_3,
         self::ANIMATION_STAGE_MAGE_ACTION_EFFECT,
         self::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2,
     ];

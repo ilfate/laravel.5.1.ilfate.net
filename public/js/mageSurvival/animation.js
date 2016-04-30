@@ -130,6 +130,9 @@ MageS.Animations = function (game) {
             case 'add-object':
                 this.addObjectAnimation(data.data);
                 break;
+            case 'cell-change':
+                this.changeCellAnimation(data.data);
+                break;
             case 'wait':
                 this.waitAnimation(data.data);
                 break;
@@ -372,6 +375,20 @@ MageS.Animations = function (game) {
     this.addObjectAnimation = function(data)
     {
         var newObject = this.game.drawObject(data.object, data.object.x, data.object.y);
+        MageS.Game.animations.singleAnimationFinished();
+    };
+    this.changeCellAnimation = function(data)
+    {
+        // var newObject = this.game.drawObject(data.object, data.object.x, data.object.y);
+        var cell = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY);
+        info(cell);
+        var svgs = cell.find('.svg');
+        if (svgs.length > 0) {
+            svgs.remove();
+        }
+        var currentType = cell.data('class');
+        cell.removeClass(currentType).addClass(data.cell).data('class', data.cell);
+        this.game.worlds.cell(this.game.worldType, data.cell, cell);
         MageS.Game.animations.singleAnimationFinished();
     };
 };

@@ -15,6 +15,7 @@ namespace Ilfate\MageSurvival\Spells\Fire;
 
 use Ilfate\MageSurvival\Spells\DamageSpell;
 use Ilfate\MageSurvival\Spells\Fire;
+use Ilfate\MageSurvival\Spells\FireDamageSpell;
 
 /**
  * TODO: Short description.
@@ -36,5 +37,5 @@ class FireNova extends Fire
     protected $defaultCooldownMin = 1;
     protected $defaultCooldownMax = 1;
 
-    use DamageSpell;
+    use FireDamageSpell;
 }

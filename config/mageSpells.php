@@ -37,6 +37,21 @@ return array(
                 'noTargetSpell' => true,
                 'noAutoAnimationTrigger' => true,
             ],
+            4 => [
+                'name' => 'Face canon',
+                'class' => 'FaceCanon',
+                'description' => 'Shoot your enemy in the face. Kickback might be hard thought.',
+                'iconClass' => 'icon-blaster',
+                'iconColor' => 'color-red',
+            ],
+            5 => [
+                'name' => 'Phoenix strike',
+                'class' => 'PhoenixStrike',
+                'description' => 'Launch a phoenix that would attack all enemies in its reach.',
+                'iconClass' => 'icon-alien-fire',
+                'iconColor' => 'color-red',
+                'noAutoAnimationTrigger' => true,
+            ],
         ],
 
         // level 2

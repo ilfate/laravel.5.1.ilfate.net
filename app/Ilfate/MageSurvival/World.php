@@ -157,6 +157,31 @@ class World
         return $this->unitsInited[$y][$x];
     }
 
+    /**
+     * @param $x
+     * @param $y
+     * @param $range
+     *
+     * @return Unit[]
+     */
+    public function getUnitsAround($x, $y, $range)
+    {
+        $units = [];
+        $xStart = $x - $range;
+        $yStart = $y - $range;
+        $xEnd = $x + $range;
+        $yEnd = $y + $range;
+        for($iy = $yStart; $iy <= $yEnd; $iy++) {
+            for($ix = $xStart; $ix <= $xEnd; $ix++) {
+                $unit = $this->getUnit($ix, $iy);
+                if ($unit) {
+                    $units[] = $unit;
+                }
+            }
+        }
+        return $units;
+    }
+
     public function moveUnit($fromX, $fromY, $toX, $toY)
     {
         $unit = $this->getUnit($fromX, $fromY);
@@ -210,7 +235,6 @@ class World
         $this->objects[$y][$x] = $object->export();
         $this->update();
     }
-
 
     public function getNextMoveToGetTo($from, $to)
     {

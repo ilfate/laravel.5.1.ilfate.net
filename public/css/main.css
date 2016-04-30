@@ -3603,10 +3603,21 @@ body {
   background-color: darkolivegreen; }
 .battle-border.WitchForest .cell.f3 {
   background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.f4 {
+  background-color: #5e5e5e; }
 .battle-border.WitchForest .cell.s {
   background-color: darkolivegreen; }
 .battle-border.WitchForest .cell.r1 {
   background-color: cornflowerblue; }
+.battle-border.WitchForest .cell.w1 {
+  background-color: #FCEBB6; }
+.battle-border.WitchForest .cell.w2 {
+  background-color: #5e5e5e; }
+
+.battle-border.hut .cell.f4 {
+  background-color: #5e5e5e; }
+.battle-border.hut .cell.w1 {
+  background-color: #3C240E; }
 
 .mage-survival .container.main {
   position: relative;

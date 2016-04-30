@@ -437,7 +437,7 @@ MageS.Game = function () {
 
     this.updateActions = function (actions, isFirstLoad) {
         actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
-        actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
+        //actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
         var existingActions = {};
         actionsEl.find('.action').each(function() {
@@ -511,10 +511,18 @@ MageS.Game = function () {
             });
             $('.method-test-spell').on('click', function () {
                 MageS.Game.spells.isSecondPartWaiting = true;
-                MageS.Game.spells.currentSpellData = {'targetX': -1, 'targetY': -4};
+                MageS.Game.spells.currentSpellData = {'d': 3};
+                // MageS.Game.spells.currentSpellData = {'targetX': -1, 'targetY': -4};
+                // MageS.Game.spells.currentSpellData = {'targetX': -4, 'targetY': 0, 'd':3, 'data':[
+                //     {'point':[-1,0], 'targets':[[-1, -2], [0, 2]]},
+                //     {'point':[-2,0], 'targets':[[-1, -2], [0, 2]]},
+                //     {'point':[-3,0], 'targets':[[-1, -2], [0, 2]]},
+                //     {'point':[-4,0], 'targets':[[-1, -2], [0, 2]]},
+                // ]};
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
-                MageS.Game.spells.startCast('FireLady');
+                MageS.Game.spells.startCast('FaceCanon');
+                // MageS.Game.spells.startCast('PhoenixStrike');
             });
             $('#move-control-field .control-arrow').on('click', function () {
                 switch ($(this).data('d')) {

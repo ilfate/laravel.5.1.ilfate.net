@@ -300,6 +300,20 @@ abstract class Mage implements AliveInterface
         ], $stageForMove);
     }
 
+    public function forceMove($x, $y, $animationStage)
+    {
+        $this->x = $x;
+        $this->y = $y;
+        $this->update();
+        $this->game->setIsMageMoved();
+        $this->game->addAnimationEvent('mage-move', [
+            'mage' => $this->exportMage(),
+            'map' => $this->game->getWorldGenerator()->exportMapForView($this),
+            'objects' => $this->game->getWorldGenerator()->exportVisibleObjects(),
+            'units' => $this->game->getWorldGenerator()->exportVisibleUnits(),
+        ], $animationStage);
+    }
+
     public function rotate($d, $animationStage)
     {
         $wasD = $this->d;

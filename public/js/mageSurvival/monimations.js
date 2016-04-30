@@ -186,5 +186,35 @@ MageS.Monimations = function (game) {
             }, onComplete: callback
         }).run();
     };
+    
+    this.camShake = function (direction, duration, startAmplitude, delay, callback) {
+        var el = $('.battle-border');
+        var sign = 1;
+        if (!direction) { direction = 'X'; }
+        if (!duration) { duration = 600; }
+        if (!startAmplitude) { startAmplitude = 5; }
+        if (!delay) { delay = 1; }
+        return new mojs.Tween({
+            repeat:   0,
+            delay:    delay,
+            duration: duration,
+            onUpdate: function (progress) {
+                var amplitude = (1 - progress) * startAmplitude;
+                // var halfA = amplitude / 2;
+                // var bA = amplitude * 2;
+                // var skewX = (Math.random() * amplitude) - halfA;
+                // var skewY = (Math.random() * amplitude) - halfA;
+                var translate = amplitude * sign;
+                sign *= -1;
+
+                el[0].style.transform = 'translate' + direction + '(' + translate + 'px)';
+            }, onComplete: function() {
+                el[0].style.transform = '';
+                if (callback) {
+                    callback();
+                }
+            }
+        }).run();
+    }
 };
 

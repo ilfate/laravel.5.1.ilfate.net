@@ -48,6 +48,8 @@ abstract class Spell
     const CONFIG_FIELD_COOLDOWN = 'cooldown';
     const CONFIG_FIELD_COOLDOWN_MARK = 'cooldownMark';
 
+    const ENERGY_SOURCE_FIRE = 'fire';
+
     protected $defaultCooldownMin = 2;
     protected $defaultCooldownMax = 2;
     protected $availablePatterns = [];
@@ -76,6 +78,7 @@ abstract class Spell
     protected $pattern = false;
 
     protected $targets = [];
+    protected $affectedCells = [];
 
     protected $animationStep = Game::ANIMATION_STAGE_MAGE_ACTION;
 
@@ -278,6 +281,7 @@ abstract class Spell
         if ($this->config[self::CONFIG_FIELD_COOLDOWN_MARK] > $this->mage->getTurn()) {
             throw new MessageException('Spell is on cooldown');
         }
+        $this->name = $this->configuration['class'];
         if (!empty($this->configuration[self::CONFIG_DIRECT_TARGET_SPELL])) {
             // we need a target
             if (!isset($data['x']) || !isset($data['y'])) {
@@ -332,11 +336,14 @@ abstract class Spell
                 {
                     $this->targets[] = $unit;
                 }
+                $this->affectedCells[] = [$mageX + $patternCell[0], $mageY + $patternCell[1]];
             }
-            $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
-                'spell' => $this->configuration['class'], 'd' => $this->d
-            ], $this->getNormalCastStage());
-            $this->setEffectStage();
+            if (empty($this->configuration[self::CONFIG_NO_AUTO_ANIMATION_TRIGGER])) {
+                $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
+                    'spell' => $this->configuration['class'], 'd' => $this->d
+                ], $this->getNormalCastStage());
+                $this->setEffectStage();
+            }
             $isSuccess = $this->spellEffect($data);
         }
         if ($isSuccess) {

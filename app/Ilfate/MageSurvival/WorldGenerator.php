@@ -46,11 +46,13 @@ abstract class WorldGenerator
         'portalLocation' => ['x' => 0, 'y' => 1]
     ];
     protected $walls = [];
+    protected $destroyable = [];
 
     protected $visibleObjects = [];
     protected $visibleUnits = [];
     protected $notPassable = [];
     protected $activeUnits = [];
+
 
     public function __construct(World $world, Mage $mage)
     {
@@ -78,15 +80,7 @@ abstract class WorldGenerator
             $tempMap = static::$generatorConfig['full-world'];
             foreach ($tempMap as $y => $row) {
                 foreach ($row as $x => $cellData) {
-                    if (strpos($cellData, '-') !== false) {
-                        list($cell, $unitId) = explode('-', $cellData);
-                        $this->world->addUnit($unitId, $x, $y);
-                    } else if (strpos($cellData, '+') !== false) {
-                        list($cell, $objectId) = explode('+', $cellData);
-                        $this->world->addObject($objectId, $x, $y);
-                    } else {
-                        $cell = $cellData;
-                    }
+                    $cell = $this->processCellData($cellData, $x, $y);
                     $map[$y][$x] = $cell;
                 }
             }
@@ -119,6 +113,20 @@ abstract class WorldGenerator
         $this->mage->setX(0);
         $this->mage->setY(0);
         $this->mage->save();
+    }
+
+    public function processCellData($cellData, $x, $y)
+    {
+        if (strpos($cellData, '-') !== false) {
+            list($cell, $unitId) = explode('-', $cellData);
+            $this->world->addUnit($unitId, $x, $y);
+        } else if (strpos($cellData, '+') !== false) {
+            list($cell, $objectId) = explode('+', $cellData);
+            $this->world->addObject($objectId, $x, $y);
+        } else {
+            $cell = $cellData;
+        }
+        return $cell;
     }
 
     public function mageEnter()
@@ -257,16 +265,37 @@ abstract class WorldGenerator
         return $cell;
     }
 
-    public function addLocation($x, $y, array $location, array $map)
+    public function getCellDestroyableBySource($x, $y, $source)
+    {
+        if (!empty($this->destroyable[$source])) {
+            $cell = $this->world->getCell($x, $y);
+            if (!empty($this->destroyable[$source][$cell])) {
+                return $this->destroyable[$source][$cell];
+            }
+        }
+        return false;
+    }
+
+    public function addLocation($x, $y, array $location, array $map, $flipDirection = 0, $isForced = false)
     {
         $newMap = $map;
+        $flip = function($x, $y) { return [$x, $y]; };
+        if ($flipDirection) {
+            switch ($flipDirection) {
+                case 1: $flip = function($x, $y) { return [-$y, $x]; }; break;
+                case 2: $flip = function($x, $y) { return [-$x, -$y]; }; break;
+                case 3: $flip = function($x, $y) { return [$y, -$x]; }; break;
+            }
+        }
         foreach ($location as $locationY => $row) {
             foreach ($row as $locationX => $cell) {
-                $dx = $x + $locationX;
-                $dy = $y + $locationY;
-                if (isset($newMap[$dy][$dx])) {
+                list($locX, $locY) = $flip($locationX, $locationY);
+                $dx = $x + $locX;
+                $dy = $y + $locY;
+                if (isset($newMap[$dy][$dx]) && !$isForced) {
                     return $map;
                 }
+                $cell = $this->processCellData($cell, $dx, $dy);
                 $newMap[$dy][$dx] = $cell;
             }
         }

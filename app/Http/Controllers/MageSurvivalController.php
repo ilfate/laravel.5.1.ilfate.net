@@ -6,6 +6,7 @@ use Ilfate\Mage;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\MessageException;
+use Ilfate\MageSurvival\Generators\LocationsForest;
 use Ilfate\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -158,12 +159,17 @@ class MageSurvivalController extends BaseController
             }
         }
         if (!$type) {
-            return redirect('/Spellcraft/mapBuilder');
+            if (!empty(LocationsForest::${$name})) {
+                $map = LocationsForest::${$name};
+                $request->session()->set('mapBuilder.'. $name, $map);
+                return redirect('/Spellcraft/mapBuilder/' . $name);
+            }
+            return redirect('/Spellcraft/mapBuilder/empty');
         }
         $className = '\Ilfate\MageSurvival\Generators\WorldGenerator' . $worlds[$type]['map-type'];
         $mapConfig = $className::getGeneratorConfig();
         if (empty($mapConfig['full-world'])) {
-            return redirect('/Spellcraft/mapBuilder');
+            return redirect('/Spellcraft/mapBuilder/empty');
         }
         $request->session()->set('mapBuilder.'. $name, $mapConfig['full-world']);
         return redirect('/Spellcraft/mapBuilder/' . $name);

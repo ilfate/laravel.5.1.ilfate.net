@@ -38,6 +38,8 @@ MageS.Worlds = function (game) {
             't4' : {'icon':'icon-tree-oak', 'icon-color': 'color-green-darker', 'icon2':{
                 'icon':'icon-tree-oak-base', 'icon-color':'color-brown'
             }},
+            'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-brown'},
+            'w2' : {'icon':'icon-obelisk', 'icon-color': 'color-clay'},
         }
     };
 

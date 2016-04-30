@@ -35,6 +35,7 @@ return array(
         'list' => [
             1 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay'],
             2 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay'],
+            3 => ['name' => 'Chest', 'class' => 'BigChest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-blue'],
             50 => ['name' => 'Door', 'class' => 'DoorQuest', 'icon' => 'icon-wooden-door', 'iconColor' => 'color-brown'],
             1000 => ['name' => 'Portal', 'class' => 'Portal', 'icon' => 'icon-magic-portal', 'iconColor' => 'color-black'],
         ],

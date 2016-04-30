@@ -168,7 +168,14 @@
     .cell.f1 { background-color: darkolivegreen; }
     .cell.f2 { background-color: darkolivegreen; }
     .cell.f3 { background-color: darkolivegreen; }
+    .cell.f4 { background-color: #5e5e5e; }
     .cell.s  { background-color: darkolivegreen; }
     .cell.r1  { background-color: cornflowerblue; }
+    .cell.w1  { background-color: $mage-colors-clay }
+    .cell.w2  { background-color: #5e5e5e }
 }
 
+.battle-border.hut {
+    .cell.f4 { background-color: #5e5e5e; }
+    .cell.w1 { background-color: #3C240E; }
+}

@@ -95,12 +95,25 @@ MageS.Spells.Fire = function (game, spells) {
         }, 800);
     };
 
-    this.beamStrike = function(length, deg, svgline, color) {
+    this.beamStrike = function(length, deg, svgline, color, options) {
+        if (!options) { options = {}; }
         deg -= 45;
         var beam = this.spells.createIcon(svgline).addClass('beam');
         beam[0].style.transform = ' rotate(' + deg +'deg)';
         var icon = beam.find('.svg-icon');
-        beam.css({'width':'1px','height':'1px', 'margin-left': this.game.cellSize / 2 + 'rem', 'margin-top': this.game.cellSize / 2 + 'rem'});
+        var moveTop = '';
+        if (options.moveTop !== undefined) {
+            moveTop = options.moveTop;
+        } else {
+            moveTop = this.game.cellSize / 2 + 'rem';
+        }
+            var moveLeft = '';
+        if (options.moveLeft !== undefined) {
+            moveLeft = options.moveLeft;
+        } else {
+            moveLeft = this.game.cellSize / 2 + 'rem';
+        }
+        beam.css({'width':'1px','height':'1px', 'margin-left': moveLeft, 'margin-top': moveTop});
         var side = length / Math.sqrt(2);
         beam.find('svg').css({'width':side * this.game.cellSize + 'rem', 'height':side * this.game.cellSize + 'rem'});
         icon.css({'position':'absolute'});
@@ -108,12 +121,20 @@ MageS.Spells.Fire = function (game, spells) {
         $('.animation-field').append(beam);
 
         var path = beam.find('path');
-        path.css({'fill': 'none', 'stroke': color, 'stroke-width': '0.4rem', 'stroke-opacity': 1});
+        var baseBeamWidth = 10;
+        if (options.beamWidth !== undefined) { baseBeamWidth = options.beamWidth; }
+        var strokeWidth = (baseBeamWidth - length) / 10;
+        path.css({'fill': 'none', 'stroke': color, 'stroke-width': strokeWidth + 'rem', 'stroke-opacity': 1});
         var pathEl = path[0];
         var segment = new Segment(pathEl);
-
+        var time = 0.8;
+        if (options.time !== undefined) { time = options.time}
         segment.draw("0", "0", 0);
-        segment.draw("100%", "150%", 0.8);
+        var delay = 0;
+        if (options.delay !== undefined) { delay = options.delay; }
+        setTimeout(function() {
+            segment.draw("100%", "150%", time);
+        }, delay);
     };
 
     this.finishExplodingBees = function(data) {
@@ -123,7 +144,6 @@ MageS.Spells.Fire = function (game, spells) {
         //Then you can convert it to degrees as easy as:
         var deg = rad * (180 / Math.PI);
         var distance = Math.sqrt(Math.pow(data.targetX, 2) + Math.pow(data.targetY, 2));
-        info(distance);
 
         MageS.Game.spells.fire.beamStrike(distance, deg, 'icon-sinusoidal-line', '#F07818');
         setTimeout(function() {
@@ -159,6 +179,132 @@ MageS.Spells.Fire = function (game, spells) {
             }, 500);
         }, 500);
     };
+
+    this.finishFaceCanon = function(data) {
+        this.standartFireToMiddle();
+
+        var shakeDirection = 'X';
+        if (data.d == 0 || data.d == 2) {
+            shakeDirection = 'Y';
+        }
+        var slash = this.spells.createIcon('icon-quick-slash');
+
+        $('.animation-field').append(slash);
+        var deg = 0;
+        var mLeft = 0;
+        var mTop = 0;
+        var rTop = 0;
+        var rLeft = 0;
+        var rTopFinal = 0;
+        var rLeftFinal = 0;
+        switch (data.d) {
+            case 0: deg = -90; mTop = -1.5; rLeft = 3; break;
+            case 1: mLeft = 1.5; rTop = 3; break;
+            case 2: deg = 90; mTop = 1.5; rLeft = 3; break;
+            case 3: deg = 180; mLeft = -1.5; rTop = 3; break;
+        }
+        slash.animate({'margin-left': (this.game.cellSize * mLeft) + 'rem',
+            'margin-top': (this.game.cellSize * mTop) + 'rem'}, {duration: 1200});
+        slash[0].style.transform='rotate(' + deg + 'deg)';
+        this.game.monimations.blastInScale(slash.find('svg.svg-icon'), 6, null, 1200);
+        slash.find('path').attr('fill', '#ff3f03').animate(
+            {opacity:0, 'svgFill': '#fff'},
+            {duration:1050, easing: 'easeInExpo'}
+        );
+
+        var svgContEl = $('<div class="animation animation-centred-block"></div>');
+        for (var i = 0; i <= 5; i++ ) {
+            var svgEl = $('<div class="circle n-' + i + '" data-n="' + i + '"></div>').width('0').height('0').css({'position':'absolute'});
+            svgEl.svg({
+                onLoad: function (svg) {
+                    svg.circle(0, 0, 0.1 * MageS.Game.rem,
+                        {fill: '#ff3f03', stroke: 'none'});
+                }
+            });
+            if (rTop) { rTopFinal = rTop - (i * rTop / 2.5); }
+            if (rLeft) { rLeftFinal = rLeft - (i * rLeft / 2.5); }
+            svgEl.find('svg circle').delay(550).animate({
+                'svgCx':(mLeft * 5 + rLeftFinal) * MageS.Game.cellSize * MageS.Game.rem,
+                'svgCy':(mTop * 5 + rTopFinal) * MageS.Game.cellSize * MageS.Game.rem,
+            }, {duration:400});
+            svgContEl.append(svgEl);
+        }
+        $('.animation-field').append(svgContEl);
+
+        MageS.Game.monimations.camShake(shakeDirection, 500, 6, 800);
+
+        setTimeout(function() {
+                    MageS.Game.spells.endSpellAnimation();
+        }, 1200);
+    };
+    
+    this.doPhoenixStep = function(phoenix, data, step, d) {
+        var currentPoint = data[step].point;
+        var targets = [];
+        if (data[step].targets !== undefined) {
+            targets = data[step].targets;
+            for( var targetNum in targets) {
+                var calculations = this.spells.getDistanceBetweenTwoDots(currentPoint[0], currentPoint[1], targets[targetNum][0], targets[targetNum][1]);
+                var options = {
+                    'moveTop': ((currentPoint[1] + 0.5) * MageS.Game.cellSize) + 'rem',
+                    'moveLeft': ((currentPoint[0] + 0.5) * MageS.Game.cellSize) + 'rem',
+                    'time' : 1,
+                    'delay': 500,
+                    'beamWidth': 15,
+                };
+                var bulletType = 'icon-bullet-simple-middle-line';
+                if (Math.random() > 0.5) { bulletType = 'icon-sinusoidal-line'; }
+                    MageS.Game.spells.fire.beamStrike(calculations[1], calculations[0], bulletType, '#F07818', options);
+            }
+        }
+
+        phoenix.animate({
+            'margin-left': (currentPoint[0] * MageS.Game.cellSize) + 'rem',
+            'margin-top': (currentPoint[1] * MageS.Game.cellSize) + 'rem',
+        }, {
+            duration: 500, easing:'linear', complete: function () {
+                if (data[step + 1] !== undefined) {
+                    MageS.Game.spells.fire.doPhoenixStep(phoenix, data, step + 1, d);
+                } else {
+                    var addX = 0;
+                    var addY = 0;
+                    switch (d) {
+                        case 0: addY -= 5; break;
+                        case 1: addX += 5; break;
+                        case 2: addY += 5; break;
+                        case 3: addX -= 5; break;
+                    }
+                    phoenix.animate({
+                        'opacity':0,
+                        'margin-left': ((currentPoint[0] + addX) * MageS.Game.cellSize) + 'rem',
+                        'margin-top': ((currentPoint[1] + addY) * MageS.Game.cellSize) + 'rem',},
+                        {duration:1000, complete: function() {
+                            MageS.Game.spells.fire.clearPhoenix();
+                        }});
+                }
+            }
+        })
+    };
+    this.clearPhoenix = function () {
+        MageS.Game.spells.endSpellAnimation();
+    };
+    this.finishPhoenixStrike = function(data) {
+        this.standartFireToMiddle();
+
+        var phoenix = this.spells.createIcon('icon-crow-dive', 'color-red').addClass('phoenix');
+        $('.animation-field').append(phoenix);
+        var angle = -45;
+        switch (data.d) {
+            case 0: angle -= 90; break;
+            case 2: angle += 90; break;
+            case 3: angle += 180; break;
+        }
+        phoenix[0].style.transform = 'rotate(' + angle + 'deg)';
+
+        this.doPhoenixStep(phoenix, data.data, 0, data.d);
+    };
+
+
 
 
 

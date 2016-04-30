@@ -47,8 +47,10 @@ class FireLady extends Fire
          */
         $target = ChanceHelper::oneFromArray($visibleUnits);
 
+        $mageX = $mage = $this->mage->getX();
+        $mageY = $mage = $this->mage->getY();
         $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
-            'spell' => $this->name, 'targetX' => $target->getX(), 'targetY' => $target->getY()
+            'spell' => $this->name, 'targetX' => $target->getX() - $mageX, 'targetY' => $target->getY() - $mageY
         ], $this->getNormalCastStage());
         $this->setEffectStage();
 

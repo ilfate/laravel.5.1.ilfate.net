@@ -12,6 +12,9 @@
  * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival\Generators;
+use Ilfate\MageSurvival\ChanceHelper;
+use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\WorldGenerator;
 
 /**
@@ -29,6 +32,9 @@ class WorldGeneratorWitchForest extends WorldGenerator
     const CELL_FIELD_1 = 'f1';
     const CELL_FIELD_2 = 'f2';
     const CELL_FIELD_3 = 'f3';
+    const CELL_FLOOR = 'f4';
+    const CELL_WALL = 'w1';
+    const CELL_WALL_2 = 'w2';
     const CELL_STONE = 's';
     const CELL_TREE_PINE = 't1';
     const CELL_TREE_PINE_2 = 't2';
@@ -73,6 +79,20 @@ class WorldGeneratorWitchForest extends WorldGenerator
         self::CELL_FOREST_2,
         self::CELL_FOREST_3,
         self::CELL_RIVER,
+        self::CELL_WALL,
+        self::CELL_WALL_2,
+    ];
+
+    protected $destroyable = [
+        Spell::ENERGY_SOURCE_FIRE => [
+            self::CELL_TREE_PINE   => self::CELL_FIELD_3,
+            self::CELL_TREE_PINE_2 => self::CELL_FIELD_3,
+            self::CELL_TREE_PINE_3 => self::CELL_FIELD_3,
+            self::CELL_TREE_OAK    => self::CELL_FIELD_3,
+            self::CELL_FOREST      => self::CELL_FIELD_3,
+            self::CELL_FOREST_2    => self::CELL_FIELD_3,
+            self::CELL_FOREST_3    => self::CELL_FIELD_3,
+        ]
     ];
 
     protected static $generatorConfig = [
@@ -85,7 +105,49 @@ class WorldGeneratorWitchForest extends WorldGenerator
 
     public function addAdditionalToMap(array &$map)
     {
-        $newMap = $this->addLocation(0, 20, LocationsForest::$lakeWithIsland, $map);
+        $possibleLocationsForLake = [
+            [0, 20], [20, 0], [0, -20], [-20, 0]
+        ];
+        $lakeLocation = ChanceHelper::oneFromArray($possibleLocationsForLake);
+        $newMap = $this->addLocation($lakeLocation[0], $lakeLocation[1], LocationsForest::$lakeWithIsland, $map, 3);
+
+        $possibleLocationsForHut = [
+            [20, 20, 0], [-20, -20, 2], [20, -20, 3], [-20, 20, 1]
+        ];
+        $hutLocation = ChanceHelper::oneFromArray($possibleLocationsForHut);
+        $newMap = $this->addLocation(
+            $hutLocation[0], $hutLocation[1], LocationsForest::$witchHut, $newMap, $hutLocation[2]
+        );
+
+        $witch = null;
+        $units = $this->world->getUnits();
+        foreach ($units as $y => $row) {
+            foreach ($row as $x => $unit) {
+                if ($unit['type'] == 3) {
+                    // this is witch
+                    $witch = $this->world->getUnit($x, $y);
+                }
+            }
+        }
+        $door = null;
+        $objects = $this->world->getObjects();
+        foreach ($objects as $y => $row) {
+            foreach ($row as $x => $object) {
+                if ($object['type'] == 50) {
+                    // this is witch
+                    $door = [$x, $y];
+                }
+            }
+        }
+        Event::create(Event::EVENT_UNIT_AFTER_DYING, [
+                'times' => 1,
+                'owner' => $witch,
+                'doorX' => $door[0], 'doorY' => $door[1]
+            ],
+            'Objects:openDoor'
+        );
+        $this->world->setEvents(Event::export());
+        $this->world->save();
         $map = $newMap;
     }
 
