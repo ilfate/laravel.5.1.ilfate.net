@@ -27,8 +27,10 @@ function Guess () {
 Guess = new Guess();
 
 $(document).ready(function() {
-    Guess.Game = new Guess.Game();
-
+    if (window.guessGameFirstQuestion !== undefined) {
+        Guess.Game = new Guess.Game();
+        Guess.Game.init(window.guessGameFirstQuestion);
+    }
 
 });
 

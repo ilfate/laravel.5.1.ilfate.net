@@ -6,21 +6,7 @@ function MageS () {
 
 }
 MageS = new MageS();
-function windowRotate(el, degs) {
-    iedegs = degs/90;
-    if (iedegs < 0) iedegs += 4;
-    transform = 'rotate('+degs+'deg)';
-    iefilter = 'progid:DXImageTransform.Microsoft.BasicImage(rotation='+iedegs+')';
-    styles = {
-        transform: transform,
-        '-webkit-transform': transform,
-        '-moz-transform': transform,
-        '-o-transform': transform,
-        filter: iefilter,
-        '-ms-filter': iefilter
-    };
-    $(el).css(styles);
-}
+
 $(document).ready(function() {
     if ($('body.mage-survival').length) {
         MageS.Game = new MageS.Game();
@@ -437,7 +423,7 @@ MageS.Game = function () {
 
     this.updateActions = function (actions, isFirstLoad) {
         actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
-        //actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
+        actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
         var existingActions = {};
         actionsEl.find('.action').each(function() {

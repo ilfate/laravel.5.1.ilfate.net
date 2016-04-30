@@ -31,7 +31,5 @@
 
 
 <script>
-	$(document).ready(function() {
-        Guess.Game.init({!! $firstQuestion!!});
-	});
+	window.guessGameFirstQuestion = {!! $firstQuestion!!};
 </script>

@@ -138,8 +138,6 @@ CanvasActions = function() {
   }
 }
 
-CanvasActions = new CanvasActions();
-
 
 function IL () {
   
@@ -1147,5 +1145,72 @@ $(document).ready(function() {
   if (!$('.game-template-container').length) {
     return false;
   }
-
+  CanvasActions = new CanvasActions();
+  CanvasActions.init();
+  $(document).keypress(function(event) {
+    switch(event.keyCode)
+    {
+      case 37: // left
+        CanvasActions.robot.rotate(-1);
+        break;
+      case 38: // down
+        CanvasActions.robot.backward();
+        break;
+      case 39: // right
+        CanvasActions.robot.rotate(1);
+        break;
+      case 40: // up
+        CanvasActions.robot.forward();
+        break;
+      case 13:  // Enter
+        break;
+      case 119 : // w
+        CanvasActions.robot.forward();
+        break;
+      case 97 : // a
+        CanvasActions.robot.rotate(-1);
+        break;
+      case 115 : // s
+        CanvasActions.robot.backward();
+        break;
+      case 100 : // d
+        CanvasActions.robot.rotate(1);
+        break;
+      case 32 :  // space
+        break;
+      case 101 :  // e
+        CanvasActions.robot.destroyWall();
+        break;
+      case 114 :  // r
+        break;
+      case 102 :  // f
+        break;
+      case 0 :                  //// For Mozila
+        switch(event.charCode)
+        {
+          case 119 : // w
+            CanvasActions.robot.forward('move');
+            break;
+          case 97 : // a
+            CanvasActions.robot.rotate(-1);
+            break;
+          case 115 : // s
+            CanvasActions.robot.backward();
+            break;
+          case 100 : // d
+            CanvasActions.robot.rotate(1);
+            break;
+          case 32 :  // space
+            break;
+          case 101 :  // e
+            CanvasActions.robot.destroyWall();
+            break;
+          case 114 :  // r
+            break;
+          case 102 :  // f
+            break;
+        }
+        break;
+    }
+  });
 });

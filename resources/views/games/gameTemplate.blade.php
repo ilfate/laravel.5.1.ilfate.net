@@ -28,12 +28,4 @@
 </div>
 </div>
 
-
-
-<script >
-    $(document).ready(function(){
-        CanvasActions.init();
-    });
-</script>
-
 @stop

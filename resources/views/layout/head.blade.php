@@ -30,27 +30,7 @@
             class="{{$bodyClass}}"
         @endif
         >
-<script src="/js/main.min.js"></script>
-{{--<script src="/js/cosmos/main.js"></script>--}}
-{{--<script src="/js/hex/main.js"></script>--}}
-<script src="/packages/mo.min.js"></script>
-<script src="/packages/segment.js"></script>
-<script src="/packages/jquery.svg.package-1.5.0/jquery.svg.min.js"></script>
-<script src="/packages/jquery.svg.package-1.5.0/jquery.svganim.min.js"></script>
-<script src="/js/mageSurvival/main.js"></script>
-<script src="/js/mageSurvival/inventory.js"></script>
-<script src="/js/mageSurvival/animation.js"></script>
-<script src="/js/mageSurvival/spellbook.js"></script>
-<script src="/js/mageSurvival/spells.js"></script>
-<script src="/js/mageSurvival/spells-fire.js"></script>
-<script src="/js/mageSurvival/spells-water.js"></script>
-<script src="/js/mageSurvival/worlds.js"></script>
-<script src="/js/mageSurvival/objects.js"></script>
-<script src="/js/mageSurvival/chat.js"></script>
-<script src="/js/mageSurvival/home.js"></script>
-<script src="/js/mageSurvival/spellcraft.js"></script>
-<script src="/js/mageSurvival/monimations.js"></script>
-<script src="/js/mageSurvival/map-builder.js"></script>
+
 {{--<script>--}}
     {{--require.config({--}}
         {{--paths: {--}}
@@ -98,6 +78,28 @@
 </script>
 
 @yield('layout')
+
+<script src="/js/main.min.js"></script>
+{{--<script src="/js/cosmos/main.js"></script>--}}
+{{--<script src="/js/hex/main.js"></script>--}}
+<script src="/packages/mo.min.js"></script>
+<script src="/packages/segment.js"></script>
+<script src="/packages/jquery.svg.package-1.5.0/jquery.svg.min.js"></script>
+<script src="/packages/jquery.svg.package-1.5.0/jquery.svganim.min.js"></script>
+<script src="/js/mageSurvival/main.js"></script>
+<script src="/js/mageSurvival/inventory.js"></script>
+<script src="/js/mageSurvival/animation.js"></script>
+<script src="/js/mageSurvival/spellbook.js"></script>
+<script src="/js/mageSurvival/spells.js"></script>
+<script src="/js/mageSurvival/spells-fire.js"></script>
+<script src="/js/mageSurvival/spells-water.js"></script>
+<script src="/js/mageSurvival/worlds.js"></script>
+<script src="/js/mageSurvival/objects.js"></script>
+<script src="/js/mageSurvival/chat.js"></script>
+<script src="/js/mageSurvival/home.js"></script>
+<script src="/js/mageSurvival/spellcraft.js"></script>
+<script src="/js/mageSurvival/monimations.js"></script>
+<script src="/js/mageSurvival/map-builder.js"></script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

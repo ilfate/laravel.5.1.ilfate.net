@@ -193,9 +193,6 @@ abstract class Spell
         $schoolName = $spellsConfig['schools'][$schoolId]['name'];
         $game->addMessage('School of your new spell is ' . $schoolName);
 
-//        $level = 1;
-//        $game->addMessage('Your new spell is level ' . $level);
-
         $allPossibleSpells = $spellsConfig['list'][$schoolId];
         $baseSumValue = $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE];
         $game->addMessage('Base value = ' . $baseSumValue);
