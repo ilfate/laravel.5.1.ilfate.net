@@ -436,4 +436,15 @@ class World
         $this->game = $game;
     }
 
+    public function getNextCoord($x, $y, $d)
+    {
+        switch ($d) {
+            case 0: $y -= 1; break;
+            case 1: $x += 1; break;
+            case 2: $y += 1; break;
+            case 3: $x -= 1; break;
+        }
+        return [$x, $y];
+    }
+
 }

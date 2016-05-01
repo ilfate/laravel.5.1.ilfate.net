@@ -497,8 +497,11 @@ MageS.Game = function () {
             });
             $('.method-test-spell').on('click', function () {
                 MageS.Game.spells.isSecondPartWaiting = true;
-                MageS.Game.spells.currentSpellData = {'d': 3};
-                // MageS.Game.spells.currentSpellData = {'targetX': -1, 'targetY': -4};
+                // MageS.Game.spells.currentSpellData = {'data': [
+                //     [-2, -3],[-1, -3],[0, -3],[1, -3],[2, -3],
+                //     [-2, -2],[-1, -2],[0, -2],[1, -2],[2, -2]
+                // ]};
+                MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
                 // MageS.Game.spells.currentSpellData = {'targetX': -4, 'targetY': 0, 'd':3, 'data':[
                 //     {'point':[-1,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-2,0], 'targets':[[-1, -2], [0, 2]]},
@@ -507,7 +510,7 @@ MageS.Game = function () {
                 // ]};
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
-                MageS.Game.spells.startCast('FaceCanon');
+                MageS.Game.spells.startCast('ButthurtJump');
                 // MageS.Game.spells.startCast('PhoenixStrike');
             });
             $('#move-control-field .control-arrow').on('click', function () {
@@ -691,6 +694,11 @@ MageS.Game = function () {
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {'d': mageConf.d});
         var obj = $(rendered);
+        $(this.svg).find('#icon-mage-1 path').each(function() {
+            obj.find('svg').append($(this).clone());
+        });
+        obj.animateRotate(0, mageConf.d * 90, 10);
+
         $('.mage-container').prepend(obj);
 
     };

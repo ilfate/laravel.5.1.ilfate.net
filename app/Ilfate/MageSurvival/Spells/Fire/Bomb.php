@@ -11,12 +11,12 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells;
+namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Game;
-use Ilfate\MageSurvival\GameBuilder;
-use Ilfate\MageSurvival\Spell;
-use Ilfate\MageSurvival\Spells\Air;
+use Ilfate\MageSurvival\Spells\DamageSpell;
+use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
 
 /**
@@ -28,21 +28,20 @@ use Ilfate\MageSurvival\Unit;
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
+ *
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-trait FireDamageSpell
+class Bomb extends Fire
 {
+
+    protected $defaultCooldownMin = 2;
+    protected $defaultCooldownMax = 3;
+
     protected function spellEffect($data)
     {
+        $object = $this->world->addObject($this->config['loot'], $this->mage->getX(), $this->mage->getY());
 
-        foreach($this->targets as $target) {
-            /**
-             * @var Unit $target
-             */
-            $target->damage($this->damage, $this->getNormalCastStage());
-        }
-        $this->destroyTreesAtCells($this->affectedCells);
         return true;
     }
 }

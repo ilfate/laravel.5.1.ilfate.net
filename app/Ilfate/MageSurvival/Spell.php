@@ -215,6 +215,7 @@ abstract class Spell
         $spell = new $class($spellConfiguration['number'], $schoolId, $spellConfig);
         $spell->generateCoolDown(isset($spellRandomizerConfig[self::KEY_COOLDOWN]) ? $spellRandomizerConfig[self::KEY_COOLDOWN] : []);
         $spell->setUpPattern();
+        $spell->setUsages();
         //$spell->setLevel($level);
         $result['spell'] = $spell;
 
@@ -375,6 +376,15 @@ abstract class Spell
         }
     }
 
+    protected function getPreviousStage()
+    {
+        $currentKey = array_search($this->animationStep, Game::$stagesList);
+        if ($currentKey > 0) {
+            return Game::$stagesList[$currentKey - 1];
+        }
+        return $this->animationStep;
+    }
+
     protected function setEffectStage()
     {
         $this->animationStep = Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT;
@@ -511,5 +521,10 @@ abstract class Spell
     public function getSchoolId()
     {
         return $this->schoolId;
+    }
+
+    public function setUsages()
+    {
+
     }
 }

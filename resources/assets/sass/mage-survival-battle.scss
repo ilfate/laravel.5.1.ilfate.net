@@ -21,10 +21,10 @@
                 width:$cell-size + rem;
                 height:$cell-size + rem;
                 z-index: 35;
-                background-image: url('/images/game/mage/mage.png');
-                &.d-1 { @include rotate(90deg); }
-                &.d-2 { @include rotate(180deg); }
-                &.d-3 { @include rotate(270deg); }
+                //background-image: url('/images/game/mage/mage.png');
+                //&.d-1 { @include rotate(90deg); }
+                //&.d-2 { @include rotate(180deg); }
+                //&.d-3 { @include rotate(270deg); }
             }
         }
         .animation-field {

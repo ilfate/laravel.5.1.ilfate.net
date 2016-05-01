@@ -338,7 +338,6 @@ MageS.Spellbook = function (game) {
     };
 
     this.patternClick = function(patternCell) {
-        info("pattern Click");
         var spell = $('.spell.active');
         if (spell.length !== 1) {
             info('ERROR not one spell active');

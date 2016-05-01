@@ -167,15 +167,24 @@ MageS.Animations = function (game) {
             'margin-left': baseMargin + (newX - oldX) * this.game.cellSize + 'rem',
             'margin-top': baseMargin + (newY - oldY) * this.game.cellSize + 'rem'
         });
+        var animateTime = this.game.animationTime;
+        var dX = Math.abs(newX - oldX);
+        var dY = Math.abs(newY - oldY);
+        var dSum = dX + dY;
+        if (dSum > 1) { animateTime = animateTime * ( (dX + dY) / 2 + 0.5 ); }
+        if (!this.game.spells.spellAnimationRunning) {
+            this.mageMoveHands(animateTime);
+        }
+        this.rotateTorso(animateTime, 2);
         newBattleField.animate({
             'margin-left': baseMargin + 'rem',
             'margin-top': baseMargin + 'rem'
-        }, {'duration': this.game.animationTime});
+        }, {'duration': animateTime});
         var that = this;
         $('.battle-field.current').animate({
             'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'rem',
             'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'rem'
-        }, {duration: (this.game.animationTime),
+        }, {duration: animateTime,
             complete:function(){
             $('.battle-field.current').remove();
             $('.battle-field.new').removeClass('new').addClass('current');
@@ -390,6 +399,48 @@ MageS.Animations = function (game) {
         cell.removeClass(currentType).addClass(data.cell).data('class', data.cell);
         this.game.worlds.cell(this.game.worldType, data.cell, cell);
         MageS.Game.animations.singleAnimationFinished();
+    };
+    
+    this.mageMoveHands = function(duration) {
+        var mageSvg = $('.battle-border .mage svg');
+        var leftHand = mageSvg.find('.mage-hand-left');
+        var leftHandFist = mageSvg.find('.mage-hand-left-fist');
+        var rightHand = mageSvg.find('.mage-hand-right');
+        var rightHandFist = mageSvg.find('.mage-hand-right-fist');
+        var left = [leftHand, leftHandFist];
+        var right = [rightHand, rightHandFist];
+        var num = Math.floor(duration / 100);
+
+        for (var i = 0; i < num; i++) {
+            this.handSwitch(i * 100, (i%2==1) ? left : right);
+        }
+        setTimeout(function(){
+            $('.battle-border .mage path.hand').show();
+        }, duration);
+    };
+    
+    this.handSwitch = function(delay, toHide) {
+        setTimeout(function() {
+            $('.battle-border .mage path.hand').show();
+            for (var n in toHide) {
+                toHide[n].hide();
+            }
+        }, delay);
+    };
+
+    this.rotateTorso = function(duration, amplitude) {
+        var num = Math.floor(duration / 100);
+        for (var i = 0; i < num; i++) {
+            this.rotateTorsoSingle(i * 100, amplitude, (i%2==1) ? -1 : 1);
+        }
+        setTimeout(function(){
+            $('.battle-border .mage path.mage-torso')[0].style.transform = 'rotate(0)';
+        }, duration);
+    };
+    this.rotateTorsoSingle = function(delay, amplitude, direction) {
+        setTimeout(function() {
+            $('.battle-border .mage path.mage-torso')[0].style.transform = 'rotate(' + (amplitude * direction) + 'deg)';
+        }, delay);
     };
 };
 

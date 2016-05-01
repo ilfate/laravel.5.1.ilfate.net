@@ -29,6 +29,21 @@ return array(
                 'directTargetSpell' => 'enemy',
             ],
             3 => [
+                'name' => 'Butthurt jump',
+                'class' => 'ButthurtJump',
+                'description' => 'Use you anger to travel larger distances.',
+                'iconClass' => 'icon-fire-dash',
+                'iconColor' => 'color-red',
+            ],
+            4 => [
+                'name' => 'Bomb',
+                'class' => 'Bomb',
+                'description' => 'Leave a bomb where you stand.',
+                'iconClass' => 'icon-fire-bomb',
+                'iconColor' => 'color-red',
+                'noTargetSpell' => true,
+            ],
+            5 => [
                 'name' => 'FireLady',
                 'class' => 'FireLady',
                 'description' => 'Lady will go around battle field and put your enemies on fire',
@@ -37,18 +52,26 @@ return array(
                 'noTargetSpell' => true,
                 'noAutoAnimationTrigger' => true,
             ],
-            4 => [
+            6 => [
                 'name' => 'Face canon',
                 'class' => 'FaceCanon',
                 'description' => 'Shoot your enemy in the face. Kickback might be hard thought.',
                 'iconClass' => 'icon-blaster',
                 'iconColor' => 'color-red',
             ],
-            5 => [
+            7 => [
                 'name' => 'Phoenix strike',
                 'class' => 'PhoenixStrike',
                 'description' => 'Launch a phoenix that would attack all enemies in its reach.',
                 'iconClass' => 'icon-alien-fire',
+                'iconColor' => 'color-red',
+                'noAutoAnimationTrigger' => true,
+            ],
+            8 => [
+                'name' => 'Rain of fire',
+                'class' => 'RainOfFire',
+                'description' => 'Drown your enemies in fire from the sky.',
+                'iconClass' => 'icon-fire-tail',
                 'iconColor' => 'color-red',
                 'noAutoAnimationTrigger' => true,
             ],

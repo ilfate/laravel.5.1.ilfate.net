@@ -22,7 +22,6 @@ MageS.Spellcraft = function (game) {
     };
 
     this.startSpellCraftAnimations = function () {
-        console.info('Start spell craft animations');
 
         $('.craft-spell-overlay').hide();
         $('.confirm-create-spell').removeClass('active');
@@ -93,7 +92,6 @@ MageS.Spellcraft = function (game) {
                 }
             });
         }
-        console.info('End spell craft animations');
         $('.inventory').removeClass('craft');
         $('.inventory-shadow').animate({'opacity': 0}, {'duration': this.game.animationTime / 3,'complete':function(){
             $(this).hide();
@@ -130,6 +128,7 @@ MageS.Spellcraft = function (game) {
         if (this.game.device != 'pc') {
             this.game.inventory.showInventory();
         }
+        this.game.spellbook.removePermanentTooltip();
         var itemsCount = 0;
         $('.inventory .item.type-ingredient .value').each(function() {
             itemsCount += 1;

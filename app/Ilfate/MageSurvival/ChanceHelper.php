@@ -39,4 +39,12 @@ class ChanceHelper
     {
         return $array[array_rand($array)];
     }
+
+    public static function extractOne(&$array)
+    {
+        $key = array_rand($array);
+        $value = $array[$key];
+        unset($array[$key]);
+        return $value;
+    }
 }

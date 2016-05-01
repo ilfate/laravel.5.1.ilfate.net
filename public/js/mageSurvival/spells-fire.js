@@ -57,12 +57,15 @@ MageS.Spells.Fire = function (game, spells) {
         }
     };
 
-    this.standartFireToMiddle = function() {
+    this.standartFireToMiddle = function(duration) {
+        if (!duration) {
+            duration = 300;
+        }
         for (var i = 0; i < 4; i++) {
             var svg = this.spells.savedData[i];
             this.game.monimations.rotate(svg, 0, 360, 300, false, false);
-            svg.animate({'margin':0}, {duration:300, complete:function() {
-                $(this).animate({opacity:0}, {duration:100, complete:function() {
+            svg.animate({'margin':0}, {'duration':duration, complete:function() {
+                $(this).animate({opacity:0}, {'duration':100, complete:function() {
                     $(this).remove();
                 }});
             }
@@ -178,6 +181,48 @@ MageS.Spells.Fire = function (game, spells) {
                 }})
             }, 500);
         }, 500);
+    };
+
+    this.buttFire = function(rotate, mTop, mLeft) {
+        var icon = this.spells.createIcon('icon-celebration-fire');
+        var path = icon.find('path');
+        path.attr('fill', '#ff3f03');
+        $('.animation-field').append(icon);
+        icon[0].style.transform = 'rotate(' + rotate + 'deg) translate('+ (mLeft * MageS.Game.cellSize * MageS.Game.rem) + 'px, ' + (mTop * MageS.Game.cellSize * MageS.Game.rem) + 'px)';
+        path.animate({'svgFill':'#fff'}, {duration:600})
+        MageS.Game.monimations.blastInScale(icon.find('svg.svg-icon'), 0.8, null, 250);
+        setTimeout(function(){
+            icon.animate({opacity:0}, {duration:200,complete:function(){
+                $(this).remove();
+            }})
+        }, 250);
+    };
+
+    this.finishButthurtJump = function(data) {
+        this.standartFireToMiddle(50);
+
+        $('.battle-border .mage path.hand').show();
+        $('.battle-border .mage path.active-hand').hide();
+        
+        var d = data.d;
+        var rotate = 0;
+        var mTop = -0.3;
+        var mLeft = 0;
+        switch (d) {
+            case 0: rotate = 180;  break;
+            case 1: rotate = -90; mTop = -0.4; mLeft = 0.1; break;
+            case 2: mTop = -0.5; break;
+            case 3: rotate = 90; mTop = -0.4; mLeft = -0.1; break;
+        }
+        MageS.Game.animations.singleAnimationFinished();
+        this.buttFire(rotate, mTop, mLeft);
+        setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 150);
+        setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 300);
+        setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 450);
+        setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 600);
+        setTimeout(function(){ 
+            MageS.Game.spells.clearAnimationField();
+        }, 900);
     };
 
     this.finishFaceCanon = function(data) {
@@ -302,6 +347,61 @@ MageS.Spells.Fire = function (game, spells) {
         phoenix[0].style.transform = 'rotate(' + angle + 'deg)';
 
         this.doPhoenixStep(phoenix, data.data, 0, data.d);
+    };
+
+    this.meteorFromSkyOnCell = function (x, y) {
+        var fire = this.spells.createIcon('icon-plasma-bolt');//, 'color-red-bright'
+        fire.find('path').attr('fill', '#ff3f03');
+        fire.css({
+            'margin-top' : (y * MageS.Game.cellSize) + 'rem',
+            'margin-left' : (x * MageS.Game.cellSize) + 'rem',
+        });
+        $('.animation-field').append(fire);
+        var svg = fire.find('svg.svg-icon');
+        svg.css({
+            'top' : '-4rem', 'left' : '-4rem',
+            'position': 'absolute', 'opacity':0
+        });
+        setTimeout(function() {
+            svg.animate({ 'top' : '0', 'left' : '0' }, { 'duration': 300, easing:'easeInBack' });
+            setTimeout(function() {
+                svg.animate({'opacity': 1}, {'duration': 210, queue: false});
+            }, 50);
+            setTimeout(function() {
+                svg.find('path').animate({'svgFill':'#fff'});
+                svg.animate({ whyNotToUseANonExistingProperty: 100, 'svgFill':'#fff' }, {
+                    step: function(now,fx) {
+                        $(this).css('-webkit-transform',"skew(" + (-now / 3) + "deg, " + (-now / 2) + "deg)");
+                    },
+                    duration:200, easing:'linear', queue:false, complete: function() {
+                        $(this).remove();
+                    }
+                });
+            }, 260);
+        }, Math.random() * 300);
+    };
+
+    this.finishRainOfFire = function(data) {
+        this.standartFireToMiddle();
+
+        MageS.Game.monimations.camShake('Y', 1500, 3, 100, function() {
+            MageS.Game.spells.endSpellAnimation();
+        });
+
+        for (var i in data.data) {
+            this.meteorFromSkyOnCell(data.data[i][0], data.data[i][1]);
+        }
+        setTimeout(function () {
+            for (var i in data.data) {
+                MageS.Game.spells.fire.meteorFromSkyOnCell(data.data[i][0], data.data[i][1]);
+            }
+        }, 300);
+        setTimeout(function () {
+            for (var i in data.data) {
+                MageS.Game.spells.fire.meteorFromSkyOnCell(data.data[i][0], data.data[i][1]);
+            }
+        }, 600);
+
     };
 
 

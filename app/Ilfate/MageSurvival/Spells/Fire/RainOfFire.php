@@ -11,12 +11,12 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells;
+namespace Ilfate\MageSurvival\Spells\Fire;
 
 use Ilfate\MageSurvival\Game;
-use Ilfate\MageSurvival\GameBuilder;
-use Ilfate\MageSurvival\Spell;
-use Ilfate\MageSurvival\Spells\Air;
+use Ilfate\MageSurvival\Spells\DamageSpell;
+use Ilfate\MageSurvival\Spells\Fire;
+use Ilfate\MageSurvival\Spells\FireDamageSpell;
 use Ilfate\MageSurvival\Unit;
 
 /**
@@ -28,21 +28,34 @@ use Ilfate\MageSurvival\Unit;
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
+ *
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-trait FireDamageSpell
+class RainOfFire extends Fire
 {
+    protected $availablePatterns = [10,11,12,13];
+
+    protected $defaultCooldownMin = 3;
+    protected $defaultCooldownMax = 5;
+
     protected function spellEffect($data)
     {
-
         foreach($this->targets as $target) {
+            $damage = mt_rand(1, 2);
             /**
              * @var Unit $target
              */
-            $target->damage($this->damage, $this->getNormalCastStage());
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2);
         }
+
+        $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
+            'spell' => $this->name,
+            'data' => $this->pattern,
+        ], Game::ANIMATION_STAGE_MAGE_ACTION);
+        
         $this->destroyTreesAtCells($this->affectedCells);
+
         return true;
     }
 }
