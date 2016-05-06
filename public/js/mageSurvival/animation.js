@@ -32,6 +32,7 @@ MageS.Animations = function (game) {
         'mage-action-effect-2',
         'unit-action',
         'unit-action-2',
+        'turn-end-effects',
     ];
 
     this.animateEvents = function(game) {
@@ -129,6 +130,9 @@ MageS.Animations = function (game) {
                 break;
             case 'add-object':
                 this.addObjectAnimation(data.data);
+                break;
+            case 'add-unit':
+                this.addUnitAnimation(data.data);
                 break;
             case 'cell-change':
                 this.changeCellAnimation(data.data);
@@ -384,6 +388,12 @@ MageS.Animations = function (game) {
     this.addObjectAnimation = function(data)
     {
         var newObject = this.game.drawObject(data.object, data.object.x, data.object.y);
+        MageS.Game.animations.singleAnimationFinished();
+    };
+
+    this.addUnitAnimation = function(data)
+    {
+        var newUnit = this.game.drawUnit(data.unit, data.targetX, data.targetY);
         MageS.Game.animations.singleAnimationFinished();
     };
     this.changeCellAnimation = function(data)

@@ -184,6 +184,27 @@ abstract class WorldGenerator
         return $this->activeUnits;
     }
 
+    public function getActiveUnitsAndObjects(Mage $mage)
+    {
+        $activeObjects = [];
+        $centerX = $mage->getX();
+        $centerY = $mage->getY();
+        $radius = $this->config['game']['active-units-radius'];
+        for ($y = -$radius; $y <= $radius; $y++) {
+            for ($x = -$radius; $x <= $radius; $x++) {
+                $dX = $centerX + $x;
+                $dY = $centerY + $y;
+                if ($unit = $this->world->getUnit($dX, $dY)) {
+                    $this->activeUnits[] = $unit;
+                }
+                if ($object = $this->world->getObject($dX, $dY)) {
+                    $activeObjects[] = $object;
+                }
+            }
+        }
+        return ['units' => $this->activeUnits, 'objects' => $activeObjects];
+    }
+
     public function getVisibleUnits(Mage $mage)
     {
         $visible = [];

@@ -75,6 +75,15 @@ return array(
                 'iconColor' => 'color-red',
                 'noAutoAnimationTrigger' => true,
             ],
+            9 => [
+                'name' => 'Fire imp',
+                'class' => 'FireImp',
+                'description' => 'Summon an imp. Let`s hope he will help you defeating your enemies.',
+                'iconClass' => 'icon-ifrit',
+                'iconColor' => 'color-red',
+                'noAutoAnimationTrigger' => true,
+                'noTargetSpell' => true,
+            ],
         ],
 
         // level 2

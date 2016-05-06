@@ -29,12 +29,13 @@ return array(
 //                'icon' => 'icon-broken-bone', 'iconColor' => 'color-white'],
 
         1 => ['value' => 0, 'type'=>'ingredient', 'name'=>'Empty scroll', 'icon' => 'icon-tied-scroll', 'iconColor' => 'color-brown'],
-        2 => ['value' => 1, 'type'=>'ingredient', 'name'=>'Damaged scroll', 'icon' => 'icon-tied-scroll', 'iconColor' => 'color-brown'],
+        2 => ['value' => 1, 'type'=>'ingredient', 'name'=>'Carrot', 'icon' => 'icon-carrot', 'iconColor' => 'color-red'],
         3 => ['value' => -1, 'type'=>'ingredient', 'name'=>'Emerald', 'icon' => 'icon-emerald'],
-        4 => ['value' => 2, 'type'=>'ingredient', 'name'=>'Bad scroll', 'icon' => 'icon-tied-scroll'],
-        5 => ['value' => 3, 'type'=>'ingredient', 'name'=>'Ore',
+        4 => ['value' => 2, 'type'=>'ingredient', 'name'=>'Aubergine', 'icon' => 'icon-aubergine'],
+        5 => ['value' => -2, 'type'=>'ingredient', 'name'=>'Garlic', 'icon' => 'icon-garlic', 'iconColor' =>'color-white'],
+        6 => ['value' => 3, 'type'=>'ingredient', 'name'=>'Ore',
                 'icon' => 'icon-ore', 'iconColor' => 'color-red'],
-        6 => ['value' => -3, 'type'=>'ingredient', 'name'=>'Bone',
+        7 => ['value' => -3, 'type'=>'ingredient', 'name'=>'Bone',
                 'icon' => 'icon-broken-bone', 'iconColor' => 'color-white'],
 
         1001 => ['type'=>'catalyst', 'name'=>'Fire essence', 'school' => 1,

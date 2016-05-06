@@ -40,7 +40,7 @@ trait FireDamageSpell
             /**
              * @var Unit $target
              */
-            $target->damage($this->damage, $this->getNormalCastStage());
+            $target->damage($this->getDamage(), $this->getNormalCastStage());
         }
         $this->destroyTreesAtCells($this->affectedCells);
         return true;

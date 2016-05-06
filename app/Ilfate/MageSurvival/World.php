@@ -99,6 +99,7 @@ class World
         }
         $object = MapObject::getObject($x, $y, $objectType, $this);
         $this->objects[$y][$x] = $object->export();
+        $this->update();
         return $object;
     }
 
@@ -109,6 +110,7 @@ class World
         }
         $unit = Unit::getUnit($x, $y, $unitType, $this, GameBuilder::getGame()->getMage());
         $this->units[$y][$x] = $unit->export();
+        $this->update();
         return $unit;
     }
 
@@ -180,6 +182,31 @@ class World
             }
         }
         return $units;
+    }
+
+    public function getNearestTargetByTeam($team, $fromX, $fromY, $limit)
+    {
+        $range = 1;
+        while ($range <= $limit) {
+            $units = [];
+            for ($i = -$range; $i < $range; $i++) {
+                $cells[0] = [$i, -$range];
+                $cells[3] = [-$range, -$i];
+                $cells[2] = [-$i, $range];
+                $cells[1] = [$range, $i];
+                for ($d = 0; $d <= 3; $d++) {
+                    $unit = $this->getUnit($cells[$d][0] + $fromX, $cells[$d][1] + $fromY);
+                    if ($unit && $unit->getTeam() == $team) {
+                        $units[] = $unit;
+                    }
+                }
+            }
+            if ($units) {
+                return ChanceHelper::oneFromArray($units);
+            }
+            $range++;
+        }
+        return false;
     }
 
     public function moveUnit($fromX, $fromY, $toX, $toY)
@@ -304,6 +331,25 @@ class World
         return abs($x1 - $x2) + abs($y1 - $y2);
     }
 
+    public static function getRealDistance($unit1, $unit2)
+    {
+        if (is_object($unit1)) {
+            $x1 = $unit1->getX();
+            $y1 = $unit1->getY();
+        } else {
+            $x1 = $unit1[0];
+            $y1 = $unit1[1];
+        }
+        if (is_object($unit2)) {
+            $x2 = $unit2->getX();
+            $y2 = $unit2->getY();
+        } else {
+            $x2 = $unit2[0];
+            $y2 = $unit2[1];
+        }
+        return sqrt(pow($x1 - $x2, 2) + pow($y1 - $y2, 2));
+    }
+
     public function isPassable($x, $y)
     {
         $cell = $this->getCell($x, $y);
@@ -317,6 +363,10 @@ class World
             if (!$object->isPassable()) {
                 return false;
             }
+        }
+        $mage = GameBuilder::getGame()->getMage();
+        if ($mage->getX() == $x && $mage->getY() == $y) {
+            return false;
         }
         return true;
     }

@@ -147,6 +147,11 @@ abstract class MapObject
             'config' => $this->config,
         ];
     }
+    
+    public function activate()
+    {
+        
+    }
 
     public function getId()
     {

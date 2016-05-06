@@ -1,5 +1,7 @@
 <?php namespace Ilfate\MageSurvival\Behaviours;
 use Ilfate\MageSurvival\Behaviour;
+use Ilfate\MageSurvival\ChanceHelper;
+use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\Unit;
 use Ilfate\MageSurvival\World;
 
@@ -16,10 +18,15 @@ use Ilfate\MageSurvival\World;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class AggressiveMelee extends Behaviour
+class AttackUnits extends Behaviour
 {
 
-    const DEFAULT_AGGRESSIVE_RANGE = 5;
+    const DEFAULT_AGGRESSIVE_RANGE = 2;
+    
+    /**
+     * @var Unit
+     */
+    protected $unit;
 
     public function getAction()
     {
@@ -29,16 +36,17 @@ class AggressiveMelee extends Behaviour
         } else {
             $aggressiveRange = self::DEFAULT_AGGRESSIVE_RANGE;
         }
-        $mage = $this->unit->getMage();
+        $world = GameBuilder::getGame()->getWorld();
+        $target = $world->getNearestTargetByTeam(Unit::TEAM_TYPE_HOSTILE, $this->unit->getX(), $this->unit->getY(), $aggressiveRange);
 
-        if (World::isNeighbours($mage->getX(), $mage->getY(), $this->unit->getX(), $this->unit->getY())) {
-            return self::ACTION_ATTACK_MAGE;
+        if (!$target) {
+            // there is no one to attack
+            return self::ACTION_DO_NOTHING;
         }
-        $distance = World::getDistance($mage, $this->unit);
-        if ($distance <= $aggressiveRange) {
-            $this->unit->addTemporaryDataValue('target', $mage);
-            return self::ACTION_MOVE_TO_TARGET;
-        }
-        return self::ACTION_DO_NOTHING;
+        
+        $this->unit->addTemporaryDataValue('target', $target);
+
+        return self::ACTION_ATTACK_UNIT;
+        
     }
 }

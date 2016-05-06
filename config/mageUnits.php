@@ -13,12 +13,18 @@ return array(
         2 => [
             'name' => 'Dummy', 'class' => 'Stationary\\Dummy', 'health' => 1,
             'behaviour' => 'Passive',
-            'icon' => 'icon-police-target', 'icon-color' => 'color-dark-blue'
+            'icon' => 'icon-police-target', 'iconColor' => 'color-dark-blue'
         ],
         3 => [
             'name' => 'Witch', 'class' => 'Stationary\\Dummy', 'health' => 3,
             'behaviour' => 'Passive',
-            'icon' => 'icon-police-target', 'icon-color' => 'color-red'
+            'icon' => 'icon-police-target', 'iconColor' => 'color-red'
+        ],
+        1001 => [
+            'name' => 'Fire imp', 'class' => 'Friendly\\FireImp', 'health' => 3,
+            'behaviour' => ['AttackUnits', 'Follow', 'JumpAround'],
+            'team' => 'f', 'attacks' => ['teeth'],
+            'icon' => 'icon-bat', 'iconColor' => 'color-red'
         ],
     ],
     'chances' => [
@@ -34,7 +40,7 @@ return array(
         ],
     ],
     'attacks' => [
-        'teeth' => ['range' => 'melee'],
+        'teeth' => ['range' => 1.9, 'damage' => 1],
     ],
 
 

@@ -29,8 +29,10 @@ namespace Ilfate\MageSurvival;
 abstract class Behaviour
 {
     const ACTION_DO_NOTHING   = 'do-nothing';
-    const ACTION_MOVE_TO_MAGE = 'move-to-mage';
+    const ACTION_MOVE_TO_TARGET = 'move-to-target';
+    const ACTION_JUMP_TO =  'jump-to';
     const ACTION_ATTACK_MAGE  = 'attack-mage';
+    const ACTION_ATTACK_UNIT  = 'attack-unit';
 
     /**
      * @var Unit

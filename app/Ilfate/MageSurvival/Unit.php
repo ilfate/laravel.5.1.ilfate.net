@@ -30,7 +30,12 @@ abstract class Unit implements AliveInterface
 {
     const DATA_KEY_IS_HOSTILE = 'is_h';
 
+    const TEAM_TYPE_HOSTILE = 'h';
+    const TEAM_TYPE_FRIENDLY = 'f';
+    const TEAM_TYPE_NEUTRAL = 'n';
+
     const CONFIG_KEY_BEHAVIOUR = 'behaviour';
+    const CONFIG_KEY_SECONDARY_BEHAVIOUR = 'secondaryBehaviour';
 
     protected $id;
     protected $type;
@@ -39,6 +44,14 @@ abstract class Unit implements AliveInterface
     protected $d;
     protected $was;
     protected $data;
+
+    /**
+     * By default team is enemies. Units aggresive to mage
+     * it also could be "f" = > friendly
+     * it also could be "n" = > neitral
+     * @var string
+     */
+    protected $team;
 
     /**
      * @var Game
@@ -53,11 +66,17 @@ abstract class Unit implements AliveInterface
      */
     protected $mage;
     /**
-     * @var Behaviour
+     * @var array
      */
-    protected $behaviour;
+    protected $behaviourNames;
+    /**
+     * @var Behaviour[]
+     */
+    protected $behaviours;
 
     protected $config;
+    protected $currentBehaviour = 0;
+    protected $temporaryData = [];
 
     public function __construct(World $world, Mage $mage, $x, $y, $type, $id = null, $data = null)
     {
@@ -77,6 +96,9 @@ abstract class Unit implements AliveInterface
             'x' => $x,
             'y' => $y,
         ];
+        if (!empty($this->config['team']) && $this->config['team'] !== self::TEAM_TYPE_HOSTILE) {
+            $this->team = $this->config['team'];
+        }
         if ($data) {
             $this->data = $data;
             if (!empty($data['d'])) {
@@ -86,21 +108,50 @@ abstract class Unit implements AliveInterface
             if (!empty($data['health'])) {
                 $this->was['health'] = $data['health'];
             }
+            if (!empty($data['team'])) {
+                $this->team = $data['team'];
+            }
         }
         $this->world = $world;
         $this->mage  = $mage;
         $this->type  = $type;
         if (empty($data[self::CONFIG_KEY_BEHAVIOUR])) {
-            $behaviourName = $this->config[self::CONFIG_KEY_BEHAVIOUR];
+            $this->behaviourNames = $this->config[self::CONFIG_KEY_BEHAVIOUR];
+
         } else {
-            $behaviourName = $data[self::CONFIG_KEY_BEHAVIOUR];
+            $this->behaviourNames = $data[self::CONFIG_KEY_BEHAVIOUR];
+        }
+        if (!is_array($this->behaviourNames)) { $this->behaviourNames = [$this->behaviourNames]; }
+        //$this->behaviour = $this->getBehaviour($behaviourName);
+//        if (empty($this->config[self::CONFIG_KEY_SECONDARY_BEHAVIOUR])) {
+//            $secondaryBehaviourName = $this->config[self::CONFIG_KEY_SECONDARY_BEHAVIOUR];
+//            if (!empty($data[self::CONFIG_KEY_SECONDARY_BEHAVIOUR])) {
+//                $secondaryBehaviourName = $data[self::CONFIG_KEY_SECONDARY_BEHAVIOUR];
+//            }
+//            $this->secondaryBehaviour = $this->getBehaviour($secondaryBehaviourName);
+//        }
+        $this->init();
+    }
+
+    protected function getBehaviour($behaviourNumber = false)
+    {
+        if ($behaviourNumber === false) {
+            $behaviourNumber = $this->currentBehaviour;
+        }
+        if (empty($this->behaviourNames[$behaviourNumber])) {
+            return false;
+        }
+        $behaviourName = $this->behaviourNames[$behaviourNumber]; // default behaviour
+     
+        if (!empty($this->behaviours[$behaviourName])) {
+            return $this->behaviours[$behaviourName];
         }
         $behaviourClass = '\\Ilfate\\MageSurvival\\Behaviours\\' . $behaviourName;
         if (!class_exists($behaviourClass)) {
             throw new \Exception('Behaviour class missing ' . $behaviourClass);
         }
-        $this->behaviour = new $behaviourClass($this);
-        $this->init();
+        $this->behaviours[$behaviourName] = new $behaviourClass($this);
+        return $this->behaviours[$behaviourName];
     }
 
     /**
@@ -178,6 +229,7 @@ abstract class Unit implements AliveInterface
             'type' => $this->getType(),
             'data' => $this->getData(),
             'icon' => $this->config['icon'],
+            'iconColor' => isset($this->config['iconColor']) ? $this->config['iconColor'] : '',
         ];
     }
 
@@ -187,13 +239,18 @@ abstract class Unit implements AliveInterface
     public function activate($action = null)
     {
         if (!$action) {
-            $action = $this->behaviour->getAction();
+            $behaviour = $this->getBehaviour();
+            if (!$behaviour) {
+                return;
+            }
+            $action = $behaviour->getAction();
         }
         switch($action) {
-            case Behaviour::ACTION_MOVE_TO_MAGE:
+            case Behaviour::ACTION_MOVE_TO_TARGET:
+                $target = $this->getTemporaryDataValue('target');
                 $nextMove = $this->world->getNextMoveToGetTo(
                     [$this->getX(), $this->getY()],
-                    [$this->mage->getX(), $this->mage->getY()]
+                    [$target->getX(), $target->getY()]
                 );
                 if ($nextMove === false) {
                     $this->activate(Behaviour::ACTION_DO_NOTHING);
@@ -202,15 +259,32 @@ abstract class Unit implements AliveInterface
                 list($d, $x, $y) = $nextMove;
                 $this->move($x, $y);
                 break;
+            case Behaviour::ACTION_JUMP_TO:
+                $landing = $this->getTemporaryDataValue('landing');
+
+                $this->move($landing[0], $landing[1]);
+                break;
             case Behaviour::ACTION_ATTACK_MAGE:
-                $possibleAttack = $this->getPossibleAttack();
+                $possibleAttack = $this->getPossibleAttack($this->mage);
                 if (!$possibleAttack) {
-                    $this->activate(Behaviour::ACTION_MOVE_TO_MAGE);
+                    $this->addTemporaryDataValue('target', $this->mage);
+                    $this->activate(Behaviour::ACTION_MOVE_TO_TARGET);
                     break;
                 }
                 $this->attack($possibleAttack, $this->mage);
                 break;
+            case Behaviour::ACTION_ATTACK_UNIT:
+                $target = $this->getTemporaryDataValue('target');
+                $possibleAttack = $this->getPossibleAttack($target);
+                if (!$possibleAttack) {
+                    $this->activate(Behaviour::ACTION_MOVE_TO_TARGET);
+                    break;
+                }
+                $this->attack($possibleAttack, $target);
+                break;
             case Behaviour::ACTION_DO_NOTHING:
+                $this->currentBehaviour ++;
+                $this->activate();
                 break;
         }
     }
@@ -221,17 +295,20 @@ abstract class Unit implements AliveInterface
         $target->damage(1, Game::ANIMATION_STAGE_UNIT_ACTION_2);
     }
 
-    public function getPossibleAttack()
+    public function getPossibleAttack($target)
     {
         $allAttacks = $this->config['attacks'];
 
         // check for cooldowns
 
+        $distance = $this->world->getRealDistance($this, $target);
         $attackConfigs = [];
         foreach ($allAttacks as $attackName) {
             $attack = \Config::get('mageUnits.attacks.' . $attackName);
+            $isPossible = true;
+            if ($distance > $attack['range']) $isPossible = false;
             // check for possibility to perform this attack
-            if (false /* check is attack possible here  */) {
+            if (!$isPossible) {
                 continue;
             }
             $attackConfigs[$attackName] = $attack;
@@ -408,6 +485,43 @@ abstract class Unit implements AliveInterface
     public function getConfig()
     {
         return $this->config;
+    }
+
+    public function isHostile()
+    {
+        if (!$this->team || $this->team == self::TEAM_TYPE_HOSTILE) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isFriendly()
+    {
+        if ($this->team == self::TEAM_TYPE_FRIENDLY) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getTeam()
+    {
+        if (!$this->team) {
+            return self::TEAM_TYPE_HOSTILE;
+        }
+        return $this->team;
+    }
+
+    public function addDataValue($string, $value)
+    {
+        $this->data[$string] = $value;
+    }
+    public function addTemporaryDataValue($string, $value)
+    {
+        $this->temporaryData[$string] = $value;
+    }
+    public function getTemporaryDataValue($string)
+    {
+        return isset($this->temporaryData[$string]) ? $this->temporaryData[$string] : false;
     }
 
 }

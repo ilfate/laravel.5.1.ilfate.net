@@ -326,6 +326,7 @@ MageS.Game = function () {
         }
         this.startAction(action);
         this.spellbook.turnOffPatterns();
+        this.spellbook.removePermanentTooltip();
         $('.spellBook .spell.active').removeClass('active');
         var actionName = '';
         var dataString = '';
@@ -395,6 +396,9 @@ MageS.Game = function () {
                 case 'error-message':
                     info(data.game.messages);
                     this.endAction();
+                    if (this.spells.spellAnimationRunning) {
+                        this.spells.clearAnimationField();
+                    }
                     break;
             }
         }
@@ -501,8 +505,8 @@ MageS.Game = function () {
                 //     [-2, -3],[-1, -3],[0, -3],[1, -3],[2, -3],
                 //     [-2, -2],[-1, -2],[0, -2],[1, -2],[2, -2]
                 // ]};
-                MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
-                // MageS.Game.spells.currentSpellData = {'targetX': -4, 'targetY': 0, 'd':3, 'data':[
+                // MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
+                MageS.Game.spells.currentSpellData = {'targetX': -1, 'targetY': 0};
                 //     {'point':[-1,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-2,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-3,0], 'targets':[[-1, -2], [0, 2]]},
@@ -510,8 +514,9 @@ MageS.Game = function () {
                 // ]};
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
-                MageS.Game.spells.startCast('ButthurtJump');
-                // MageS.Game.spells.startCast('PhoenixStrike');
+                // MageS.Game.spells.startCast('ButthurtJump');
+                MageS.Game.spells.startCast('FireImp')
+                // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
             });
             $('#move-control-field .control-arrow').on('click', function () {
                 switch ($(this).data('d')) {
@@ -685,6 +690,7 @@ MageS.Game = function () {
         var obj = $(rendered);
         var icon = $(this.svg).find('#' + unit.icon + ' path');
         obj.find('svg').append(icon.clone());
+        if (unit.iconColor !== undefined) { obj.find('.svg').addClass(unit.iconColor); }
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
         return obj;
     };

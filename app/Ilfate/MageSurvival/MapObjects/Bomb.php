@@ -13,6 +13,7 @@
  */
 namespace Ilfate\MageSurvival\MapObjects;
 
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\Mage;
 use Ilfate\MageSurvival\MapObject;
@@ -36,17 +37,41 @@ class Bomb extends MapObject
 
     protected $damage = 3;
     protected $radius = 1;
+    protected $triggerRadius = 1;
 
     public function trigger($animationStage)
     {
-        for ($y = -1; $y <=1; $y++) {
-            for ($x = -1; $x <=1; $x++) {
+        $mage = GameBuilder::getGame()->getMage();
+        for ($y = -$this->radius; $y <= $this->radius; $y++) {
+            for ($x = -$this->radius; $x <= $this->radius; $x++) {
                 if ($unit = $this->world->getUnit($this->getX() + $x, $this->getY() + $y)) {
                     $unit->damage($this->damage, $animationStage);
+                } else if ($this->getX() + $x == $mage->getX() && $this->getY() + $y == $mage->getY()) {
+                    $mage->damage($this->damage, $animationStage);
                 }
             }
         }
-
+        
+        GameBuilder::animateEvent(Game::EVENT_NAME_OBJECT_ACTIVATE,
+            ['action' => 'bombTrigger',
+             'targetX' => $this->getX() - $mage->getX(),
+             'targetY' => $this->getY() - $mage->getY(),
+            ],
+            $animationStage);
+        
         $this->delete();
+    }
+
+    public function activate()
+    {
+        // ok let`s check is bomb should explode
+        for ($y = -$this->triggerRadius; $y <= $this->triggerRadius; $y++) {
+            for ($x = -$this->triggerRadius; $x <= $this->triggerRadius; $x++) {
+                if ($unit = $this->world->getUnit($this->getX() + $x, $this->getY() + $y)) {
+                    $this->trigger(Game::ANIMATION_STAGE_TURN_END_EFFECTS);
+                    return;
+                }
+            }
+        }
     }
 }

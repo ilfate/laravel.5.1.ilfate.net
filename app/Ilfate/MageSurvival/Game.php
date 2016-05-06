@@ -48,6 +48,7 @@ class Game
     const EVENT_NAME_MAGE_USE_PORTAL = 'mage-use-portal';
     const EVENT_NAME_UNIT_DAMAGE     = 'unit-damage';
     const EVENT_NAME_ADD_OBJECT      = 'add-object';
+    const EVENT_NAME_ADD_UNIT        = 'add-unit';
     const EVENT_NAME_SPELL_CRAFT     = 'spell-craft';
     const EVENT_NAME_OBJECT_ACTIVATE = 'object-activate';
     const EVENT_CELL_CHANGE          = 'cell-change';
@@ -59,6 +60,7 @@ class Game
     const ANIMATION_STAGE_MAGE_ACTION_EFFECT_2 = 'mage-action-effect-2';
     const ANIMATION_STAGE_UNIT_ACTION = 'unit-action';
     const ANIMATION_STAGE_UNIT_ACTION_2 = 'unit-action-2';
+    const ANIMATION_STAGE_TURN_END_EFFECTS = 'turn-end-effects';
 
     public static $stagesList = [
         self::ANIMATION_STAGE_MAGE_ACTION,
@@ -213,9 +215,16 @@ class Game
         if ($this->isTurnHappend) {
             $this->mage->increaseTurn();
 
-            $activeUnits = $this->worldGenerator->getActiveUnits($this->mage);
-            foreach ($activeUnits as $activeUnit) {
-                $activeUnit->activate();
+            $active = $this->worldGenerator->getActiveUnitsAndObjects($this->mage);
+            foreach ($active['units'] as $activeUnit) {
+                if ($activeUnit->isAlive()) {
+                    $activeUnit->activate();
+                }
+            }
+            foreach ($active['objects'] as $activeObject) {
+                if ($activeObject->exists()) {
+                    $activeObject->activate();
+                }
             }
         }
     }

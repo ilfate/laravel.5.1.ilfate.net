@@ -18,10 +18,6 @@ use Ilfate\MageSurvival\World;
  */
 class Passive extends Behaviour
 {
-    /**
-     * @var Unit
-     */
-    protected $unit;
 
     public function getAction()
     {
