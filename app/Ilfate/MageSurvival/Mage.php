@@ -533,14 +533,36 @@ abstract class Mage implements AliveInterface
 
     public function getRandomIngredientsSeed()
     {
-        $result = [];
-        $arr = [0,1,2,3,4,5,6,7,8,9];
-        for ($i = 0; $i < 10; $i++) {
-            $key = array_rand($arr);
-            $result[] = $arr[$key];
-            unset($arr[$key]);
-        }
-        return implode('', $result);
+//        $result = [];
+//        $arr = [0,1,2,3,4,5,6,7,8,9];
+//        for ($i = 0; $i < 10; $i++) {
+//            $key = array_rand($arr);
+//            $result[] = $arr[$key];
+//            unset($arr[$key]);
+//        }
+//        return implode('', $result);
+        $randomPresets = [
+            '0123456789',
+            '1032547698',
+            '1302456978',
+            '1032456978',
+            '0214365879',
+            '2014365897',
+            '2104635897',
+            '2104365978',
+            '0132457689',
+            '0134275689',
+            '1034275689',
+            '1034275698',
+            '1023456789',
+            '1203456789',
+            '1203456798',
+            '1203475698',
+            '1204375698',
+            '0132546879',
+            '0132546897',
+        ];
+        return ChanceHelper::oneFromArray($randomPresets);
     }
 
     public function translateItemValueForMage($value) {

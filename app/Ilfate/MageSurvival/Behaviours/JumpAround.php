@@ -37,7 +37,6 @@ class JumpAround extends Behaviour
         }
         if (!$possibleLandings) {
             return self::ACTION_DO_NOTHING;
-            
         }
         $landing = ChanceHelper::oneFromArray($possibleLandings);
         $this->unit->addTemporaryDataValue('landing', $landing);

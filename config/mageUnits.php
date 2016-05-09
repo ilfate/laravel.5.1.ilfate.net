@@ -23,7 +23,7 @@ return array(
         1001 => [
             'name' => 'Fire imp', 'class' => 'Friendly\\FireImp', 'health' => 3,
             'behaviour' => ['AttackUnits', 'Follow', 'JumpAround'],
-            'team' => 'f', 'attacks' => ['teeth'],
+            'team' => 'f', 'attacks' => ['fireSpit'],
             'icon' => 'icon-bat', 'iconColor' => 'color-red'
         ],
     ],
@@ -40,7 +40,8 @@ return array(
         ],
     ],
     'attacks' => [
-        'teeth' => ['range' => 1.9, 'damage' => 1],
+        'teeth' => ['range' => 1.9, 'damage' => 1, 'animation' => 'bite'],
+        'fireSpit' => ['range' => 2.5, 'damage' => 2, 'animation' => 'fireSpit'],
     ],
 
 

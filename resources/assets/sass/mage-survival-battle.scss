@@ -27,7 +27,7 @@
                 //&.d-3 { @include rotate(270deg); }
             }
         }
-        .animation-field {
+        .animation-field, .attacks-field {
             opacity: 1;
             position: absolute;
             overflow: visible;

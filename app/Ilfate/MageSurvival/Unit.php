@@ -52,6 +52,8 @@ abstract class Unit implements AliveInterface
      * @var string
      */
     protected $team;
+    
+    protected $alive = true;
 
     /**
      * @var Game
@@ -292,7 +294,16 @@ abstract class Unit implements AliveInterface
     public function attack($attackConfig, AliveInterface $target)
     {
         // well it should be already checked that attack is possible
-        $target->damage(1, Game::ANIMATION_STAGE_UNIT_ACTION_2);
+        $target->damage($attackConfig['damage'], Game::ANIMATION_STAGE_UNIT_ACTION_3);
+        $mX = $this->mage->getX();
+        $mY = $this->mage->getY();
+        GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_ATTACK, [
+            'attack' => $attackConfig,
+            'targetX' => $target->getX() - $mX,
+            'targetY' => $target->getY() - $mY,
+            'fromX' => $this->getX() - $mX,
+            'fromY' => $this->getY() - $mY
+        ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
     }
 
     public function getPossibleAttack($target)
@@ -370,6 +381,7 @@ abstract class Unit implements AliveInterface
 
     public function dead($animationStage)
     {
+        $this->alive = false;
         GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
         if (!empty($this->config['loot'])) {
             $object = $this->world->addObject($this->config['loot'], $this->getX(), $this->getY());
@@ -522,6 +534,14 @@ abstract class Unit implements AliveInterface
     public function getTemporaryDataValue($string)
     {
         return isset($this->temporaryData[$string]) ? $this->temporaryData[$string] : false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAlive()
+    {
+        return $this->alive;
     }
 
 }

@@ -44,6 +44,7 @@ MageS.Spells = function (game) {
            case 'RainOfFire': this.fire.startStandartFire() ; break;
            case 'FireImp': this.fire.startStandartFire() ; break;
            case 'IceCrown': this.water.startIceCrown() ; break;
+           case 'Water': this.water.startStandartWater() ; break;
            default:
                isSpellAnimated = false;
                info('No start animation for "' + name + '"');
@@ -68,6 +69,7 @@ MageS.Spells = function (game) {
             case 'RainOfFire': this.fire.iterateStandartFire() ; break;
             case 'FireImp': this.fire.iterateStandartFire() ; break;
             case 'IceCrown': this.water.iterateIceCrown() ; break;
+            case 'Water': this.water.iterateStandertWater() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
         }
@@ -85,6 +87,7 @@ MageS.Spells = function (game) {
             case 'RainOfFire': this.fire.finishRainOfFire(this.currentSpellData); break;
             case 'FireImp': this.fire.finishFireImp(this.currentSpellData); break;
             case 'IceCrown': this.water.finishIceCrown(this.currentSpellData); break;
+            case 'Water': this.water.finishStandartWater(this.currentSpellData); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished();
@@ -139,8 +142,74 @@ MageS.Spells = function (game) {
         //Then you can convert it to degrees as easy as:
         var deg = rad * (180 / Math.PI);
         var distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-        return [deg, distance];
-    }
+        return [distance, deg];
+    };
 
+    this.beam = function (x1,y1,x2,y2, color, lineType, options) {
+        if (!options) {
+            options = {};
+        }
+
+        var calculations = MageS.Game.spells.getDistanceBetweenTwoDots(x1, y1, x2, y2);
+        if (options.moveTop === undefined) {
+            options.moveTop = ((y1 + 0.5) * MageS.Game.cellSize) + 'rem';
+        }
+        if (options.moveLeft === undefined) {
+            options.moveLeft = ((x1 + 0.5) * MageS.Game.cellSize) + 'rem';
+        }
+        if (!lineType) {
+            lineType = 'icon-bullet-line';
+        }
+        return MageS.Game.spells.beamStrike(calculations[0], calculations[1], lineType, color, options);
+    };
+
+    this.beamStrike = function(length, deg, svgline, color, options) {
+        if (!options) { options = {}; }
+        deg -= 45;
+        var beam = this.createIcon(svgline).addClass('beam');
+        beam[0].style.transform = ' rotate(' + deg +'deg)';
+        var icon = beam.find('.svg-icon');
+        var moveTop = '';
+        if (options.moveTop !== undefined) {
+            moveTop = options.moveTop;
+        } else {
+            moveTop = this.game.cellSize / 2 + 'rem';
+        }
+        var moveLeft = '';
+        if (options.moveLeft !== undefined) {
+            moveLeft = options.moveLeft;
+        } else {
+            moveLeft = this.game.cellSize / 2 + 'rem';
+        }
+        beam.css({'width':'1px','height':'1px', 'margin-left': moveLeft, 'margin-top': moveTop});
+        var side = length / Math.sqrt(2);
+        beam.find('svg').css({'width':side * this.game.cellSize + 'rem', 'height':side * this.game.cellSize + 'rem'});
+        icon.css({'position':'absolute'});
+
+        $('.animation-field').append(beam);
+
+        var path = beam.find('path');
+        var baseBeamWidth = 10;
+        if (options.beamWidth !== undefined) { baseBeamWidth = options.beamWidth; }
+        var strokeWidth = (baseBeamWidth - length) / 10;
+        path.css({'fill': 'none', 'stroke': color, 'stroke-width': strokeWidth + 'rem', 'stroke-opacity': 1});
+        var pathEl = path[0];
+        var segment = new Segment(pathEl);
+        var time = 0.8;
+        if (options.time !== undefined) { time = options.time}
+        var segment1Start = "0";
+        var segment1End = "0";
+        var segment2Start = "100%";
+        var segment2End = "150%";
+        if (options.segment1 !== undefined) { segment1Start = options.segment1[0]; segment1End = options.segment1[1]; }
+        if (options.segment2 !== undefined) { segment2Start = options.segment2[0]; segment2End = options.segment2[1]; }
+        segment.draw(segment1Start, segment1End, 0);
+        var delay = 0;
+        if (options.delay !== undefined) { delay = options.delay; }
+        setTimeout(function() {
+            segment.draw(segment2Start, segment2End, 60);
+        }, delay);
+        return beam;
+    };
 };
 

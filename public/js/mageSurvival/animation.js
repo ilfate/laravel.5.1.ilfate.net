@@ -32,6 +32,7 @@ MageS.Animations = function (game) {
         'mage-action-effect-2',
         'unit-action',
         'unit-action-2',
+        'unit-action-3',
         'turn-end-effects',
     ];
 
@@ -98,6 +99,9 @@ MageS.Animations = function (game) {
                 break;
             case 'unit-move':
                 this.unitMoveAnimation(data.data);
+                break;
+            case 'unit-attack':
+                this.unitAttackAnimation(data.data);
                 break;
             case 'mage-spell-cast':
                 this.spellCastAnimation(data.data);
@@ -274,6 +278,13 @@ MageS.Animations = function (game) {
                 MageS.Game.animations.singleAnimationFinished();
             }
         )});
+    };
+    this.unitAttackAnimation = function(data) {
+
+        this.game.attacks.attack(data);
+
+        MageS.Game.animations.singleAnimationFinished();
+     
     };
     this.spellCastAnimation = function(data) {
         this.game.spells.cast(data);

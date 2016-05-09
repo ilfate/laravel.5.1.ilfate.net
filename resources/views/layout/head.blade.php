@@ -89,6 +89,7 @@
 <script src="/js/mageSurvival/main.js"></script>
 <script src="/js/mageSurvival/inventory.js"></script>
 <script src="/js/mageSurvival/animation.js"></script>
+<script src="/js/mageSurvival/attacks.js"></script>
 <script src="/js/mageSurvival/spellbook.js"></script>
 <script src="/js/mageSurvival/spells.js"></script>
 <script src="/js/mageSurvival/spells-fire.js"></script>

@@ -49,6 +49,8 @@ abstract class MapObject
      */
     protected $world;
 
+    protected $exist = true;
+
     public function __construct(World $world, $type, $x, $y, $id = null, $data = null)
     {
         if (!$id) {
@@ -160,6 +162,7 @@ abstract class MapObject
 
     public function delete($stage = Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT)
     {
+        $this->exist = false;
         $this->world->deleteObject($this->x, $this->y);
         GameBuilder::animateEvent(Game::EVENT_NAME_OBJECT_DESTROY, ['id' => $this->getId()], $stage);
     }
@@ -236,5 +239,13 @@ abstract class MapObject
     public function isPassable()
     {
         return $this->isPassable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isExist()
+    {
+        return $this->exist;
     }
 }

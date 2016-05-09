@@ -17,6 +17,7 @@
                 <div class="battle-field current"></div>
                 <div class="unit-field"></div>
                 <div class="animation-field"></div>
+                <div class="attacks-field"></div>
                 <div class="dialog-field"></div>
 
 

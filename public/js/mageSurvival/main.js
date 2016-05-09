@@ -11,6 +11,7 @@ $(document).ready(function() {
     if ($('body.mage-survival').length) {
         MageS.Game = new MageS.Game();
         var animations = new MageS.Animations(MageS.Game);
+        var attacks = new MageS.Attacks(MageS.Game);
         var inventory = new MageS.Inventory(MageS.Game);
         var spellbook = new MageS.Spellbook(MageS.Game);
         var spells = new MageS.Spells(MageS.Game);
@@ -20,7 +21,7 @@ $(document).ready(function() {
         var home = new MageS.Home(MageS.Game);
         var spellcraft = new MageS.Spellcraft(MageS.Game);
         var monimations = new MageS.Monimations(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells, worlds, objects, chat, home, spellcraft, animations, monimations);
+        MageS.Game.init(inventory, spellbook, spells, worlds, objects, chat, home, spellcraft, animations, attacks, monimations);
     }
 });
 
@@ -45,6 +46,7 @@ MageS.Game = function () {
     this.home = {};
     this.spellcraft = {};
     this.animations = {};
+    this.attacks = {};
     this.monimations = {};
     this.gameStatus = $('#game-status').val();
     this.rawData = [];
@@ -74,7 +76,7 @@ MageS.Game = function () {
         }
     };
 
-    this.init = function (inventory, spellbook, spells, worlds, objects, chat, home, spellcraft, animations, monimations) {
+    this.init = function (inventory, spellbook, spells, worlds, objects, chat, home, spellcraft, animations, attacks, monimations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
@@ -85,6 +87,8 @@ MageS.Game = function () {
         this.home = home;
         this.spellcraft = spellcraft;
         this.animations = animations;
+        this.attacks = attacks;
+        attacks.init();
         this.monimations = monimations;
 
         this.deviceCheck();
@@ -236,7 +240,9 @@ MageS.Game = function () {
 
         var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
         var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
+        if (!requestFullScreen) {
+            return;
+        }
         if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
             requestFullScreen.call(docEl);
         }
@@ -515,7 +521,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('FireImp')
+                MageS.Game.spells.startCast('Water')
                 // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
             });
             $('#move-control-field .control-arrow').on('click', function () {

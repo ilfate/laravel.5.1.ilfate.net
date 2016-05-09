@@ -28,6 +28,65 @@ MageS.Spells.Water = function (game, spells) {
         return svgContEl;
     };
 
+    this.createCastingSphere = function(x, y, icon, color)
+    {
+        var castSphere = this.spells.createIcon(icon).addClass('casting-sphere');
+
+        $('.animation-field').append(castSphere);
+
+        var path = castSphere.find('path');
+        castSphere.css({
+            'margin-left': x * MageS.Game.cellSize * MageS.Game.rem,
+            'margin-top': y * MageS.Game.cellSize * MageS.Game.rem,
+        });
+        path.css({'fill': 'none', 'stroke': color, 'stroke-width': '1rem', 'stroke-opacity': 1});
+        var pathEl = path[0];
+        var segment = new Segment(pathEl);
+        segment.draw(0, 0, 0);
+        segment.draw('100%', '110%', 1.5);
+        return segment;
+    }
+
+    this.startStandartWater = function() {
+        var d = $('.battle-border .mage').data('d');
+        var x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+        var distance = 0.7;
+        switch(d) {
+            case 1:
+            case 3:
+                y1 = -distance;
+                y2 = distance;
+                break;
+            case 0:
+            case 2:
+                x1 = -distance;
+                x2 = distance;
+                break;
+        }
+        this.spells.savedData[0] = this.createCastingSphere(x1, y1, 'icon-bullet-sphere-cast', '#37A4F9');
+        this.spells.savedData[1] = this.createCastingSphere(x1, y1, 'icon-bullet-sphere-cast-2', '#fff');
+        this.spells.savedData[2] = this.createCastingSphere(x1, y1, 'icon-bullet-sphere-cast-3', '#37A4F9');
+        this.spells.savedData[3] = this.createCastingSphere(x2, y2, 'icon-bullet-sphere-cast', '#37A4F9');
+        this.spells.savedData[4] = this.createCastingSphere(x2, y2, 'icon-bullet-sphere-cast-2', '#fff');
+        this.spells.savedData[5] = this.createCastingSphere(x2, y2, 'icon-bullet-sphere-cast-3', '#37A4F9');
+        setTimeout(function(){
+            MageS.Game.spells.tryToEndFirstPart();
+        }, 1500);
+    };
+    this.iterateStandertWater = function() {
+        for (var n in this.spells.savedData) {
+            var segment = this.spells.savedData[n];
+            segment.draw(0, 0, 0);
+            segment.draw('100%', '120%', 1.5);
+        }
+        setTimeout(function(){
+            MageS.Game.spells.tryToEndFirstPart();
+        }, 1500);
+    };
+    this.finishStandartWater = function() {
+        $('.casting-sphere').remove();
+    };
+
     this.startIceCrown = function() {
         var icon = this.spells.createIcon('icon-frozen-orb', 'color-white');
         $('.animation-field').append(icon);

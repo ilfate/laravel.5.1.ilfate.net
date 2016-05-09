@@ -230,6 +230,26 @@ abstract class Spell
     {
         return '\\Ilfate\\MageSurvival\\Spells\\'. ucfirst($schoolName) . '\\' . $spellName;
     }
+    
+    public static function addSpell($spellName, $school, $number, $schoolId, $usages)
+    {
+        $class = Spell::getSpellClass($school, $spellName);
+        if (!class_exists($class)) {
+            throw new \Exception('Spell with name "Fireball" not found at "' . $class . '"' );
+        }
+        /**
+         * @var Spell $spellName
+         */
+        // 0 is Fireball
+        // 1 is Fire school
+        $spell = new $class($number, $schoolId, ['usages' => $usages]);
+        $spell->generateCoolDown();
+        $spell->setUpPattern();
+        $spell->setUsages();
+        $mage = GameBuilder::getGame()->getMage();
+        $mage->addSpell($spell);
+        $mage->update();
+    }
 
     /**
      * @param            $code

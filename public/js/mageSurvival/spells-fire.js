@@ -100,53 +100,7 @@ MageS.Spells.Fire = function (game, spells) {
         }, 800);
     };
 
-    this.beamStrike = function(length, deg, svgline, color, options) {
-        if (!options) { options = {}; }
-        deg -= 45;
-        var beam = this.spells.createIcon(svgline).addClass('beam');
-        beam[0].style.transform = ' rotate(' + deg +'deg)';
-        var icon = beam.find('.svg-icon');
-        var moveTop = '';
-        if (options.moveTop !== undefined) {
-            moveTop = options.moveTop;
-        } else {
-            moveTop = this.game.cellSize / 2 + 'rem';
-        }
-            var moveLeft = '';
-        if (options.moveLeft !== undefined) {
-            moveLeft = options.moveLeft;
-        } else {
-            moveLeft = this.game.cellSize / 2 + 'rem';
-        }
-        beam.css({'width':'1px','height':'1px', 'margin-left': moveLeft, 'margin-top': moveTop});
-        var side = length / Math.sqrt(2);
-        beam.find('svg').css({'width':side * this.game.cellSize + 'rem', 'height':side * this.game.cellSize + 'rem'});
-        icon.css({'position':'absolute'});
 
-        $('.animation-field').append(beam);
-
-        var path = beam.find('path');
-        var baseBeamWidth = 10;
-        if (options.beamWidth !== undefined) { baseBeamWidth = options.beamWidth; }
-        var strokeWidth = (baseBeamWidth - length) / 10;
-        path.css({'fill': 'none', 'stroke': color, 'stroke-width': strokeWidth + 'rem', 'stroke-opacity': 1});
-        var pathEl = path[0];
-        var segment = new Segment(pathEl);
-        var time = 0.8;
-        if (options.time !== undefined) { time = options.time}
-        var segment1Start = "0";
-        var segment1End = "0";
-        var segment2Start = "100%";
-        var segment2End = "150%";
-        if (options.segment1 !== undefined) { segment1Start = options.segment1[0]; segment1End = options.segment1[1]; }
-        if (options.segment2 !== undefined) { segment2Start = options.segment2[0]; segment2End = options.segment2[1]; }
-        segment.draw(segment1Start, segment1End, 0);
-        var delay = 0;
-        if (options.delay !== undefined) { delay = options.delay; }
-        setTimeout(function() {
-            segment.draw(segment2Start, segment2End, time);
-        }, delay);
-    };
 
     this.finishExplodingBees = function(data) {
         this.standartFireToMiddle();
@@ -156,18 +110,18 @@ MageS.Spells.Fire = function (game, spells) {
         var deg = rad * (180 / Math.PI);
         var distance = Math.sqrt(Math.pow(data.targetX, 2) + Math.pow(data.targetY, 2));
 
-        MageS.Game.spells.fire.beamStrike(distance, deg, 'icon-sinusoidal-line', '#F07818');
+        MageS.Game.spells.beamStrike(distance, deg, 'icon-sinusoidal-line', '#F07818');
         setTimeout(function() {
-            MageS.Game.spells.fire.beamStrike(distance, deg, 'icon-bullet-around-side-line', '#F07818');
+            MageS.Game.spells.beamStrike(distance, deg, 'icon-bullet-around-side-line', '#F07818');
         }, 50);
         setTimeout(function() {
-            MageS.Game.spells.fire.beamStrike(distance, deg, 'icon-bullet-backward-line', '#F07818');
+            MageS.Game.spells.beamStrike(distance, deg, 'icon-bullet-backward-line', '#F07818');
         }, 100);
         setTimeout(function() {
-            MageS.Game.spells.fire.beamStrike(distance, deg, 'icon-bullet-cercle-line', '#F07818');
+            MageS.Game.spells.beamStrike(distance, deg, 'icon-bullet-cercle-line', '#F07818');
         }, 200);
         setTimeout(function() {
-            MageS.Game.spells.fire.beamStrike(distance, deg, 'icon-bullet-around-line', '#F07818');
+            MageS.Game.spells.beamStrike(distance, deg, 'icon-bullet-around-line', '#F07818');
         }, 250);
         setTimeout(function() {
             $('.animation-field .beam').remove();
@@ -315,7 +269,7 @@ MageS.Spells.Fire = function (game, spells) {
                 };
                 var bulletType = 'icon-bullet-simple-middle-line';
                 if (Math.random() > 0.5) { bulletType = 'icon-sinusoidal-line'; }
-                    MageS.Game.spells.fire.beamStrike(calculations[1], calculations[0], bulletType, '#F07818', options);
+                    MageS.Game.spells.beamStrike(calculations[0], calculations[1], bulletType, '#F07818', options);
             }
         }
 
@@ -436,7 +390,7 @@ MageS.Spells.Fire = function (game, spells) {
                 'segment2': ["-8%", "0"],
             };
             //'icon-bullet-simple-middle-line'
-            this.beamStrike(8, 360 / 9 * i, 'icon-bullet-start-spin', '#F07818', options)
+            this.spells.beamStrike(8, 360 / 9 * i, 'icon-bullet-start-spin', '#F07818', options)
         }
         setTimeout(function() {
             MageS.Game.animations.singleAnimationFinished();

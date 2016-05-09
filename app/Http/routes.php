@@ -73,6 +73,7 @@ Route::get('Spellcraft', 'MageSurvivalController@index');
 Route::post('Spellcraft/createMage', 'MageSurvivalController@createMage');
 Route::post('Spellcraft/action', 'MageSurvivalController@action');
 Route::get('Spellcraft/world/{name}', 'MageSurvivalController@world');
+Route::get('Spellcraft/addSpells', 'MageSurvivalController@addAllSpells');
 
 Route::get('Spellcraft/mapBuilder/{name}', 'MageSurvivalController@mapBuilder');
 Route::post('Spellcraft/mapBuilder/save', 'MageSurvivalController@saveMapName');

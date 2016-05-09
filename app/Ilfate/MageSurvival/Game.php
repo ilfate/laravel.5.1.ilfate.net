@@ -40,6 +40,7 @@ class Game
 
     const EVENT_NAME_MAGE_ROTATE     = 'mage-rotate';
     const EVENT_NAME_UNIT_MOVE       = 'unit-move';
+    const EVENT_NAME_UNIT_ATTACK     = 'unit-attack';
     const EVENT_NAME_MAGE_SPELL_CAST = 'mage-spell-cast';
     const EVENT_NAME_OBJECT_DESTROY  = 'object-destroy';
     const EVENT_NAME_MAGE_DAMAGE     = 'mage-damage';
@@ -60,6 +61,7 @@ class Game
     const ANIMATION_STAGE_MAGE_ACTION_EFFECT_2 = 'mage-action-effect-2';
     const ANIMATION_STAGE_UNIT_ACTION = 'unit-action';
     const ANIMATION_STAGE_UNIT_ACTION_2 = 'unit-action-2';
+    const ANIMATION_STAGE_UNIT_ACTION_3 = 'unit-action-3';
     const ANIMATION_STAGE_TURN_END_EFFECTS = 'turn-end-effects';
 
     public static $stagesList = [
@@ -222,7 +224,7 @@ class Game
                 }
             }
             foreach ($active['objects'] as $activeObject) {
-                if ($activeObject->exists()) {
+                if ($activeObject->isExist()) {
                     $activeObject->activate();
                 }
             }
@@ -599,5 +601,19 @@ class Game
         $this->mageUserUpdated = true;
     }
 
-
+    public function addAllSpells()
+    {
+        $config = \Config::get('mageSpells');
+        foreach ($config['list'] as $schoolId => $school) {
+            foreach ($school as $number => $spell) {
+                Spell::addSpell(
+                    $spell['class'],
+                    $config['schools'][$schoolId]['name'],
+                    $number,
+                    $schoolId,
+                    10);
+            }
+        }
+        $this->mage->save();
+    }
 }
