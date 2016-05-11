@@ -89,6 +89,7 @@ class World
         if (!empty($this->objects[$y][$x])) return ;
 
         $object = MapObject::getRandomObject($x, $y, $this);
+        if (!$object) return ;
         $this->objects[$y][$x] = $object->export();
     }
 
@@ -119,6 +120,7 @@ class World
         if (!empty($this->units[$y][$x])) return ;
 
         $unit = Unit::getRandomUnit($x, $y, $this, $this->getGame()->getMage());
+        if (!$unit) return ;
         $this->units[$y][$x] = $unit->export();
     }
 
@@ -160,13 +162,14 @@ class World
     }
 
     /**
-     * @param $x
-     * @param $y
-     * @param $range
+     * @param      $x
+     * @param      $y
+     * @param      $range
+     * @param bool $team
      *
      * @return Unit[]
      */
-    public function getUnitsAround($x, $y, $range)
+    public function getUnitsAround($x, $y, $range, $teams = [])
     {
         $units = [];
         $xStart = $x - $range;
@@ -177,7 +180,9 @@ class World
             for($ix = $xStart; $ix <= $xEnd; $ix++) {
                 $unit = $this->getUnit($ix, $iy);
                 if ($unit) {
-                    $units[] = $unit;
+                    if (!$teams || in_array($unit->getTeam(), $teams)) {
+                        $units[] = $unit;
+                    }
                 }
             }
         }

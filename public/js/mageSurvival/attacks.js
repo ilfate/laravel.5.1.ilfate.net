@@ -30,6 +30,10 @@ MageS.Attacks = function (game) {
             case 'fireSpit':
                 this.fireSpit(attackId);
                 break;
+            default:
+                info('there is no attack animation for ' + data.attack.animation);
+                MageS.Game.attacks.finishAttack(attackId);
+                break;
         }
     };
 
@@ -38,10 +42,12 @@ MageS.Attacks = function (game) {
         info(data);
         // MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818');
         MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818');
+        MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818', 'icon-bullet-line-small-curve-right');
+        MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818', 'icon-bullet-line-small-curve-left');
 
-        // setTimeout(function() {
-        //     MageS.Game.attacks.finishAttack(id);
-        // }, 800);
+        setTimeout(function() {
+            MageS.Game.attacks.finishAttack(id);
+        }, 800);
     };
     
     this.finishAttack = function (id) {

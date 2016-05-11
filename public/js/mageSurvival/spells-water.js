@@ -86,6 +86,21 @@ MageS.Spells.Water = function (game, spells) {
     this.finishStandartWater = function() {
         $('.casting-sphere').remove();
     };
+    this.finishFreeze = function(data) {
+        this.finishStandartWater();
+        var unit = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY + ' .unit');
+        var icon = this.spells.createIcon('icon-cracked-glass', 'color-blue-bright').addClass('unit-status');
+        unit.prepend(icon);
+        icon.css({opacity:0});
+        icon.animate({'opacity':0.7}, {
+            step: function(now,fx) {
+                $(this).css('-webkit-transform','scale(' + (1.7 - now) + ')');
+            },duration:600});
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 600)
+    };
 
     this.startIceCrown = function() {
         var icon = this.spells.createIcon('icon-frozen-orb', 'color-white');

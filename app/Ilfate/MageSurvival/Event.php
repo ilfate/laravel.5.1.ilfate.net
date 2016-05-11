@@ -26,12 +26,14 @@ use Ilfate\User;
  */
 class Event
 {
-    const KEY_TARGET = 'target';
     const KEY_OWNER = 'owner';
+    const KEY_TARGET = 'target';
     const KEY_TIMES = 'times';
+    const KEY_ON_COMPLETE = 'complete';
 
     const EVENT_UNIT_GET_DAMAGE = 'u-get-dmg';
     const EVENT_UNIT_AFTER_DYING = 'u-a-die';
+    const EVENT_UNIT_BEFORE_MOVE = 'u-b-move';
     const EVENT_MAGE_BEFORE_GET_DAMAGE = 'm-b-get-dmg';
     const EVENT_MAGE_BEFORE_HEAL = 'm-b-heal';
     const EVENT_MAGE_AFTER_MOVE = 'm-a-move';
@@ -67,6 +69,11 @@ class Event
                 $eventData['data'][self::KEY_TIMES]--;
                 self::update();
                 if ($eventData['data'][self::KEY_TIMES] < 1) {
+                    if (!empty($eventData['data'][self::KEY_ON_COMPLETE])) {
+                        list($class, $method) = explode(':', $eventData['data'][self::KEY_ON_COMPLETE]);
+                        $class       = '\Ilfate\MageSurvival\Events\\' . $class;
+                        $class::$method($triggerData, $eventData['data']);
+                    }
                     unset(self::$bindings[$key][$num]);
                     if (empty(self::$bindings[$key])) {
                         unset(self::$bindings[$key]);

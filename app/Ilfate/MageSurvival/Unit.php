@@ -37,6 +37,8 @@ abstract class Unit implements AliveInterface
     const CONFIG_KEY_BEHAVIOUR = 'behaviour';
     const CONFIG_KEY_SECONDARY_BEHAVIOUR = 'secondaryBehaviour';
 
+    const FLAG_FROZEN = 'frozen';
+
     protected $id;
     protected $type;
     protected $x;
@@ -171,9 +173,12 @@ abstract class Unit implements AliveInterface
         $chances = $config['chances'][$world->getType()];
         $distance = abs($x) + abs($y);
         $unitType = 0;
-        foreach ($chances as $minDistance => $objectChances) {
+        foreach ($chances as $minDistance => $unitChances) {
             if ($distance < $minDistance) {
-                $unitType = ChanceHelper::oneFromArray($objectChances);
+                if (!$unitChances) {
+                    return false;
+                }
+                $unitType = ChanceHelper::oneFromArray($unitChances);
                 break;
             }
         }
@@ -293,6 +298,12 @@ abstract class Unit implements AliveInterface
 
     public function attack($attackConfig, AliveInterface $target)
     {
+        if (!empty($attackConfig['class'])) {
+            $className = '\Ilfate\MageSurvival\Attacks\\' . $attackConfig['class'];
+            $attack = new $className($this, $target, $attackConfig);
+            $attack->trigger();
+            return;
+        }
         // well it should be already checked that attack is possible
         $target->damage($attackConfig['damage'], Game::ANIMATION_STAGE_UNIT_ACTION_3);
         $mX = $this->mage->getX();
@@ -338,6 +349,10 @@ abstract class Unit implements AliveInterface
     {
         $oldX = $this->x;
         $oldY = $this->y;
+        $event = Event::trigger(Event::EVENT_UNIT_BEFORE_MOVE, ['owner' => $this]);
+        if (!empty($event['no-move'])) {
+            return;
+        }
         $wasOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
         $this->x = $x;
         $this->y = $y;
@@ -542,6 +557,18 @@ abstract class Unit implements AliveInterface
     public function isAlive()
     {
         return $this->alive;
+    }
+
+    public function addFlag($flag, $value = true)
+    {
+        $this->data[$flag] = $value;
+        $this->world->updateUnit($this);
+    }
+    
+    public function removeFlag($flag)
+    {
+        unset($this->data[$flag]);
+        $this->world->updateUnit($this);
     }
 
 }

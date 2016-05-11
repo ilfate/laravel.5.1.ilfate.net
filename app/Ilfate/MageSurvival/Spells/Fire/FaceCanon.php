@@ -65,6 +65,7 @@ class FaceCanon extends Fire
             }
             $x = $nx; $y = $ny;
         }
+        $this->destroyTreesAtCells($this->affectedCells);
         $this->mage->forceMove($x, $y, $this->getNormalCastStage());
         return true;
     }

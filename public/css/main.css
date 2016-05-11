@@ -3377,6 +3377,8 @@ body {
   fill: #FFD416; }
 .mage-survival .color-blue svg.svg-icon path {
   fill: #529BCA; }
+.mage-survival .color-blue-bright svg.svg-icon path {
+  fill: #37A4F9; }
 .mage-survival .color-dark-blue svg.svg-icon path {
   fill: #428BBA; }
 .mage-survival .color-green svg.svg-icon path {
@@ -3462,22 +3464,22 @@ body {
       width: 1.6rem;
       height: 1.6rem;
       z-index: 35; }
-  .mage-survival .battle-border .animation-field {
+  .mage-survival .battle-border .animation-field, .mage-survival .battle-border .attacks-field {
     opacity: 1;
     position: absolute;
     overflow: visible;
     margin: 8rem 0 0 8rem; }
-    .mage-survival .battle-border .animation-field .animation {
+    .mage-survival .battle-border .animation-field .animation, .mage-survival .battle-border .attacks-field .animation {
       overflow: visible;
       opacity: 1;
       position: absolute;
       z-index: 90; }
-      .mage-survival .battle-border .animation-field .animation .circle {
+      .mage-survival .battle-border .animation-field .animation .circle, .mage-survival .battle-border .attacks-field .animation .circle {
         overflow: visible; }
-    .mage-survival .battle-border .animation-field .animation-centred-block {
+    .mage-survival .battle-border .animation-field .animation-centred-block, .mage-survival .battle-border .attacks-field .animation-centred-block {
       margin: 0.8rem 0 0 0.8rem;
       position: absolute; }
-    .mage-survival .battle-border .animation-field svg {
+    .mage-survival .battle-border .animation-field svg, .mage-survival .battle-border .attacks-field svg {
       overflow: visible; }
   .mage-survival .battle-border .dialog-field {
     position: absolute;
@@ -3530,6 +3532,12 @@ body {
       width: 1.6rem;
       height: 1.6rem;
       z-index: 31; }
+    .mage-survival .battle-field .cell .unit-status {
+      position: absolute;
+      width: 1.6rem;
+      height: 1.6rem;
+      z-index: 32;
+      opacity: 0.7; }
   .mage-survival .battle-field .object {
     position: absolute;
     width: 1.6rem;
@@ -3599,6 +3607,39 @@ body {
 .battle-border.WitchForest .cell.w1 {
   background-color: #FCEBB6; }
 .battle-border.WitchForest .cell.w2 {
+  background-color: #5e5e5e; }
+
+.battle-border.BattleTest .cell.bl {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.t0 {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.tf {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.tF {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.t1 {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.t2 {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.t3 {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.t4 {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.f1 {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.f2 {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.f3 {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.f4 {
+  background-color: #5e5e5e; }
+.battle-border.BattleTest .cell.s {
+  background-color: darkolivegreen; }
+.battle-border.BattleTest .cell.r1 {
+  background-color: cornflowerblue; }
+.battle-border.BattleTest .cell.w1 {
+  background-color: #FCEBB6; }
+.battle-border.BattleTest .cell.w2 {
   background-color: #5e5e5e; }
 
 .battle-border.hut .cell.f4 {

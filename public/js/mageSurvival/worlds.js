@@ -40,6 +40,29 @@ MageS.Worlds = function (game) {
             }},
             'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-brown'},
             'w2' : {'icon':'icon-obelisk', 'icon-color': 'color-clay'},
+        },
+        'BattleTest' : {
+            's' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
+            'f2' : {'icon':'icon-grass', 'icon-color': 'color-yellow'},
+            't0' : {'icon':'icon-forest', 'icon-color': 'color-green-darker', 'icon2' : {
+                'icon':'icon-forest-base', 'icon-color':'color-brown'
+            }},
+            'tf' : {'icon':'icon-forest', 'icon-color': 'color-green', 'icon2' : {
+                'icon':'icon-forest-base', 'icon-color':'color-brown'
+            }},
+            'tF' : {'icon':'icon-forest', 'icon-color': 'color-green-darkest', 'icon2' : {
+                'icon':'icon-forest-base', 'icon-color':'color-brown'
+            }},
+            't1' : {'icon':'icon-pine-tree', 'icon-color': 'color-green-darker', 'icon2' : {
+                'icon':'icon-pine-tree-base', 'icon-color':'color-brown'
+            }},
+            't2' : {'icon':'icon-pine-tree', 'icon-color': 'color-green-darkest'},
+            't3' : {'icon':'icon-pine-tree', 'icon-color': 'color-green'},
+            't4' : {'icon':'icon-tree-oak', 'icon-color': 'color-green-darker', 'icon2':{
+                'icon':'icon-tree-oak-base', 'icon-color':'color-brown'
+            }},
+            'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-brown'},
+            'w2' : {'icon':'icon-obelisk', 'icon-color': 'color-clay'},
         }
     };
 

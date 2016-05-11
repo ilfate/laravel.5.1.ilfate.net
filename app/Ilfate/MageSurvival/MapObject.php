@@ -84,6 +84,9 @@ abstract class MapObject
         $distance = abs($x) + abs($y);
         foreach ($chances as $minDistance => $objectChances) {
             if ($distance < $minDistance) {
+                if (!$objectChances) {
+                    return false;
+                }
                 $objectType = ChanceHelper::oneFromArray($objectChances);
                 $className = '\Ilfate\MageSurvival\MapObjects\\' . $config['list'][$objectType]['class'];
                 return new $className($world, $objectType, $x, $y);

@@ -103,6 +103,9 @@ class MageSurvivalController extends BaseController
 
     public function addAllSpells(Request $request)
     {
+        if (env('APP_DEBUG') !== true) {
+//            return redirect('/Spellcraft');
+        }
         $game = $this->getGame($request);
 
         $game->addAllSpells();

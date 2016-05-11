@@ -44,7 +44,7 @@ MageS.Spells = function (game) {
            case 'RainOfFire': this.fire.startStandartFire() ; break;
            case 'FireImp': this.fire.startStandartFire() ; break;
            case 'IceCrown': this.water.startIceCrown() ; break;
-           case 'Water': this.water.startStandartWater() ; break;
+           case 'Freeze': this.water.startStandartWater() ; break;
            default:
                isSpellAnimated = false;
                info('No start animation for "' + name + '"');
@@ -69,7 +69,7 @@ MageS.Spells = function (game) {
             case 'RainOfFire': this.fire.iterateStandartFire() ; break;
             case 'FireImp': this.fire.iterateStandartFire() ; break;
             case 'IceCrown': this.water.iterateIceCrown() ; break;
-            case 'Water': this.water.iterateStandertWater() ; break;
+            case 'Freeze': this.water.iterateStandertWater() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
         }
@@ -87,7 +87,7 @@ MageS.Spells = function (game) {
             case 'RainOfFire': this.fire.finishRainOfFire(this.currentSpellData); break;
             case 'FireImp': this.fire.finishFireImp(this.currentSpellData); break;
             case 'IceCrown': this.water.finishIceCrown(this.currentSpellData); break;
-            case 'Water': this.water.finishStandartWater(this.currentSpellData); break;
+            case 'Freeze': this.water.finishFreeze(this.currentSpellData); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished();
@@ -207,7 +207,7 @@ MageS.Spells = function (game) {
         var delay = 0;
         if (options.delay !== undefined) { delay = options.delay; }
         setTimeout(function() {
-            segment.draw(segment2Start, segment2End, 60);
+            segment.draw(segment2Start, segment2End, time);
         }, delay);
         return beam;
     };

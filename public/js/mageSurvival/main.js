@@ -512,7 +512,7 @@ MageS.Game = function () {
                 //     [-2, -2],[-1, -2],[0, -2],[1, -2],[2, -2]
                 // ]};
                 // MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
-                MageS.Game.spells.currentSpellData = {'targetX': -1, 'targetY': 0};
+                MageS.Game.spells.currentSpellData = {'targetX': 3, 'targetY': 0};
                 //     {'point':[-1,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-2,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-3,0], 'targets':[[-1, -2], [0, 2]]},
@@ -521,7 +521,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('Water')
+                MageS.Game.spells.startCast('Freeze');
                 // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
             });
             $('#move-control-field .control-arrow').on('click', function () {
@@ -698,7 +698,19 @@ MageS.Game = function () {
         obj.find('svg').append(icon.clone());
         if (unit.iconColor !== undefined) { obj.find('.svg').addClass(unit.iconColor); }
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
+        if (unit.data.frozen !== undefined) {
+            info("FROZEN");
+            this.addUnitStatusIcon(obj, 'icon-cracked-glass', '#37A4F9');
+        }
+
         return obj;
+    };
+
+    this.addUnitStatusIcon = function(unit, iconName, color) {
+        var div = $('<div class="svg unit-status"><svg viewBox="0 0 512 512"></svg></div>');
+        var icon = $(this.svg).find('#' + iconName + ' path').css({'fill': color});
+        div.find('svg').append(icon.clone());
+        unit.prepend(div);
     };
 
     this.drawMage = function(mageConf) {

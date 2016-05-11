@@ -15,6 +15,7 @@ namespace Ilfate\MageSurvival\Events;
 
 use Ilfate\MageSurvival\Event;
 use Ilfate\MageSurvival\GameBuilder;
+use Ilfate\MageSurvival\Unit;
 
 /**
  * TODO: Short description.
@@ -58,6 +59,18 @@ class Water extends Event
         $data['x'] = $x;
         $data['y'] = $y;
 
+        return $data;
+    }
+    public static function Freeze($data) {
+        $data['no-move'] = true;
+        return $data;
+    }
+    public static function RemoveFreeze($data) {
+        /**
+         * @var Unit $unit
+         */
+        $unit = $data[Event::KEY_OWNER];
+        $unit->removeFlag('frozen');
         return $data;
     }
 }

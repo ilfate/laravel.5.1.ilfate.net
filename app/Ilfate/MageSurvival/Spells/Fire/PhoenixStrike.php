@@ -59,7 +59,7 @@ class PhoenixStrike extends Fire
             list($x, $y) = $move($x, $y);
 
             $targetsForAnimation[$step]['point'] = [$x - $mageX, $y - $mageY];
-            $units = $this->world->getUnitsAround($x, $y, 2);
+            $units = $this->world->getUnitsAround($x, $y, 2, [Unit::TEAM_TYPE_HOSTILE, Unit::TEAM_TYPE_NEUTRAL]);
 
             for($i = 0; $i < 2; $i++) {
                 if ($units) {

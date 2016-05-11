@@ -576,6 +576,7 @@ class Game
                 && (empty($flags[$world['map-type']]) || $flags[$world['map-type']] != 'closed'))
                 ||
                 (!empty($flags[$world['map-type']]) && $flags[$world['map-type']] == 'open')
+                || (!empty($world['is-admin']) && env('APP_DEBUG') === true)
             ) {
                 $available[] = $world;
             }

@@ -30,6 +30,12 @@ return array(
             'map-type' => 'WitchForest',
             'is-available' => true,
         ],
+        900 => [
+            'name' => 'Battle Test',
+            'map-type' => 'BattleTest',
+            'is-available' => false,
+            'is-admin' => true,
+        ],
     ],
     'objects' => [
         'list' => [
@@ -44,6 +50,14 @@ return array(
             // World type
             2 => [ // WitchForest world
                 // Range from world center
+
+                /* 0 - 50 */        50 => [1],
+                /* 50 - 100 */      100 => [1],
+                /* 100 - 500 */     500 => [1],
+                /* 500 - 1000 */    1000 => [1],
+                /* 1000 - 9999999 */9999999 => [1],
+            ],
+            900 => [ // Test world
 
                 /* 0 - 50 */        50 => [1],
                 /* 50 - 100 */      100 => [1],
