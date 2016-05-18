@@ -39,8 +39,6 @@ MageS.Attacks = function (game) {
 
     this.fireSpit = function(id) {
         var data = this.attacks[id].data;
-        info(data);
-        // MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818');
         MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818');
         MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818', 'icon-bullet-line-small-curve-right');
         MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818', 'icon-bullet-line-small-curve-left');

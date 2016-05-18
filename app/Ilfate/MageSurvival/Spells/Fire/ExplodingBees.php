@@ -28,7 +28,7 @@ class ExplodingBees extends Fire
             /**
              * @var Unit $target
              */
-            $target->damage(mt_rand(4, 6), $this->getNormalCastStage());
+            $target->damage(mt_rand(1, 4), $this->getNormalCastStage());
         }
         return true;
     }

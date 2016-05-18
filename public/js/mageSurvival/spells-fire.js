@@ -88,6 +88,9 @@ MageS.Spells.Fire = function (game, spells) {
     };
 
     this.blastSunRing = function(color, options) {
+        if (options === undefined) {
+            options = {};
+        }
         var svg = this.spells.createIcon('icon-sun-fire', color);
         $('.animation-field').append(svg);
         this.game.monimations.blastInScale(svg.find('svg.svg-icon'), 6, null, 1200);
@@ -187,11 +190,31 @@ MageS.Spells.Fire = function (game, spells) {
         }, 900);
     };
 
-    this.finishBomb = function() {
+    this.finishBomb = function(data) {
         this.standartFireToMiddle(800);
         MageS.Game.animations.singleAnimationFinished();
         setTimeout(function(){
             MageS.Game.spells.clearAnimationField();
+        }, 800);
+    };
+    this.finishLightMyFire = function(data) {
+        this.standartFireToMiddle(800);
+
+        var torch = this.spells.createIcon('icon-torch', 'color-red');
+        $('.animation-field').append(torch);
+        torch.animate({'margin-left': data.targetX * MageS.Game.cellSize * MageS.Game.rem},
+            {duration:600, easing:'easeInBack', queue:false});
+        torch.animate({'margin-top': data.targetY * MageS.Game.cellSize * MageS.Game.rem},
+            {duration:600, easing:'easeInOutCirc', queue:false});
+
+        setTimeout(function () {
+            var unit = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY + ' .unit');
+            var icon = MageS.Game.spells.createIcon('icon-flame-tunnel', 'color-red').addClass('unit-status under');
+            unit.prepend(icon);
+        }, 600);
+
+        setTimeout(function(){
+            MageS.Game.spells.endSpellAnimation();
         }, 800);
     };
 
@@ -251,6 +274,60 @@ MageS.Spells.Fire = function (game, spells) {
         setTimeout(function() {
                     MageS.Game.spells.endSpellAnimation();
         }, 1200);
+    };
+
+    this.finishLetFireInYourEyes = function(data) {
+        this.standartFireToMiddle(100);
+        var castTime = 900;
+        var calculations = this.spells.getDistanceBetweenTwoDots(0, 0, data.targetX, data.targetY);
+
+        for (var n = 0; n < 2; n++) {
+
+            var eye = this.spells.createIcon('icon-eyeball', 'color-white');
+            var eye2 = this.spells.createIcon('icon-eyeball2', 'color-red');
+            var eyeMoveDeg = calculations[1] + 90 + (n * (-180) );
+
+            var diagonal =  MageS.Game.cellSize * MageS.Game.rem;
+            var marginCalc = this.spells.transformDegAndDistanceToMargin(eyeMoveDeg, diagonal);
+            eye.animate({'margin-left': marginCalc[0], 'margin-top': marginCalc[1]}, {duration:300});
+            eye2.animate({'margin-left': marginCalc[0], 'margin-top': marginCalc[1]}, {duration:300});
+            eye.find('svg').css({'width':'0.1rem', 'height':'0.1rem'}).animate({
+                'width':'1.6rem', 'height':'1.6rem'
+            }, {duration:600});
+            eye2.find('svg').css({'width':'0.1rem', 'height':'0.1rem'}).animate({
+                'width':'1.6rem', 'height':'1.6rem'
+            }, {duration:600});
+            $('.animation-field').append(eye).append(eye2);
+            // MageS.Game.spells.beamStrike(calculations[0], calculations[1], 'icon-bullet-line', '#F07818');
+            var cellSize = MageS.Game.cellSize * MageS.Game.rem;
+            var eyeCalculations = MageS.Game.spells.getDistanceBetweenTwoDots(marginCalc[0] / cellSize, marginCalc[1] / cellSize, data.targetX, data.targetY);
+
+            var options = {'segment2': ['0', '100%'], 'time':0.05, 'delay':castTime, 'moveLeft' : (marginCalc[0] + (cellSize / 2)), 'moveTop' : (marginCalc[1] + (cellSize / 2))};
+            MageS.Game.spells.beamStrike(eyeCalculations[0], eyeCalculations[1],'icon-bullet-line',  '#F07818', options);
+
+            var ang = eyeCalculations[1] - 30;
+            var angStart = ang - (180 + (Math.random() * 90));
+            if (n === 1) {
+                angStart = ang + (180 + (Math.random() * 90));
+            }
+            eye.find('svg').animateRotate(angStart, ang, castTime, 'easeInOutBack');
+            eye2.find('svg').animateRotate(angStart, ang, castTime, 'easeInOutBack');
+        }
+        var shakeDirection = 'X';
+        if (calculations[1] >= 45 && calculations[1] < 135 || calculations[1] >= 225 && calculations[1] < 315) {
+            shakeDirection = 'Y';
+        }
+        MageS.Game.monimations.camShake(shakeDirection, 400, 3, castTime);
+
+        setTimeout(function () {
+            var unit = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY + ' .unit');
+            var icon = MageS.Game.spells.createIcon('icon-flame-tunnel', 'color-red').addClass('unit-status under');
+            unit.prepend(icon);
+        }, 1100);
+
+        setTimeout(function(){
+            MageS.Game.spells.endSpellAnimation();
+        }, 1400);
     };
     
     this.doPhoenixStep = function(phoenix, data, step, d) {

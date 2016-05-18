@@ -103,6 +103,9 @@ MageS.Animations = function (game) {
             case 'unit-attack':
                 this.unitAttackAnimation(data.data);
                 break;
+            case 'unit-remove-status':
+                this.unitRemoveStatusAnimation(data.data);
+                break;
             case 'mage-spell-cast':
                 this.spellCastAnimation(data.data);
                 break;
@@ -137,6 +140,9 @@ MageS.Animations = function (game) {
                 break;
             case 'add-unit':
                 this.addUnitAnimation(data.data);
+                break;
+            case 'add-unit-status':
+                this.addUnitStatusAnimation(data.data);
                 break;
             case 'cell-change':
                 this.changeCellAnimation(data.data);
@@ -286,6 +292,14 @@ MageS.Animations = function (game) {
         MageS.Game.animations.singleAnimationFinished();
      
     };
+    this.unitRemoveStatusAnimation = function(data) {
+
+        var unit = $('.battle-border .unit.id-' + data.id);
+        unit.find('.unit-status.flag-' + data.flag).remove();
+
+        MageS.Game.animations.singleAnimationFinished();
+     
+    };
     this.spellCastAnimation = function(data) {
         this.game.spells.cast(data);
     };
@@ -406,6 +420,22 @@ MageS.Animations = function (game) {
     {
         var newUnit = this.game.drawUnit(data.unit, data.targetX, data.targetY);
         MageS.Game.animations.singleAnimationFinished();
+    };
+    this.addUnitStatusAnimation = function(data)
+    {
+        var unit = $('.battle-border .unit.id-' + data.id);
+        // var icon = this.spells.createIcon('icon-cracked-glass', 'color-blue-bright').addClass('unit-status');
+        // unit.prepend(icon);
+        // icon.css({opacity:0});
+        // icon.animate({'opacity':0.7}, {
+        //     step: function(now,fx) {
+        //         $(this).css('-webkit-transform','scale(' + (1.7 - now) + ')');
+        //     },duration:600});
+        this.game.addUnitStatusIcons(unit, data.flags);
+
+        setTimeout(function () {
+            MageS.Game.animations.singleAnimationFinished();
+        }, 600)
     };
     this.changeCellAnimation = function(data)
     {

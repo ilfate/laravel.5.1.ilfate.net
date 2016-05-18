@@ -37,7 +37,9 @@ abstract class Unit implements AliveInterface
     const CONFIG_KEY_BEHAVIOUR = 'behaviour';
     const CONFIG_KEY_SECONDARY_BEHAVIOUR = 'secondaryBehaviour';
 
+    const DATA_FLAG_KEY = 'f';
     const FLAG_FROZEN = 'frozen';
+    const FLAG_BURN = 'burn';
 
     protected $id;
     protected $type;
@@ -377,16 +379,16 @@ abstract class Unit implements AliveInterface
     public function damage($value, $animationStage)
     {
         $this->data['health'] -= $value;
+        GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_DAMAGE, [
+            'id' => $this->getId(),
+            'value' => $value
+        ], $animationStage);
         if ($this->data['health'] < 1) {
             // Unit dead
-            $this->world->destroyUnit($this->x, $this->y);
+            $this->world->destroyUnit($this->x, $this->y, $this->getId());
             $this->dead($animationStage);
         } else {
             // unit damage
-            GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_DAMAGE, [
-                'id' => $this->getId(),
-                'value' => $value
-            ], $animationStage);
             if ($onDamageBehaviour = $this->getOnDamageBehaviour()) {
                 $this->data[self::CONFIG_KEY_BEHAVIOUR] = $onDamageBehaviour;
             }
@@ -561,14 +563,22 @@ abstract class Unit implements AliveInterface
 
     public function addFlag($flag, $value = true)
     {
-        $this->data[$flag] = $value;
+        $this->data[self::DATA_FLAG_KEY][$flag] = $value;
         $this->world->updateUnit($this);
     }
     
     public function removeFlag($flag)
     {
-        unset($this->data[$flag]);
+        unset($this->data[self::DATA_FLAG_KEY][$flag]);
         $this->world->updateUnit($this);
+    }
+
+    public function getFlag($flag)
+    {
+        if (isset($this->data[self::DATA_FLAG_KEY][$flag])) {
+            return $this->data[self::DATA_FLAG_KEY][$flag];
+        }
+        return false;
     }
 
 }

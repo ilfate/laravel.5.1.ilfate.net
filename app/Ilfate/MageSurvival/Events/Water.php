@@ -14,6 +14,7 @@
 namespace Ilfate\MageSurvival\Events;
 
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\Unit;
 
@@ -63,6 +64,7 @@ class Water extends Event
     }
     public static function Freeze($data) {
         $data['no-move'] = true;
+        $data['skip-turn'] = true;
         return $data;
     }
     public static function RemoveFreeze($data) {
@@ -71,6 +73,9 @@ class Water extends Event
          */
         $unit = $data[Event::KEY_OWNER];
         $unit->removeFlag('frozen');
+        GameBuilder::getGame()->addAnimationEvent(Game::EVENT_NAME_UNIT_REMOVE_STATUS, [
+            'id' => $unit->getId(), 'flag' => 'frozen'
+        ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
         return $data;
     }
 }

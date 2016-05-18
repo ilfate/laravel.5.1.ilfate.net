@@ -1,5 +1,6 @@
 <?php namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\Event;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
 
@@ -16,12 +17,11 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Fireball extends Fire
+class LightMyFire extends Fire
 {
-    protected $availablePatterns = [4];
 
-    protected $defaultCooldownMin = 0;
-    protected $defaultCooldownMax = 2;
+    protected $defaultCooldownMin = 2;
+    protected $defaultCooldownMax = 4;
 
     protected function spellEffect($data)
     {
@@ -29,7 +29,15 @@ class Fireball extends Fire
             /**
              * @var Unit $target
              */
-            $target->damage(1, $this->getNormalCastStage());
+            Event::create(
+                Event::EVENT_UNIT_AFTER_TURN, [
+                Event::KEY_TIMES => 4,
+                Event::KEY_OWNER => $target,
+                Event::KEY_ON_COMPLETE => 'Fire:RemoveBurn'
+            ],
+                'Fire:Burn');
+            $target->addFlag(Unit::FLAG_BURN);
+            
         }
         return true;
     }

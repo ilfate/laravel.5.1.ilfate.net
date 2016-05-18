@@ -86,20 +86,126 @@ MageS.Spells.Water = function (game, spells) {
     this.finishStandartWater = function() {
         $('.casting-sphere').remove();
     };
+
     this.finishFreeze = function(data) {
         this.finishStandartWater();
-        var unit = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY + ' .unit');
-        var icon = this.spells.createIcon('icon-cracked-glass', 'color-blue-bright').addClass('unit-status');
-        unit.prepend(icon);
-        icon.css({opacity:0});
-        icon.animate({'opacity':0.7}, {
-            step: function(now,fx) {
-                $(this).css('-webkit-transform','scale(' + (1.7 - now) + ')');
-            },duration:600});
+
+        var options = {
+            time:400,
+            randomRange:MageS.Game.cellSize * MageS.Game.rem,
+            delayRange:300
+        };
+        var toX = data.targetX;
+        var toY = data.targetY;
+        var x = 0, y = 0;
+        for (var i = 0; i < 20; i ++) {
+
+            if (Math.random() > 0.5) {
+                if (Math.random() > 0.5) { x = 5; } else { x = -5 }
+                y = Math.round((Math.random() * 10) - 5);
+            } else {
+                if (Math.random() > 0.5) { y = 5; } else { y = -5 }
+                x = Math.round((Math.random() * 10) - 5);
+            }
+            options.from = [x, y];
+            this.createIceFlake(x, y, toX, toY, options);
+        }
 
         setTimeout(function () {
             MageS.Game.spells.endSpellAnimation();
-        }, 600)
+        }, 800)
+    };
+
+    this.createIceFlake = function(fromX, fromY, toX, toY, options) {
+        var delay = 0;
+        if (options.delay === undefined) {
+            var delayRange = 400;
+            if (options.delayRange !== undefined) { delayRange = options.delayRange; }
+            delay = Math.random() * delayRange;
+        } else {
+            delay = options.delay;
+        }
+        setTimeout(function(){
+            var flake = MageS.Game.spells.createIcon('icon-snowflake-1', 'color-white');
+            $('.animation-field').append(flake);
+            var coordMultiplaer = MageS.Game.cellSize * MageS.Game.rem;
+            var randomRange = coordMultiplaer;
+            if (options.randomRange !== undefined) {
+                randomRange = options.randomRange;
+            }
+            fromX = (fromX * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
+            fromY = (fromY * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
+            flake.css({opacity:0,'margin-left':fromX, 'margin-top':fromY}); //'height': 0.25 * coordMultiplaer
+            flake[0].style.transform = 'scale(0.25, 0.25)';
+            var svg = flake.find('svg');
+            // svg.css({'width':0.25 * coordMultiplaer, 'height': 0.25 * coordMultiplaer, 'line-height': (0.25 * coordMultiplaer) + 'px'});
+            flake.animate({opacity:1},{duration:50});
+            toX = (toX * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
+            toY = (toY * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
+            info(toY);
+            flake.animate({'margin-left':toX, 'margin-top':toY}, {queue:false, duration:options.time});
+            svg.animateRotate(0, 720, options.time);
+            setTimeout(function(){
+                flake.fadeOut(50);
+            }, options.time - 50);
+        }, delay);
+    };
+
+    this.finishIceWall = function(data) {
+        this.finishStandartWater();
+        var options = {time:500, randomRange:MageS.Game.cellSize * 3 * MageS.Game.rem};
+        switch (data.d) {
+            case 0: var fromX = 4;  var fromY = -3; var toX = -3; var toY = -3; break;
+            case 1: var fromX = 3;  var fromY = -4; var toX = 3;  var toY = 3; break;
+            case 2: var fromX = 4;  var fromY = 3;  var toX = -3; var toY = 3; break;
+            case 3: var fromX = -3; var fromY = -4; var toX = -3; var toY = 3; break;
+        }
+        for (var i = 0; i < 20; i ++) {
+            this.createIceFlake(fromX, fromY, toX, toY, options);
+        }
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 900)
+    };
+
+    this.finishIceSpear = function(data) {
+        this.finishStandartWater();
+
+        var spear = this.spells.createIcon('icon-ice-spear', 'color-dark-blue');
+
+        $('.animation-field').append(spear);
+
+        var calculations = this.spells.getDistanceBetweenTwoDots(0, 0, data.targetX, data.targetY);
+        spear.find('svg')[0].style.transform = 'rotate(' + (calculations[1] - 45) + 'deg)';
+
+        var margins = this.spells.transformDegAndDistanceToMargin(calculations[1], calculations[0]);
+
+        spear.animate({
+            'margin-left' : margins[0] * MageS.Game.cellSize * MageS.Game.rem,
+            'margin-top' : margins[1] * MageS.Game.cellSize * MageS.Game.rem,
+        }, {duration: 400, easing:'easeInQuart', complete:function(){
+            $(this).remove();
+        }});
+        var options = {
+            segment2: ['100%', '105%'],
+            time:0.50,
+            delay:100
+        };
+        var line1 = 'icon-bullet-sinus-2';
+        var line2 = 'icon-bullet-sinus';
+        this.spells.beamStrike(calculations[0], calculations[1], line1, '#fff', options);
+        this.spells.beamStrike(calculations[0], calculations[1], line2, '#fff', options);
+        options.delay = 250;
+        this.spells.beamStrike(calculations[0], calculations[1], line1, '#fff', options);
+        this.spells.beamStrike(calculations[0], calculations[1], line2, '#fff', options);
+        options.delay = 400;
+        this.spells.beamStrike(calculations[0], calculations[1], line1, '#fff', options);
+        this.spells.beamStrike(calculations[0], calculations[1], line2, '#fff', options);
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 900)
     };
 
     this.startIceCrown = function() {

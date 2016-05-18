@@ -37,14 +37,18 @@ MageS.Spells = function (game) {
            case 'FireNova': this.fire.startStandartFire() ; break;
            case 'ExplodingBees': this.fire.startStandartFire() ; break;
            case 'ButthurtJump': this.fire.startStandartFire() ; break;
+           case 'LightMyFire': this.fire.startStandartFire() ; break;
            case 'Bomb': this.fire.startStandartFire() ; break;
            case 'FireLady': this.fire.startStandartFire() ; break;
            case 'FaceCanon': this.fire.startStandartFire() ; break;
+           case 'LetFireInYourEyes': this.fire.startStandartFire() ; break;
            case 'PhoenixStrike': this.fire.startStandartFire() ; break;
            case 'RainOfFire': this.fire.startStandartFire() ; break;
            case 'FireImp': this.fire.startStandartFire() ; break;
            case 'IceCrown': this.water.startIceCrown() ; break;
            case 'Freeze': this.water.startStandartWater() ; break;
+           case 'IceWall': this.water.startStandartWater() ; break;
+           case 'IceSpear': this.water.startStandartWater() ; break;
            default:
                isSpellAnimated = false;
                info('No start animation for "' + name + '"');
@@ -62,14 +66,18 @@ MageS.Spells = function (game) {
             case 'FireNova': this.fire.iterateStandartFire() ; break;
             case 'ExplodingBees': this.fire.iterateStandartFire() ; break;
             case 'ButthurtJump': this.fire.iterateStandartFire() ; break;
+            case 'LightMyFire': this.fire.iterateStandartFire() ; break;
             case 'Bomb': this.fire.iterateStandartFire() ; break;
             case 'FireLady': this.fire.iterateStandartFire() ; break;
             case 'FaceCanon': this.fire.iterateStandartFire() ; break;
+            case 'LetFireInYourEyes': this.fire.iterateStandartFire() ; break;
             case 'PhoenixStrike': this.fire.iterateStandartFire() ; break;
             case 'RainOfFire': this.fire.iterateStandartFire() ; break;
             case 'FireImp': this.fire.iterateStandartFire() ; break;
             case 'IceCrown': this.water.iterateIceCrown() ; break;
             case 'Freeze': this.water.iterateStandertWater() ; break;
+            case 'IceWall': this.water.iterateStandertWater() ; break;
+            case 'IceSpear': this.water.iterateStandertWater() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
         }
@@ -80,14 +88,18 @@ MageS.Spells = function (game) {
             case 'FireNova': this.fire.finishFireNova(this.currentSpellData); break;
             case 'ExplodingBees': this.fire.finishExplodingBees(this.currentSpellData); break;
             case 'ButthurtJump': this.fire.finishButthurtJump(this.currentSpellData); break;
+            case 'LightMyFire': this.fire.finishLightMyFire(this.currentSpellData); break;
             case 'Bomb': this.fire.finishBomb(this.currentSpellData); break;
             case 'FireLady': this.fire.finishExplodingBees(this.currentSpellData); break;
             case 'FaceCanon': this.fire.finishFaceCanon(this.currentSpellData); break;
+            case 'LetFireInYourEyes': this.fire.finishLetFireInYourEyes(this.currentSpellData); break;
             case 'PhoenixStrike': this.fire.finishPhoenixStrike(this.currentSpellData); break;
             case 'RainOfFire': this.fire.finishRainOfFire(this.currentSpellData); break;
             case 'FireImp': this.fire.finishFireImp(this.currentSpellData); break;
             case 'IceCrown': this.water.finishIceCrown(this.currentSpellData); break;
             case 'Freeze': this.water.finishFreeze(this.currentSpellData); break;
+            case 'IceWall': this.water.finishIceWall(this.currentSpellData); break;
+            case 'IceSpear': this.water.finishIceSpear(this.currentSpellData); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished();
@@ -144,6 +156,36 @@ MageS.Spells = function (game) {
         var distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
         return [distance, deg];
     };
+    this.transformDegAndDistanceToMargin = function(deg, distance) {
+        var leftSign = 1;
+        var topSign = 1;
+        if (deg > 360) {
+            deg -= 360;
+            return this.transformDegAndDistanceToMargin(deg, distance);
+        }
+        else if (deg < 0) {
+            deg += 360;
+            return this.transformDegAndDistanceToMargin(deg, distance);
+        }
+        if (deg > 0 && deg <= 90) {
+            // topSign = -1;
+        }
+        else if (deg > 90 && deg <= 180) {
+            deg = 180 - deg;
+            leftSign = -1;
+        }
+        else if (deg > 180 && deg <= 270) {
+            deg = deg - 180;
+            topSign = -1;
+            leftSign = -1;
+        }else  if (deg > 270 && deg <= 360) {
+            deg = 360 - deg;
+            topSign = -1;
+        }
+        var top = distance * Math.sin(Math.radians(deg)) * topSign;
+        var left = distance * Math.sin(Math.radians(90 - deg)) * leftSign;
+        return [left, top];
+    };
 
     this.beam = function (x1,y1,x2,y2, color, lineType, options) {
         if (!options) {
@@ -151,6 +193,7 @@ MageS.Spells = function (game) {
         }
 
         var calculations = MageS.Game.spells.getDistanceBetweenTwoDots(x1, y1, x2, y2);
+
         if (options.moveTop === undefined) {
             options.moveTop = ((y1 + 0.5) * MageS.Game.cellSize) + 'rem';
         }
@@ -167,7 +210,8 @@ MageS.Spells = function (game) {
         if (!options) { options = {}; }
         deg -= 45;
         var beam = this.createIcon(svgline).addClass('beam');
-        beam[0].style.transform = ' rotate(' + deg +'deg)';
+        var transform = ' rotate(' + deg +'deg)';
+        beam[0].style.transform = transform;
         var icon = beam.find('.svg-icon');
         var moveTop = '';
         if (options.moveTop !== undefined) {

@@ -228,18 +228,22 @@ class World
 
     }
 
-    public function destroyUnit($x, $y)
+    public function destroyUnit($x, $y, $id)
     {
         if (empty($this->units[$y][$x])) {
             throw new \Exception('we cant destroy unit if there is no units here');
         }
         unset($this->units[$y][$x]);
         unset($this->unitsInited[$y][$x]);
+        Event::removeEventsRelatedToUnit($id);
         $this->update();
     }
 
     public function updateUnit(Unit $unit)
     {
+        if (!$unit->isAlive()) {
+            return;
+        }
         $x = $unit->getX();
         $y = $unit->getY();
         if (empty($this->units[$y][$x])) {

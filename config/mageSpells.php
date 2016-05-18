@@ -9,7 +9,7 @@ return array(
                 'name' => 'Fireball',
                 'class' => 'Fireball',
                 'description' => 'Hit a single target with fire',
-                'iconClass' => 'icon-flame',
+                'iconClass' => 'icon-ember-shot',
                 'iconColor' => 'color-red',
                 'directTargetSpell' => 'enemy',
             ],
@@ -36,6 +36,14 @@ return array(
                 'iconColor' => 'color-red',
             ],
             4 => [
+                'name' => 'Light My Fire',
+                'class' => 'LightMyFire',
+                'description' => 'C`mon light the night on fire.',
+                'iconClass' => 'icon-flame',
+                'iconColor' => 'color-red',
+                'directTargetSpell' => 'enemy',
+            ],
+            5 => [
                 'name' => 'Bomb',
                 'class' => 'Bomb',
                 'description' => 'Leave a bomb where you stand.',
@@ -43,8 +51,8 @@ return array(
                 'iconColor' => 'color-red',
                 'noTargetSpell' => true,
             ],
-            5 => [
-                'name' => 'FireLady',
+            6 => [
+                'name' => 'Fire Woman',
                 'class' => 'FireLady',
                 'description' => 'Lady will go around battle field and put your enemies on fire',
                 'iconClass' => 'icon-flame',
@@ -52,14 +60,22 @@ return array(
                 'noTargetSpell' => true,
                 'noAutoAnimationTrigger' => true,
             ],
-            6 => [
+            7 => [
                 'name' => 'Face canon',
                 'class' => 'FaceCanon',
                 'description' => 'Shoot your enemy in the face. Kickback might be hard thought.',
                 'iconClass' => 'icon-blaster',
                 'iconColor' => 'color-red',
             ],
-            7 => [
+            8 => [
+                'name' => 'Let the Fire in your eyes',
+                'class' => 'LetFireInYourEyes',
+                'description' => 'Let your enemies burn like hell. Unless they are devils in disguise.',
+                'iconClass' => 'icon-pyromaniac',
+                'iconColor' => 'color-red',
+                'directTargetSpell' => 'enemy',
+            ],
+            9 => [
                 'name' => 'Phoenix strike',
                 'class' => 'PhoenixStrike',
                 'description' => 'Launch a phoenix that would attack all enemies in its reach.',
@@ -67,15 +83,15 @@ return array(
                 'iconColor' => 'color-red',
                 'noAutoAnimationTrigger' => true,
             ],
-            8 => [
-                'name' => 'Rain of fire',
+            10 => [
+                'name' => 'Fire and Rain',
                 'class' => 'RainOfFire',
                 'description' => 'Drown your enemies in fire from the sky.',
                 'iconClass' => 'icon-fire-tail',
                 'iconColor' => 'color-red',
                 'noAutoAnimationTrigger' => true,
             ],
-            9 => [
+            11 => [
                 'name' => 'Fire imp',
                 'class' => 'FireImp',
                 'description' => 'Summon an imp. Let`s hope he will help you defeating your enemies.',
@@ -110,6 +126,21 @@ return array(
                 'class' => 'Freeze',
                 'description' => 'Freeze one of your enemies in place',
                 'iconClass' => 'icon-ice-cube',
+                'iconColor' => 'color-dark-blue',
+                'directTargetSpell' => 'enemy',
+            ],
+            3 => [
+                'name' => 'Ice wall',
+                'class' => 'IceWall',
+                'description' => 'Create an ice wall that will last for 5 turns',
+                'iconClass' => 'icon-frozen-block',
+                'iconColor' => 'color-dark-blue',
+            ],
+            4 => [
+                'name' => 'Ice spear',
+                'class' => 'IceSpear',
+                'description' => 'Freeze the target. If target was already frozen, deal up to 5 damage based on range. Closer the target - more damage.',
+                'iconClass' => 'icon-ice-spear',
                 'iconColor' => 'color-dark-blue',
                 'directTargetSpell' => 'enemy',
             ],

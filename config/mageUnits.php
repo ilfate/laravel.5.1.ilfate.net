@@ -6,7 +6,7 @@ return array(
 //AggressiveMelee
     'list' => [
         1 => [
-            'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 2,
+            'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 8,
             'behaviour' => 'Passive', 'aggressiveRange' => 4, 'attacks' => ['teeth'],
             'icon' => 'icon-mouse', 'loot' => 2
         ],

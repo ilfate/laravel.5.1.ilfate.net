@@ -38,21 +38,23 @@ class Game
     const ACTION_CRAFT_SPELL     = 'craftSpell';
     const ACTION_SPELL           = 'spell';
 
-    const EVENT_NAME_MAGE_ROTATE     = 'mage-rotate';
-    const EVENT_NAME_UNIT_MOVE       = 'unit-move';
-    const EVENT_NAME_UNIT_ATTACK     = 'unit-attack';
-    const EVENT_NAME_MAGE_SPELL_CAST = 'mage-spell-cast';
-    const EVENT_NAME_OBJECT_DESTROY  = 'object-destroy';
-    const EVENT_NAME_MAGE_DAMAGE     = 'mage-damage';
-    const EVENT_NAME_MAGE_HEAL       = 'mage-heal';
-    const EVENT_NAME_MAGE_ADD_ARMOR  = 'mage-add-armor';
-    const EVENT_NAME_MAGE_USE_PORTAL = 'mage-use-portal';
-    const EVENT_NAME_UNIT_DAMAGE     = 'unit-damage';
-    const EVENT_NAME_ADD_OBJECT      = 'add-object';
-    const EVENT_NAME_ADD_UNIT        = 'add-unit';
-    const EVENT_NAME_SPELL_CRAFT     = 'spell-craft';
-    const EVENT_NAME_OBJECT_ACTIVATE = 'object-activate';
-    const EVENT_CELL_CHANGE          = 'cell-change';
+    const EVENT_NAME_MAGE_ROTATE        = 'mage-rotate';
+    const EVENT_NAME_UNIT_MOVE          = 'unit-move';
+    const EVENT_NAME_UNIT_ATTACK        = 'unit-attack';
+    const EVENT_NAME_UNIT_DAMAGE        = 'unit-damage';
+    const EVENT_NAME_UNIT_REMOVE_STATUS = 'unit-remove-status';
+    const EVENT_NAME_MAGE_SPELL_CAST    = 'mage-spell-cast';
+    const EVENT_NAME_OBJECT_DESTROY     = 'object-destroy';
+    const EVENT_NAME_MAGE_DAMAGE        = 'mage-damage';
+    const EVENT_NAME_MAGE_HEAL          = 'mage-heal';
+    const EVENT_NAME_MAGE_ADD_ARMOR     = 'mage-add-armor';
+    const EVENT_NAME_MAGE_USE_PORTAL    = 'mage-use-portal';
+    const EVENT_NAME_ADD_OBJECT         = 'add-object';
+    const EVENT_NAME_ADD_UNIT           = 'add-unit';
+    const EVENT_NAME_ADD_UNIT_STATUS    = 'add-unit-status';
+    const EVENT_NAME_SPELL_CRAFT        = 'spell-craft';
+    const EVENT_NAME_OBJECT_ACTIVATE    = 'object-activate';
+    const EVENT_CELL_CHANGE             = 'cell-change';
 
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
     const ANIMATION_STAGE_MAGE_ACTION_2 = 'mage-action-2';
@@ -220,7 +222,11 @@ class Game
             $active = $this->worldGenerator->getActiveUnitsAndObjects($this->mage);
             foreach ($active['units'] as $activeUnit) {
                 if ($activeUnit->isAlive()) {
-                    $activeUnit->activate();
+                    $eventData = Event::trigger(Event::EVENT_UNIT_BEFORE_TURN, ['owner' => $activeUnit]);
+                    if (empty($eventData['skip-turn'])) {
+                        $activeUnit->activate();
+                    }
+                    Event::trigger(Event::EVENT_UNIT_AFTER_TURN, ['owner' => $activeUnit]);
                 }
             }
             foreach ($active['objects'] as $activeObject) {

@@ -60,7 +60,16 @@
             width:$cell-size + rem;
             height:$cell-size + rem;
             z-index: 35;
-
+            .unit-status {
+                position: absolute;
+                width:$cell-size + rem;
+                height:$cell-size + rem;
+                z-index: 36;
+                opacity: 0.7;
+                &.under{
+                    z-index: 34;
+                }
+            }
         }
         .damage {
             position: absolute;
@@ -109,13 +118,6 @@
                 width:$cell-size + rem;
                 height:$cell-size + rem;
                 z-index: 31;
-            }
-            .unit-status {
-                position: absolute;
-                width:$cell-size + rem;
-                height:$cell-size + rem;
-                z-index: 32;
-                opacity: 0.7;
             }
         }
         .object {

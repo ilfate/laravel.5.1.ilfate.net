@@ -31,9 +31,14 @@ class Event
     const KEY_TIMES = 'times';
     const KEY_ON_COMPLETE = 'complete';
 
+    const OWNER_SEPARATOR = '+o+';
+    const TARGET_SEPARATOR = '+t+';
+
     const EVENT_UNIT_GET_DAMAGE = 'u-get-dmg';
     const EVENT_UNIT_AFTER_DYING = 'u-a-die';
     const EVENT_UNIT_BEFORE_MOVE = 'u-b-move';
+    const EVENT_UNIT_AFTER_TURN = 'u-a-turn';
+    const EVENT_UNIT_BEFORE_TURN = 'u-b-turn';
     const EVENT_MAGE_BEFORE_GET_DAMAGE = 'm-b-get-dmg';
     const EVENT_MAGE_BEFORE_HEAL = 'm-b-heal';
     const EVENT_MAGE_AFTER_MOVE = 'm-a-move';
@@ -45,8 +50,12 @@ class Event
     protected static $withOwner = [
         self::EVENT_UNIT_GET_DAMAGE,
         self::EVENT_UNIT_AFTER_DYING,
+        self::EVENT_UNIT_BEFORE_TURN,
+        self::EVENT_UNIT_AFTER_TURN,
+        self::EVENT_UNIT_BEFORE_MOVE,
     ];
     protected static $bindings;
+    protected static $index;
     protected static $isUpdated = false;
 
     public static function trigger($eventName, $triggerData = [])
@@ -74,6 +83,13 @@ class Event
                         $class       = '\Ilfate\MageSurvival\Events\\' . $class;
                         $class::$method($triggerData, $eventData['data']);
                     }
+                    if (strpos($key, self::OWNER_SEPARATOR) !== false) {
+                        $indexArray = &self::$index['o'][$triggerData['owner']->getId()];
+                        unset($indexArray[array_search($key, $indexArray)]);
+                        if (!$indexArray) {
+                            unset(self::$index['o'][$triggerData['owner']->getId()]);
+                        }
+                    }
                     unset(self::$bindings[$key][$num]);
                     if (empty(self::$bindings[$key])) {
                         unset(self::$bindings[$key]);
@@ -91,13 +107,13 @@ class Event
             if (!is_object($data['target'])) {
                 throw new \Exception('Event target not found for "' . $eventName .'"');
             }
-            $key .= '-t-' . $data['target']->getId();
+            $key .= self::TARGET_SEPARATOR . $data['target']->getId();
         }
         if (in_array($eventName, self::$withOwner)) {
             if (!is_object($data['owner'])) {
                 throw new \Exception('Event owner not found for "' . $eventName .'"');
             }
-            $key .= '-o-' . $data['owner']->getId();
+            $key .= self::OWNER_SEPARATOR . $data['owner']->getId();
         }
         return $key;
     }
@@ -112,6 +128,12 @@ class Event
             unset($data[self::KEY_TARGET]);
         }
         if (isset($data[self::KEY_OWNER])) {
+            $ownerId = $data[self::KEY_OWNER]->getId();
+            if (empty(self::$index['o'][$ownerId])) {
+                self::$index['o'][$ownerId] = [];
+            }
+            self::$index['o'][$ownerId][] = $key;
+
             unset($data[self::KEY_OWNER]);
         }
         self::$bindings[$key][] = ['action' => $action, 'data' => $data];
@@ -120,11 +142,19 @@ class Event
     }
 
     public static function export() {
-        return self::$bindings;
+        return [
+            'bindings' => self::$bindings,
+            'index' => self::$index
+        ];
     }
 
     public static function import($actions) {
-        self::$bindings = $actions;
+        if (!empty($actions['bindings'])) {
+            self::$bindings = $actions['bindings'];
+        }
+        if (!empty($actions['index'])) {
+            self::$index = $actions['index'];
+        }
     }
 
     /**
@@ -141,6 +171,18 @@ class Event
     public static function update()
     {
         self::$isUpdated = true;
+    }
+
+    public static function removeEventsRelatedToUnit($unitId)
+    {
+        if (isset(self::$index['o'][$unitId])) {
+            foreach (self::$index['o'][$unitId] as $key) {
+                unset(self::$bindings[$key]);
+            }
+            unset(self::$index['o'][$unitId]);
+        }
+
+//        throw new \Exception('IMPLEMENT THAT');
     }
 
 //    public static function getBindingsByKey($key)
