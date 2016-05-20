@@ -30,6 +30,9 @@ use Ilfate\MageSurvival\Spells\Water;
  */
 class IceCrown extends Water
 {
+    protected $defaultCooldownMin = 3;
+    protected $defaultCooldownMax = 6;
+    
     protected $availablePatterns = [4];
 
     protected function spellEffect($data)

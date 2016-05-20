@@ -39,6 +39,8 @@ class Event
     const EVENT_UNIT_BEFORE_MOVE = 'u-b-move';
     const EVENT_UNIT_AFTER_TURN = 'u-a-turn';
     const EVENT_UNIT_BEFORE_TURN = 'u-b-turn';
+    const EVENT_UNIT_AFTER_ATTACK_MAGE = 'u-a-atk-mage';
+    const EVENT_MAGE_AFTER_ATTACKED_BY_UNIT = 'm-a-atk-byunit';
     const EVENT_MAGE_BEFORE_GET_DAMAGE = 'm-b-get-dmg';
     const EVENT_MAGE_BEFORE_HEAL = 'm-b-heal';
     const EVENT_MAGE_AFTER_MOVE = 'm-a-move';
@@ -53,6 +55,7 @@ class Event
         self::EVENT_UNIT_BEFORE_TURN,
         self::EVENT_UNIT_AFTER_TURN,
         self::EVENT_UNIT_BEFORE_MOVE,
+        self::EVENT_UNIT_AFTER_ATTACK_MAGE,
     ];
     protected static $bindings;
     protected static $index;

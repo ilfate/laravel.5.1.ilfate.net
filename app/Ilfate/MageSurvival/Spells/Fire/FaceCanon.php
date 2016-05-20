@@ -41,7 +41,7 @@ class FaceCanon extends Fire
     protected function spellEffect($data)
     {
         foreach($this->targets as $target) {
-            $damage = mt_rand(1, 6);
+            $damage = mt_rand(1, 3);
             /**
              * @var Unit $target
              */

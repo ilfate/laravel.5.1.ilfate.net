@@ -196,7 +196,7 @@ abstract class Spell
         $allPossibleSpells = $spellsConfig['list'][$schoolId];
         $baseSumValue = $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE];
         $game->addMessage('Base value = ' . $baseSumValue);
-        $translatedSumValue = 9;//GameBuilder::getGame()->getMage()->translateItemValueForMage($baseSumValue);
+        $translatedSumValue = GameBuilder::getGame()->getMage()->translateItemValueForMage($baseSumValue);
         $game->addMessage('Translated value = ' . $translatedSumValue);
         $spellConfiguration = self::getSpellByValue($allPossibleSpells, $translatedSumValue);
         $spellName = $spellConfiguration['class'];
@@ -358,7 +358,7 @@ abstract class Spell
             }
             if (empty($this->configuration[self::CONFIG_NO_AUTO_ANIMATION_TRIGGER])) {
                 $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
-                    'spell' => $this->configuration['class'], 'd' => $this->d
+                    'spell' => $this->configuration['class'], 'd' => $this->d, 'patternId' => $this->config[self::CONFIG_FIELD_PATTERN], 'pattern' => $this->pattern
                 ], $this->getNormalCastStage());
                 $this->setEffectStage();
             }

@@ -6,7 +6,7 @@ return array(
 //AggressiveMelee
     'list' => [
         1 => [
-            'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 8,
+            'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 1,
             'behaviour' => 'Passive', 'aggressiveRange' => 4, 'attacks' => ['teeth'],
             'icon' => 'icon-mouse', 'loot' => 2
         ],
@@ -16,9 +16,14 @@ return array(
             'icon' => 'icon-police-target', 'iconColor' => 'color-dark-blue'
         ],
         3 => [
-            'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 3,
+            'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 25,
             'behaviour' => 'Passive',
             'icon' => 'icon-police-target', 'iconColor' => 'color-red'
+        ],
+        4 => [
+            'name' => 'Spider', 'class' => 'Rodents\\Spider', 'health' => 4,
+            'behaviour' => 'AggressiveRange', 'aggressiveRange' => 6, 'attacks' => ['teeth2', 'web'],
+            'icon' => 'icon-spider'//, 'iconColor' => 'color-red'
         ],
         1001 => [
             'name' => 'Fire imp', 'class' => 'Friendly\\FireImp', 'health' => 3,
@@ -43,14 +48,16 @@ return array(
             // Range from world center
 
             /* 0 - 3 */        3 => [],
-            /* 3 - 10 */      10 => [1],
-            /* 10 - 20 */     20 => [1],
-            /* 20 - 30 */    30 => [1],
-            /* 30 - 9999999 */9999999 => [1],
+            /* 3 - 10 */      10 => [1, 4],
+            /* 10 - 20 */     20 => [1, 4],
+            /* 20 - 30 */    30 => [1, 4],
+            /* 30 - 9999999 */9999999 => [1, 4],
         ],
     ],
     'attacks' => [
         'teeth' => ['range' => 1.9, 'damage' => 1, 'animation' => 'bite'],
+        'teeth2' => ['range' => 1.9, 'damage' => 2, 'animation' => 'bite'],
+        'web' => ['range' => 3.2, 'damage' => 0, 'animation' => 'web', 'class' => 'Web', 'charges' => 1],
         'fireSpit' => ['range' => 2.5, 'damage' => 2, 'animation' => 'fireSpit'],
         'spawn' => ['range' => 4, 'damage' => 0, 'animation' => 'spawn', 'class' => 'Spawn'],
     ],

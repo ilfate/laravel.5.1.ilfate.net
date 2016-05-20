@@ -40,6 +40,7 @@ class Game
 
     const EVENT_NAME_MAGE_ROTATE        = 'mage-rotate';
     const EVENT_NAME_UNIT_MOVE          = 'unit-move';
+    const EVENT_NAME_UNIT_ROTATE        = 'unit-rotate';
     const EVENT_NAME_UNIT_ATTACK        = 'unit-attack';
     const EVENT_NAME_UNIT_DAMAGE        = 'unit-damage';
     const EVENT_NAME_UNIT_REMOVE_STATUS = 'unit-remove-status';

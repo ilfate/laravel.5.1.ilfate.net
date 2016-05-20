@@ -94,6 +94,10 @@ class WorldGeneratorWitchForest extends WorldGenerator
             self::CELL_FOREST_3    => self::CELL_FIELD_3,
         ]
     ];
+    
+    protected $water = [
+        self::CELL_RIVER,
+    ];
 
     protected static $generatorConfig = [
         'spawnLocation' => [

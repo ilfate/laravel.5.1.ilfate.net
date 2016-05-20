@@ -93,7 +93,8 @@ MageS.Spells.Water = function (game, spells) {
         var options = {
             time:400,
             randomRange:MageS.Game.cellSize * MageS.Game.rem,
-            delayRange:300
+            delayRange:300,
+            scale: 0.25
         };
         var toX = data.targetX;
         var toY = data.targetY;
@@ -108,7 +109,7 @@ MageS.Spells.Water = function (game, spells) {
                 x = Math.round((Math.random() * 10) - 5);
             }
             options.from = [x, y];
-            this.createIceFlake(x, y, toX, toY, options);
+            this.spells.moveIcon('icon-snowflake-1', 'color-white', x, y, toX, toY, options);
         }
 
         setTimeout(function () {
@@ -116,52 +117,21 @@ MageS.Spells.Water = function (game, spells) {
         }, 800)
     };
 
-    this.createIceFlake = function(fromX, fromY, toX, toY, options) {
-        var delay = 0;
-        if (options.delay === undefined) {
-            var delayRange = 400;
-            if (options.delayRange !== undefined) { delayRange = options.delayRange; }
-            delay = Math.random() * delayRange;
-        } else {
-            delay = options.delay;
-        }
-        setTimeout(function(){
-            var flake = MageS.Game.spells.createIcon('icon-snowflake-1', 'color-white');
-            $('.animation-field').append(flake);
-            var coordMultiplaer = MageS.Game.cellSize * MageS.Game.rem;
-            var randomRange = coordMultiplaer;
-            if (options.randomRange !== undefined) {
-                randomRange = options.randomRange;
-            }
-            fromX = (fromX * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
-            fromY = (fromY * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
-            flake.css({opacity:0,'margin-left':fromX, 'margin-top':fromY}); //'height': 0.25 * coordMultiplaer
-            flake[0].style.transform = 'scale(0.25, 0.25)';
-            var svg = flake.find('svg');
-            // svg.css({'width':0.25 * coordMultiplaer, 'height': 0.25 * coordMultiplaer, 'line-height': (0.25 * coordMultiplaer) + 'px'});
-            flake.animate({opacity:1},{duration:50});
-            toX = (toX * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
-            toY = (toY * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
-            info(toY);
-            flake.animate({'margin-left':toX, 'margin-top':toY}, {queue:false, duration:options.time});
-            svg.animateRotate(0, 720, options.time);
-            setTimeout(function(){
-                flake.fadeOut(50);
-            }, options.time - 50);
-        }, delay);
-    };
+    
 
     this.finishIceWall = function(data) {
         this.finishStandartWater();
-        var options = {time:500, randomRange:MageS.Game.cellSize * 3 * MageS.Game.rem};
+        var options = {time:500, randomRange:MageS.Game.cellSize * 1.5 * MageS.Game.rem, scale: 0.25};
+        var range = 3;
+        if (data.patternId == 14) { range = 2; }
         switch (data.d) {
-            case 0: var fromX = 4;  var fromY = -3; var toX = -3; var toY = -3; break;
-            case 1: var fromX = 3;  var fromY = -4; var toX = 3;  var toY = 3; break;
-            case 2: var fromX = 4;  var fromY = 3;  var toX = -3; var toY = 3; break;
-            case 3: var fromX = -3; var fromY = -4; var toX = -3; var toY = 3; break;
+            case 0: var fromX = 4;      var fromY = -range; var toX = -3;     var toY = -range; break;
+            case 1: var fromX = range;  var fromY = -4;     var toX = range;  var toY = 3; break;
+            case 2: var fromX = 4;      var fromY = range;  var toX = -3;     var toY = range; break;
+            case 3: var fromX = -range; var fromY = -4;     var toX = -range; var toY = 3; break;
         }
         for (var i = 0; i < 20; i ++) {
-            this.createIceFlake(fromX, fromY, toX, toY, options);
+            this.spells.moveIcon('icon-snowflake-1', 'color-white', fromX, fromY, toX, toY, options);
         }
 
         setTimeout(function () {
@@ -206,6 +176,79 @@ MageS.Spells.Water = function (game, spells) {
         setTimeout(function () {
             MageS.Game.spells.endSpellAnimation();
         }, 900)
+    };
+
+    this.finishIceCone = function(data) {
+        this.finishStandartWater();
+
+        var options = {time:400, randomRange:MageS.Game.cellSize * MageS.Game.rem, scale:0.25};
+        var possibleCells = [];
+        for (var n in data.pattern) {
+            if (Math.abs(data.pattern[n][0]) + Math.abs(data.pattern[n][1]) > 2) {
+                possibleCells.push([data.pattern[n][0], data.pattern[n][1]]);
+            }
+        }
+
+        var cell = [];
+        for (var i = 0; i < 20; i ++) {
+            cell = array_rand(possibleCells);
+            this.spells.moveIcon('icon-snowflake-1', 'color-white', 0, 0, cell[0], cell[1], options);
+        }
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 800)
+    };
+
+    this.finishWashAndGo = function(data) {
+        this.finishStandartWater();
+
+        var options = {beamWidth:20};
+
+        var colors = [
+            '#529BCA', '#37A4F9', '#ffffff'
+        ];
+        var color = '';
+        var lines = [
+            'icon-bullet-line-small-curve-right', 'icon-bullet-line-small-curve-left', 'icon-bullet-line', 'icon-bullet-sinus'
+        ];
+        var line = '';
+        for (var i = 0; i < 10; i ++) {
+            color = array_rand(colors);
+            line = array_rand(lines);
+            this.spells.beam(
+                data.targetX + (Math.random() * 0.5) - 0.25,
+                data.targetY + (Math.random() * 0.5) - 0.25,
+                0,
+                0,
+                color,
+                line,
+                options);
+        }
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 800)
+    };
+
+    this.finishBlizzard = function(data) {
+        this.finishStandartWater();
+
+        var options = {
+            scale:0.25,
+            time:300,
+            rotateDistance: 180,
+            rangeRandom:2,
+            rangeMove: 1
+        };
+        for (var i = 0; i < 70; i ++) {
+            options.delay = Math.random() * 1200;
+            this.spells.spinIcon('icon-snowflake-1', 'color-white', 2, options);
+        }
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1500)
     };
 
     this.startIceCrown = function() {

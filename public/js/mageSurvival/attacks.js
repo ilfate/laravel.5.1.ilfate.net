@@ -30,6 +30,9 @@ MageS.Attacks = function (game) {
             case 'fireSpit':
                 this.fireSpit(attackId);
                 break;
+            case 'web':
+                this.web(attackId);
+                break;
             default:
                 info('there is no attack animation for ' + data.attack.animation);
                 MageS.Game.attacks.finishAttack(attackId);
@@ -42,6 +45,17 @@ MageS.Attacks = function (game) {
         MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818');
         MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818', 'icon-bullet-line-small-curve-right');
         MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#F07818', 'icon-bullet-line-small-curve-left');
+
+        setTimeout(function() {
+            MageS.Game.attacks.finishAttack(id);
+        }, 800);
+    };
+
+    this.web = function(id) {
+        var data = this.attacks[id].data;
+        var options = {time:700};
+        MageS.Game.spells.moveIcon('icon-spider-web', 'color-white', data.fromX, data.fromY, data.targetX, data.targetY, options);
+
 
         setTimeout(function() {
             MageS.Game.attacks.finishAttack(id);

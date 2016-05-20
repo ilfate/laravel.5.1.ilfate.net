@@ -111,6 +111,11 @@ function array_shuffle(a) {
     }
 }
 
+function array_rand(array)
+{
+    return array[Math.floor(Math.random()*array.length)];
+}
+
 // Converts from degrees to radians.
 Math.radians = function(degrees) {
     return degrees * Math.PI / 180;

@@ -31,36 +31,33 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class IceWall extends Water
+class IceCone extends Water
 {
-    protected $defaultCooldownMin = 3;
-    protected $defaultCooldownMax = 4;
-    
-    protected $availablePatterns = [14, 15];
+    protected $availablePatterns = [16, 17, 18];
 
     protected function spellEffect($data)
     {
-        foreach ($this->affectedCells as $affectedCell) {
-            if ($unit = $this->world->getUnit($affectedCell[0], $affectedCell[1])) {
+        foreach ($this->targets as $target) {
+            /**
+             * @var Unit $target
+             */
+
+            if (!$target->getFlag(Unit::FLAG_FROZEN)) {
                 Event::create(
                     Event::EVENT_UNIT_BEFORE_TURN, [
-                    Event::KEY_TIMES => 5,
-                    Event::KEY_OWNER => $unit,
+                    Event::KEY_TIMES       => 2,
+                    Event::KEY_OWNER       => $target,
                     Event::KEY_ON_COMPLETE => 'Water:RemoveFreeze'
                 ],
                     'Water:Freeze');
-                $unit->addFlag(Unit::FLAG_FROZEN);
+                $target->addFlag(Unit::FLAG_FROZEN);
                 GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
-                    ['flags' => [Unit::FLAG_FROZEN => true], 'id' => $unit->getId()],
-                    Game::ANIMATION_STAGE_MAGE_ACTION_3);
-            } else if ($this->world->isPassable($affectedCell[0], $affectedCell[1])) {
-                $object = $this->world->addObject(5, $affectedCell[0], $affectedCell[1]);
-                if ($object) {
-                    GameBuilder::animateEvent(Game::EVENT_NAME_ADD_OBJECT,
-                        ['object' => $object->exportForView()],
-                        Game::ANIMATION_STAGE_MAGE_ACTION_3);
-                }
-            }   
+                    ['flags' => [Unit::FLAG_FROZEN => true], 'id' => $target->getId()],
+                    Game::ANIMATION_STAGE_MAGE_ACTION_2);
+            }
+
+            $damage = mt_rand(1, 2);
+            $target->damage($damage, $this->getNormalCastStage());
         }
         
         

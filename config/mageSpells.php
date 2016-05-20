@@ -144,6 +144,38 @@ return array(
                 'iconColor' => 'color-dark-blue',
                 'directTargetSpell' => 'enemy',
             ],
+            5 => [
+                'name' => 'Ice cone',
+                'class' => 'IceCone',
+                'description' => 'Deal 1-2 damage and freeze targets for a short time in area.',
+                'iconClass' => 'icon-icicles-fence',
+                'iconColor' => 'color-dark-blue',
+            ],
+            6 => [
+                'name' => 'Wash and go',
+                'class' => 'WashAndGo',
+                'description' => 'If you stand near the water, heal yourself for 30% of your maximum health.',
+                'iconClass' => 'icon-drowning-2',
+                'iconColor' => 'color-dark-blue',
+                'noTargetSpell' => true,
+                'noAutoAnimationTrigger' => true,
+            ],
+            7 => [
+                'name' => 'Blizzard',
+                'class' => 'Blizzard',
+                'description' => 'Not the company! Real blizzard all around the field!',
+                'iconClass' => 'icon-dust-cloud',
+                'iconColor' => 'color-dark-blue',
+                'noTargetSpell' => true,
+            ],
+            8 => [
+                'name' => 'Ice shield',
+                'class' => 'IceShield',
+                'description' => 'Protect yourself with lots of ice!',
+                'iconClass' => 'icon-ice-shield',
+                'iconColor' => 'color-dark-blue',
+                'noTargetSpell' => true,
+            ],
         ],
         3 => [ // air
             0 => [

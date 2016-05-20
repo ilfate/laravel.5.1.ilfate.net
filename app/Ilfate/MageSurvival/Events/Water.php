@@ -62,8 +62,9 @@ class Water extends Event
 
         return $data;
     }
-    public static function Freeze($data) {
-        $data['no-move'] = true;
+    public static function Freeze($data)
+    {
+        $data['no-move']   = true;
         $data['skip-turn'] = true;
         return $data;
     }
@@ -76,6 +77,27 @@ class Water extends Event
         GameBuilder::getGame()->addAnimationEvent(Game::EVENT_NAME_UNIT_REMOVE_STATUS, [
             'id' => $unit->getId(), 'flag' => 'frozen'
         ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
+        return $data;
+
+    }
+    public static function iceShield($data) {
+        /**
+         * @var Unit $target
+         */
+        $target = $data['attacker'];
+
+        Event::create(
+            Event::EVENT_UNIT_BEFORE_TURN, [
+                Event::KEY_TIMES => 3,
+                Event::KEY_OWNER => $target,
+                Event::KEY_ON_COMPLETE => 'Water:RemoveFreeze'
+            ],
+            'Water:Freeze');
+        $target->addFlag(Unit::FLAG_FROZEN);
+        GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
+            ['flags' => [Unit::FLAG_FROZEN => true], 'id' => $target->getId()],
+            Game::ANIMATION_STAGE_UNIT_ACTION_3);
+
         return $data;
     }
 }

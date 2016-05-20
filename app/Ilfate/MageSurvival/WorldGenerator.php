@@ -47,6 +47,7 @@ abstract class WorldGenerator
     ];
     protected $walls = [];
     protected $destroyable = [];
+    protected $water = [];
 
     protected $visibleObjects = [];
     protected $visibleUnits = [];
@@ -396,6 +397,9 @@ abstract class WorldGenerator
        // nothing by default
     }
 
-
+    public function isWater($cell)
+    {
+        return in_array($cell, $this->water);
+    }
 
 }

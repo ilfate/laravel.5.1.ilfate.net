@@ -28,16 +28,13 @@ use Ilfate\MageSurvival\Spells\Water;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class IceSlide extends Water
+class IceShield extends Water
 {
-    protected $defaultCooldownMin = 0;
-    protected $defaultCooldownMax = 1;
-    
-    protected $availablePatterns = [4];
-
     protected function spellEffect($data)
     {
-        Event::create(Event::EVENT_MAGE_AFTER_MOVE, ['times' => 1], 'Water:iceSlide');
+        $this->mage->armor(mt_rand(5, 10), $this->getNormalCastStage());
+
+        Event::create(Event::EVENT_MAGE_AFTER_ATTACKED_BY_UNIT, ['times' => 3], 'Water:iceShield');
         return true;
     }
 }

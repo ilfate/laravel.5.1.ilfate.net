@@ -12,6 +12,7 @@
  * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival;
+use Ilfate\MageSurvival\Attacks\AbstractAttack;
 
 /**
  * TODO: Short description.
@@ -26,7 +27,7 @@ namespace Ilfate\MageSurvival;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-abstract class Unit implements AliveInterface
+abstract class Unit extends AliveCommon
 {
     const DATA_KEY_IS_HOSTILE = 'is_h';
 
@@ -37,15 +38,11 @@ abstract class Unit implements AliveInterface
     const CONFIG_KEY_BEHAVIOUR = 'behaviour';
     const CONFIG_KEY_SECONDARY_BEHAVIOUR = 'secondaryBehaviour';
 
-    const DATA_FLAG_KEY = 'f';
-    const FLAG_FROZEN = 'frozen';
-    const FLAG_BURN = 'burn';
-
     protected $id;
     protected $type;
     protected $x;
     protected $y;
-    protected $d;
+    protected $d = 0;
     protected $was;
     protected $data;
 
@@ -63,10 +60,7 @@ abstract class Unit implements AliveInterface
      * @var Game
      */
     protected $game;
-    /**
-     * @var World
-     */
-    protected $world;
+    
     /**
      * @var Mage
      */
@@ -83,6 +77,7 @@ abstract class Unit implements AliveInterface
     protected $config;
     protected $currentBehaviour = 0;
     protected $temporaryData = [];
+    protected $cachePossibleAttack = [];
 
     public function __construct(World $world, Mage $mage, $x, $y, $type, $id = null, $data = null)
     {
@@ -225,10 +220,12 @@ abstract class Unit implements AliveInterface
 
     public function export()
     {
+        $data = $this->getData();
+        $data['d'] = $this->d;
         return [
             'id' => $this->getId(),
             'type' => $this->getType(),
-            'data' => $this->getData(),
+            'data' => $data,
         ];
     }
     public function exportForView()
@@ -240,6 +237,11 @@ abstract class Unit implements AliveInterface
             'icon' => $this->config['icon'],
             'iconColor' => isset($this->config['iconColor']) ? $this->config['iconColor'] : '',
         ];
+    }
+    
+    public function  update()
+    {
+        $this->world->updateUnit($this);
     }
 
     /**
@@ -266,7 +268,8 @@ abstract class Unit implements AliveInterface
                     break;
                 }
                 list($d, $x, $y) = $nextMove;
-                $this->move($x, $y);
+                $this->rotate($d, Game::ANIMATION_STAGE_UNIT_ACTION);
+                $this->move($x, $y, Game::ANIMATION_STAGE_UNIT_ACTION_2);
                 break;
             case Behaviour::ACTION_JUMP_TO:
                 $landing = $this->getTemporaryDataValue('landing');
@@ -298,29 +301,44 @@ abstract class Unit implements AliveInterface
         }
     }
 
-    public function attack($attackConfig, AliveInterface $target)
+    public function attack($attackConfig, AliveCommon $target)
     {
         if (!empty($attackConfig['class'])) {
             $className = '\Ilfate\MageSurvival\Attacks\\' . $attackConfig['class'];
+            /**
+             * @var AbstractAttack $attack
+             */
             $attack = new $className($this, $target, $attackConfig);
             $attack->trigger();
-            return;
+        } else {
+            // well it should be already checked that attack is possible
+            $target->damage($attackConfig['damage'], Game::ANIMATION_STAGE_UNIT_ACTION_3);
+            $mX = $this->mage->getX();
+            $mY = $this->mage->getY();
+            GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_ATTACK, [
+                'attack'  => $attackConfig,
+                'targetX' => $target->getX() - $mX,
+                'targetY' => $target->getY() - $mY,
+                'fromX'   => $this->getX() - $mX,
+                'fromY'   => $this->getY() - $mY
+            ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
         }
-        // well it should be already checked that attack is possible
-        $target->damage($attackConfig['damage'], Game::ANIMATION_STAGE_UNIT_ACTION_3);
-        $mX = $this->mage->getX();
-        $mY = $this->mage->getY();
-        GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_ATTACK, [
-            'attack' => $attackConfig,
-            'targetX' => $target->getX() - $mX,
-            'targetY' => $target->getY() - $mY,
-            'fromX' => $this->getX() - $mX,
-            'fromY' => $this->getY() - $mY
-        ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
+        Event::trigger(Event::EVENT_UNIT_AFTER_ATTACK_MAGE, [Event::KEY_OWNER => $this]);
+        Event::trigger(Event::EVENT_MAGE_AFTER_ATTACKED_BY_UNIT, ['attacker' => $this]);
+        if (!empty($attackConfig['charges'])) {
+            if (empty($this->data['atk'][$attackConfig['name']])) {
+                $this->data['atk'][$attackConfig['name']] = 0;
+            }
+            $this->data['atk'][$attackConfig['name']] ++;
+            $this->world->updateUnit($this);
+        }
     }
 
-    public function getPossibleAttack($target)
+    public function getPossibleAttack(AliveCommon $target)
     {
+        if (isset($this->cachePossibleAttack[$target->getId()])) {
+            return $this->cachePossibleAttack[$target->getId()];
+        }
         $allAttacks = $this->config['attacks'];
 
         // check for cooldowns
@@ -328,14 +346,19 @@ abstract class Unit implements AliveInterface
         $distance = $this->world->getRealDistance($this, $target);
         $attackConfigs = [];
         foreach ($allAttacks as $attackName) {
-            $attack = \Config::get('mageUnits.attacks.' . $attackName);
+            $attackConfig = \Config::get('mageUnits.attacks.' . $attackName);
             $isPossible = true;
-            if ($distance > $attack['range']) $isPossible = false;
+            if (!empty($attackConfig['charges'])) { // Is this attack out of charges
+                if (!empty($this->data['atk'][$attackName]) && $this->data['atk'][$attackName] >= $attackConfig['charges']) {
+                    continue;
+                } 
+            }
+            if ($distance > $attackConfig['range']) $isPossible = false;
             // check for possibility to perform this attack
             if (!$isPossible) {
                 continue;
             }
-            $attackConfigs[$attackName] = $attack;
+            $attackConfigs[$attackName] = $attackConfig;
         }
 
         if (!$attackConfigs) {
@@ -344,6 +367,7 @@ abstract class Unit implements AliveInterface
         $attackName = array_rand($attackConfigs);
         $attackConfig = $attackConfigs[$attackName];
         $attackConfig['name'] = $attackName;
+        $this->cachePossibleAttack[$target->getId()] = $attackConfig;
         return $attackConfig;
     }
 
@@ -374,6 +398,17 @@ abstract class Unit implements AliveInterface
                 'x' => $x - $this->mage->getX(), 'y' => $y - $this->mage->getY(), 'id' => $this->getId()
             ], $stage);
         }
+    }
+    
+    public function rotate($d, $stage)
+    {
+        $wasD = $this->d;
+        if ($wasD == $d) return;
+        $this->d = $d;
+        GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_ROTATE, [
+            'id' => $this->getId(), 'd' => (int) $this->d, 'wasD' => (int) $wasD
+        ], $stage);
+        $this->world->updateUnit($this);
     }
 
     public function damage($value, $animationStage)
@@ -460,37 +495,7 @@ abstract class Unit implements AliveInterface
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getX()
-    {
-        return $this->x;
-    }
-
-    /**
-     * @param mixed $x
-     */
-    public function setX($x)
-    {
-        $this->x = $x;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getY()
-    {
-        return $this->y;
-    }
-
-    /**
-     * @param mixed $y
-     */
-    public function setY($y)
-    {
-        $this->y = $y;
-    }
+    
 
     /**
      * @return Mage
@@ -561,24 +566,8 @@ abstract class Unit implements AliveInterface
         return $this->alive;
     }
 
-    public function addFlag($flag, $value = true)
-    {
-        $this->data[self::DATA_FLAG_KEY][$flag] = $value;
-        $this->world->updateUnit($this);
-    }
     
-    public function removeFlag($flag)
-    {
-        unset($this->data[self::DATA_FLAG_KEY][$flag]);
-        $this->world->updateUnit($this);
-    }
-
-    public function getFlag($flag)
-    {
-        if (isset($this->data[self::DATA_FLAG_KEY][$flag])) {
-            return $this->data[self::DATA_FLAG_KEY][$flag];
-        }
-        return false;
-    }
+    
+    
 
 }

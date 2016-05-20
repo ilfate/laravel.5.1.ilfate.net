@@ -33,6 +33,9 @@ use Ilfate\MageSurvival\Unit;
  */
 class Freeze extends Water
 {
+    protected $defaultCooldownMin = 0;
+    protected $defaultCooldownMax = 2;
+
     protected $availablePatterns = [4];
 
     protected function spellEffect($data)

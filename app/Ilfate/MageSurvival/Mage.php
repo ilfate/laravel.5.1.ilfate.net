@@ -26,7 +26,7 @@ namespace Ilfate\MageSurvival;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-abstract class Mage implements AliveInterface
+abstract class Mage extends AliveCommon
 {
     const ITEM_TYPE_INGREDIENT = 'ingredient';
     const ITEM_TYPE_CATALYST = 'catalyst';
@@ -63,6 +63,7 @@ abstract class Mage implements AliveInterface
     public function __construct(\Ilfate\Mage $mageEntity, Game $game)
     {
         $this->setGame($game);
+        $this->world = $game->getWorld();
         $this->config = \Config::get('mageSurvival');
         $this->mageEntity = $mageEntity;
         $this->data = json_decode($mageEntity->data, true);
@@ -260,6 +261,13 @@ abstract class Mage implements AliveInterface
     public function moveAction($data) {
         if (!isset($data['d']) || $data['d'] > 3 || $data['d'] < 0 || !is_numeric($data['d'])) {
             throw new \Exception('For movement direction is missing');
+        }
+        if ($web = $this->getFlag('web')) {
+            if ($web >= $this->game->getTurn()) {
+                if (count($this->spells) > 0 && count($this->items) > 3) {
+                    throw new MessageException('Your are stuck in web for some time and can`t move for now.');
+                }
+            }
         }
         $x = $this->getX();
         $y = $this->getY();
@@ -610,38 +618,6 @@ abstract class Mage implements AliveInterface
     /**
      * @return mixed
      */
-    public function getX()
-    {
-        return $this->x;
-    }
-
-    /**
-     * @param mixed $x
-     */
-    public function setX($x)
-    {
-        $this->x = $x;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getY()
-    {
-        return $this->y;
-    }
-
-    /**
-     * @param mixed $y
-     */
-    public function setY($y)
-    {
-        $this->y = $y;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getD()
     {
         return $this->d ?: 0;
@@ -720,5 +696,27 @@ abstract class Mage implements AliveInterface
     {
         $this->mageEntity->world_id = 0;
         $this->update();
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxHealth()
+    {
+        return $this->maxHealth;
+    }
+    
+    public function setDataKey($key, $value)
+    {
+        $this->data[$key] = $value;
+        $this->update();
+    }
+    
+    public function getDataKey($key)
+    {
+        if (!empty($this->data[$key])) {
+            return $this->data[$key];
+        }
+        return null;
     }
 }

@@ -100,6 +100,9 @@ MageS.Animations = function (game) {
             case 'unit-move':
                 this.unitMoveAnimation(data.data);
                 break;
+            case 'unit-rotate':
+                this.unitRotateAnimation(data.data);
+                break;
             case 'unit-attack':
                 this.unitAttackAnimation(data.data);
                 break;
@@ -206,6 +209,10 @@ MageS.Animations = function (game) {
         }});
     };
     this.mageRotateAnimation = function(data) {
+        var el = $('.battle-border .mage');
+        this.rotate(el, data);
+    };
+    this.rotate = function(el, data) {
         var d = 0;
         var oldD = 0;
         switch (data.d) {
@@ -224,10 +231,11 @@ MageS.Animations = function (game) {
         if (oldD == 0 && d == 270) {
             oldD = 360;
         }
-        var el = $('.battle-border .mage');
-        var that = this;
+
         el.removeClass('d-' + data.d);
-        el.animateRotate(oldD, d, this.game.animationTime / 3, "swing", function(){
+        info('oldD=' + oldD);
+        info('d=' + d);
+        el.animateRotate(oldD, d, this.game.animationTime * 3, "swing", function(){
             $(this).addClass('d-' + data.d).data('d', data.d);
 
             MageS.Game.animations.singleAnimationFinished();
@@ -249,7 +257,7 @@ MageS.Animations = function (game) {
         if (unit.length < 1) {
             info('unit with ID = ' + data.id + ' was not on the map');
             // ok we don't have that unit at all.
-            var unit = this.game.drawUnit(data.data, data.oldX, data.oldY);
+            var unit = this.game.drawUnit(data, data.oldX, data.oldY);
             var oldX = data.oldX;
             var oldY = data.oldY;
         } else {
@@ -284,6 +292,10 @@ MageS.Animations = function (game) {
                 MageS.Game.animations.singleAnimationFinished();
             }
         )});
+    };
+    this.unitRotateAnimation = function(data) {
+        var unit = $('.battle-field.current .unit.id-' + data.id);
+        this.rotate(unit, data);
     };
     this.unitAttackAnimation = function(data) {
 
