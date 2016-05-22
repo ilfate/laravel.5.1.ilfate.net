@@ -23,18 +23,30 @@ return array(
         1 => [
             'name' => 'Tutorial',
             'map-type' => 'Tutorial',
+            'map-visual' => 'Tutorial',
             'is-available' => true,
         ],
         2 => [
             'name' => 'Witch forest',
             'map-type' => 'WitchForest',
+            'map-visual' => 'WitchForest',
             'is-available' => true,
         ],
         900 => [
             'name' => 'Battle Test',
             'map-type' => 'BattleTest',
+            'map-visual' => 'WitchForest',
             'is-available' => false,
             'is-admin' => true,
+            'is-delete-on-exit' => true,
+        ],
+        901 => [
+            'name' => 'SituationTest',
+            'map-type' => 'SituationTest',
+            'map-visual' => 'WitchForest',
+            'is-available' => false,
+            'is-admin' => true,
+            'is-delete-on-exit' => true,
         ],
     ],
     'objects' => [
@@ -44,6 +56,7 @@ return array(
             3 => ['name' => 'Chest', 'class' => 'BigChest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-blue'],
             4 => ['name' => 'Bomb', 'class' => 'Bomb', 'icon' => 'icon-fire-bomb', 'iconColor' => 'color-red'],
             5 => ['name' => 'Ice wall', 'class' => 'IceWall', 'icon' => 'icon-cracked-glass', 'iconColor' => 'color-blue-bright'],
+            6 => ['name' => 'Corpse2', 'class' => 'Corpse2', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay'],
             50 => ['name' => 'Door', 'class' => 'DoorQuest', 'icon' => 'icon-wooden-door', 'iconColor' => 'color-brown'],
             1000 => ['name' => 'Portal', 'class' => 'Portal', 'icon' => 'icon-magic-portal', 'iconColor' => 'color-black'],
         ],

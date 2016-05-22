@@ -96,6 +96,7 @@
 <script src="/js/mageSurvival/spells-water.js"></script>
 <script src="/js/mageSurvival/worlds.js"></script>
 <script src="/js/mageSurvival/objects.js"></script>
+<script src="/js/mageSurvival/units.js"></script>
 <script src="/js/mageSurvival/chat.js"></script>
 <script src="/js/mageSurvival/home.js"></script>
 <script src="/js/mageSurvival/spellcraft.js"></script>

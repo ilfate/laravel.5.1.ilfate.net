@@ -60,15 +60,20 @@
             width:$cell-size + rem;
             height:$cell-size + rem;
             z-index: 35;
-            .unit-status {
-                position: absolute;
-                width:$cell-size + rem;
-                height:$cell-size + rem;
-                z-index: 36;
-                opacity: 0.7;
-                &.under{
-                    z-index: 34;
-                }
+            .rotate-div {
+                width: 1px;height: 1px;
+                margin-left: ($cell-size / 2) + rem;
+                margin-top: ($cell-size / 2) + rem;
+            }
+        }
+        .unit-status {
+            position: absolute;
+            width:$cell-size + rem;
+            height:$cell-size + rem;
+            z-index: 36;
+            opacity: 0.7;
+            &.under{
+                z-index: 34;
             }
         }
         .damage {
@@ -166,24 +171,6 @@
     .cell.s  { background-color: green; }
 }
 .battle-border.WitchForest {
-    .cell.bl { background-color: darkolivegreen; }
-    .cell.t0 { background-color: darkolivegreen; }
-    .cell.tf { background-color: darkolivegreen; }
-    .cell.tF { background-color: darkolivegreen; }
-    .cell.t1 { background-color: darkolivegreen; }
-    .cell.t2 { background-color: darkolivegreen; }
-    .cell.t3 { background-color: darkolivegreen; }
-    .cell.t4 { background-color: darkolivegreen; }
-    .cell.f1 { background-color: darkolivegreen; }
-    .cell.f2 { background-color: darkolivegreen; }
-    .cell.f3 { background-color: darkolivegreen; }
-    .cell.f4 { background-color: #5e5e5e; }
-    .cell.s  { background-color: darkolivegreen; }
-    .cell.r1  { background-color: cornflowerblue; }
-    .cell.w1  { background-color: $mage-colors-clay }
-    .cell.w2  { background-color: #5e5e5e }
-}
-.battle-border.BattleTest {
     .cell.bl { background-color: darkolivegreen; }
     .cell.t0 { background-color: darkolivegreen; }
     .cell.tf { background-color: darkolivegreen; }

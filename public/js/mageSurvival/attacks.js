@@ -26,7 +26,11 @@ MageS.Attacks = function (game) {
             'data': data,
             'container': container
         };
+        $('.attacks-field').append(container);
         switch (data.attack.animation) {
+            case 'melee':
+                this.game.units.meleeAttack(data, container, attackId);
+                break;
             case 'fireSpit':
                 this.fireSpit(attackId);
                 break;

@@ -39,6 +39,7 @@ abstract class AliveCommon
     const DATA_FLAG_KEY = 'f';
     const FLAG_FROZEN = 'frozen';
     const FLAG_BURN = 'burn';
+    const FLAG_WEB = 'web';
     
     abstract public function update();
     abstract public function damage($value, $animationStage);
@@ -94,5 +95,21 @@ abstract class AliveCommon
     public function setY($y)
     {
         $this->y = $y;
+    }
+
+    /**
+     * @return World
+     */
+    public function getWorld()
+    {
+        return $this->world;
+    }
+
+    /**
+     * @param World $world
+     */
+    public function setWorld($world)
+    {
+        $this->world = $world;
     }
 }

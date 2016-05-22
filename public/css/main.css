@@ -3491,14 +3491,19 @@ body {
     width: 1.6rem;
     height: 1.6rem;
     z-index: 35; }
-    .mage-survival .battle-border .unit .unit-status {
-      position: absolute;
-      width: 1.6rem;
-      height: 1.6rem;
-      z-index: 36;
-      opacity: 0.7; }
-      .mage-survival .battle-border .unit .unit-status.under {
-        z-index: 34; }
+    .mage-survival .battle-border .unit .rotate-div {
+      width: 1px;
+      height: 1px;
+      margin-left: 0.8rem;
+      margin-top: 0.8rem; }
+  .mage-survival .battle-border .unit-status {
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    z-index: 36;
+    opacity: 0.7; }
+    .mage-survival .battle-border .unit-status.under {
+      z-index: 34; }
   .mage-survival .battle-border .damage {
     position: absolute;
     z-index: 80;
@@ -3609,39 +3614,6 @@ body {
 .battle-border.WitchForest .cell.w1 {
   background-color: #FCEBB6; }
 .battle-border.WitchForest .cell.w2 {
-  background-color: #5e5e5e; }
-
-.battle-border.BattleTest .cell.bl {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.t0 {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.tf {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.tF {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.t1 {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.t2 {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.t3 {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.t4 {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.f1 {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.f2 {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.f3 {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.f4 {
-  background-color: #5e5e5e; }
-.battle-border.BattleTest .cell.s {
-  background-color: darkolivegreen; }
-.battle-border.BattleTest .cell.r1 {
-  background-color: cornflowerblue; }
-.battle-border.BattleTest .cell.w1 {
-  background-color: #FCEBB6; }
-.battle-border.BattleTest .cell.w2 {
   background-color: #5e5e5e; }
 
 .battle-border.hut .cell.f4 {

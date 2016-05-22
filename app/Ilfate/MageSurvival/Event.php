@@ -44,6 +44,7 @@ class Event
     const EVENT_MAGE_BEFORE_GET_DAMAGE = 'm-b-get-dmg';
     const EVENT_MAGE_BEFORE_HEAL = 'm-b-heal';
     const EVENT_MAGE_AFTER_MOVE = 'm-a-move';
+    const EVENT_MAGE_AFTER_TURN = 'm-a-turn';
     const EVENT_MAGE_AFTER_OBJECT_ACTIVATE = 'm-a-o-actv';
 
     protected static $withTarget = [
@@ -74,9 +75,11 @@ class Event
             return $triggerData;
         }
         foreach (self::$bindings[$key] as $num => &$eventData) {
-            list($class, $method) = explode(':', $eventData['action']);
-            $class       = '\Ilfate\MageSurvival\Events\\' . $class;
-            $triggerData = $class::$method($triggerData, $eventData['data']);
+            if ($eventData['action']) {
+                list($class, $method) = explode(':', $eventData['action']);
+                $class       = '\Ilfate\MageSurvival\Events\\' . $class;
+                $triggerData = $class::$method($triggerData, $eventData['data']);
+            }
             if (isset($eventData['data'][self::KEY_TIMES])) {
                 $eventData['data'][self::KEY_TIMES]--;
                 self::update();
@@ -87,10 +90,12 @@ class Event
                         $class::$method($triggerData, $eventData['data']);
                     }
                     if (strpos($key, self::OWNER_SEPARATOR) !== false) {
-                        $indexArray = &self::$index['o'][$triggerData['owner']->getId()];
-                        unset($indexArray[array_search($key, $indexArray)]);
-                        if (!$indexArray) {
-                            unset(self::$index['o'][$triggerData['owner']->getId()]);
+                        if (!empty(self::$index['o'][$triggerData['owner']->getId()])) {
+                            $indexArray = &self::$index['o'][$triggerData['owner']->getId()];
+                            unset($indexArray[array_search($key, $indexArray)]);
+                            if (!$indexArray) {
+                                unset(self::$index['o'][$triggerData['owner']->getId()]);
+                            }
                         }
                     }
                     unset(self::$bindings[$key][$num]);
@@ -121,7 +126,7 @@ class Event
         return $key;
     }
 
-    public static function create($eventName, $data, $action)
+    public static function create($eventName, $data, $action = false)
     {
         $key = self::getEventKey($eventName, $data);
         if (empty(self::$bindings[$key])) {

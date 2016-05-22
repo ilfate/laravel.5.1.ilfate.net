@@ -63,7 +63,6 @@ abstract class Mage extends AliveCommon
     public function __construct(\Ilfate\Mage $mageEntity, Game $game)
     {
         $this->setGame($game);
-        $this->world = $game->getWorld();
         $this->config = \Config::get('mageSurvival');
         $this->mageEntity = $mageEntity;
         $this->data = json_decode($mageEntity->data, true);
@@ -124,6 +123,7 @@ abstract class Mage extends AliveCommon
 
     public function viewExport()
     {
+        $flags = empty($this->data[self::DATA_FLAG_KEY]) ? [] : $this->data[self::DATA_FLAG_KEY];
         $data = [
             'd' => $this->getD(),
             'health' => $this->getHealth(),
@@ -132,6 +132,7 @@ abstract class Mage extends AliveCommon
             'items' => $this->exportItems(),
             'spells' => $this->exportSpells(),
             'spellSchools' => $this->exportSchools(),
+            'flags' => $flags,
         ];
         return $data;
     }
@@ -694,6 +695,10 @@ abstract class Mage extends AliveCommon
 
     public function leaveWorld()
     {
+        $config = $this->world->getWorldConfig();
+        if (!empty($config['is-delete-on-exit'])) {
+            $this->world->destroy();
+        }
         $this->mageEntity->world_id = 0;
         $this->update();
     }

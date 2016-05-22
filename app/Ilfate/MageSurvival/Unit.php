@@ -232,6 +232,7 @@ abstract class Unit extends AliveCommon
     {
         return [
             'id' => $this->getId(),
+            'd' => $this->d,
             'type' => $this->getType(),
             'data' => $this->getData(),
             'icon' => $this->config['icon'],
@@ -326,12 +327,26 @@ abstract class Unit extends AliveCommon
         Event::trigger(Event::EVENT_UNIT_AFTER_ATTACK_MAGE, [Event::KEY_OWNER => $this]);
         Event::trigger(Event::EVENT_MAGE_AFTER_ATTACKED_BY_UNIT, ['attacker' => $this]);
         if (!empty($attackConfig['charges'])) {
-            if (empty($this->data['atk'][$attackConfig['name']])) {
-                $this->data['atk'][$attackConfig['name']] = 0;
-            }
-            $this->data['atk'][$attackConfig['name']] ++;
-            $this->world->updateUnit($this);
+            $this->spendAttackCharge($attackConfig);
         }
+    }
+    
+    protected function spendAttackCharge($attackConfig)
+    {
+        if (empty($this->data['atk'][$attackConfig['name']])) {
+            $this->data['atk'][$attackConfig['name']] = 0;
+        }
+        $this->data['atk'][$attackConfig['name']] ++;
+        
+        if ($this->data['atk'][$attackConfig['name']] >= $attackConfig['charges']) {
+            $this->chargesForAttackAreOver($attackConfig);
+        }
+        
+        $this->world->updateUnit($this);
+    }
+    
+    protected function chargesForAttackAreOver($attackConfig) {
+        // nothing here
     }
 
     public function getPossibleAttack(AliveCommon $target)
@@ -382,16 +397,18 @@ abstract class Unit extends AliveCommon
         $wasOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
         $this->x = $x;
         $this->y = $y;
-        $isOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
+        //$isOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
         $this->world->moveUnit($oldX, $oldY, $x, $y);
-        if ($isOutside) {
-            return;
-        }
+//        if ($isOutside) {
+//            return;
+//        }
         if ($wasOutside) {
             // unit was outside of view area but now entered the view
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_MOVE, [
-                'x' => $x - $this->mage->getX(), 'y' => $y - $this->mage->getY(), 'id' => $this->getId(),
-                'data' => $this->exportForView(), 'oldX' => $oldX - $this->mage->getX(), 'oldY' => $oldY - $this->mage->getY()
+                'id' => $this->getId(),
+                'x' => $x - $this->mage->getX(), 'y' => $y - $this->mage->getY(),
+                'oldX' => $oldX - $this->mage->getX(), 'oldY' => $oldY - $this->mage->getY(),
+                'data' => $this->exportForView(),
             ], $stage);
         } else {
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_MOVE, [
@@ -420,7 +437,7 @@ abstract class Unit extends AliveCommon
         ], $animationStage);
         if ($this->data['health'] < 1) {
             // Unit dead
-            $this->world->destroyUnit($this->x, $this->y, $this->getId());
+
             $this->dead($animationStage);
         } else {
             // unit damage
@@ -433,8 +450,9 @@ abstract class Unit extends AliveCommon
 
     public function dead($animationStage)
     {
+        $this->world->destroyUnit($this->x, $this->y, $this->getId());
         $this->alive = false;
-        GameBuilder::animateEvent('unit-kill', ['id' => $this->getId()], $animationStage);
+        GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_KILL, ['id' => $this->getId()], $animationStage);
         if (!empty($this->config['loot'])) {
             $object = $this->world->addObject($this->config['loot'], $this->getX(), $this->getY());
             if ($object) {

@@ -17,11 +17,12 @@ $(document).ready(function() {
         var spells = new MageS.Spells(MageS.Game);
         var worlds = new MageS.Worlds(MageS.Game);
         var objects = new MageS.Objects(MageS.Game);
+        var units = new MageS.Units(MageS.Game);
         var chat = new MageS.Chat(MageS.Game);
         var home = new MageS.Home(MageS.Game);
         var spellcraft = new MageS.Spellcraft(MageS.Game);
         var monimations = new MageS.Monimations(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells, worlds, objects, chat, home, spellcraft, animations, attacks, monimations);
+        MageS.Game.init(inventory, spellbook, spells, worlds, objects, units, chat, home, spellcraft, animations, attacks, monimations);
     }
 });
 
@@ -42,6 +43,7 @@ MageS.Game = function () {
     this.spells = {};
     this.worlds = {};
     this.objects = {};
+    this.units = {};
     this.chat = {};
     this.home = {};
     this.spellcraft = {};
@@ -62,7 +64,7 @@ MageS.Game = function () {
     this.rem = 20;
     this.mageInventorySize = 7 * this.itemSize + 0.9;
     this.mageMobileInventorySize = 6 * this.itemSize;
-    this.animationTime = 300;
+    this.animationTime = 350;
     this.battleFieldSize = (this.fieldRadius * 2 + 1) * this.cellSize;
 
     this.deviceCheck = function() {
@@ -76,13 +78,14 @@ MageS.Game = function () {
         }
     };
 
-    this.init = function (inventory, spellbook, spells, worlds, objects, chat, home, spellcraft, animations, attacks, monimations) {
+    this.init = function (inventory, spellbook, spells, worlds, objects, units, chat, home, spellcraft, animations, attacks, monimations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
         spells.init();
         this.worlds = worlds;
         this.objects = objects;
+        this.units = units;
         this.chat = chat;
         this.home = home;
         this.spellcraft = spellcraft;
@@ -556,7 +559,7 @@ MageS.Game = function () {
     this.buildUnits = function() {
         for(var y in this.rawData.units) {
             for(var x in this.rawData.units[y]) {
-                this.drawUnit(this.rawData.units[y][x], x, y);
+                this.units.drawUnit(this.rawData.units[y][x], x, y);
             }
         }
     };
@@ -685,55 +688,7 @@ MageS.Game = function () {
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
         return obj;
     };
-
-    this.drawUnit = function(unit, x, y, target) {
-        if (!target) {
-            target = '.battle-field.current';
-        }
-        var temaplate = $('#template-unit').html();
-        Mustache.parse(temaplate);
-        var rendered = Mustache.render(temaplate, {'id': unit.id, 'type': unit.type});
-        var obj = $(rendered);
-        var icon = $(this.svg).find('#' + unit.icon + ' path');
-        obj.find('svg').append(icon.clone());
-        if (unit.iconColor !== undefined) { obj.find('.svg').addClass(unit.iconColor); }
-        $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
-        if (unit.data.f !== undefined) {
-
-            this.addUnitStatusIcons(obj, unit.data.f);
-        }
-
-        return obj;
-    };
-
-    this.addUnitStatusIcons = function(unit, flags) {
-        var iconName = '';
-        var color = '';
-        var addClass = '';
-        for(var flag in flags) {
-            switch (flag) {
-                case 'frozen':
-                    iconName = 'icon-cracked-glass';
-                    color = '#37A4F9';
-                    break;
-                case 'burn':
-                    iconName = 'icon-flame-tunnel';
-                    color = '#FF8360';
-                    addClass = 'under';
-                    break;
-                default :
-                    info('Flag "' + flag + '" is not implemented');
-                    return;
-                    break;
-            }
-
-            var div = $('<div class="svg flag-' + flag + ' ' + addClass + ' unit-status"><svg viewBox="0 0 512 512"></svg></div>');
-            var icon = $(this.svg).find('#' + iconName + ' path').css({'fill': color});
-            div.find('svg').append(icon.clone());
-            unit.prepend(div);
-        }
-    };
-
+    
     this.drawMage = function(mageConf) {
         var temaplate = $('#template-mage').html();
         Mustache.parse(temaplate);
@@ -745,13 +700,15 @@ MageS.Game = function () {
         obj.animateRotate(0, mageConf.d * 90, 10);
 
         $('.mage-container').prepend(obj);
-
+        if (mageConf.flags) {
+            this.addMageStatus(mageConf.flags);
+        }
     };
 
-
-
-
-
+    this.addMageStatus = function(flags) {
+        this.units.addFlag($('.mage-container .mage'), flags);
+    };
+    
     this.itemsMessage = function(message, strong) {
         var temaplate = $('#template-alert-items').html();
         Mustache.parse(temaplate);

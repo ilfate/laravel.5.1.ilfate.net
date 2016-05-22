@@ -33,6 +33,7 @@ class World
     protected $unitsInited;
     protected $type;
     protected $events = [];
+    protected $worldConfig = [];
 
     protected $isWorldChanged = false;
 
@@ -51,6 +52,7 @@ class World
         $this->objects = json_decode($mageWorld->objects, true);
         $this->units = json_decode($mageWorld->units, true);
         $this->type = $mageWorld->type;
+        $this->worldConfig = \Config::get('mageSurvival.worlds.' . $this->type);
 
         Event::import(json_decode($mageWorld->events, true));
     }
@@ -504,6 +506,19 @@ class World
             case 3: $x -= 1; break;
         }
         return [$x, $y];
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getWorldConfig()
+    {
+        return $this->worldConfig;
+    }
+
+    public function destroy()
+    {
+        $this->mageWorldEntity->delete();
     }
 
 }

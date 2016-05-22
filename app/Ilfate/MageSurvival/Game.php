@@ -39,17 +39,20 @@ class Game
     const ACTION_SPELL           = 'spell';
 
     const EVENT_NAME_MAGE_ROTATE        = 'mage-rotate';
+    const EVENT_NAME_MAGE_DAMAGE        = 'mage-damage';
+    const EVENT_NAME_MAGE_SPELL_CAST    = 'mage-spell-cast';
+    const EVENT_NAME_MAGE_HEAL          = 'mage-heal';
+    const EVENT_NAME_MAGE_ADD_ARMOR     = 'mage-add-armor';
+    const EVENT_NAME_MAGE_ADD_STATUS    = 'mage-add-status';
+    const EVENT_NAME_MAGE_REMOVE_STATUS = 'mage-remove-status';
+    const EVENT_NAME_MAGE_USE_PORTAL    = 'mage-use-portal';
     const EVENT_NAME_UNIT_MOVE          = 'unit-move';
+    const EVENT_NAME_UNIT_KILL          = 'unit-kill';
     const EVENT_NAME_UNIT_ROTATE        = 'unit-rotate';
     const EVENT_NAME_UNIT_ATTACK        = 'unit-attack';
     const EVENT_NAME_UNIT_DAMAGE        = 'unit-damage';
     const EVENT_NAME_UNIT_REMOVE_STATUS = 'unit-remove-status';
-    const EVENT_NAME_MAGE_SPELL_CAST    = 'mage-spell-cast';
     const EVENT_NAME_OBJECT_DESTROY     = 'object-destroy';
-    const EVENT_NAME_MAGE_DAMAGE        = 'mage-damage';
-    const EVENT_NAME_MAGE_HEAL          = 'mage-heal';
-    const EVENT_NAME_MAGE_ADD_ARMOR     = 'mage-add-armor';
-    const EVENT_NAME_MAGE_USE_PORTAL    = 'mage-use-portal';
     const EVENT_NAME_ADD_OBJECT         = 'add-object';
     const EVENT_NAME_ADD_UNIT           = 'add-unit';
     const EVENT_NAME_ADD_UNIT_STATUS    = 'add-unit-status';
@@ -141,7 +144,7 @@ class Game
         $data['map'] = $this->worldGenerator->exportMapForView($this->mage);
         $data['objects'] = $this->worldGenerator->exportVisibleObjects();
         $data['units'] = $this->worldGenerator->exportVisibleUnits();
-        $data['world'] = $this->config['worlds'][$this->world->getType()]['map-type'];
+        $data['world'] = $this->config['worlds'][$this->world->getType()]['map-visual'];
         $data['mage'] = $this->mage->viewExport();
         $data['item-types'] = $this->mage->getItemsConfig()['item-types'];
         $data['actions'] = $this->mage->getAllPossibleActions($this->world);
@@ -199,7 +202,7 @@ class Game
             $return['spells'] = $this->mage->getUpdatedSpells();
         }
 
-
+        Event::trigger(Event::EVENT_MAGE_AFTER_TURN);
         $this->nextTurn();
         $return['turn'] = $this->getTurn();
         $this->save();
@@ -308,6 +311,7 @@ class Game
         $this->worldGenerator = $this->getGenerator($world, $this->mage);
         $this->world = $world;
         $this->world->setGame($this);
+        $this->mage->setWorld($this->world);
     }
 
     public function getUserFlag($flagName)

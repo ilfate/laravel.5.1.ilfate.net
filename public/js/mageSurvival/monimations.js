@@ -157,6 +157,21 @@ MageS.Monimations = function (game) {
         }).run();
     };
 
+    this.swing = function(el, rotateAmplitude, time) { // rotate there and back
+        new mojs.Tween({
+            repeat:   0,
+            delay:    10,
+            duration: time,
+            onUpdate: function (progress) {
+                var wave50 = MageS.Game.monimations.wave50(progress) * 2;
+                el[0].style.transform = 'rotate(' + ((wave50 - 1) * rotateAmplitude) + 'deg)';
+            },
+            onComplete: function() {
+                el[0].style.transform = '';
+            }
+        }).run();
+    };
+
     this.skweezeSlow = function(el) {
         return new mojs.Tween({
             repeat:   999,
