@@ -406,7 +406,7 @@ MageS.Game = function () {
                     info(data.game.messages);
                     this.endAction();
                     if (this.spells.spellAnimationRunning) {
-                        this.spells.clearAnimationField();
+                        this.spells.stopAnimation = true;
                     }
                     break;
             }

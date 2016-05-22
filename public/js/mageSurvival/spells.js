@@ -10,6 +10,7 @@ MageS.Spells = function (game) {
     this.currentSpellName = '';
     this.isSecondPartWaiting = false;
     this.spellAnimationRunning = false;
+    this.stopAnimation = false;
     this.currentSpellData = {};
     this.savedData = [];
     this.fire = {};
@@ -117,6 +118,8 @@ MageS.Spells = function (game) {
     this.tryToEndFirstPart = function() {
         if (this.isSecondPartWaiting)  {
             this.continue(this.currentSpellName);
+        } else if (this.stopAnimation) {
+            this.clearAnimationField();
         } else {
             this.iterate(this.currentSpellName);
         }
@@ -132,9 +135,10 @@ MageS.Spells = function (game) {
         this.savedData = [];
         this.currentSpellName = '';
         this.isSecondPartWaiting = false;
+        this.stopAnimation = false;
         this.currentSpellData = {};
         this.spellAnimationRunning = false;
-    }
+    };
 
     this.createIcon = function(icon, color, rotate) {
         var iconEl = $(this.game.svg).find('#' + icon + ' path');
