@@ -341,12 +341,13 @@ abstract class Spell
             }
             $mageD = $this->mage->getD();
             $d = $this->fixDirection($mageD, $data['x'], $data['y']);
+            $this->rotatePattern($d, $data['x'], $data['y']);
             if ($mageD != $d) {
                 $this->mage->rotate($d, Game::ANIMATION_STAGE_MAGE_ACTION);
                 $this->setNexStage();
             }
             $this->d = $d;
-            $this->rotatePattern($d);
+
             $mageX = $this->mage->getX();
             $mageY = $this->mage->getY();
             foreach ($this->pattern as $patternCell) {
@@ -482,11 +483,35 @@ abstract class Spell
         return $this->id;
     }
 
-    public function rotatePattern($d)
+    public function rotatePattern($d, $x, $y)
     {
-        foreach ($this->pattern as &$patternCell) {
-            $patternCell = $this->rotatePatternCoordinats($patternCell[0], $patternCell[1], $d);
+        if (in_array([$x, $y], $this->pattern)) {
+            return; // no need to rotate
         }
+        $rotatedPattern = [];
+        foreach ($this->pattern as $patternCell) {
+            $rotatedPattern[] = $this->rotatePatternCoordinats($patternCell[0], $patternCell[1], $d);
+        }
+        if (in_array([$x, $y], $rotatedPattern)) {
+            $this->pattern = $rotatedPattern;
+            return;
+        }
+        // well
+        $directions = [1, 2, 3];
+        unset($directions[array_search($d, $directions)]);
+
+        foreach ($directions as $direction) {
+            $rotatedPattern = [];
+            foreach ($this->pattern as $patternCell) {
+                $rotatedPattern[] = $this->rotatePatternCoordinats($patternCell[0], $patternCell[1], $direction);
+            }
+            if (in_array([$x, $y], $rotatedPattern)) {
+                $this->pattern = $rotatedPattern;
+                return;
+            }
+        }
+        // wtf?
+        throw new MessageException('There was problems locating targets of your spell.');
     }
 
     public function rotatePatternCoordinats ($x, $y, $d) {
