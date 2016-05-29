@@ -2986,30 +2986,30 @@ body {
   height: 100%;
   z-index: 70;
   text-align: center; }
-.mage-survival .tooltip-spell-area, .mage-survival .tooltip-helper-area {
+.mage-survival .tooltip-spell-area, .mage-survival .tooltip-helper-area, .mage-survival .tooltip-unit-area {
   position: absolute;
   z-index: 80;
   color: #5E412F;
   font-size: 0.7rem; }
-.mage-survival .item-tooltip, .mage-survival .spell-tooltip {
+.mage-survival .item-tooltip, .mage-survival .spell-tooltip, .mage-survival .unit-tooltip {
   padding: 0.7rem;
   display: none;
   position: absolute;
   background-color: #FCEBB6; }
-  .mage-survival .item-tooltip .close, .mage-survival .spell-tooltip .close {
+  .mage-survival .item-tooltip .close, .mage-survival .spell-tooltip .close, .mage-survival .unit-tooltip .close {
     display: none; }
-  .mage-survival .item-tooltip .cast-button.text, .mage-survival .spell-tooltip .cast-button.text {
+  .mage-survival .item-tooltip .cast-button.text, .mage-survival .spell-tooltip .cast-button.text, .mage-survival .unit-tooltip .cast-button.text {
     display: none; }
-  .mage-survival .item-tooltip.hover, .mage-survival .spell-tooltip.hover {
+  .mage-survival .item-tooltip.hover, .mage-survival .spell-tooltip.hover, .mage-survival .unit-tooltip.hover {
     display: block; }
-  .mage-survival .item-tooltip.click, .mage-survival .spell-tooltip.click {
+  .mage-survival .item-tooltip.click, .mage-survival .spell-tooltip.click, .mage-survival .unit-tooltip.click {
     z-index: 81;
     display: block; }
-    .mage-survival .item-tooltip.click.noTargetSpell .cast-button.text, .mage-survival .spell-tooltip.click.noTargetSpell .cast-button.text {
+    .mage-survival .item-tooltip.click.noTargetSpell .cast-button.text, .mage-survival .spell-tooltip.click.noTargetSpell .cast-button.text, .mage-survival .unit-tooltip.click.noTargetSpell .cast-button.text {
       display: block; }
-  .mage-survival .item-tooltip .active, .mage-survival .spell-tooltip .active {
+  .mage-survival .item-tooltip .active, .mage-survival .spell-tooltip .active, .mage-survival .unit-tooltip .active {
     display: none; }
-    .mage-survival .item-tooltip .active .value, .mage-survival .spell-tooltip .active .value {
+    .mage-survival .item-tooltip .active .value, .mage-survival .spell-tooltip .active .value, .mage-survival .unit-tooltip .active .value {
       font-weight: bold; }
 .mage-survival .tooltip-helper-area .item-tooltip {
   margin: 3.2rem 0 0 3.2rem;
@@ -3019,6 +3019,11 @@ body {
 .mage-survival .tooltip-spell-area .spell-tooltip {
   height: 12.8rem;
   width: 12.8rem; }
+.mage-survival .tooltip-unit-area {
+  margin-top: -100%; }
+  .mage-survival .tooltip-unit-area .unit-tooltip {
+    height: 12.8rem;
+    width: 12.8rem; }
 .mage-survival .mage-profile .progress-bar-success {
   min-width: 1.5rem;
   background-color: #069E2D; }
@@ -3246,8 +3251,8 @@ body {
         font-size: 0.5rem;
         background-color: #FCEBB6;
         color: #5E412F;
-        padding-left: 0.1rem;
-        padding-right: 0.1rem; }
+        padding-left: 1px;
+        padding-right: 1px; }
       .mage-survival .spellBook .spells .spell .svg-icon {
         width: 1.8rem;
         height: 1.8rem; }
@@ -3375,6 +3380,8 @@ body {
   fill: #ff3f03; }
 .mage-survival .color-yellow svg.svg-icon path {
   fill: #FFD416; }
+.mage-survival .color-light-blue svg.svg-icon path {
+  fill: #77d2e1; }
 .mage-survival .color-blue svg.svg-icon path {
   fill: #529BCA; }
 .mage-survival .color-blue-bright svg.svg-icon path {
@@ -3439,15 +3446,11 @@ body {
     -webkit-transform: rotate(0deg); }
   100% {
     -webkit-transform: rotate(-360deg); } }
-.object {
+.object.openDoor {
+  transform: skewY(-20deg) scaleX(0.4) translate(1rem, 0px);
   -webkit-transition: all 0.5s linear;
   -o-transition: all 0.5s linear;
   transition: all 0.5s linear; }
-  .object.openDoor {
-    transform: skewY(-20deg) scaleX(0.4) translate(1rem, 0px);
-    -webkit-transition: all 0.5s linear;
-    -o-transition: all 0.5s linear;
-    transition: all 0.5s linear; }
 
 /* COLOR PALLETE */
 .mage-survival .battle-border {
@@ -3483,7 +3486,7 @@ body {
       overflow: visible; }
   .mage-survival .battle-border .dialog-field {
     position: absolute;
-    z-index: 40;
+    z-index: 20;
     width: 17.6rem;
     height: 17.6rem; }
   .mage-survival .battle-border .unit {
@@ -3545,11 +3548,14 @@ body {
       width: 1.6rem;
       height: 1.6rem;
       z-index: 31; }
-  .mage-survival .battle-field .object {
-    position: absolute;
-    width: 1.6rem;
-    height: 1.6rem;
-    z-index: 33; }
+.mage-survival .object {
+  position: absolute;
+  width: 1.6rem;
+  height: 1.6rem;
+  z-index: 33; }
+  .mage-survival .object.centered .rotate-div {
+    margin-left: 0.8rem;
+    margin-top: 0.8rem; }
 .mage-survival .unit-field {
   position: absolute;
   margin: 8rem 0 0 8rem;
@@ -3901,6 +3907,9 @@ body {
       height: 12.8rem; }
       .mage-survival .container.main #mobile-spell-info-container .spell-tooltip {
         height: 12.8rem; } }
+  @media (min-width: 49.6rem) {
+    .mage-survival .container.main .tooltip-unit-area {
+      margin-top: 0; } }
 
 .player-mage-list {
   width: 100%; }

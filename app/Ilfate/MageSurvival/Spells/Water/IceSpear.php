@@ -16,6 +16,7 @@ namespace Ilfate\MageSurvival\Spells\Water;
 use Ilfate\MageSurvival\Event;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Water;
 use Ilfate\MageSurvival\Unit;
 
@@ -49,7 +50,8 @@ class IceSpear extends Water
             if ($damage < 0) {
                 $damage = 0;
             }
-            $target->damage($damage, $this->getNormalCastStage());
+            $damage = $this->mage->getDamage($damage, Spell::ENERGY_SOURCE_WATER);
+            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_WATER);
 
         } else {
             Event::create(

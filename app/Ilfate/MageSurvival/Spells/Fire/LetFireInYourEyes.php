@@ -1,6 +1,7 @@
 <?php namespace Ilfate\MageSurvival\Spells\Fire;
 
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
 
@@ -37,7 +38,8 @@ class LetFireInYourEyes extends Fire
             ],
                 'Fire:Burn');
             $target->addFlag(Unit::FLAG_BURN);
-            $target->damage(2, $this->getNormalCastStage());
+            $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_FIRE);
+            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
             
         }
         return true;

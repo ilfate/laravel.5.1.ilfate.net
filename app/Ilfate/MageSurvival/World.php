@@ -31,6 +31,7 @@ class World
     protected $objects;
     protected $units;
     protected $unitsInited;
+    protected $objectsInited;
     protected $type;
     protected $events = [];
     protected $worldConfig = [];
@@ -128,11 +129,15 @@ class World
 
     public function getObject($x, $y)
     {
+        if (!empty($this->objectsInited[$y][$x])) {
+            return $this->objectsInited[$y][$x];
+        }
         if (empty($this->objects[$y][$x])) {
             return null;
         }
         $objectData = $this->objects[$y][$x];
-        return MapObject::createObjectFromData($this, $x, $y, $objectData);
+        $this->objectsInited[$y][$x] = MapObject::createObjectFromData($this, $x, $y, $objectData);
+        return $this->objectsInited[$y][$x];
     }
 
     public function deleteObject($x, $y)
@@ -227,7 +232,19 @@ class World
         unset($this->unitsInited[$fromY][$fromX]);
         unset($this->units[$fromY][$fromX]);
         $this->update();
+    }
 
+    public function moveObject($fromX, $fromY, $toX, $toY)
+    {
+        $object = $this->getObject($fromX, $fromY);
+        if (!empty($this->objects[$toY][$toX]) || !empty($this->objectsInited[$toY][$toX])) {
+            throw new \Exception('We are trying to move object to occupied cell');
+        }
+        $this->objectsInited[$toY][$toX] = $object;
+        $this->objects[$toY][$toX] = $object->export();
+        unset($this->objectsInited[$fromY][$fromX]);
+        unset($this->objects[$fromY][$fromX]);
+        $this->update();
     }
 
     public function destroyUnit($x, $y, $id)

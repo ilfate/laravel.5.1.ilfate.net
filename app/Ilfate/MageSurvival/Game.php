@@ -53,6 +53,7 @@ class Game
     const EVENT_NAME_UNIT_DAMAGE        = 'unit-damage';
     const EVENT_NAME_UNIT_REMOVE_STATUS = 'unit-remove-status';
     const EVENT_NAME_OBJECT_DESTROY     = 'object-destroy';
+    const EVENT_NAME_OBJECT_MOVE        = 'object-move';
     const EVENT_NAME_ADD_OBJECT         = 'add-object';
     const EVENT_NAME_ADD_UNIT           = 'add-unit';
     const EVENT_NAME_ADD_UNIT_STATUS    = 'add-unit-status';
@@ -69,6 +70,7 @@ class Game
     const ANIMATION_STAGE_UNIT_ACTION_2 = 'unit-action-2';
     const ANIMATION_STAGE_UNIT_ACTION_3 = 'unit-action-3';
     const ANIMATION_STAGE_TURN_END_EFFECTS = 'turn-end-effects';
+    const ANIMATION_STAGE_TURN_END_EFFECTS_2 = 'turn-end-effects-2';
 
     public static $stagesList = [
         self::ANIMATION_STAGE_MAGE_ACTION,
@@ -616,6 +618,7 @@ class Game
     public function addAllSpells()
     {
         $config = \Config::get('mageSpells');
+        $this->mage->deleteAllSpells();
         foreach ($config['list'] as $schoolId => $school) {
             foreach ($school as $number => $spell) {
                 Spell::addSpell(

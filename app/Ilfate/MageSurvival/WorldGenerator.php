@@ -53,7 +53,7 @@ abstract class WorldGenerator
     protected $visibleUnits = [];
     protected $notPassable = [];
     protected $activeUnits = [];
-
+    protected $activeObjects = [];
 
     public function __construct(World $world, Mage $mage)
     {
@@ -167,43 +167,41 @@ abstract class WorldGenerator
 
     public function getActiveUnits(Mage $mage)
     {
-        if ($this->activeUnits) {
-            return $this->activeUnits;
-        }
-        $centerX = $mage->getX();
-        $centerY = $mage->getY();
-        $radius = $this->config['game']['active-units-radius'];
-        for ($y = -$radius; $y <= $radius; $y++) {
-            for ($x = -$radius; $x <= $radius; $x++) {
-                $dX = $centerX + $x;
-                $dY = $centerY + $y;
-                if ($unit = $this->world->getUnit($dX, $dY)) {
-                    $this->activeUnits[] = $unit;
-                }
-            }
+        if (!$this->activeUnits) {
+            $this->getActiveUnitsAndObjects($mage);
         }
         return $this->activeUnits;
+    }
+    public function getActiveObjects(Mage $mage)
+    {
+        if (!$this->activeObjects) {
+            $this->getActiveUnitsAndObjects($mage);
+        }
+        return $this->activeObjects;
     }
 
     public function getActiveUnitsAndObjects(Mage $mage)
     {
-        $activeObjects = [];
-        $centerX = $mage->getX();
-        $centerY = $mage->getY();
-        $radius = $this->config['game']['active-units-radius'];
-        for ($y = -$radius; $y <= $radius; $y++) {
-            for ($x = -$radius; $x <= $radius; $x++) {
-                $dX = $centerX + $x;
-                $dY = $centerY + $y;
-                if ($unit = $this->world->getUnit($dX, $dY)) {
-                    $this->activeUnits[] = $unit;
-                }
-                if ($object = $this->world->getObject($dX, $dY)) {
-                    $activeObjects[] = $object;
+        if (!$this->activeUnits && !$this->activeObjects) {
+            $centerX             = $mage->getX();
+            $centerY             = $mage->getY();
+            $this->activeUnits   = [];
+            $this->activeObjects = [];
+            $radius              = $this->config['game']['active-units-radius'];
+            for ($y = -$radius; $y <= $radius; $y++) {
+                for ($x = -$radius; $x <= $radius; $x++) {
+                    $dX = $centerX + $x;
+                    $dY = $centerY + $y;
+                    if ($unit = $this->world->getUnit($dX, $dY)) {
+                        $this->activeUnits[] = $unit;
+                    }
+                    if ($object = $this->world->getObject($dX, $dY)) {
+                        $this->activeObjects[] = $object;
+                    }
                 }
             }
         }
-        return ['units' => $this->activeUnits, 'objects' => $activeObjects];
+        return ['units' => $this->activeUnits, 'objects' => $this->activeObjects];
     }
 
     public function getVisibleUnits(Mage $mage)

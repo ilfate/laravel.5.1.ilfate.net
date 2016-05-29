@@ -1,5 +1,6 @@
 /* COLOR PALLETE */
 
+$mage-colors-light-blue:#77d2e1;
 $mage-colors-blue:#529BCA;
 $mage-colors-blue-bright:#37A4F9;
 $mage-colors-black:#584D3D;
@@ -14,7 +15,6 @@ $mage-colors-grey-lighter:#999;
 $mage-colors-grey:#777;
 $mage-colors-grey-darker: #555;
 $mage-colors-gold: #F0A830;
-$mage-colors-light-blue:#ABCDEF;
 $mage-colors-red:#FF8360;
 $mage-colors-red-bright: #ff3f03;
 $mage-colors-orange: #F07818;
@@ -80,13 +80,13 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         z-index: 70;
         text-align: center;
     }
-    .tooltip-spell-area, .tooltip-helper-area {
+    .tooltip-spell-area, .tooltip-helper-area, .tooltip-unit-area {
         position:absolute;
         z-index: 80;
         color:$mage-colors-brown;
         font-size: 0.7rem;
     }
-    .item-tooltip, .spell-tooltip {
+    .item-tooltip, .spell-tooltip, .unit-tooltip {
         padding: 0.7rem;
         display: none;
         position:absolute;
@@ -126,6 +126,14 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
     }
     .tooltip-spell-area {
         .spell-tooltip {
+            height: $mage-inventory-size + rem;
+            width: $mage-inventory-size + rem;
+
+        }
+    }
+    .tooltip-unit-area {
+        margin-top: -100%;
+        .unit-tooltip {
             height: $mage-inventory-size + rem;
             width: $mage-inventory-size + rem;
 
@@ -403,8 +411,8 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
                     font-size: 0.5rem;
                     background-color: $color-clay;
                     color:$color-brawn;
-                    padding-left:0.1rem;
-                    padding-right:0.1rem;
+                    padding-left:1px;
+                    padding-right:1px;
                 }
                 .svg-icon {
                     width: $mobile-item-size + rem;
@@ -573,6 +581,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
     .color-red svg.svg-icon path { fill:$mage-colors-red }
     .color-red-bright svg.svg-icon path { fill:$mage-colors-red-bright }
     .color-yellow svg.svg-icon path { fill:$mage-colors-yellow }
+    .color-light-blue svg.svg-icon path { fill:$mage-colors-light-blue }
     .color-blue svg.svg-icon path { fill:$mage-colors-blue }
     .color-blue-bright svg.svg-icon path { fill:$mage-colors-blue-bright }
     .color-dark-blue svg.svg-icon path { fill:$mage-colors-dark-blue }

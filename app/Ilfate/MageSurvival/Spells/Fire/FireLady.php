@@ -15,6 +15,7 @@ namespace Ilfate\MageSurvival\Spells\Fire;
 
 use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Game;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\DamageSpell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
@@ -54,8 +55,8 @@ class FireLady extends Fire
         ], $this->getNormalCastStage());
         $this->setEffectStage();
 
-        $damage = rand(3, 5);
-        $target->damage($damage, $this->getNormalCastStage());
+        $damage = $this->mage->getDamage(mt_rand(1, 6), Spell::ENERGY_SOURCE_FIRE);
+        $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
 
         return true;
     }

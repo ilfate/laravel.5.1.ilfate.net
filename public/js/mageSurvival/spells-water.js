@@ -251,6 +251,96 @@ MageS.Spells.Water = function (game, spells) {
         }, 1500)
     };
 
+    this.finishIceShield = function(data) {
+        this.finishStandartWater();
+
+        var options = {
+            time:400,
+            randomRange:MageS.Game.cellSize * MageS.Game.rem,
+            delayRange:300,
+            scale: 0.25
+        };
+        var x = 0, y = 0, toY = 0, toX = 0;
+        for (var i = 0; i < 20; i ++) {
+
+            if (Math.random() > 0.5) {
+                if (Math.random() > 0.5) { x = 5; } else { x = -5 }
+                y = Math.round((Math.random() * 10) - 5);
+            } else {
+                if (Math.random() > 0.5) { y = 5; } else { y = -5 }
+                x = Math.round((Math.random() * 10) - 5);
+            }
+            options.from = [x, y];
+            this.spells.moveIcon('icon-snowflake-1', 'color-white', x, y, toX, toY, options);
+        }
+
+        var icon = this.spells.createIcon('icon-ice-shield', 'color-white');
+        $('.animation-field').append(icon);
+
+        MageS.Game.monimations.blastInScale(icon, 3, function(){}, 700);
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1000)
+    };
+
+    this.finishIcelock = function(data) {
+        this.finishStandartWater();
+
+        if (data.data.length == 0) {
+            MageS.Game.spells.endSpellAnimation();
+            info('there is no targets for Icelock');
+            return;
+        }
+
+        var options = {
+            segment2: ['100%', '110%'],
+            time:0.80,
+            delay:100
+        };
+        var possibleLines = [
+            'icon-bullet-line',
+            'icon-bullet-sinus',
+            'icon-bullet-sinus-2',
+            'icon-bullet-around-side-line',
+            'icon-bullet-simple-right-line',
+            'icon-bullet-simple-middle-line',
+            'icon-bullet-simple-middle-line-2',
+            'icon-bullet-line-small-curve-left',
+            'icon-bullet-line-small-curve-right'
+        ];
+
+        for (var n in data.data) {
+            //options.delay = Math.random() * 1200;
+            this.spells.beam(0,0, data.data[n][0], data.data[n][1], '#fff', array_rand(possibleLines), options);
+            this.spells.beam(0,0, data.data[n][0], data.data[n][1], '#fff', array_rand(possibleLines), options);
+            this.spells.beam(0,0, data.data[n][0], data.data[n][1], '#fff', array_rand(possibleLines), options);
+
+        }
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1000)
+    };
+
+    this.finishFreshWaterFountain = function(data) {
+        this.finishStandartWater();
+
+        MageS.Game.animations.singleAnimationFinished(this.spells.isSecondPartWaiting);
+        setTimeout(function(){
+            MageS.Game.spells.clearAnimationField();
+        }, 800);
+    };
+
+    this.finishWaterBody = function(data) {
+        this.finishStandartWater();
+
+        MageS.Game.monimations.skweeze($('.battle-border .mage'));
+        setTimeout(function(){
+            MageS.Game.spells.endSpellAnimation();
+        }, 800);
+    };
+
     this.startIceCrown = function() {
         var icon = this.spells.createIcon('icon-frozen-orb', 'color-white');
         $('.animation-field').append(icon);

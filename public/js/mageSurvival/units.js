@@ -27,11 +27,69 @@ MageS.Units = function (game) {
             }
             obj.data('d', unit.d);
         }
+        this.addDescription(unit);
         if (unit.data.f !== undefined) {
             this.addUnitStatusIcons(obj, unit.data.f);
         }
+        if (unit.morfIcon !== undefined && unit.morfIcon) {
+            this.morfUnitIcon(obj, unit.morfIcon, unit.icon);
+        }
 
         return obj;
+    };
+    
+    this.morfUnitIcon = function(obj, morf, iconName) {
+        switch (iconName) {
+            case 'icon-spider-2':
+                switch(morf) {
+                    case 'baby':
+                        obj.find('svg .body').css('fill', '#aaa');
+                        obj.find('svg .head').css('fill', '#bab');
+                        break;
+                }
+                break;
+        }   
+    };
+    this.addDescription = function(unit) {
+        var temaplate = $('#template-unit-tooltip').html();
+        Mustache.parse(temaplate);
+
+        var rendered = Mustache.render(temaplate, {'id': unit.id, 'name': unit.name,
+            'description' : unit.description, 'health': unit.data.health, 'maxHealth': unit.maxHealth
+        });
+        var obj = $(rendered);
+        $('.tooltip-unit-area').append(obj);
+        if (this.game.device == 'pc') {
+            $('.unit.id-' + unit.id).on({
+                'mouseenter': function () {
+                    var id = $(this).data('id');
+                    $('.tooltip-unit-area .unit-tooltip.id-' + id).addClass('hover');
+                },
+                'mouseleave': function () {
+                    var id = $(this).data('id');
+                    $('.tooltip-unit-area .unit-tooltip.id-' + id).removeClass('hover');
+                }
+            });
+        } else {
+            $('.unit.id-' + unit.id).on({
+
+                'click': function () {
+                    MageS.Game.units.mobileUnitClick($(this));
+                }
+            });
+        }
+    };
+
+    this.mobileUnitClick = function(el) {
+        MageS.Game.inventory.showInventory();
+        var id = el.data('id');
+        var tooltip = $('.tooltip-unit-area .unit-tooltip.id-' + id);
+        if (tooltip.hasClass('hover')) {
+            MageS.Game.spellcraft.hideShadow();
+        } else {
+            MageS.Game.spellcraft.showShadow(function() { MageS.Game.units.mobileUnitClick(el); });
+        }
+        tooltip.toggleClass('hover');
     };
 
     this.animateMove = function(unit) {
@@ -43,7 +101,7 @@ MageS.Units = function (game) {
         }
     };
 
-    this.meleeAttack = function(data, container, attackId) {
+    this.meleeAttack = function(data, container, attackId, stage) {
         var unit = $('.battle-border .cell.x-' + data.fromX + '.y-' + data.fromY + ' .unit');
         var iconName = unit.data('icon');
 
@@ -51,10 +109,13 @@ MageS.Units = function (game) {
             case 'icon-spider-2':
                 this.spiderAnimateMelee(unit, data, container);
                 break;
+            case 'icon-mouse-1':
+                this.mouseAnimateMelee(unit, data, container);
+                break;
         }
 
         setTimeout(function(){
-            MageS.Game.attacks.finishAttack(attackId);
+            MageS.Game.attacks.finishAttack(attackId, stage);
         }, 1000);
     };
 
@@ -77,6 +138,31 @@ MageS.Units = function (game) {
         unit.data('attackAngle', '');
     };
 
+    this.moveBodyPartForAttack = function(el, moveDistance, scale, options) {
+        var timeoutIn = 150;
+        var timeoutOut = 650;
+        var durationIn = 500;
+        var durationOut = 200;
+        setTimeout(function(){
+            el.animate({ whyNotToUseANonExistingProperty: 100 }, {
+                step: function(now,fx) {
+                    var k = now / 100;
+                    $(this)[0].style.transform = 'translateY(' + (k * moveDistance) + 'px) scale(' + (1 + (k * scale)) + ')'
+                },
+                duration:durationIn, easing:'easeOutBounce', queue:false
+            });
+        }, timeoutIn);
+        setTimeout(function(){
+        el.animate({ whyNotToUseANonExistingProperty: 100 }, {
+            step: function(now,fx) {
+                var k = now / 100;
+                $(this)[0].style.transform = 'translateY(' + (moveDistance - (k * moveDistance)) + 'px) scale(' + (1 + scale - (k * scale)) + ')'
+            },
+            duration:durationOut, easing:'linear', queue:false
+        });
+        }, timeoutOut);
+    };
+
     this.spiderAnimateMove = function(unit) {
         var group1 = unit.find('.group-leg-1');
         group1.each(function(){
@@ -93,26 +179,9 @@ MageS.Units = function (game) {
         container.append(slash);
         slash[0].style.transform = 'rotate(' + (unit.data('attackAngle') - 90) + 'deg)';
         slash.css({opacity:0});
-        setTimeout(function(){
-            heads.animate({ whyNotToUseANonExistingProperty: 100 }, {
-                step: function(now,fx) {
-                    $(this)[0].style.transform = 'translateY(' + (-now) + 'px) scale(' + (1 + (now / 400)) + ')'
-                },
-                duration:500, easing:'easeOutBounce', queue:false
-            });
-            body.animate({ whyNotToUseANonExistingProperty: 100 }, {
-                step: function(now,fx) {
-                    $(this)[0].style.transform = 'translateY(' + (-now/2) + 'px) scale(' + (1 + (now / 400)) + ')'
-                },
-                duration:500, easing:'easeOutBounce', queue:false
-            });
-            leg.animate({ whyNotToUseANonExistingProperty: 100 }, {
-                step: function(now,fx) {
-                    $(this)[0].style.transform = 'translateY(' + (-now/4) + 'px)'
-                },
-                duration:500, easing:'easeOutBounce', queue:false
-            });
-        }, 150);
+        this.moveBodyPartForAttack(heads, -100, 0.25, {});
+        this.moveBodyPartForAttack(body, -50, 0.25, {});
+        this.moveBodyPartForAttack(leg, -30, 0, {});
         setTimeout(function(){
             slash.animate({opacity:1}, {duration:200,easing:'easeInExpo', complete:function(){
                 var that = $(this);
@@ -122,31 +191,37 @@ MageS.Units = function (game) {
             }});
         }, 450);
         setTimeout(function(){
-            heads.animate({ whyNotToUseANonExistingProperty: 100 }, {
-                step: function(now,fx) {
-                    $(this)[0].style.transform = 'translateY(' + (-100 + (now)) + 'px) scale(' + (1.25 - (now / 400)) + ')'
-                },
-                duration:200, easing:'linear', queue:false
-            });
-            body.animate({ whyNotToUseANonExistingProperty: 100 }, {
-                step: function(now,fx) {
-                    $(this)[0].style.transform = 'translateY(' + (-50 + (now/2)) + 'px) scale(' + (1.25 - (now / 400)) + ')'
-                },
-                duration:200, easing:'linear', queue:false
-            });
-            leg.animate({ whyNotToUseANonExistingProperty: 100 }, {
-                step: function(now,fx) {
-                    $(this)[0].style.transform = 'translateY(' + (-25 + (now/4)) + 'px)'
-                },
-                duration:200, easing:'linear', queue:false
-            });
-        }, 650);
+            MageS.Game.units.rotateUnitBack(unit);
+        }, 850);
+    };
+
+    this.mouseAnimateMelee = function(unit, data, container) {
+        this.rotateUnitToTarget(unit, data);
+        var heads = unit.find('.head,.eyes');
+        var body = unit.find('.body');
+        var ears = unit.find('.ears');
+        var slash = this.game.spells.createIcon('icon-claw-slashes', 'color-white');
+        container.append(slash);
+        slash[0].style.transform = 'rotate(' + (unit.data('attackAngle') - 90) + 'deg)';
+        slash.css({opacity:0});
+        this.moveBodyPartForAttack(heads, -100, 0.25, {});
+        this.moveBodyPartForAttack(ears, -90, 0.25, {});
+        this.moveBodyPartForAttack(body, -50, 0.25, {});
+        setTimeout(function(){
+            slash.animate({opacity:1}, {duration:200,easing:'easeInExpo', complete:function(){
+                var that = $(this);
+                setTimeout(function() {
+                    that.remove();
+                }, 100);
+            }});
+        }, 450);
+
         setTimeout(function(){
             MageS.Game.units.rotateUnitBack(unit);
         }, 850);
     };
 
-    this.animateDeath = function(unit) {
+    this.animateDeath = function(unit, stage) {
         var iconName = unit.data('icon');
 
         switch (iconName) {
@@ -167,7 +242,7 @@ MageS.Units = function (game) {
         }
 
         setTimeout(function(){
-            MageS.Game.animations.singleAnimationFinished();
+            MageS.Game.animations.singleAnimationFinished(stage);
         }, 500);
     };
     
@@ -208,7 +283,7 @@ MageS.Units = function (game) {
                     break;
                 default :
                     info('Flag "' + flag + '" is not implemented');
-                    return;
+                    continue;
                     break;
             }
 

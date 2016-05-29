@@ -37,12 +37,14 @@ abstract class AliveCommon
     protected $world;
     
     const DATA_FLAG_KEY = 'f';
+    const DATA_BUFF_KEY = 'b';
     const FLAG_FROZEN = 'frozen';
     const FLAG_BURN = 'burn';
     const FLAG_WEB = 'web';
+    const FLAG_WATER_BODY = 'water-body';
     
     abstract public function update();
-    abstract public function damage($value, $animationStage);
+    abstract public function damage($value, $animationStage, $sourceType);
     abstract public function getId();
 
     public function addFlag($flag, $value = true)

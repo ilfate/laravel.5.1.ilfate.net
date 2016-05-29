@@ -51,7 +51,7 @@
         }
         .dialog-field {
             position: absolute;
-            z-index: 40;
+            z-index: 20;
             width: $battlefield-size + rem;
             height: $battlefield-size + rem;
         }
@@ -125,11 +125,17 @@
                 z-index: 31;
             }
         }
-        .object {
-            position: absolute;
-            width:$cell-size + rem;
-            height:$cell-size + rem;
-            z-index: 33;
+    }
+    .object {
+        position: absolute;
+        width:$cell-size + rem;
+        height:$cell-size + rem;
+        z-index: 33;
+        &.centered {
+            .rotate-div {
+                margin-left: ($cell-size / 2) + rem;
+                margin-top: ($cell-size / 2) + rem;
+            }
         }
     }
     .unit-field {

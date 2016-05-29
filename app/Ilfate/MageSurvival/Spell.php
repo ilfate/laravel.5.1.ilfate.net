@@ -49,9 +49,15 @@ abstract class Spell
     const CONFIG_FIELD_COOLDOWN_MARK = 'cooldownMark';
 
     const ENERGY_SOURCE_FIRE = 'fire';
+    const ENERGY_SOURCE_WATER = 'water';
+    const ENERGY_SOURCE_AIR = 'air';
+    const ENERGY_SOURCE_EARTH = 'earth';
+    const ENERGY_SOURCE_MELEE = 'melee';
 
     protected $defaultCooldownMin = 2;
     protected $defaultCooldownMax = 2;
+    protected $damageMax = 1;
+    protected $damageMin = 1;
     protected $availablePatterns = [];
 
     /**
@@ -235,7 +241,7 @@ abstract class Spell
     {
         $class = Spell::getSpellClass($school, $spellName);
         if (!class_exists($class)) {
-            throw new \Exception('Spell with name "Fireball" not found at "' . $class . '"' );
+            throw new \Exception('Spell with name "' . $spellName .  '" not found at "' . $class . '"' );
         }
         /**
          * @var Spell $spellName
@@ -308,7 +314,7 @@ abstract class Spell
             $mageX = $this->mage->getX();
             $mageY = $this->mage->getY();
             $mageD = $this->mage->getD();
-            $d = $this->fixDirection($mageD, $data['x'], $data['y']);
+            $d = self::fixDirection($mageD, $data['x'], $data['y']);
             if ($mageD != $d) {
                 $this->mage->rotate($d, Game::ANIMATION_STAGE_MAGE_ACTION);
                 $this->setNexStage();
@@ -340,7 +346,7 @@ abstract class Spell
                 throw new MessageException('Wtf? You kidding me? Try harder bitch!');
             }
             $mageD = $this->mage->getD();
-            $d = $this->fixDirection($mageD, $data['x'], $data['y']);
+            $d = self::fixDirection($mageD, $data['x'], $data['y']);
             $this->rotatePattern($d, $data['x'], $data['y']);
             if ($mageD != $d) {
                 $this->mage->rotate($d, Game::ANIMATION_STAGE_MAGE_ACTION);
@@ -523,33 +529,50 @@ abstract class Spell
         }
     }
 
-    public function fixDirection($currentD, $x, $y)
+    public static function fixDirection($currentD, $x, $y, $centerX = 0, $centerY = 0)
     {
         if (!is_numeric($x) || !is_numeric($y)) {
             throw new MessageException('Wtf are those coordinats?');
         }
-        if (abs($y) > abs($x)) {
-            if ($y > $x) return 2;
-            if ($y < $x) return 0;
+        $rx = $x - $centerX;
+        $ry = $y - $centerY;
+        if (abs($ry) > abs($rx)) {
+            if ($ry > $rx) return 2;
+            if ($ry < $rx) return 0;
         }
-        if (abs($y) < abs($x)) {
-            if ($y > $x) return 3;
-            if ($y < $x) return 1;
+        if (abs($ry) < abs($rx)) {
+            if ($ry > $rx) return 3;
+            if ($ry < $rx) return 1;
         }
-        if ($x == $y && $x > 0) {
+        if ($rx == $ry && $rx > 0) {
             if (in_array($currentD, [1,2])) return $currentD;
             return ChanceHelper::oneFromArray([1,2]);
         }
-        if ($x == $y) {
+        if ($rx == $ry) {
             if (in_array($currentD, [3,0])) return $currentD;
             return ChanceHelper::oneFromArray([3,0]);
         }
-        if ($x > $y) {
+        if ($rx > $ry) {
             if (in_array($currentD, [1,0])) return $currentD;
             return ChanceHelper::oneFromArray([1,0]);
         }
         if (in_array($currentD, [3,2])) return $currentD;
         return ChanceHelper::oneFromArray([3,2]);
+    }
+
+    protected function changeCellsBySpellSource($cells, $source) {
+        foreach ($cells as $affectedCell) {
+            $newCell = $this->game->getWorldGenerator()->getCellDestroyableBySource(
+                $affectedCell[0], $affectedCell[1], $source);
+            if ($newCell) {
+                $mageX = $mage = $this->mage->getX();
+                $mageY = $mage = $this->mage->getY();
+                $this->world->setCell($affectedCell[0], $affectedCell[1], $newCell);
+                $this->game->addAnimationEvent(Game::EVENT_CELL_CHANGE, [
+                    'cell' => $newCell, 'targetX' => $affectedCell[0] - $mageX, 'targetY' => $affectedCell[1] - $mageY
+                ], $this->getNormalCastStage());
+            }
+        }
     }
 
     /**

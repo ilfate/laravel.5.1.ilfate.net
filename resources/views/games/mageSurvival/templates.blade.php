@@ -13,6 +13,7 @@
 @include('games.mageSurvival.templates.spell-craft-catalyst-mustache')
 @include('games.mageSurvival.templates.spell-craft-info-mustache')
 @include('games.mageSurvival.templates.spell-tooltip-mustache')
+@include('games.mageSurvival.templates.unit-tooltip-mustache')
 @include('games.mageSurvival.templates.svg_mustache')
 @include('games.mageSurvival.templates.unit_mustache')
 

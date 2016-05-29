@@ -11,7 +11,7 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells;
+namespace Ilfate\MageSurvival\Spells\Air;
 
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
@@ -31,18 +31,14 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-trait FireDamageSpell
+class Harmony extends Air
 {
+    protected $availablePatterns = [4];
+
     protected function spellEffect($data)
     {
-
-        foreach($this->targets as $target) {
-            /**
-             * @var Unit $target
-             */
-            $target->damage($this->getDamage(), $this->getNormalCastStage());
-        }
-        $this->destroyTreesAtCells($this->affectedCells);
+        $this->mage->heal(5, Game::ANIMATION_STAGE_MAGE_ACTION_2);
+        $this->mage->addBuff(Spell::ENERGY_SOURCE_AIR, 2, 2);
         return true;
     }
 }

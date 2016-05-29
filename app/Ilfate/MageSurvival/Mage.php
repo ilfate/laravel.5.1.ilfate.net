@@ -283,7 +283,13 @@ abstract class Mage extends AliveCommon
                 break;
         }
         if (!$this->game->getWorld()->isPassable($x, $y)) {
-            throw new MessageException('You can`t move in this direction');
+            $unitThere = false;
+            if ($this->getFlag(self::FLAG_WATER_BODY) >= $this->game->getTurn()) {
+                $unitThere = !$this->world->getUnit($x, $y);
+            }
+            if (!$unitThere) {
+                throw new MessageException('You can`t move in this direction');
+            }
         }
         $d = $this->getD();
         $stageForMove = Game::ANIMATION_STAGE_MAGE_ACTION;
@@ -489,7 +495,7 @@ abstract class Mage extends AliveCommon
         }
     }
 
-    public function damage($value, $animationStage)
+    public function damage($value, $animationStage, $sourceType)
     {
         $eventData = Event::trigger(Event::EVENT_MAGE_BEFORE_GET_DAMAGE, ['value' => $value]);
         $value = $eventData['value'];
@@ -528,6 +534,17 @@ abstract class Mage extends AliveCommon
         if ($value > 0) {
             GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_ADD_ARMOR, $this->exportMageHealth($value), $animationStage);
         }
+    }
+
+    public function getDamage($damage, $source) {
+        $buff = $this->getBuff($source);
+        if ($buff) {
+            switch ($buff[1]) {
+                case '+': $damage += $buff[0]; break;
+                case '*': $damage *= $buff[0]; break;
+            }
+        }
+        return $damage;
     }
 
     public function update()
@@ -723,5 +740,36 @@ abstract class Mage extends AliveCommon
             return $this->data[$key];
         }
         return null;
+    }
+
+    public function addBuff($source, $turns, $value, $type = '+')
+    {
+        $turnEnd = $this->game->getTurn() + $turns;
+        $this->data[self::DATA_BUFF_KEY][$source] = [$value, $type, $turnEnd];
+        $this->update();
+    }
+
+    public function removeBuff($source)
+    {
+        unset($this->data[self::DATA_BUFF_KEY][$source]);
+        $this->update();
+    }
+
+    public function getBuff($source)
+    {
+        if (isset($this->data[self::DATA_BUFF_KEY][$source])) {
+            $buff = $this->data[self::DATA_BUFF_KEY][$source];
+            if ($this->game->getTurn() >= $buff[2]) {
+                $this->removeBuff($source);
+                return false; 
+            }
+            return $this->data[self::DATA_BUFF_KEY][$source];
+        }
+        return false;
+    }
+    
+    public function deleteAllSpells()
+    {
+        $this->spells = [];
     }
 }

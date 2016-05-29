@@ -236,7 +236,11 @@ abstract class Unit extends AliveCommon
             'type' => $this->getType(),
             'data' => $this->getData(),
             'icon' => $this->config['icon'],
+            'description' => $this->config['description'],
+            'name' => $this->config['name'],
+            'maxHealth' => $this->config['health'],
             'iconColor' => isset($this->config['iconColor']) ? $this->config['iconColor'] : '',
+            'morfIcon' => isset($this->config['morfIcon']) ? $this->config['morfIcon'] : '',
         ];
     }
     
@@ -275,7 +279,11 @@ abstract class Unit extends AliveCommon
             case Behaviour::ACTION_JUMP_TO:
                 $landing = $this->getTemporaryDataValue('landing');
 
-                $this->move($landing[0], $landing[1]);
+                $d = Spell::fixDirection($this->d, $landing[0], $landing[1], $this->x, $this->y);
+                if ($d !== $this->d) {
+                    $this->rotate($d, Game::ANIMATION_STAGE_UNIT_ACTION);
+                }
+                $this->move($landing[0], $landing[1], Game::ANIMATION_STAGE_UNIT_ACTION_2);
                 break;
             case Behaviour::ACTION_ATTACK_MAGE:
                 $possibleAttack = $this->getPossibleAttack($this->mage);
@@ -313,7 +321,7 @@ abstract class Unit extends AliveCommon
             $attack->trigger();
         } else {
             // well it should be already checked that attack is possible
-            $target->damage($attackConfig['damage'], Game::ANIMATION_STAGE_UNIT_ACTION_3);
+            $target->damage($attackConfig['damage'], Game::ANIMATION_STAGE_UNIT_ACTION_3, Spell::ENERGY_SOURCE_MELEE);
             $mX = $this->mage->getX();
             $mY = $this->mage->getY();
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_ATTACK, [
@@ -428,12 +436,13 @@ abstract class Unit extends AliveCommon
         $this->world->updateUnit($this);
     }
 
-    public function damage($value, $animationStage)
+    public function damage($value, $animationStage, $sourceType)
     {
         $this->data['health'] -= $value;
         GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_DAMAGE, [
             'id' => $this->getId(),
-            'value' => $value
+            'value' => $value,
+            'health' => $this->data['health']
         ], $animationStage);
         if ($this->data['health'] < 1) {
             // Unit dead

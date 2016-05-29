@@ -1,5 +1,6 @@
 <?php namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
 
@@ -25,11 +26,12 @@ class Fireball extends Fire
 
     protected function spellEffect($data)
     {
+        $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_FIRE);
         foreach($this->targets as $target) {
             /**
              * @var Unit $target
              */
-            $target->damage(1, $this->getNormalCastStage());
+            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
         }
         return true;
     }

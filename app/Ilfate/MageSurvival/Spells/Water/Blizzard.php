@@ -16,6 +16,7 @@ namespace Ilfate\MageSurvival\Spells\Water;
 use Ilfate\MageSurvival\Event;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Water;
 use Ilfate\MageSurvival\Unit;
 
@@ -33,6 +34,8 @@ use Ilfate\MageSurvival\Unit;
  */
 class Blizzard extends Water
 {
+    protected $damageMin = 1;
+    protected $damageMax = 2;
     protected $defaultCooldownMin = 4;
     protected $defaultCooldownMax = 6;
     
@@ -58,8 +61,9 @@ class Blizzard extends Water
                     Game::ANIMATION_STAGE_MAGE_ACTION_2);
             }
 
-            $damage = mt_rand(1, 2);
-            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2);
+            $damage = mt_rand($this->damageMin, $this->damageMax);
+            $damage = $this->mage->getDamage($damage, Spell::ENERGY_SOURCE_WATER);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_WATER);
         }
 
         return true;

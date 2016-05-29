@@ -73,7 +73,7 @@ MageS.Spellcraft = function (game) {
         //});
 
     };
-    this.endSpellCraftAnimations = function () {
+    this.endSpellCraftAnimations = function (data, stage) {
         for (var i = 0; i < 4; i++) {
             var animationEl = $('.craft-animation-item.n-' + i);
             if (animationEl.length < 1) { continue; }
@@ -101,14 +101,12 @@ MageS.Spellcraft = function (game) {
         //$('.craft-animation-item').remove();
         this.game.inventory.turnOffFilters();
         //this.game.endAction();
-        MageS.Game.animations.singleAnimationFinished();
+        MageS.Game.animations.singleAnimationFinished(stage);
     };
 
     this.cancelCrafting = function () {
         $('.inventory').removeClass('craft');
-        $('.inventory-shadow').animate({'opacity': 0}, {'duration': this.game.animationTime / 3,'complete':function(){
-            $(this).hide();
-        }});
+        MageS.Game.spellcraft.hideShadow();
         $('.item-drop-zone').removeClass('filled');
         $('.craft-animation-item').remove();
         $('.craft-spell-overlay').hide();
@@ -117,7 +115,10 @@ MageS.Spellcraft = function (game) {
         $('.helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info').remove();
         $('.craft-value.active').removeClass('active').html('');
         this.spellCraftProcess = {};
-        this.craftingIsInProgress = false;
+        setTimeout(function(){
+            MageS.Game.spellcraft.craftingIsInProgress = false;
+        }, 300);
+
         this.game.inventory.turnOffFilters();
     };
 
@@ -139,12 +140,30 @@ MageS.Spellcraft = function (game) {
         }
         this.craftingIsInProgress = true;
         $('.craft-demo-zone').animate({'opacity': 1});
-        $('.inventory-shadow').show().animate({'opacity': 0.8}, {'duration': this.game.animationTime / 3})
+        MageS.Game.spellcraft.showShadow(function() {
+            MageS.Game.spellcraft.cancelCrafting();
+        });
         $('.inventory').addClass('craft');
         MageS.Game.inventory.filterItems($('.items-filter.name-ingredient'));
 
         this.showSpellCraftHelperStep1();
         $('.craft-spell-overlay').show();
+    };
+
+    this.showShadow = function(callback) {
+        var shadow = $('.inventory-shadow');
+        shadow.show().animate({'opacity': 0.8}, {'duration': MageS.Game.animationTime / 3})
+        if (callback) {
+            shadow.bind('click', callback);
+        }
+
+    };
+    this.hideShadow = function() {
+        var shadow = $('.inventory-shadow');
+        shadow.animate({'opacity': 0}, {'duration': MageS.Game.animationTime / 3,'complete':function(){
+            $(this).hide();
+        }});
+        shadow.unbind('click');
     };
 
     this.itemClick = function(itemObj) {

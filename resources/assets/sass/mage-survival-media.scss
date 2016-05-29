@@ -339,6 +339,11 @@
                 }
             }
         }
+        .tooltip-unit-area {
+            @media (min-width: $screen-md-min + rem) {
+                margin-top: 0;
+            }
+        }
 
     }
 }

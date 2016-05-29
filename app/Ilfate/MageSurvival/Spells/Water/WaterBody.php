@@ -11,12 +11,11 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells;
+namespace Ilfate\MageSurvival\Spells\Water;
 
-use Ilfate\MageSurvival\Game;
-use Ilfate\MageSurvival\GameBuilder;
-use Ilfate\MageSurvival\Spells\Air;
-use Ilfate\MageSurvival\Unit;
+use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Mage;
+use Ilfate\MageSurvival\Spells\Water;
 
 /**
  * TODO: Short description.
@@ -30,17 +29,14 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-trait DamageSpell
+class WaterBody extends Water
 {
+    protected $defaultCooldownMin = 10;
+    protected $defaultCooldownMax = 10;
+
     protected function spellEffect($data)
     {
-
-        foreach($this->targets as $target) {
-            /**
-             * @var Unit $target
-             */
-            $target->damage(1, $this->getNormalCastStage());
-        }
+        $this->mage->addFlag(Mage::FLAG_WATER_BODY, $this->game->getTurn() + 5);
         return true;
     }
 }

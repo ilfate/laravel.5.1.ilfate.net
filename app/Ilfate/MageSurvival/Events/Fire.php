@@ -16,6 +16,7 @@ namespace Ilfate\MageSurvival\Events;
 use Ilfate\MageSurvival\Event;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Unit;
 
 /**
@@ -42,7 +43,7 @@ class Fire extends Event
         if (!$unit->isAlive()) {
             return $data;
         }
-        $unit->damage(1, Game::ANIMATION_STAGE_UNIT_ACTION_3);
+        $unit->damage(1, Game::ANIMATION_STAGE_UNIT_ACTION_3, Spell::ENERGY_SOURCE_FIRE);
         return $data;
     }
     public static function RemoveBurn($data) {

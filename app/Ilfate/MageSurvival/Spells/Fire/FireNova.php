@@ -13,6 +13,8 @@
  */
 namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\AliveCommon;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\DamageSpell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Spells\FireDamageSpell;
@@ -37,5 +39,16 @@ class FireNova extends Fire
     protected $defaultCooldownMin = 1;
     protected $defaultCooldownMax = 1;
 
-    use FireDamageSpell;
+    protected function spellEffect($data)
+    {
+
+        foreach($this->targets as $target) {
+            /**
+             * @var AliveCommon $target
+             */
+            $target->damage($this->getDamage(), $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
+        }
+        $this->changeCellsBySpellSource($this->affectedCells, Spell::ENERGY_SOURCE_FIRE);
+        return true;
+    }
 }

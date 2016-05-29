@@ -94,6 +94,7 @@
 <script src="/js/mageSurvival/spells.js"></script>
 <script src="/js/mageSurvival/spells-fire.js"></script>
 <script src="/js/mageSurvival/spells-water.js"></script>
+<script src="/js/mageSurvival/spells-air.js"></script>
 <script src="/js/mageSurvival/worlds.js"></script>
 <script src="/js/mageSurvival/objects.js"></script>
 <script src="/js/mageSurvival/units.js"></script>

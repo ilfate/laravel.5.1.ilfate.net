@@ -15,19 +15,21 @@ MageS.Spells = function (game) {
     this.savedData = [];
     this.fire = {};
     this.water = {};
+    this.air = {};
     this.init = function () {
         this.fire = new MageS.Spells.Fire(this.game, this);
         this.water = new MageS.Spells.Water(this.game, this);
+        this.air = new MageS.Spells.Air(this.game, this);
     };
 
-    this.cast = function(data) {
+    this.cast = function(data, stage) {
 
         if (this.spellAnimationRunning) {
             this.currentSpellData = data;
-            this.isSecondPartWaiting = true;
+            this.isSecondPartWaiting = stage;
         } else {
             info('there is no animation running for spell ' + data.spell);
-            MageS.Game.animations.singleAnimationFinished();
+            MageS.Game.animations.singleAnimationFinished(stage);
         }
     };
 
@@ -53,6 +55,10 @@ MageS.Spells = function (game) {
            case 'IceCone': this.water.startStandartWater() ; break;
            case 'WashAndGo': this.water.startStandartWater() ; break;
            case 'Blizzard': this.water.startStandartWater() ; break;
+           case 'IceShield': this.water.startStandartWater() ; break;
+           case 'Icelock': 
+           case 'FreshWaterFountain':
+           case 'WaterBody': this.water.startStandartWater() ; break; 
            default:
                isSpellAnimated = false;
                info('No start animation for "' + name + '"');
@@ -85,6 +91,10 @@ MageS.Spells = function (game) {
             case 'IceCone': this.water.iterateStandertWater() ; break;
             case 'WashAndGo': this.water.iterateStandertWater() ; break;
             case 'Blizzard': this.water.iterateStandertWater() ; break;
+            case 'IceShield': this.water.iterateStandertWater() ; break;
+            case 'Icelock': 
+            case 'FreshWaterFountain': 
+            case 'WaterBody': this.water.iterateStandertWater() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
         }
@@ -110,9 +120,13 @@ MageS.Spells = function (game) {
             case 'IceCone': this.water.finishIceCone(this.currentSpellData); break;
             case 'WashAndGo': this.water.finishWashAndGo(this.currentSpellData); break;
             case 'Blizzard': this.water.finishBlizzard(this.currentSpellData); break;
+            case 'IceShield': this.water.finishIceShield(this.currentSpellData); break;
+            case 'Icelock': this.water.finishIcelock(this.currentSpellData); break;
+            case 'FreshWaterFountain': this.water.finishFreshWaterFountain(this.currentSpellData); break;
+            case 'WaterBody': this.water.finishWaterBody(this.currentSpellData); break;
             default:
                 info('No last animation for "' + name + '"');
-                MageS.Game.animations.singleAnimationFinished();
+                MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);
         }
     };
     this.tryToEndFirstPart = function() {
@@ -125,7 +139,7 @@ MageS.Spells = function (game) {
         }
     };
     this.endSpellAnimation = function () {
-        MageS.Game.animations.singleAnimationFinished();
+        MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);
         this.clearAnimationField();
     };
     this.clearAnimationField = function() {

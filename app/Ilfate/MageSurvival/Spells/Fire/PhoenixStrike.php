@@ -14,6 +14,7 @@
 namespace Ilfate\MageSurvival\Spells\Fire;
 
 use Ilfate\MageSurvival\Game;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\DamageSpell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Spells\FireDamageSpell;
@@ -55,6 +56,7 @@ class PhoenixStrike extends Fire
         }
         $step = 0;
         $targetsForAnimation = [];
+        $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_FIRE);
         while ($x != $phoenixTargetX || $y != $phoenixTargetY) {
             list($x, $y) = $move($x, $y);
 
@@ -64,7 +66,7 @@ class PhoenixStrike extends Fire
             for($i = 0; $i < 2; $i++) {
                 if ($units) {
                     $randomKey = array_rand($units);
-                    $units[$randomKey]->damage(1, Game::ANIMATION_STAGE_MAGE_ACTION_2);
+                    $units[$randomKey]->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_FIRE);
                     $targetsForAnimation[$step]['targets'][] = [$units[$randomKey]->getX() - $mageX, $units[$randomKey]->getY() - $mageY];
                     unset($units[$randomKey]);
                 }

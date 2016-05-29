@@ -13,6 +13,7 @@
  */
 namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\DamageSpell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Spells\FireDamageSpell;
@@ -35,17 +36,17 @@ class FaceCanon extends Fire
 {
     protected $availablePatterns = [5,6,7];
 
-    protected $defaultCooldownMin = 2;
+    protected $defaultCooldownMin = 3;
     protected $defaultCooldownMax = 6;
 
     protected function spellEffect($data)
     {
         foreach($this->targets as $target) {
-            $damage = mt_rand(1, 3);
+            $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_FIRE);
             /**
              * @var Unit $target
              */
-            $target->damage($damage, $this->getNormalCastStage());
+            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
         }
         //$this->setNexStage();
         $x = $this->mage->getX();
@@ -65,7 +66,7 @@ class FaceCanon extends Fire
             }
             $x = $nx; $y = $ny;
         }
-        $this->destroyTreesAtCells($this->affectedCells);
+        $this->changeCellsBySpellSource($this->affectedCells, Spell::ENERGY_SOURCE_FIRE);
         $this->mage->forceMove($x, $y, $this->getNormalCastStage());
         return true;
     }

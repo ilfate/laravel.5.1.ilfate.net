@@ -157,9 +157,7 @@ MageS.Game = function () {
 
                 this.configureKeys();
 
-                $('.inventory-shadow').on('click', function() {
-                    MageS.Game.spellcraft.cancelCrafting();
-                });
+                // $('.inventory-shadow').on('click', );
 
 
                 break;
@@ -323,7 +321,7 @@ MageS.Game = function () {
         }
         for(var y in this.rawData.objects) {
             for(var x in this.rawData.objects[y]) {
-                this.drawObject(this.rawData.objects[y][x], x, y);
+                this.objects.drawObject(this.rawData.objects[y][x], x, y);
             }
         }
     };
@@ -515,7 +513,9 @@ MageS.Game = function () {
                 //     [-2, -2],[-1, -2],[0, -2],[1, -2],[2, -2]
                 // ]};
                 // MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
-                MageS.Game.spells.currentSpellData = {'targetX': 0, 'targetY': -1, 'd':0};
+                MageS.Game.spells.currentSpellData = {'targetX': 0, 'targetY': -1, 'd':0, 'data':[
+                    [-2, 3], [3,3], [4,-1], [0, 2]
+                ]};
                 //     {'point':[-1,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-2,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-3,0], 'targets':[[-1, -2], [0, 2]]},
@@ -524,7 +524,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('Blizzard');
+                MageS.Game.spells.startCast('IceShield');
                 // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
             });
             $('#move-control-field .control-arrow').on('click', function () {
@@ -667,27 +667,6 @@ MageS.Game = function () {
             'margin-top' : (y * this.cellSize) + 'rem'
         })
     };
-
-    this.drawObject = function(object, x, y, target) {
-        if (!target) {
-            target = '.battle-field.current';
-        }
-        var temaplate = $('#template-object').html();
-        Mustache.parse(temaplate);
-        var addClass = '';
-        if (object.viewData.class !== undefined) {
-            addClass = object.viewData.class;
-        }
-        var rendered = Mustache.render(temaplate, {'id': object.id, 'type':object.type, 'addClass' : addClass});
-        var obj = $(rendered);
-        var icon = $(this.svg).find('#' + object.config.icon + ' path');
-        obj.find('svg').append(icon.clone());
-        if (object.config.iconColor !== undefined) {
-            obj.find('.svg').addClass(object.config.iconColor);
-        }
-        $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
-        return obj;
-    };
     
     this.drawMage = function(mageConf) {
         var temaplate = $('#template-mage').html();
@@ -700,6 +679,7 @@ MageS.Game = function () {
         obj.animateRotate(0, mageConf.d * 90, 10);
 
         $('.mage-container').prepend(obj);
+        info(mageConf);
         if (mageConf.flags) {
             this.addMageStatus(mageConf.flags);
         }

@@ -175,6 +175,38 @@ abstract class MapObject
         $this->world->updateObject($this);
     }
 
+    public function move($x, $y, $stage = Game::ANIMATION_STAGE_UNIT_ACTION)
+    {
+        $oldX = $this->x;
+        $oldY = $this->y;
+//        $event = Event::trigger(Event::EVENT_UNIT_BEFORE_MOVE, ['owner' => $this]);
+//        if (!empty($event['no-move'])) {
+//            return;
+//        }
+        $mage = GameBuilder::getGame()->getMage();
+        $wasOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $mage);
+        $this->x = $x;
+        $this->y = $y;
+        //$isOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
+        $this->world->moveObject($oldX, $oldY, $x, $y);
+//        if ($isOutside) {
+//            return;
+//        }
+        if ($wasOutside) {
+            // unit was outside of view area but now entered the view
+            GameBuilder::animateEvent(Game::EVENT_NAME_OBJECT_MOVE, [
+                'id' => $this->getId(),
+                'x' => $x - $mage->getX(), 'y' => $y - $mage->getY(),
+                'oldX' => $oldX - $mage->getX(), 'oldY' => $oldY - $mage->getY(),
+                'data' => $this->exportForView(),
+            ], $stage);
+        } else {
+            GameBuilder::animateEvent(Game::EVENT_NAME_OBJECT_MOVE, [
+                'x' => $x - $mage->getX(), 'y' => $y - $mage->getY(), 'id' => $this->getId()
+            ], $stage);
+        }
+    }
+
     /**
      * @return Game
      */

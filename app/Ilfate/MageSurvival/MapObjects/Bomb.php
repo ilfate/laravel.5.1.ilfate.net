@@ -18,6 +18,7 @@ use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\Mage;
 use Ilfate\MageSurvival\MapObject;
 use Ilfate\MageSurvival\ChanceHelper;
+use Ilfate\MageSurvival\Spell;
 
 /**
  * TODO: Short description.
@@ -42,12 +43,13 @@ class Bomb extends MapObject
     public function trigger($animationStage)
     {
         $mage = GameBuilder::getGame()->getMage();
+        $this->damage = $mage->getDamage($this->damage, Spell::ENERGY_SOURCE_FIRE);
         for ($y = -$this->radius; $y <= $this->radius; $y++) {
             for ($x = -$this->radius; $x <= $this->radius; $x++) {
                 if ($unit = $this->world->getUnit($this->getX() + $x, $this->getY() + $y)) {
-                    $unit->damage($this->damage, $animationStage);
+                    $unit->damage($this->damage, $animationStage, Spell::ENERGY_SOURCE_FIRE);
                 } else if ($this->getX() + $x == $mage->getX() && $this->getY() + $y == $mage->getY()) {
-                    $mage->damage($this->damage, $animationStage);
+                    $mage->damage($this->damage, $animationStage, Spell::ENERGY_SOURCE_FIRE);
                 }
             }
         }

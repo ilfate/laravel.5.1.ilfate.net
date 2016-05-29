@@ -1,5 +1,6 @@
 <?php namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
 
@@ -28,7 +29,8 @@ class ExplodingBees extends Fire
             /**
              * @var Unit $target
              */
-            $target->damage(mt_rand(1, 4), $this->getNormalCastStage());
+            $damage = $this->mage->getDamage(mt_rand(1, 4), Spell::ENERGY_SOURCE_FIRE);
+            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
         }
         return true;
     }

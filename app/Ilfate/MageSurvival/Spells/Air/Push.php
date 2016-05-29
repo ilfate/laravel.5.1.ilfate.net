@@ -15,6 +15,7 @@ namespace Ilfate\MageSurvival\Spells\Air;
 
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Air;
 use Ilfate\MageSurvival\Unit;
 
@@ -54,14 +55,14 @@ class Push extends Air
             }
             $is1Passable = $this->world->isPassable($x1, $y1);
             $is2Passable = $this->world->isPassable($x2, $y2);
+            $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_AIR);
             if ($is1Passable && $is2Passable) {
-                $target->move($x2, $y2, $this->getNormalCastStage());
+                $target->move($x2, $y2, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
             } else if ($is1Passable) {
-                $target->move($x1, $y1, $this->getNormalCastStage());
-                $this->setNexStage();
-                $target->damage(1, $this->getNormalCastStage());
+                $target->move($x1, $y1, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+                $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2, Spell::ENERGY_SOURCE_AIR);
             } else {
-                $target->damage(1, $this->getNormalCastStage());
+                $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2, Spell::ENERGY_SOURCE_AIR);
             }
         }
         return true;

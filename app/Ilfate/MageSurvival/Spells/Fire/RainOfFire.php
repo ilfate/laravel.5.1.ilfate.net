@@ -14,6 +14,7 @@
 namespace Ilfate\MageSurvival\Spells\Fire;
 
 use Ilfate\MageSurvival\Game;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\DamageSpell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Spells\FireDamageSpell;
@@ -42,19 +43,19 @@ class RainOfFire extends Fire
     protected function spellEffect($data)
     {
         foreach($this->targets as $target) {
-            $damage = mt_rand(1, 2);
             /**
              * @var Unit $target
              */
-            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2);
+            $damage = $this->mage->getDamage(mt_rand(1, 2), Spell::ENERGY_SOURCE_FIRE);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_FIRE);
         }
 
         $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
             'spell' => $this->name,
             'data' => $this->pattern,
         ], Game::ANIMATION_STAGE_MAGE_ACTION);
-        
-        $this->destroyTreesAtCells($this->affectedCells);
+
+        $this->changeCellsBySpellSource($this->affectedCells, Spell::ENERGY_SOURCE_FIRE);
 
         return true;
     }

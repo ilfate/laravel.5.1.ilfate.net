@@ -23,7 +23,6 @@
 
 
 .object {
-    @include transition(all 0.5s linear);
     &.openDoor {
         transform: skewY(-20deg) scaleX(0.4) translate(1rem, 0px);
         @include transition(all 0.5s linear);
