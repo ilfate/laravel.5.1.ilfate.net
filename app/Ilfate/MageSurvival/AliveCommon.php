@@ -43,6 +43,9 @@ abstract class AliveCommon
     const FLAG_WEB = 'web';
     const FLAG_WATER_BODY = 'water-body';
     
+    const UNIT_TYPE_UNIT = 'unit';
+    const UNIT_TYPE_MAGE = 'mage';
+    
     abstract public function update();
     abstract public function damage($value, $animationStage, $sourceType);
     abstract public function getId();
@@ -66,6 +69,8 @@ abstract class AliveCommon
         }
         return false;
     }
+    
+    abstract public function getUnitType();
 
     /**
      * @return mixed
@@ -113,5 +118,22 @@ abstract class AliveCommon
     public function setWorld($world)
     {
         $this->world = $world;
+    }
+    
+    public function say($message, $stage = Game::ANIMATION_STAGE_MESSAGE_TIME)
+    {
+        if ($this->getUnitType() == self::UNIT_TYPE_MAGE) {
+            $x = 0;
+            $y = 0;
+        } else {
+            $mage = GameBuilder::getGame()->getMage();
+            $x = $this->getX() - $mage->getX();
+            $y = $this->getY() - $mage->getY();
+        }
+        $time = strlen($message) * 20 + 300;
+        GameBuilder::animateEvent(Game::EVENT_NAME_SAY_MESSAGE, [
+            'message' => $message, 'time' => $time,
+            'targetX' => $x, 'targetY' => $y
+        ], $stage);
     }
 }

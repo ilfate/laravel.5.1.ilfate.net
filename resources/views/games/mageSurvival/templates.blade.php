@@ -3,6 +3,7 @@
 @include('games.mageSurvival.templates.alert-helper-spell-craft-step-1-mustache')
 @include('games.mageSurvival.templates.alert_items_mustache')
 @include('games.mageSurvival.templates.chat-message-mustache')
+@include('games.mageSurvival.templates.dialog-message-mustache')
 @include('games.mageSurvival.templates.inventory-spell-mustache')
 @include('games.mageSurvival.templates.inventory-spell-filter-mustache')
 @include('games.mageSurvival.templates.item_mustache')

@@ -12,6 +12,7 @@
  * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival;
+use Ilfate\Geometry2DCells;
 
 /**
  * PHP version 5
@@ -398,6 +399,68 @@ abstract class WorldGenerator
     public function isWater($cell)
     {
         return in_array($cell, $this->water);
+    }
+    
+    public function worldTips($turn)
+    {
+        if (!empty($this->config['worlds'][$this->world->getType()]['dialog'])) {
+            if (!empty($this->config['worlds'][$this->world->getType()]['dialog']['turn'][$turn])) {
+                $messageConfig = $this->config['worlds'][$this->world->getType()]['dialog']['turn'][$turn];
+                $this->mage->say($this->processConfigMessage($messageConfig));
+                return ;
+            }
+        }
+        if (ChanceHelper::chance(10)) {
+            // lets show some thing.
+            $massegesTypes = ['help', 'help', 'help', 'lore',' joke'];
+            $type = ChanceHelper::oneFromArray($massegesTypes);
+            if (!empty($this->config['worlds'][$this->world->getType()]['dialog'][$type])) {
+                $messageConfig = ChanceHelper::oneFromArray($this->config['worlds'][$this->world->getType()]['dialog'][$type]);
+                $this->mage->say($this->processConfigMessage($messageConfig));
+                return ;
+            }
+        }    
+    }
+
+    public function processConfigMessage($config)
+    {
+        if (!empty($config['message'])) {
+            return $config['message'];
+        } else if (!empty($config['method'])) {
+            return $this->{$config['method']}();
+        }
+    }
+
+    public function coordinatsToDirection($x1, $y1, $x2, $y2)
+    {
+        $calculation = Geometry2DCells::getAngleBetween2Dots($x1, $y1, $x2, $y2);
+        $area = floor($calculation[1] / 22.5);
+        switch ($area) {
+            case 0:
+            case 15:
+                return 'east';
+            case 1:
+            case 2:
+                return 'north-east';
+            case 3:
+            case 4:
+                return 'north';
+            case 5:
+            case 6:
+                return 'north-west';
+            case 7:
+            case 8:
+                return 'west';
+            case 9:
+            case 10:
+                return 'south-west';
+            case 11:
+            case 12:
+                return 'south';
+            case 13:
+            case 14:
+                return 'south-east';
+        }
     }
 
 }

@@ -31,6 +31,28 @@ return array(
             'map-type' => 'WitchForest',
             'map-visual' => 'WitchForest',
             'is-available' => true,
+            'dialog' => [
+                'help' => [
+                    ['method' => 'whereIsWitch']
+                ], 'lore' => [
+                    ['message' => 'I`m not sure who build those portals. They are connecting different parts of the world as well as different worlds.'],
+                    ['message' => 'My magic school was not the only one. I heard that there was at least 5 other magic schools.'],
+
+                ], 'joke' => [
+                    ['message' => 'Am I the only one here who thinks that those spider are way too big?'],
+                    ['message' => 'I should have remembered ingredients for that awesome spell...'],
+
+                ], 'turn' => [
+                    1 => ['message' => 'I have no idea what happened to my school. I hope this witch have some answers.'],
+                    2 => ['message' => 'I heard that she lives in some kind of house.'],
+                    3 => ['message' => 'She was teaching dark art in my school bank in the days.'],
+                    4 => ['message' => 'Let`s hope she still have her senses.'],
+                    5 => ['method' => 'whereIsWitch'],
+                    6 => ['message' => 'I hope this forest is more like a park.'],
+                    10 => ['message' => 'Maybe I need to create more spells?.'],
+                    //100 => ['message' => 'I h.'],
+                ]
+            ]
         ],
         900 => [
             'name' => 'Battle Test',

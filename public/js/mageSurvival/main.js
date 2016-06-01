@@ -513,9 +513,9 @@ MageS.Game = function () {
                 //     [-2, -2],[-1, -2],[0, -2],[1, -2],[2, -2]
                 // ]};
                 // MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
-                MageS.Game.spells.currentSpellData = {'targetX': 0, 'targetY': -1, 'd':0, 'data':[
+                MageS.Game.spells.currentSpellData = {'targetX': -2, 'targetY': -1, 'd':1, 'data':[
                     [-2, 3], [3,3], [4,-1], [0, 2]
-                ]};
+                ], 'targets': [[0,-2], [3,3], [-3,2]]};
                 //     {'point':[-1,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-2,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-3,0], 'targets':[[-1, -2], [0, 2]]},
@@ -524,7 +524,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('IceShield');
+                MageS.Game.spells.startCast('NoMoreAirForYou');
                 // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
             });
             $('#move-control-field .control-arrow').on('click', function () {

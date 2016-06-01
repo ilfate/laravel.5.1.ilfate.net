@@ -33,6 +33,8 @@ use Ilfate\MageSurvival\Unit;
  */
 class Push extends Air
 {
+    protected $defaultCooldownMin = 0;
+    protected $defaultCooldownMax = 1;
     protected $availablePatterns = [4];
 
     protected function spellEffect($data)

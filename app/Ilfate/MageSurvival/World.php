@@ -30,11 +30,13 @@ class World
     protected $map;
     protected $objects;
     protected $units;
+    protected $data;
     protected $unitsInited;
     protected $objectsInited;
     protected $type;
     protected $events = [];
     protected $worldConfig = [];
+    protected $turn;
 
     protected $isWorldChanged = false;
 
@@ -52,7 +54,9 @@ class World
         $this->map = json_decode($mageWorld->map, true);
         $this->objects = json_decode($mageWorld->objects, true);
         $this->units = json_decode($mageWorld->units, true);
+        $this->data = json_decode($mageWorld->data, true);
         $this->type = $mageWorld->type;
+        $this->turn = $mageWorld->turn;
         $this->worldConfig = \Config::get('mageSurvival.worlds.' . $this->type);
 
         Event::import(json_decode($mageWorld->events, true));
@@ -81,9 +85,11 @@ class World
 
     public function save()
     {
-        $this->mageWorldEntity->map = json_encode($this->map);
+        $this->mageWorldEntity->map     = json_encode($this->map);
         $this->mageWorldEntity->objects = json_encode($this->objects);
-        $this->mageWorldEntity->units = json_encode($this->units);
+        $this->mageWorldEntity->units   = json_encode($this->units);
+        $this->mageWorldEntity->data    = json_encode($this->data);
+        $this->mageWorldEntity->turn    = $this->turn;
         $this->mageWorldEntity->save();
     }
 
@@ -533,9 +539,47 @@ class World
         return $this->worldConfig;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTurn()
+    {
+        return $this->turn;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function increaseTurn($value = 1)
+    {
+        $this->turn += $value;
+        $this->update();
+    }
+
     public function destroy()
     {
         $this->mageWorldEntity->delete();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param mixed $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    public  function addData($key, $value)
+    {
+        $this->data[$key] = $value;
     }
 
 }

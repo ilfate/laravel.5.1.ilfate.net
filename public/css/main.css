@@ -3068,7 +3068,7 @@ body {
   fill: #5E412F; }
 .mage-survival .interface-switch-panel .active path {
   fill: #529BCA; }
-.mage-survival .inventory-shadow {
+.mage-survival .inventory-shadow, .mage-survival .animation-shadow {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -3484,11 +3484,21 @@ body {
       position: absolute; }
     .mage-survival .battle-border .animation-field svg, .mage-survival .battle-border .attacks-field svg {
       overflow: visible; }
-  .mage-survival .battle-border .dialog-field {
-    position: absolute;
-    z-index: 20;
-    width: 17.6rem;
-    height: 17.6rem; }
+  .mage-survival .battle-border .popover {
+    background-color: #FCEBB6;
+    color: #5E412F;
+    font-size: 0.6rem;
+    min-width: 10rem; }
+    .mage-survival .battle-border .popover.right > .arrow:after {
+      border-right-color: #FCEBB6; }
+    .mage-survival .battle-border .popover.left > .arrow:after {
+      border-left-color: #FCEBB6; }
+    .mage-survival .battle-border .popover.top > .arrow:after {
+      border-top-color: #FCEBB6; }
+    .mage-survival .battle-border .popover.bottom > .arrow:after {
+      border-bottom-color: #FCEBB6; }
+    .mage-survival .battle-border .popover .popover-content {
+      padding: 0.4rem 0.6rem; }
   .mage-survival .battle-border .unit {
     position: absolute;
     width: 1.6rem;
@@ -3556,13 +3566,15 @@ body {
   .mage-survival .object.centered .rotate-div {
     margin-left: 0.8rem;
     margin-top: 0.8rem; }
-.mage-survival .unit-field {
+.mage-survival .unit-field, .mage-survival .dialog-field {
   position: absolute;
   margin: 8rem 0 0 8rem;
   width: 9.6rem;
   height: 9.6rem; }
 .mage-survival .pattern-field {
-  position: absolute; }
+  position: absolute;
+  width: 9.6rem;
+  height: 9.6rem; }
   .mage-survival .pattern-field .pattern-cell {
     border-radius: 0.1rem;
     position: absolute;

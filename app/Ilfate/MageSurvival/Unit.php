@@ -593,7 +593,10 @@ abstract class Unit extends AliveCommon
         return $this->alive;
     }
 
-    
+    public function getUnitType()
+    {
+        return self::UNIT_TYPE_UNIT;
+    }
     
     
 

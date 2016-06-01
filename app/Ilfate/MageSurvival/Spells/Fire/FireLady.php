@@ -37,8 +37,8 @@ class FireLady extends Fire
 {
     protected $availablePatterns = [];
 
-    protected $defaultCooldownMin = 2;
-    protected $defaultCooldownMax = 3;
+    protected $defaultCooldownMin = 4;
+    protected $defaultCooldownMax = 6;
 
     protected function spellEffect($data)
     {

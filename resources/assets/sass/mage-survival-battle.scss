@@ -49,12 +49,29 @@
                 overflow: visible;
             }
         }
-        .dialog-field {
-            position: absolute;
-            z-index: 20;
-            width: $battlefield-size + rem;
-            height: $battlefield-size + rem;
+        .popover {
+            background-color: $mage-colors-clay;
+            color: $mage-colors-brown;
+            font-size: 0.6rem;
+            min-width: 10rem;
+            //border-radius: 0.1rem;
+            &.right > .arrow:after {
+                border-right-color: $mage-colors-clay;
+            }
+            &.left > .arrow:after {
+                border-left-color: $mage-colors-clay;
+            }
+            &.top > .arrow:after {
+                border-top-color: $mage-colors-clay;
+            }
+            &.bottom > .arrow:after {
+                border-bottom-color: $mage-colors-clay;
+            }
+            .popover-content {
+                padding: 0.4rem 0.6rem;
+            }
         }
+
         .unit {
             position: absolute;
             width:$cell-size + rem;
@@ -138,7 +155,7 @@
             }
         }
     }
-    .unit-field {
+    .unit-field, .dialog-field {
         position: absolute;
         margin:($map-radius) * $cell-size + rem 0 0 ($map-radius) * $cell-size + rem;
         width:($map-radius + 1) * $cell-size + rem;
@@ -148,7 +165,8 @@
 
     .pattern-field {
         position: absolute;
-
+        width:($map-radius + 1) * $cell-size + rem;
+        height:($map-radius + 1) * $cell-size + rem;
         .pattern-cell {
             border-radius: 0.1rem;
             position: absolute;

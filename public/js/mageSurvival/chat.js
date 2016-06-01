@@ -167,6 +167,46 @@ MageS.Chat = function (game) {
         }
     };
 
+    this.dialogMessage = function(data, stage) {
+        // var temaplate = $('#template-dialog-message').html();
+        // Mustache.parse(temaplate);
+        // var rendered = Mustache.render(temaplate, {'content': data.message, 'type': 'dialog'});
+        // var obj = $(rendered);
+        // $('.dialog-field').append(obj);
+        // obj.css({opacity:0,
+        //     'margin-left': parseInt(data.targetX) * MageS.Game.cellSize + 'rem',
+        //     'margin-top': parseInt(data.targetY) * MageS.Game.cellSize + 'rem',
+        // });
+        // obj.animate({opacity:1}, {duration:150});
+        // setTimeout(function() {
+        //     obj.fadeOut(150, function(){$(this).remove();});
+        //     MageS.Game.animations.singleAnimationFinished(stage);
+        //     MageS.Game.chat.postMessage(data.message, 'chat')
+        // }, data.time + 150);
+        var directions = ['top', 'right', 'bottom', 'left'];
+        var cell = $('.battle-border .pattern-cell.x-' + data.targetX + '.y-' + data.targetY);
+        // cell.data('content', data.message);
+        var direction = directions[2];
+        if (data.targetX == data.targetY && data.targetY == 0) {
+            direction = array_rand([directions[0], directions[2]]);
+        } else {
+            if (data.targetY > 3) { direction = directions[0]; }
+            else if (data.targetY < -3) { direction = directions[2]; }
+            else if (data.targetX < -3) { direction = directions[1]; }
+            else if (data.targetX > 3) { direction = directions[3]; }
+            else { direction = array_rand([directions[0], directions[2]]); }
+        }
+        var options =  {content:data.message, placement:direction, trigger:'manual'};// auto
+        cell.popover(options);
+        cell.popover('show');
+        setTimeout(function() {
+                cell.popover('hide');
+                cell.popover('destroy');
+                MageS.Game.animations.singleAnimationFinished(stage);
+                MageS.Game.chat.postMessage(data.message, 'chat')
+            }, data.time + 150);
+    }
+
 
 };
 

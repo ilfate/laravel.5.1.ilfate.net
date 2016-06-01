@@ -25,9 +25,11 @@ MageS.Animations = function (game) {
 
     this.stages = [];
     this.stagesDefenition = [
+        'mage-before-action-speech',
         'mage-action',
         'mage-action-2',
         'mage-action-3',
+        'mage-after-action-speech',
         'mage-action-effect',
         'mage-action-effect-2',
         'unit-action',
@@ -35,6 +37,9 @@ MageS.Animations = function (game) {
         'unit-action-3',
         'turn-end-effects',
         'turn-end-effects-2',
+        'message-time',
+        'message-time-2',
+        'message-time-3',
     ];
 
     this.animateEvents = function(game) {
@@ -158,6 +163,9 @@ MageS.Animations = function (game) {
                 break;
             case 'cell-change':
                 this.changeCellAnimation(data.data, stage);
+                break;
+            case 'say-message':
+                this.sayMessageAnimation(data.data, stage);
                 break;
             case 'wait':
                 this.waitAnimation(data.data, stage);
@@ -442,6 +450,11 @@ MageS.Animations = function (game) {
         setTimeout(function() {
             MageS.Game.animations.singleAnimationFinished(stage);
         }, data.time);
+    };
+
+    this.sayMessageAnimation = function(data, stage)
+    {
+        this.game.chat.dialogMessage(data, stage);
     };
 
     this.objectDestroyAnimation = function(data, stage)

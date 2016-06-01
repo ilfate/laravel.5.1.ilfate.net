@@ -1,6 +1,8 @@
 <?php namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
@@ -40,7 +42,9 @@ class LetFireInYourEyes extends Fire
             $target->addFlag(Unit::FLAG_BURN);
             $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_FIRE);
             $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
-            
+            if (ChanceHelper::chance(10)) {
+                $this->mage->say('Burn!!!', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);
+            }
         }
         return true;
     }

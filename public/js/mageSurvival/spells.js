@@ -59,6 +59,12 @@ MageS.Spells = function (game) {
            case 'Icelock': 
            case 'FreshWaterFountain':
            case 'WaterBody': this.water.startStandartWater() ; break; 
+           case 'Push': 
+           case 'Harmony': 
+           case 'NoMoreAirForYou': 
+           case 'QuardroLightning': 
+           case 'Lightning': 
+               this.air.startStandartAir() ; break; 
            default:
                isSpellAnimated = false;
                info('No start animation for "' + name + '"');
@@ -95,6 +101,12 @@ MageS.Spells = function (game) {
             case 'Icelock': 
             case 'FreshWaterFountain': 
             case 'WaterBody': this.water.iterateStandertWater() ; break;
+            case 'Push':
+            case 'Harmony':  
+            case 'NoMoreAirForYou':  
+            case 'QuardroLightning':  
+            case 'Lightning':  
+                this.air.iterateStandartAir() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
         }
@@ -124,6 +136,11 @@ MageS.Spells = function (game) {
             case 'Icelock': this.water.finishIcelock(this.currentSpellData); break;
             case 'FreshWaterFountain': this.water.finishFreshWaterFountain(this.currentSpellData); break;
             case 'WaterBody': this.water.finishWaterBody(this.currentSpellData); break;
+            case 'Push': this.air.finishPush(this.currentSpellData); break;
+            case 'Harmony':  this.air.finishHarmony(this.currentSpellData); break;
+            case 'NoMoreAirForYou':  this.air.finishNoMoreAirForYou(this.currentSpellData); break;
+            case 'QuardroLightning':  this.air.finishQuardroLightning(this.currentSpellData); break;
+            case 'Lightning':  this.air.finishLightning(this.currentSpellData); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);
@@ -274,12 +291,22 @@ MageS.Spells = function (game) {
         var segment2End = "150%";
         if (options.segment1 !== undefined) { segment1Start = options.segment1[0]; segment1End = options.segment1[1]; }
         if (options.segment2 !== undefined) { segment2Start = options.segment2[0]; segment2End = options.segment2[1]; }
-        segment.draw(segment1Start, segment1End, 0);
+        if (options.yesIWantToHaveBlinkBug === undefined) {
+            segment.draw(segment1Start, segment1End, 0);
+        }
         var delay = 0;
         if (options.delay !== undefined) { delay = options.delay; }
         setTimeout(function() {
+            if (options.yesIWantToHaveBlinkBug !== undefined) {
+                segment.draw(segment1Start, segment1End, 0);
+            }
             segment.draw(segment2Start, segment2End, time);
         }, delay);
+        if (options.delete !== undefined) {
+            setTimeout(function() {
+                beam.remove();
+            }, delay + (time * 1000))
+        }
         return beam;
     };
 
@@ -353,13 +380,54 @@ MageS.Spells = function (game) {
             flake.animate({opacity:1},{duration:50});
             toX = (toX * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
             toY = (toY * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
-
-            flake.animate({'margin-left':toX, 'margin-top':toY}, {queue:false, duration:options.time});
-            svg.animateRotate(0, 720, options.time);
+            var easing = 'swing';
+            if (options.easing !== undefined) { easing = options.easing; }
+            flake.animate({'margin-left':toX, 'margin-top':toY}, {queue:false, duration:options.time, easing:easing });
+            if (options.rotate !== undefined) {
+                svg.animateRotate(0, 720, options.time);
+            }
             setTimeout(function(){
                 flake.fadeOut(50);
             }, options.time - 50);
         }, delay);
     };
+    
+    this.addScreen = function(options) {
+        var delay = 0;
+        if (options.delay !== undefined) {
+            delay = options.delay;
+        }
+        setTimeout(function () {
+            var duration = 100;
+            if (options.duration !== undefined) {
+                duration = options.duration;
+            }
+            var shadow = $('.animation-shadow');
+            if (options.color !== undefined) {
+                shadow.css({'background-color': options.color});
+            }
+            var opacity = 0.8;
+            if (options.opacity !== undefined) {
+                opacity = options.opacity;
+            }
+            shadow.show().animate({'opacity': opacity}, {'duration': duration, complete:function(){
+                if (options.delete !== undefined) {
+                    var deleteDelay = 0;
+                    if (options.deleteDelay !== undefined) {
+                        deleteDelay = options.deleteDelay;
+                    }
+                    var deleteDuration = 100;
+                    if (options.deleteDuration !== undefined) {
+                        deleteDuration = options.deleteDuration;
+                    }
+                    setTimeout(function () {
+                    shadow.animate({opacity:0}, {duration: deleteDuration, complete: function() {
+                        $(this).hide();
+                    }})
+                    }, deleteDelay);
+                }
+            }});
+        }, delay);
+    }
 };
 

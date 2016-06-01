@@ -40,6 +40,12 @@ class PhoenixStrike extends Fire
     protected $defaultCooldownMin = 3;
     protected $defaultCooldownMax = 7;
 
+
+    public function setUsages()
+    {
+        $this->config['usages'] = 2;
+    }
+
     protected function spellEffect($data)
     {
         list($phoenixTargetX,$phoenixTargetY) = $this->affectedCells[0];

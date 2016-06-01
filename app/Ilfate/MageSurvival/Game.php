@@ -60,10 +60,13 @@ class Game
     const EVENT_NAME_SPELL_CRAFT        = 'spell-craft';
     const EVENT_NAME_OBJECT_ACTIVATE    = 'object-activate';
     const EVENT_CELL_CHANGE             = 'cell-change';
+    const EVENT_NAME_SAY_MESSAGE        = 'say-message';
 
+    const ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH = 'mage-before-action-speech';
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
     const ANIMATION_STAGE_MAGE_ACTION_2 = 'mage-action-2';
     const ANIMATION_STAGE_MAGE_ACTION_3 = 'mage-action-3';
+    const ANIMATION_STAGE_MAGE_AFTER_ACTION_SPEECH = 'mage-after-action-speech';
     const ANIMATION_STAGE_MAGE_ACTION_EFFECT = 'mage-action-effect';
     const ANIMATION_STAGE_MAGE_ACTION_EFFECT_2 = 'mage-action-effect-2';
     const ANIMATION_STAGE_UNIT_ACTION = 'unit-action';
@@ -71,6 +74,9 @@ class Game
     const ANIMATION_STAGE_UNIT_ACTION_3 = 'unit-action-3';
     const ANIMATION_STAGE_TURN_END_EFFECTS = 'turn-end-effects';
     const ANIMATION_STAGE_TURN_END_EFFECTS_2 = 'turn-end-effects-2';
+    const ANIMATION_STAGE_MESSAGE_TIME       = 'message-time';
+    const ANIMATION_STAGE_MESSAGE_TIME_2       = 'message-time-2';
+    const ANIMATION_STAGE_MESSAGE_TIME_3       = 'message-time-3';
 
     public static $stagesList = [
         self::ANIMATION_STAGE_MAGE_ACTION,
@@ -223,7 +229,8 @@ class Game
     public function nextTurn()
     {
         if ($this->isTurnHappend) {
-            $this->mage->increaseTurn();
+            $this->world->increaseTurn();
+            $this->worldGenerator->worldTips($this->getTurn());
 
             $active = $this->worldGenerator->getActiveUnitsAndObjects($this->mage);
             foreach ($active['units'] as $activeUnit) {
@@ -263,7 +270,7 @@ class Game
 
     public function getTurn()
     {
-        return $this->mage->getTurn();
+        return $this->world->getTurn();
     }
 
     public function initWorld()

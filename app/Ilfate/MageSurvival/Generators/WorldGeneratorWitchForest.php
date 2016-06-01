@@ -12,6 +12,7 @@
  * @link      http://ilfate.net
  */
 namespace Ilfate\MageSurvival\Generators;
+use Ilfate\Geometry2DCells;
 use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Event;
 use Ilfate\MageSurvival\Spell;
@@ -133,6 +134,7 @@ class WorldGeneratorWitchForest extends WorldGenerator
                 }
             }
         }
+        $this->world->addData('witchLocation', [$witch->getX(), $witch->getY()]);
         $door = null;
         $objects = $this->world->getObjects();
         foreach ($objects as $y => $row) {
@@ -178,5 +180,14 @@ class WorldGeneratorWitchForest extends WorldGenerator
         return $cell;
     }
 
+
+
+    public function whereIsWitch()
+    {
+        $location = $this->world->getData()['witchLocation'];
+        $directionText = $this->coordinatsToDirection($this->mage->getX(), $this->mage->getY(), $location[0], $location[1]);
+
+        return 'Witch should be somewhere ' . $directionText . ' from here.';
+    }
 
 }

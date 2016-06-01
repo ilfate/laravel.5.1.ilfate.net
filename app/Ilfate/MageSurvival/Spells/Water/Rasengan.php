@@ -45,7 +45,7 @@ class Rasengan extends Water
 
     public function setUsages()
     {
-        $this->config['usages'] = 10;
+        $this->config['usages'] = 1;
     }
 
     protected function spellEffect($data)

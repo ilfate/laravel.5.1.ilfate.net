@@ -206,7 +206,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
 
     }
 
-    .inventory-shadow {
+    .inventory-shadow, .animation-shadow {
         position: fixed;
         width: 100%;
         height: 100%;

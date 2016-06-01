@@ -57,7 +57,7 @@ MageS.Attacks = function (game) {
 
     this.web = function(id, stage) {
         var data = this.attacks[id].data;
-        var options = {time:700};
+        var options = {time:700, rotate:true};
         MageS.Game.spells.moveIcon('icon-spider-web', 'color-white', data.fromX, data.fromY, data.targetX, data.targetY, options);
 
 

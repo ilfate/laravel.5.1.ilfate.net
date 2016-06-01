@@ -46,7 +46,6 @@ abstract class Mage extends AliveCommon
     protected $was = [];
     protected $data;
     protected $items;
-    protected $turn;
     protected $spells = [];
 
     /**
@@ -68,7 +67,7 @@ abstract class Mage extends AliveCommon
         $this->data = json_decode($mageEntity->data, true);
         $this->items = json_decode($mageEntity->items, true);
         $this->spells = json_decode($mageEntity->spells, true);
-        $this->turn = $mageEntity->turn;
+        
         if (isset($this->data['x'])) {
             $this->x = $this->data['x'];
             $this->was['x'] = $this->data['x'];
@@ -117,7 +116,6 @@ abstract class Mage extends AliveCommon
         $this->mageEntity->data   = json_encode($data);
         $this->mageEntity->items  = json_encode($this->items);
         $this->mageEntity->spells = json_encode($this->spells);
-        $this->mageEntity->turn   = $this->turn;
         $this->mageEntity->save();
     }
 
@@ -197,7 +195,6 @@ abstract class Mage extends AliveCommon
         }
         $spellsViewData = \Config::get('mageSpells.list');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
-        //$turn = $this->getTurn();
         foreach ($this->spells as $spellId => $spell) {
             $return[$spellId] = [
                 'id' => $spellId,
@@ -237,11 +234,8 @@ abstract class Mage extends AliveCommon
         $spellsViewData = \Config::get('mageSpells.list');
         $schoolsViewData = \Config::get('mageSpells.schools');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
-        //$turn = $this->getTurn();
         foreach ($this->spellsChanges as $spellId => $spell) {
-            //$cooldownMark = $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK];
-            //$spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = $cooldownMark - $turn;
-            //list($name, $schoolId, $number) = explode('#', $spell['code']);
+            
             $return[$spellId] = [
                 'id' => $spellId,
                 'config' => $spell['config'],
@@ -657,22 +651,9 @@ abstract class Mage extends AliveCommon
         $this->game = $game;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTurn()
-    {
-        return $this->turn;
-    }
+    
 
-    /**
-     * @param mixed $value
-     */
-    public function increaseTurn($value = 1)
-    {
-        $this->turn += $value;
-        $this->update();
-    }
+    
 
     public function getItemsConfig() {
         if (!$this->itemsConfig) {
@@ -771,5 +752,10 @@ abstract class Mage extends AliveCommon
     public function deleteAllSpells()
     {
         $this->spells = [];
+    }
+
+    public function getUnitType()
+    {
+        return self::UNIT_TYPE_MAGE;
     }
 }

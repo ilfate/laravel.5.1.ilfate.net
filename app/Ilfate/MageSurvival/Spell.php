@@ -302,7 +302,7 @@ abstract class Spell
         if ($this->config['usages'] < 1) {
             throw new \Exception('This spell is empty (id = ' . $this->id . ')');
         }
-        if ($this->config[self::CONFIG_FIELD_COOLDOWN_MARK] > $this->mage->getTurn()) {
+        if ($this->config[self::CONFIG_FIELD_COOLDOWN_MARK] > $this->game->getTurn()) {
             throw new MessageException('Spell is on cooldown');
         }
         $this->name = $this->configuration['class'];
@@ -380,7 +380,7 @@ abstract class Spell
 
     public function cooldown()
     {
-        $this->config[self::CONFIG_FIELD_COOLDOWN_MARK] = $this->mage->getTurn()
+        $this->config[self::CONFIG_FIELD_COOLDOWN_MARK] = $this->game->getTurn()
             + $this->config[self::CONFIG_FIELD_COOLDOWN] + 1;
     }
 

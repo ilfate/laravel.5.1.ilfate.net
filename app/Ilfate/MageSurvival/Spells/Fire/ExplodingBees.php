@@ -23,6 +23,11 @@ class ExplodingBees extends Fire
     protected $defaultCooldownMin = 4;
     protected $defaultCooldownMax = 7;
 
+    public function setUsages()
+    {
+        $this->config['usages'] = 6;
+    }
+
     protected function spellEffect($data)
     {
         foreach($this->targets as $target) {

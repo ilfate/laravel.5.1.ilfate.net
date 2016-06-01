@@ -30,7 +30,7 @@ class ChanceHelper
 {
     public static function chance($percent)
     {
-        $rand = mt_rand(1,100);
+        $rand = mt_rand(0,99);
         if ($rand > $percent) return false;
         return true;
     }

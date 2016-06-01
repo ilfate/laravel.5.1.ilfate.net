@@ -202,10 +202,20 @@ MageS.Monimations = function (game) {
         }).run();
     };
     
-    this.camShake = function (direction, duration, startAmplitude, delay, callback) {
+    this.camShake = function (direction, duration, startAmplitude, delay, callback, options) {
+        if (!options) { options = {};}
         var el = $('.battle-border');
+        if (options.el !== undefined) {
+            el = options.el;
+        }
         var sign = 1;
         if (!direction) { direction = 'X'; }
+        if (direction !== 'X' && direction !== 'Y') {
+            switch (direction) {
+                case 0: case 2: direction = 'Y'; break;
+                case 1: case 3: direction = 'X'; break;
+            }
+        }
         if (!duration) { duration = 600; }
         if (!startAmplitude) { startAmplitude = 5; }
         if (!delay) { delay = 1; }

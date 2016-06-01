@@ -179,7 +179,7 @@ MageS.Spells.Fire = function (game, spells) {
             case 2: mTop = -0.5; break;
             case 3: rotate = 90; mTop = -0.4; mLeft = -0.1; break;
         }
-        MageS.Game.animations.singleAnimationFinished(this.spells.isSecondPartWaiting);
+        MageS.Game.animations.singleAnimationFinished(MageS.Game.spells.isSecondPartWaiting);
         this.buttFire(rotate, mTop, mLeft);
         setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 150);
         setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 300);
@@ -192,7 +192,7 @@ MageS.Spells.Fire = function (game, spells) {
 
     this.finishBomb = function(data) {
         this.standartFireToMiddle(800);
-        MageS.Game.animations.singleAnimationFinished(this.spells.isSecondPartWaiting);
+        MageS.Game.animations.singleAnimationFinished(MageS.Game.spells.isSecondPartWaiting);
         setTimeout(function(){
             MageS.Game.spells.clearAnimationField();
         }, 800);
@@ -470,7 +470,7 @@ MageS.Spells.Fire = function (game, spells) {
             this.spells.beamStrike(8, 360 / 9 * i, 'icon-bullet-start-spin', '#F07818', options)
         }
         setTimeout(function() {
-            MageS.Game.animations.singleAnimationFinished(this.spells.isSecondPartWaiting);
+            MageS.Game.animations.singleAnimationFinished(MageS.Game.spells.isSecondPartWaiting);
         }, 1150);
         setTimeout(function() {
             MageS.Game.spells.clearAnimationField();

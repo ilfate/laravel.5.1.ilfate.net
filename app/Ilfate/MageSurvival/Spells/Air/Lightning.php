@@ -13,6 +13,7 @@
  */
 namespace Ilfate\MageSurvival\Spells\Air;
 
+use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\Spell;
@@ -31,11 +32,10 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Harmony extends Air
+class Lightning extends Air
 {
     protected $defaultCooldownMin = 3;
-    protected $defaultCooldownMax = 4;
-    protected $availablePatterns = [4];
+    protected $defaultCooldownMax = 5;
 
     public function setUsages()
     {
@@ -44,8 +44,17 @@ class Harmony extends Air
 
     protected function spellEffect($data)
     {
-        $this->mage->heal(5, Game::ANIMATION_STAGE_MAGE_ACTION_2);
-        $this->mage->addBuff(Spell::ENERGY_SOURCE_AIR, 2, 2);
+        $units = $this->world->getUnitsAround($this->mage->getX(), $this->mage->getY(), 5);
+        $units[] = $this->mage;
+        $target = ChanceHelper::oneFromArray($units);
+        $damage = $this->mage->getDamage(8, Spell::ENERGY_SOURCE_AIR);
+        $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_AIR);
+
+        $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
+            'spell' => $this->name,
+            'targetX' => $target->getX() - $this->mage->getX(),
+            'targetY' => $target->getY() - $this->mage->getY()
+        ], Game::ANIMATION_STAGE_MAGE_ACTION);
         return true;
     }
 }

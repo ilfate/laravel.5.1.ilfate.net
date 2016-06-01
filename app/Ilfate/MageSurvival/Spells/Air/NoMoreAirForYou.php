@@ -13,6 +13,7 @@
  */
 namespace Ilfate\MageSurvival\Spells\Air;
 
+use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\Spell;
@@ -31,21 +32,16 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Harmony extends Air
+class NoMoreAirForYou extends Air
 {
-    protected $defaultCooldownMin = 3;
-    protected $defaultCooldownMax = 4;
-    protected $availablePatterns = [4];
-
-    public function setUsages()
-    {
-        $this->config['usages'] = 5;
-    }
+    protected $defaultCooldownMin = 1;
+    protected $defaultCooldownMax = 3;
 
     protected function spellEffect($data)
     {
-        $this->mage->heal(5, Game::ANIMATION_STAGE_MAGE_ACTION_2);
-        $this->mage->addBuff(Spell::ENERGY_SOURCE_AIR, 2, 2);
+        $target = $this->targets[0];
+        $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_AIR);
+        $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_AIR);
         return true;
     }
 }

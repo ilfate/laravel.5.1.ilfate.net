@@ -40,6 +40,11 @@ class FireImp extends Fire
     protected $defaultCooldownMin = 15;
     protected $defaultCooldownMax = 30;
 
+    public function setUsages()
+    {
+        $this->config['usages'] = 2;
+    }
+
     protected function spellEffect($data)
     {
         $cells = [];
@@ -62,6 +67,7 @@ class FireImp extends Fire
             throw new MessageException('Seems like there is a problem to find a place for imp :(');
         }
         $unit = $this->world->addUnit(1001, $cell[0], $cell[1]);
+        $unit->say('I`m here to serve master!', Game::ANIMATION_STAGE_MAGE_AFTER_ACTION_SPEECH);
         if ($unit) {
             GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT,
                 ['unit' => $unit->exportForView(),
@@ -81,8 +87,4 @@ class FireImp extends Fire
         return true;
     }
 
-    public function setUsages()
-    {
-        $this->config['usages'] = 1;
-    }
 }
