@@ -66,15 +66,9 @@ class FireImp extends Fire
         if (!$cellFound) {
             throw new MessageException('Seems like there is a problem to find a place for imp :(');
         }
-        $unit = $this->world->addUnit(1001, $cell[0], $cell[1]);
-        $unit->say('I`m here to serve master!', Game::ANIMATION_STAGE_MAGE_AFTER_ACTION_SPEECH);
+        $unit = $this->world->addUnit(1001, $cell[0], $cell[1], Game::ANIMATION_STAGE_MAGE_ACTION_3);
         if ($unit) {
-            GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT,
-                ['unit' => $unit->exportForView(),
-                'targetX' => $cell[0] - $this->mage->getX(),
-                'targetY' => $cell[1] - $this->mage->getY(),
-                ],
-                Game::ANIMATION_STAGE_MAGE_ACTION_3);
+            $unit->say('I`m here to serve master!', Game::ANIMATION_STAGE_MAGE_AFTER_ACTION_SPEECH);
             $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
                 'spell' => $this->name,
                 'targetX' => $cell[0] - $this->mage->getX(),

@@ -457,15 +457,15 @@ MageS.Spells.Fire = function (game, spells) {
         // MageS.Game.monimations.camShake('Y', 1500, 3, 100, function() {
         //     MageS.Game.spells.endSpellAnimation();
         // });
+        var options = {
+            'moveLeft': ((data.targetX + 0.5) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((data.targetY + 0.5) * MageS.Game.cellSize) + 'rem',
+            'time': 1.3,
+            'beamWidth': 12,
+            'segment1': ["100%", "100%"],
+            'segment2': ["-8%", "0"],
+        };
         for(var i = 0 ; i < 9; i++) {
-            var options = {
-                'moveLeft': ((data.targetX + 0.5) * MageS.Game.cellSize) + 'rem',
-                'moveTop': ((data.targetY + 0.5) * MageS.Game.cellSize) + 'rem',
-                'time': 1.3,
-                'beamWidth': 12,
-                'segment1': ["100%", "100%"],
-                'segment2': ["-8%", "0"],
-            };
             //'icon-bullet-simple-middle-line'
             this.spells.beamStrike(8, 360 / 9 * i, 'icon-bullet-start-spin', '#F07818', options)
         }

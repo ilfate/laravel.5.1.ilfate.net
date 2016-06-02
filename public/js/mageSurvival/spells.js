@@ -156,8 +156,9 @@ MageS.Spells = function (game) {
         }
     };
     this.endSpellAnimation = function () {
-        MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);
+        var stage = this.isSecondPartWaiting;
         this.clearAnimationField();
+        MageS.Game.animations.singleAnimationFinished(stage);
     };
     this.clearAnimationField = function() {
         $('.battle-border .mage path.hand').show();
@@ -387,7 +388,9 @@ MageS.Spells = function (game) {
                 svg.animateRotate(0, 720, options.time);
             }
             setTimeout(function(){
-                flake.fadeOut(50);
+                flake.fadeOut(50, function() {
+                    $(this).remove();
+                });
             }, options.time - 50);
         }, delay);
     };

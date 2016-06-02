@@ -105,7 +105,29 @@ class WorldGeneratorWitchForest extends WorldGenerator
             'radius' => 1,
         ],
         'mapLimit' => 30,
-        'portalLocation' => ['x' => 0, 'y' => 1]
+        'portalLocation' => ['x' => 0, 'y' => 1],
+        'dialog' => [
+            'help' => [
+                ['method' => 'whereIsWitch']
+            ], 'lore' => [
+                ['message' => 'I`m not sure who build those portals. They are connecting different parts of the world as well as different worlds.'],
+                ['message' => 'My school of magic was not the only one. I heard that there was at least 5 other schools of magic.'],
+
+            ], 'joke' => [
+                ['message' => 'Am I the only one here who thinks that those spider are way too big?'],
+                ['message' => 'I should have remembered ingredients for that awesome spell...'],
+
+            ], 'turn' => [
+                1 => ['message' => 'I have no idea what happened to my school. I hope this witch have some answers.'],
+                3 => ['message' => 'I heard that she lives in some kind of house.'],
+                5 => ['message' => 'She was teaching dark art in my school bank in the days.'],
+                7 => ['message' => 'Let`s hope she still have her senses.'],
+                9 => ['method' => 'whereIsWitch'],
+                11 => ['message' => 'Maybe I need to create more spells?.'],
+                15 => ['message' => 'I hoped this forest is more like a park.'],
+                //100 => ['message' => 'I h.'],
+            ]
+        ]
     ];
 
     public function addAdditionalToMap(array &$map)
@@ -145,7 +167,7 @@ class WorldGeneratorWitchForest extends WorldGenerator
                 }
             }
         }
-        Event::create(Event::EVENT_UNIT_AFTER_DYING, [
+        Event::create(Event::EVENT_UNIT_BEFORE_DYING, [
                 'times' => 1,
                 'owner' => $witch,
                 'doorX' => $door[0], 'doorY' => $door[1]

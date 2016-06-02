@@ -99,8 +99,7 @@ MageS.Spells.Air = function (game, spells) {
     };
 
     this.finishNoMoreAirForYou = function(data) {
-        info(data);
-        info((0.5 + data.targetX));
+        
         var options = {
             'moveLeft': ((0.5 + parseInt(data.targetX)) * MageS.Game.cellSize) + 'rem',
             'moveTop': ((0.5 + parseInt(data.targetY)) * MageS.Game.cellSize) + 'rem',

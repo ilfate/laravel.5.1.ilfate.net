@@ -403,9 +403,9 @@ abstract class WorldGenerator
     
     public function worldTips($turn)
     {
-        if (!empty($this->config['worlds'][$this->world->getType()]['dialog'])) {
-            if (!empty($this->config['worlds'][$this->world->getType()]['dialog']['turn'][$turn])) {
-                $messageConfig = $this->config['worlds'][$this->world->getType()]['dialog']['turn'][$turn];
+        if (!empty(static::$generatorConfig['dialog'])) {
+            if (!empty(static::$generatorConfig['dialog']['turn'][$turn])) {
+                $messageConfig = static::$generatorConfig['dialog']['turn'][$turn];
                 $this->mage->say($this->processConfigMessage($messageConfig));
                 return ;
             }
@@ -414,8 +414,8 @@ abstract class WorldGenerator
             // lets show some thing.
             $massegesTypes = ['help', 'help', 'help', 'lore',' joke'];
             $type = ChanceHelper::oneFromArray($massegesTypes);
-            if (!empty($this->config['worlds'][$this->world->getType()]['dialog'][$type])) {
-                $messageConfig = ChanceHelper::oneFromArray($this->config['worlds'][$this->world->getType()]['dialog'][$type]);
+            if (!empty(static::$generatorConfig['dialog'][$type])) {
+                $messageConfig = ChanceHelper::oneFromArray(static::$generatorConfig['dialog'][$type]);
                 $this->mage->say($this->processConfigMessage($messageConfig));
                 return ;
             }
@@ -430,6 +430,11 @@ abstract class WorldGenerator
             return $this->{$config['method']}();
         }
     }
+    
+    public function onLeaveWorld()
+    {
+        
+    }
 
     public function coordinatsToDirection($x1, $y1, $x2, $y2)
     {
@@ -441,25 +446,25 @@ abstract class WorldGenerator
                 return 'east';
             case 1:
             case 2:
-                return 'north-east';
+                return 'south-east';
             case 3:
             case 4:
-                return 'north';
+                return 'south';
             case 5:
             case 6:
-                return 'north-west';
+                return 'south-west';
             case 7:
             case 8:
                 return 'west';
             case 9:
             case 10:
-                return 'south-west';
+                return 'north-west';
             case 11:
             case 12:
-                return 'south';
+                return 'north';
             case 13:
             case 14:
-                return 'south-east';
+                return 'north-east';
         }
     }
 

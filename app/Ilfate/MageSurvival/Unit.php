@@ -459,6 +459,7 @@ abstract class Unit extends AliveCommon
 
     public function dead($animationStage)
     {
+        Event::trigger(Event::EVENT_UNIT_BEFORE_DYING, ['owner' => $this]);
         $this->world->destroyUnit($this->x, $this->y, $this->getId());
         $this->alive = false;
         GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_KILL, ['id' => $this->getId()], $animationStage);
@@ -470,7 +471,7 @@ abstract class Unit extends AliveCommon
                     $animationStage);
             }
         }
-        Event::trigger(Event::EVENT_UNIT_AFTER_DYING, ['owner' => $this]);
+        
     }
 
     public function getOnDamageBehaviour() {

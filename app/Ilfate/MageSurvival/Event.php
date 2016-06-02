@@ -35,7 +35,7 @@ class Event
     const TARGET_SEPARATOR = '+t+';
 
     const EVENT_UNIT_GET_DAMAGE = 'u-get-dmg';
-    const EVENT_UNIT_AFTER_DYING = 'u-a-die';
+    const EVENT_UNIT_BEFORE_DYING = 'u-b-die';
     const EVENT_UNIT_BEFORE_MOVE = 'u-b-move';
     const EVENT_UNIT_AFTER_TURN = 'u-a-turn';
     const EVENT_UNIT_BEFORE_TURN = 'u-b-turn';
@@ -52,7 +52,7 @@ class Event
     ];
     protected static $withOwner = [
         self::EVENT_UNIT_GET_DAMAGE,
-        self::EVENT_UNIT_AFTER_DYING,
+        self::EVENT_UNIT_BEFORE_DYING,
         self::EVENT_UNIT_BEFORE_TURN,
         self::EVENT_UNIT_AFTER_TURN,
         self::EVENT_UNIT_BEFORE_MOVE,

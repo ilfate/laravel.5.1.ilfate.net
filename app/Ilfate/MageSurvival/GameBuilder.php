@@ -117,6 +117,14 @@ class GameBuilder
     {
         return self::getGame()->getMage()->getRelativeCoordinats($x, $y);
     }
+    public static function getWorld()
+    {
+        return self::getGame()->getWorld();
+    }
+    public static function getWorldGenerator()
+    {
+        return self::getGame()->getWorldGenerator();
+    }
 
     public static function createWorld(Game $game, Mage $mageEntity, $type = 1)
     {

@@ -39,6 +39,7 @@ class World
     protected $turn;
 
     protected $isWorldChanged = false;
+    protected $deleted = false;
 
     /**
      * @var MageWorld
@@ -85,6 +86,9 @@ class World
 
     public function save()
     {
+        if ($this->deleted) {
+            return; 
+        }
         $this->mageWorldEntity->map     = json_encode($this->map);
         $this->mageWorldEntity->objects = json_encode($this->objects);
         $this->mageWorldEntity->units   = json_encode($this->units);
@@ -113,7 +117,7 @@ class World
         return $object;
     }
 
-    public function addUnit($unitType, $x, $y)
+    public function addUnit($unitType, $x, $y, $stage = false)
     {
         if ($this->getUnit($x, $y)) {
             return null;
@@ -121,6 +125,15 @@ class World
         $unit = Unit::getUnit($x, $y, $unitType, $this, GameBuilder::getGame()->getMage());
         $this->units[$y][$x] = $unit->export();
         $this->update();
+        if ($stage) {
+            $mage = GameBuilder::getGame()->getMage();
+            GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT,
+                ['unit' => $unit->exportForView(),
+                 'targetX' => $x - $mage->getX(),
+                 'targetY' => $y - $mage->getY(),
+                ],
+                $stage);
+        }
         return $unit;
     }
 
@@ -558,6 +571,7 @@ class World
 
     public function destroy()
     {
+        $this->deleted = true;
         $this->mageWorldEntity->delete();
     }
 

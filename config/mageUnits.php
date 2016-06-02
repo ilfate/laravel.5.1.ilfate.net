@@ -18,10 +18,10 @@ return array(
             'description' => 'This is a dummy. You can kill it. Probably you should!',
         ],
         3 => [
-            'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 25,
-            'behaviour' => 'Passive',
-            'icon' => 'icon-police-target', 'iconColor' => 'color-red',
-            'description' => 'An angry creature that once was human! But not anymore! It`s twisted magic can summon armies of spiders.',
+            'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 2,
+            'behaviour' => 'AggressiveRange', 'aggressiveRange' => 6, 'attacks' => ['spawnSpiders', 'greenLaser'],
+            'icon' => 'icon-witch-1',
+            'description' => 'She is common member of magic community. What she can do? You have to find out.',
         ],
         4 => [
             'name' => 'Spider', 'class' => 'Rodents\\Spider', 'health' => 4,
@@ -71,7 +71,8 @@ return array(
         'teeth2' => ['range' => 1.9, 'damage' => 2, 'animation' => 'melee'],
         'web' => ['range' => 3.2, 'damage' => 0, 'animation' => 'web', 'class' => 'Web', 'charges' => 1],
         'fireSpit' => ['range' => 2.5, 'damage' => 2, 'animation' => 'fireSpit', 'charges' => 3],
-        'spawn' => ['range' => 4, 'damage' => 0, 'animation' => 'spawn', 'class' => 'Spawn'],
+        'spawnSpiders' => ['range' => 4, 'damage' => 0, 'animation' => 'spawn', 'class' => 'SpawnSpiders',  'charges' => 1],
+        'greenLaser' => ['range' => 3.2, 'damage' => 3, 'animation' => 'greenLaser'],
     ],
 
 

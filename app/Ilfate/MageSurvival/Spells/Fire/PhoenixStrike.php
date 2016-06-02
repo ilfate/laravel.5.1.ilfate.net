@@ -81,7 +81,7 @@ class PhoenixStrike extends Fire
         }
         $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
             'spell' => $this->name, 'targetX' => $phoenixTargetX - $mageX, 'targetY' => $phoenixTargetY - $mageY,
-            'data' => $targetsForAnimation, 'd' => $this->mage->getD()
+            'data' => $targetsForAnimation, 'd' => $d
         ], Game::ANIMATION_STAGE_MAGE_ACTION);
 //        $this->mage->forceMove($x, $y, $this->getNormalCastStage());
         return true;

@@ -89,7 +89,7 @@ MageS.Objects = function (game) {
                 setTimeout(function() {MageS.Game.animations.singleAnimationFinished(stage);}, 500);
                 break;
             case 'fountainHeal':
-                var options = {beamWidth:20};
+                var options = {beamWidth:20, 'delete':true};
 
                 var colors = [ '#529BCA', '#37A4F9', '#ffffff' ];
                 var color = '';
