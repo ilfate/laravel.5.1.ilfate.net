@@ -71,7 +71,7 @@ return array(
         'teeth2' => ['range' => 1.9, 'damage' => 2, 'animation' => 'melee'],
         'web' => ['range' => 3.2, 'damage' => 0, 'animation' => 'web', 'class' => 'Web', 'charges' => 1],
         'fireSpit' => ['range' => 2.5, 'damage' => 2, 'animation' => 'fireSpit', 'charges' => 3],
-        'spawnSpiders' => ['range' => 4, 'damage' => 0, 'animation' => 'spawn', 'class' => 'SpawnSpiders',  'charges' => 1],
+        'spawnSpiders' => ['range' => 4, 'damage' => 0, 'animation' => 'spawn', 'class' => 'WitchSpiders',  'charges' => 1],
         'greenLaser' => ['range' => 3.2, 'damage' => 3, 'animation' => 'greenLaser'],
     ],
 

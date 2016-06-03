@@ -30,7 +30,7 @@ use Ilfate\User;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class SpawnSpiders extends AbstractAttack
+class WitchSpiders extends AbstractAttack
 {
 
 
