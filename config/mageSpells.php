@@ -293,7 +293,7 @@ return array(
     'school-chances' => [
         1,1,1,1,1,1,1,1,   //fire
         2,2,2,2,2,2,2,2, // water
-//        3,3,3,3,3,3,     // air
+        3,3,3,3,3,3,     // air
 //        4,4,4,4,4,4,     // earth
         //  5,5,             // light
         //  6,6,             // death
