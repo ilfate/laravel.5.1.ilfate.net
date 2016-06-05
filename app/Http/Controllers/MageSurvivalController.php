@@ -134,6 +134,7 @@ class MageSurvivalController extends BaseController
         }
         view()->share('bodyClass', 'mage-map-builder');
         view()->share('mapName', $name);
+        view()->share('mapName2', 'WitchForest');
         view()->share('offsetX', $x);
         view()->share('offsetY', $y);
         return view('games.mageSurvival.map-builder');

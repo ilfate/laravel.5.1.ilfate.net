@@ -28,17 +28,29 @@ namespace Ilfate;
  */
 class Geometry2DCells
 {
-    public static function getNeighbours()
+    public static function getNeighbours($x = false, $y = false)
     {
+        if ($x === false && $y === false) {
+            return [
+                [0, -1],
+                [1, 0],
+                [0, 1],
+                [-1, 0],
+                [-1, -1],
+                [1, -1],
+                [1, 1],
+                [-1, 1],
+            ];
+        }
         return [
-            [0, -1],
-            [1, 0],
-            [0, 1],
-            [-1, 0],
-            [-1, -1],
-            [1, -1],
-            [1, 1],
-            [-1, 1],
+            [$x, $y - 1],
+            [$x + 1, $y],
+            [$x, $y + 1],
+            [$x - 1, $y],
+            [$x - 1, $y - 1],
+            [$x + 1, $y - 1],
+            [$x + 1, $y + 1],
+            [$x - 1, $y + 1],
         ];
     }
 

@@ -37,6 +37,8 @@ abstract class Unit extends AliveCommon
 
     const CONFIG_KEY_BEHAVIOUR = 'behaviour';
     const CONFIG_KEY_SECONDARY_BEHAVIOUR = 'secondaryBehaviour';
+    
+    const ATTACK_KEY_DEFINITION = 'definition';
 
     protected $id;
     protected $type;
@@ -321,7 +323,20 @@ abstract class Unit extends AliveCommon
             $attack->trigger();
         } else {
             // well it should be already checked that attack is possible
-            $target->damage($attackConfig['damage'], Game::ANIMATION_STAGE_UNIT_ACTION_3, Spell::ENERGY_SOURCE_MELEE);
+            $damage = $attackConfig['damage'];
+            if (!empty($attackConfig[self::ATTACK_KEY_DEFINITION]['damage'])) {
+                $damage = $attackConfig[self::ATTACK_KEY_DEFINITION]['damage'];
+            }
+            if ($damage > 0) {
+                $source = Spell::ENERGY_SOURCE_MELEE;
+                if (!empty($attackConfig['source'])) {
+                    $source = $attackConfig['source'];
+                }
+                if (!empty($attackConfig[self::ATTACK_KEY_DEFINITION]['source'])) {
+                    $source = $attackConfig[self::ATTACK_KEY_DEFINITION]['source'];
+                }
+                $target->damage($damage, Game::ANIMATION_STAGE_UNIT_ACTION_3, $source);
+            }
             $mX = $this->mage->getX();
             $mY = $this->mage->getY();
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_ATTACK, [
@@ -334,7 +349,7 @@ abstract class Unit extends AliveCommon
         }
         Event::trigger(Event::EVENT_UNIT_AFTER_ATTACK_MAGE, [Event::KEY_OWNER => $this]);
         Event::trigger(Event::EVENT_MAGE_AFTER_ATTACKED_BY_UNIT, ['attacker' => $this]);
-        if (!empty($attackConfig['charges'])) {
+        if (!empty($attackConfig['charges']) || !empty($attackConfig[self::ATTACK_KEY_DEFINITION]['charges'])) {
             $this->spendAttackCharge($attackConfig);
         }
     }
@@ -345,8 +360,12 @@ abstract class Unit extends AliveCommon
             $this->data['atk'][$attackConfig['name']] = 0;
         }
         $this->data['atk'][$attackConfig['name']] ++;
-        
-        if ($this->data['atk'][$attackConfig['name']] >= $attackConfig['charges']) {
+
+        $chargeLimit = $attackConfig['charges'];
+        if (!empty($attackConfig[self::ATTACK_KEY_DEFINITION]['charges'])) {
+            $chargeLimit = $attackConfig[self::ATTACK_KEY_DEFINITION]['charges'];
+        }
+        if ($this->data['atk'][$attackConfig['name']] >= $chargeLimit) {
             $this->chargesForAttackAreOver($attackConfig);
         }
         
@@ -368,11 +387,12 @@ abstract class Unit extends AliveCommon
 
         $distance = $this->world->getRealDistance($this, $target);
         $attackConfigs = [];
-        foreach ($allAttacks as $attackName) {
-            $attackConfig = \Config::get('mageUnits.attacks.' . $attackName);
+        foreach ($allAttacks as $attackDefinitionConfig) {
+            $attackConfig = \Config::get('mageUnits.attacks.' . $attackDefinitionConfig['name']);
             $isPossible = true;
             if (!empty($attackConfig['charges'])) { // Is this attack out of charges
-                if (!empty($this->data['atk'][$attackName]) && $this->data['atk'][$attackName] >= $attackConfig['charges']) {
+                if (!empty($this->data['atk'][$attackDefinitionConfig['name']]) 
+                    && $this->data['atk'][$attackDefinitionConfig['name']] >= $attackConfig['charges']) {
                     continue;
                 } 
             }
@@ -381,7 +401,8 @@ abstract class Unit extends AliveCommon
             if (!$isPossible) {
                 continue;
             }
-            $attackConfigs[$attackName] = $attackConfig;
+            $attackConfig[self::ATTACK_KEY_DEFINITION] = $attackDefinitionConfig;
+            $attackConfigs[$attackDefinitionConfig['name']] = $attackConfig;
         }
 
         if (!$attackConfigs) {
@@ -459,7 +480,7 @@ abstract class Unit extends AliveCommon
 
     public function dead($animationStage)
     {
-        Event::trigger(Event::EVENT_UNIT_BEFORE_DYING, ['owner' => $this]);
+        Event::trigger(Event::EVENT_UNIT_BEFORE_DYING, ['owner' => $this, 'stage' => $animationStage]);
         $this->world->destroyUnit($this->x, $this->y, $this->getId());
         $this->alive = false;
         GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_KILL, ['id' => $this->getId()], $animationStage);

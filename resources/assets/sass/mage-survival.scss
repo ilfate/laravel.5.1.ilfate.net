@@ -14,6 +14,7 @@ $mage-colors-green-darkest:#1C3923;
 $mage-colors-grey-lighter:#999;
 $mage-colors-grey:#777;
 $mage-colors-grey-darker: #555;
+$mage-colors-grey-darkest: #333;
 $mage-colors-gold: #F0A830;
 $mage-colors-red:#FF8360;
 $mage-colors-red-bright: #ff3f03;
@@ -591,6 +592,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
     .color-grey-lighter svg.svg-icon path { fill:$mage-colors-grey-lighter }
     .color-grey svg.svg-icon path { fill:$mage-colors-grey }
     .color-grey-darker svg.svg-icon path { fill:$mage-colors-grey-darker }
+    .color-grey-darkest svg.svg-icon path { fill:$mage-colors-grey-darkest }
     .color-brown svg.svg-icon path { fill:$mage-colors-brown }
     .color-clay svg.svg-icon path { fill:$mage-colors-clay }
     .color-white svg.svg-icon path { fill:$mage-colors-white }

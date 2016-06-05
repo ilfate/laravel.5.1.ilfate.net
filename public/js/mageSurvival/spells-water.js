@@ -337,7 +337,7 @@ MageS.Spells.Water = function (game, spells) {
     this.finishWaterBody = function(data) {
         this.finishStandartWater();
 
-        MageS.Game.monimations.skweeze($('.battle-border .mage'));
+        MageS.Game.monimations.skweeze($('.battle-border .mage .svg-icon'));
         setTimeout(function(){
             MageS.Game.spells.endSpellAnimation();
         }, 800);

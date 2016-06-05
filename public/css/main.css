@@ -3400,6 +3400,8 @@ body {
   fill: #777; }
 .mage-survival .color-grey-darker svg.svg-icon path {
   fill: #555; }
+.mage-survival .color-grey-darkest svg.svg-icon path {
+  fill: #333; }
 .mage-survival .color-brown svg.svg-icon path {
   fill: #5E412F; }
 .mage-survival .color-clay svg.svg-icon path {
@@ -3627,12 +3629,30 @@ body {
   background-color: #5e5e5e; }
 .battle-border.WitchForest .cell.s {
   background-color: darkolivegreen; }
+.battle-border.WitchForest .cell.s1 {
+  background-color: #373B41; }
+.battle-border.WitchForest .cell.c {
+  background-color: #999; }
+.battle-border.WitchForest .cell.cc {
+  background-color: #999; }
+.battle-border.WitchForest .cell.cC {
+  background-color: #999; }
 .battle-border.WitchForest .cell.r1 {
   background-color: cornflowerblue; }
+.battle-border.WitchForest .cell.r2 {
+  background-color: #5E412F; }
+.battle-border.WitchForest .cell.r3 {
+  background-color: #5E412F; }
+.battle-border.WitchForest .cell.r4 {
+  background-color: #5E412F; }
 .battle-border.WitchForest .cell.w1 {
   background-color: #FCEBB6; }
 .battle-border.WitchForest .cell.w2 {
   background-color: #5e5e5e; }
+.battle-border.WitchForest .cell.c1 {
+  background-color: #373B41; }
+.battle-border.WitchForest .cell.c2 {
+  background-color: #474B51; }
 
 .battle-border.hut .cell.f4 {
   background-color: #5e5e5e; }

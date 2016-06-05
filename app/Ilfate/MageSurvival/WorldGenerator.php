@@ -88,14 +88,16 @@ abstract class WorldGenerator
             }
             unset($tempMap);
         } else {
-            $radius         = static::$generatorConfig['spawnLocation']['radius'];
-            $portalLocation = static::$generatorConfig['portalLocation'];
+            if (!empty( static::$generatorConfig['spawnLocation']['radius'])) {
+                $radius         = static::$generatorConfig['spawnLocation']['radius'];
+                $portalLocation = static::$generatorConfig['portalLocation'];
 
-            for ($y = -$radius; $y <= $radius; $y++) {
-                for ($x = -$radius; $x <= $radius; $x++) {
-                    $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_SPAWN);
-                    if ($x == $portalLocation['x'] && $y == $portalLocation['y']) {
-                        $this->world->addObject(1000, $x, $y);
+                for ($y = -$radius; $y <= $radius; $y++) {
+                    for ($x = -$radius; $x <= $radius; $x++) {
+                        $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_SPAWN);
+                        if ($x == $portalLocation['x'] && $y == $portalLocation['y']) {
+                            $this->world->addObject(1000, $x, $y);
+                        }
                     }
                 }
             }
@@ -269,21 +271,31 @@ abstract class WorldGenerator
             if ($this->isWallReached($x, $y) && $this->wallChance($x, $y)) {
                 $cell = $this->getWall();
             } else {
-                $cell = $this->getCellByType(self::CELL_TYPE_RANDOM);
+                $cell = $this->getCellByType(self::CELL_TYPE_RANDOM, $x, $y);
             }
             $this->world->setCell($x, $y, $cell);
 
             if ($this->world->isPassable($x, $y)) {
-                if (ChanceHelper::chance(8)) {
+                if (ChanceHelper::chance($this->getObjectCreatingChance($x, $y))) {
                     // create object
                     $this->world->addRandomObject($x, $y);
                 }
-                if (ChanceHelper::chance(3)) {
+                if (ChanceHelper::chance($this->getUnitCreatingChance($x, $y))) {
                     $this->world->addRandomUnit($x, $y);
                 }
             }
         }
         return $cell;
+    }
+
+    public function getUnitCreatingChance($x, $y)
+    {
+        return 3;
+    }
+
+    public function getObjectCreatingChance($x, $y)
+    {
+        return 8;
     }
 
     public function getCellDestroyableBySource($x, $y, $source)
@@ -384,7 +396,7 @@ abstract class WorldGenerator
      *
      * @return string
      */
-    abstract public function getCellByType($type);
+    abstract public function getCellByType($type, $x, $y);
 
     /**
      * @param array $map

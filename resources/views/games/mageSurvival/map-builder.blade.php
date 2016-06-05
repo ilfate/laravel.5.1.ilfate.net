@@ -11,7 +11,7 @@
     </div>
     <input type="hidden" value="{{$mapName}}" id="map-name" />
 <div class="map-builder">
-    <div class="map battle-border"></div>
+    <div class="map battle-border {{$mapName2}}"></div>
 </div>
     @if(!empty($mapValue))
     <script>

@@ -136,4 +136,26 @@ abstract class AliveCommon
             'targetX' => $x, 'targetY' => $y
         ], $stage);
     }
+    
+    public function freeze($turns, $stage)
+    {
+        Event::create(
+            Event::EVENT_UNIT_BEFORE_TURN, [
+            Event::KEY_TIMES => $turns,
+            Event::KEY_OWNER => $this,
+            Event::KEY_ON_COMPLETE => 'Water:RemoveFreeze'
+        ],
+            'Water:Freeze');
+        $this->addFlag(Unit::FLAG_FROZEN);
+        if ($this->getUnitType() == self::UNIT_TYPE_UNIT) {
+            GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
+                [
+                    'flags' => [Unit::FLAG_FROZEN => true],
+                    'id'    => $this->getId()
+                ],
+                $stage);
+        } else {
+            throw new MessageException('Well this is some thing new. Freeze on mage? Did not implement that');
+        }
+    }
 }

@@ -101,7 +101,7 @@ class WorldGeneratorSituationTest extends WorldGenerator
      * @return string
      * @throws \Exception
      */
-    public function getCellByType($type)
+    public function getCellByType($type, $x, $y)
     {
         $cell = '';
         switch($type) {

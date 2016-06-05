@@ -36,6 +36,7 @@ class Game
     const ACTION_ROTATE          = 'rotate';
     const ACTION_OBJECT_INTERACT = 'objectInteract';
     const ACTION_CRAFT_SPELL     = 'craftSpell';
+    const ACTION_SKIP_TURN       = 'skipTurn';
     const ACTION_SPELL           = 'spell';
 
     const EVENT_NAME_MAGE_ROTATE        = 'mage-rotate';
@@ -183,6 +184,9 @@ class Game
                 break;
             case self::ACTION_SPELL:
                 $this->mage->castSpell($data);
+                $this->turn();
+                break;
+            case self::ACTION_SKIP_TURN:
                 $this->turn();
                 break;
             default:

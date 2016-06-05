@@ -208,9 +208,18 @@
     .cell.f3 { background-color: darkolivegreen; }
     .cell.f4 { background-color: #5e5e5e; }
     .cell.s  { background-color: darkolivegreen; }
+    .cell.s1  { background-color: #373B41; }
+    .cell.c  { background-color: #999; }
+    .cell.cc  { background-color: #999; }
+    .cell.cC  { background-color: #999; }
     .cell.r1  { background-color: cornflowerblue; }
+    .cell.r2  { background-color: $mage-colors-brown }
+    .cell.r3  { background-color: $mage-colors-brown }
+    .cell.r4  { background-color: $mage-colors-brown }
     .cell.w1  { background-color: $mage-colors-clay }
     .cell.w2  { background-color: #5e5e5e }
+    .cell.c1  { background-color: #373B41 }
+    .cell.c2  { background-color: #474B51 }
 }
 
 .battle-border.hut {

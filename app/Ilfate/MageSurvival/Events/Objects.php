@@ -14,6 +14,7 @@
 namespace Ilfate\MageSurvival\Events;
 
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 
 /**
@@ -37,6 +38,25 @@ class Objects extends Event
         $door->open();
         $door->update();
 
+        return $actionData;
+    }
+
+    public static function createLoot($actionData, $eventData)
+    {
+        $unit = $actionData['owner'];
+        $x = $unit->getX();
+        $y = $unit->getY();
+        $world = GameBuilder::getWorld();
+        $objectInPlace = $world->getObject($x, $y);
+        if ($objectInPlace && empty($eventData['isForced'])) {
+            return $actionData;
+        } else if ($objectInPlace) {
+            $objectInPlace->delete($actionData['stage']);
+        }
+        $object = $world->addObject($eventData['loot'], $x, $y);
+        GameBuilder::animateEvent(Game::EVENT_NAME_ADD_OBJECT,
+            ['object' => $object->exportForView()],
+            $actionData['stage']);
         return $actionData;
     }
 

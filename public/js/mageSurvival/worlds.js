@@ -20,6 +20,7 @@ MageS.Worlds = function (game) {
         },
         'WitchForest' : {
             's' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
+            's1' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
             'f2' : {'icon':'icon-grass', 'icon-color': 'color-yellow'},
             't0' : {'icon':'icon-forest', 'icon-color': 'color-green-darker', 'icon2' : {
                 'icon':'icon-forest-base', 'icon-color':'color-brown'
@@ -40,6 +41,12 @@ MageS.Worlds = function (game) {
             }},
             'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-brown'},
             'w2' : {'icon':'icon-obelisk', 'icon-color': 'color-clay'},
+            'r2' : {'icon':'icon-footprints', 'icon-color': 'color-grey-darkest'},
+            'r3' : {'icon':'icon-footprints-2', 'icon-color': 'color-grey-darkest'},
+            'r4' : {'icon':'icon-footprints-3', 'icon-color': 'color-grey-darkest'},
+            'c' : {'icon':'icon-wall-texture-1', 'icon-color': 'color-clay'},
+            'cc' : {'icon':'icon-wall-texture-2', 'icon-color': 'color-clay'},
+            'cC' : {'icon':'icon-wall-texture-3', 'icon-color': 'color-clay'},
         },
     };
 

@@ -53,6 +53,7 @@ abstract class Spell
     const ENERGY_SOURCE_AIR = 'air';
     const ENERGY_SOURCE_EARTH = 'earth';
     const ENERGY_SOURCE_MELEE = 'melee';
+    const ENERGY_SOURCE_NATURE = 'nature';
 
     protected $defaultCooldownMin = 2;
     protected $defaultCooldownMax = 2;
@@ -83,6 +84,9 @@ abstract class Spell
     protected $configuration = [];
     protected $pattern = false;
 
+    /**
+     * @var AliveCommon[]
+     */
     protected $targets = [];
     protected $affectedCells = [];
 

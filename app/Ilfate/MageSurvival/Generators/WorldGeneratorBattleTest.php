@@ -153,28 +153,14 @@ class WorldGeneratorBattleTest extends WorldGenerator
         return $cell;
     }
 
-    public function getOrGenerateCell($x, $y)
+    public function getUnitCreatingChance($x, $y)
     {
-        $cell = $this->world->getCell($x, $y);
-        if ($cell === false) {
-            if ($this->isWallReached($x, $y) && $this->wallChance($x, $y)) {
-                $cell = $this->getWall();
-            } else {
-                $cell = $this->getCellByType(self::CELL_TYPE_RANDOM);
-            }
-            $this->world->setCell($x, $y, $cell);
+        return 8;
+    }
 
-            if ($this->world->isPassable($x, $y)) {
-                if (ChanceHelper::chance(4)) {
-                    // create object
-                    $this->world->addRandomObject($x, $y);
-                }
-                if (ChanceHelper::chance(8)) {
-                    $this->world->addRandomUnit($x, $y);
-                }
-            }
-        }
-        return $cell;
+    public function getObjectCreatingChance($x, $y)
+    {
+        return 4;
     }
 
 

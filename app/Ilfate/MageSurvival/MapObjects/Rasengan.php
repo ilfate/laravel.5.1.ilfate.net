@@ -63,17 +63,7 @@ class Rasengan extends MapObject
 
         foreach ($units as $unit) {
             if (!$unit->getFlag(Unit::FLAG_FROZEN)) {
-                Event::create(
-                    Event::EVENT_UNIT_BEFORE_TURN, [
-                    Event::KEY_TIMES       => 1,
-                    Event::KEY_OWNER       => $unit,
-                    Event::KEY_ON_COMPLETE => 'Water:RemoveFreeze'
-                ],
-                    'Water:Freeze');
-                $unit->addFlag(Unit::FLAG_FROZEN);
-                GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
-                    ['flags' => [Unit::FLAG_FROZEN => true], 'id' => $unit->getId()],
-                    Game::ANIMATION_STAGE_TURN_END_EFFECTS_2);
+                $unit->freeze(1, Game::ANIMATION_STAGE_TURN_END_EFFECTS_2);
             }
 
             $damage = GameBuilder::getGame()->getMage()->getDamage(1, Spell::ENERGY_SOURCE_WATER);

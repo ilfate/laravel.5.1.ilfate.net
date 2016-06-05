@@ -7,7 +7,9 @@ return array(
     'list' => [
         1 => [
             'name' => 'Rat', 'class' => 'Rodents\\Rat', 'health' => 2,
-            'behaviour' => 'Passive', 'aggressiveRange' => 4, 'attacks' => ['teeth'],
+            'behaviour' => 'Passive', 'aggressiveRange' => 4, 'attacks' => [
+                ['name' => 'teeth']
+            ],
             'icon' => 'icon-mouse-1', 'loot' => 2,
             'description' => 'Just a rat. Will not attack you unless you will you will attack it first.',
         ],
@@ -19,26 +21,42 @@ return array(
         ],
         3 => [
             'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 2,
-            'behaviour' => 'AggressiveRange', 'aggressiveRange' => 6, 'attacks' => ['spawnSpiders', 'greenLaser'],
+            'behaviour' => 'AggressiveRange', 'aggressiveRange' => 6, 'attacks' => [
+                ['name' => 'spawnSpiders'],
+                ['name' => 'greenLaser']
+            ],
             'icon' => 'icon-witch-1',
             'description' => 'She is common member of magic community. What she can do? You have to find out.',
         ],
         4 => [
             'name' => 'Spider', 'class' => 'Rodents\\Spider', 'health' => 4,
-            'behaviour' => 'AggressiveRange', 'aggressiveRange' => 6, 'attacks' => ['teeth2', 'web'],
+            'behaviour' => 'AggressiveRange', 'aggressiveRange' => 6, 'attacks' => [
+                ['name' => 'teeth2'],
+                ['name' => 'web']
+            ],
             'icon' => 'icon-spider-2', 'loot' => 6,//, 'iconColor' => 'color-red'
             'description' => 'Not a strong creature, but can throw a web at you that would block you from moving. Thankfully a spider can carry only one net.',
         ],
         5 => [
             'name' => 'Baby spider', 'class' => 'Rodents\\SmallSpider', 'health' => 2,
-            'behaviour' => 'JumpingMelee', 'aggressiveRange' => 6, 'attacks' => ['teeth2'],
+            'behaviour' => 'JumpingMelee', 'aggressiveRange' => 6, 'attacks' => [
+                ['name' => 'teeth2']
+            ],
             'icon' => 'icon-spider-2', 'loot' => 2, 'morfIcon' => 'baby',
-            'description' => 'A small spider. Nothing special, but it caution it can jump.',
+            'description' => 'A small spider. Nothing special, but be cautious it can jump.',
+        ],
+        101 => [
+            'name' => 'Spider Nest', 'class' => 'Boss\\SpiderNest', 'health' => 20,
+            'behaviour' => 'Stationary', 'attacks' => [
+                ['name' => 'spawnSpider']
+            ],
+            'icon' => 'icon-spider-egg',
+            'description' => 'This egg will spawn spiders until you kill it! Do it quick! .',
         ],
         1001 => [
             'name' => 'Fire imp', 'class' => 'Friendly\\FireImp', 'health' => 3,
             'behaviour' => ['AttackUnits', 'Follow', 'JumpAround'],
-            'team' => 'f', 'attacks' => ['fireSpit'],
+            'team' => 'f', 'attacks' => [['name' => 'fireSpit']],
             'icon' => 'icon-fireImp-1', 'iconColor' => 'color-red',
             'description' => 'Creation of fire magic! Will attack your enemies till it`s magic is over. When it is done the Imp would explode.',
         ],
@@ -56,6 +74,15 @@ return array(
             /* 40 - 1000 */    1000 => [1],
             /* 1000 - 9999999 */9999999 => [1],
         ],
+        3 => [ // WitchForest world
+            // Range from world center
+
+            /* 0 - 5 */        5 => [],
+            /* 5 - 10 */       10 => [ 5, ],
+            /* 10 - 20 */      20 => [ 5, ],
+            /* 20 - 30 */      30 => [5, 5, 4],
+            /* 30 - 9999999 */9999999 => [5, 4],
+        ],
         900 => [ // Battle test world
             // Range from world center
 
@@ -70,9 +97,10 @@ return array(
         'teeth' => ['range' => 1.9, 'damage' => 1, 'animation' => 'melee'],
         'teeth2' => ['range' => 1.9, 'damage' => 2, 'animation' => 'melee'],
         'web' => ['range' => 3.2, 'damage' => 0, 'animation' => 'web', 'class' => 'Web', 'charges' => 1],
-        'fireSpit' => ['range' => 2.5, 'damage' => 2, 'animation' => 'fireSpit', 'charges' => 3],
+        'fireSpit' => ['range' => 2.5, 'damage' => 2, 'animation' => 'fireSpit', 'charges' => 3, 'source' => 'fire'],
         'spawnSpiders' => ['range' => 4, 'damage' => 0, 'animation' => 'spawn', 'class' => 'WitchSpiders',  'charges' => 1],
-        'greenLaser' => ['range' => 3.2, 'damage' => 3, 'animation' => 'greenLaser'],
+        'spawnSpider' => ['range' => 6, 'damage' => 0, 'animation' => 'spawn', 'class' => 'SpawnSpider'],
+        'greenLaser' => ['range' => 3.2, 'damage' => 3, 'animation' => 'greenLaser', 'source' => 'nature'],
     ],
 
 

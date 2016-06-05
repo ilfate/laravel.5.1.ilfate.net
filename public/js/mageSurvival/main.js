@@ -362,6 +362,10 @@ MageS.Game = function () {
                 actionName = 'craftSpell';
                 dataString = data;
                 break;
+            case 'skipTurn':
+                actionName = 'skipTurn';
+                dataString = data;
+                break;
             case 'spell':
                 actionName = 'spell';
                 dataString = data;
@@ -424,6 +428,8 @@ MageS.Game = function () {
         }
         if (data.game.events) {
             this.animations.animateEvents(data.game);
+        } else {
+            this.endAction();
         }
         if (data.game.turn) {
             this.turn = data.game.turn;
@@ -434,6 +440,7 @@ MageS.Game = function () {
 
     this.updateActions = function (actions, isFirstLoad) {
         actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
+        actions.push({'name':'Skip turn', 'method':'skip-turn', 'key':'F' , 'location':'actions', 'icon':'icon-empty-hourglass', 'actionName':'skipTurn'});
         //actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
         var existingActions = {};
@@ -469,9 +476,7 @@ MageS.Game = function () {
                             });
                     }
                     if (actions[i].noAjax == undefined) {
-                        obj.on('click', function () {
-                            MageS.Game.action('objectInteract', '{"method":"' + $(this).data('method') + '"}')
-                        });
+                        this.bindActionButtonClick(actions[i], obj);
                     }
                     break;
                 case 'move-0':
@@ -547,6 +552,13 @@ MageS.Game = function () {
             // we need to show action again
 
         }
+    };
+    this.bindActionButtonClick = function(action, obj) {
+        var actionName = 'objectInteract';
+        if (action.actionName !== undefined) { actionName = action.actionName; }
+        obj.on('click', function () {
+            MageS.Game.action(actionName, '{"method":"' + $(this).data('method') + '"}')
+        });
     };
 
     this.keyPressed = function(key) {
@@ -745,6 +757,7 @@ MageS.Game = function () {
                 case 114 :  // r
                     break;
                 case 102 :  // f
+                    MageS.Game.keyPressed('F');
                     break;
                 case 0 :                  //// For Mozila
                     switch (event.charCode) {
@@ -771,6 +784,7 @@ MageS.Game = function () {
                         case 114 :  // r
                             break;
                         case 102 :  // f
+                            MageS.Game.keyPressed('F');
                             break;
                     }
                     break;

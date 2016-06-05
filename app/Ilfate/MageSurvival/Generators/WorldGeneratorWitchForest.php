@@ -37,6 +37,10 @@ class WorldGeneratorWitchForest extends WorldGenerator
     const CELL_WALL = 'w1';
     const CELL_WALL_2 = 'w2';
     const CELL_STONE = 's';
+    const CELL_STONE_2 = 's1';
+    const CELL_CAVE = 'c';
+    const CELL_CAVE_2 = 'cc';
+    const CELL_CAVE_3 = 'cC';
     const CELL_TREE_PINE = 't1';
     const CELL_TREE_PINE_2 = 't2';
     const CELL_TREE_PINE_3 = 't3';
@@ -45,6 +49,11 @@ class WorldGeneratorWitchForest extends WorldGenerator
     const CELL_FOREST_2 = 'tf';
     const CELL_FOREST_3 = 'tF';
     const CELL_RIVER = 'r1';
+    const CELL_ROAD = 'r2';
+    const CELL_ROAD_3 = 'r3';
+    const CELL_ROAD_4    = 'r4';
+    const CELL_CAVE_FLOOR = 'c1';
+    const CELL_CAVE_FLOOR_2 = 'c2';
 
     protected $cells = [
         self::CELL_BURNT_LANDING, // birnedLanding
@@ -72,6 +81,10 @@ class WorldGeneratorWitchForest extends WorldGenerator
 
     protected $notPassable = [
         self::CELL_STONE,
+        self::CELL_STONE_2,
+        self::CELL_CAVE,
+        self::CELL_CAVE_2,
+        self::CELL_CAVE_3,
         self::CELL_TREE_PINE,
         self::CELL_TREE_PINE_2,
         self::CELL_TREE_PINE_3,
@@ -120,7 +133,7 @@ class WorldGeneratorWitchForest extends WorldGenerator
             ], 'turn' => [
                 1 => ['message' => 'I have no idea what happened to my school. I hope this witch have some answers.'],
                 3 => ['message' => 'I heard that she lives in some kind of house.'],
-                5 => ['message' => 'She was teaching dark art in my school bank in the days.'],
+                5 => ['message' => 'She was teaching dark art in my school back in the days.'],
                 7 => ['message' => 'Let`s hope she still have her senses.'],
                 9 => ['method' => 'whereIsWitch'],
                 11 => ['message' => 'Maybe I need to create more spells?.'],
@@ -174,6 +187,14 @@ class WorldGeneratorWitchForest extends WorldGenerator
             ],
             'Objects:openDoor'
         );
+        Event::create(Event::EVENT_UNIT_BEFORE_DYING, [
+                'times' => 1,
+                'owner' => $witch,
+                'flag' => 'SecretCave',
+                'value' => 'open'
+            ],
+            'General:addUserFlag'
+        );
         $this->world->setEvents(Event::export());
         $this->world->save();
         $map = $newMap;
@@ -185,7 +206,7 @@ class WorldGeneratorWitchForest extends WorldGenerator
      * @return string
      * @throws \Exception
      */
-    public function getCellByType($type)
+    public function getCellByType($type, $x, $y)
     {
         $cell = '';
         switch($type) {

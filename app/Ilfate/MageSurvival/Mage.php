@@ -700,6 +700,7 @@ abstract class Mage extends AliveCommon
         foreach ($this->spells as &$spell) {
             $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = 0;
         }
+        $this->removeAllBuffsAndFlags();
         $this->game->getWorldGenerator()->onLeaveWorld();
         $this->mageEntity->world_id = 0;
         $this->update();
@@ -751,6 +752,13 @@ abstract class Mage extends AliveCommon
             return $this->data[self::DATA_BUFF_KEY][$source];
         }
         return false;
+    }
+
+    public function removeAllBuffsAndFlags()
+    {
+        $this->data[self::DATA_BUFF_KEY] = [];
+        $this->data[self::DATA_FLAG_KEY] = [];
+        $this->update();
     }
     
     public function deleteAllSpells()

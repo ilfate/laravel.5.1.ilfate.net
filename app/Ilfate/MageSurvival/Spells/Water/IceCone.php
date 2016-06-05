@@ -44,17 +44,7 @@ class IceCone extends Water
              */
 
             if (!$target->getFlag(Unit::FLAG_FROZEN)) {
-                Event::create(
-                    Event::EVENT_UNIT_BEFORE_TURN, [
-                    Event::KEY_TIMES       => 2,
-                    Event::KEY_OWNER       => $target,
-                    Event::KEY_ON_COMPLETE => 'Water:RemoveFreeze'
-                ],
-                    'Water:Freeze');
-                $target->addFlag(Unit::FLAG_FROZEN);
-                GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
-                    ['flags' => [Unit::FLAG_FROZEN => true], 'id' => $target->getId()],
-                    Game::ANIMATION_STAGE_MAGE_ACTION_2);
+                $target->freeze(2, Game::ANIMATION_STAGE_MAGE_ACTION_2);
             }
 
             $damage = mt_rand(1, 2);

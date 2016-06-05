@@ -32,6 +32,12 @@ return array(
             'map-visual' => 'WitchForest',
             'is-available' => false,
         ],
+        3 => [
+            'name' => 'Secret cave',
+            'map-type' => 'SecretCave',
+            'map-visual' => 'WitchForest',
+            'is-available' => false,
+        ],
         900 => [
             'name' => 'Battle Test',
             'map-type' => 'BattleTest',

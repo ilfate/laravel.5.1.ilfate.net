@@ -54,17 +54,7 @@ class IceSpear extends Water
             $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_WATER);
 
         } else {
-            Event::create(
-                Event::EVENT_UNIT_BEFORE_TURN, [
-                    Event::KEY_TIMES => 3,
-                    Event::KEY_OWNER => $target,
-                    Event::KEY_ON_COMPLETE => 'Water:RemoveFreeze'
-                ],
-                'Water:Freeze');
-            $target->addFlag(Unit::FLAG_FROZEN);
-            GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
-                ['flags' => [Unit::FLAG_FROZEN => true], 'id' => $target->getId()],
-                Game::ANIMATION_STAGE_MAGE_ACTION_2);    
+            $target->freeze(3, Game::ANIMATION_STAGE_UNIT_ACTION_3);
         }
         
         return true;
