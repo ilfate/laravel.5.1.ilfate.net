@@ -283,4 +283,22 @@ abstract class MapObject
     {
         return $this->exist;
     }
+
+    public function open(Mage $mage)
+    {
+        $possibleLoot = $this->config['loot'];
+        $numberOfItems = 1;
+        if (!empty($this->config['quantity'])) {
+            $numberOfItems = $this->config['quantity'];
+        }
+        $foundItems = [];
+        for ($i = 0; $i < $numberOfItems; $i++) {
+            $itemId = ChanceHelper::oneFromArray($possibleLoot);
+            GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
+            $mage->addItem($itemId);
+            $foundItems[] = $itemId;
+        }
+        $this->delete();
+        return ['action' => 'itemsFound', 'data' => $foundItems];
+    }
 }

@@ -62,9 +62,11 @@ MageS.Spells = function (game) {
            case 'Push': 
            case 'Harmony': 
            case 'NoMoreAirForYou': 
+           case 'HardLanding': 
            case 'QuardroLightning': 
            case 'Lightning': 
-               this.air.startStandartAir() ; break; 
+           case 'SkyFist':
+               this.air.startStandartAir() ; break;
            default:
                isSpellAnimated = false;
                info('No start animation for "' + name + '"');
@@ -104,8 +106,10 @@ MageS.Spells = function (game) {
             case 'Push':
             case 'Harmony':  
             case 'NoMoreAirForYou':  
+            case 'HardLanding':  
             case 'QuardroLightning':  
             case 'Lightning':  
+            case 'SkyFist':
                 this.air.iterateStandartAir() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
@@ -139,8 +143,10 @@ MageS.Spells = function (game) {
             case 'Push': this.air.finishPush(this.currentSpellData); break;
             case 'Harmony':  this.air.finishHarmony(this.currentSpellData); break;
             case 'NoMoreAirForYou':  this.air.finishNoMoreAirForYou(this.currentSpellData); break;
+            case 'HardLanding':  this.air.finishHardLanding(this.currentSpellData); break;
             case 'QuardroLightning':  this.air.finishQuardroLightning(this.currentSpellData); break;
             case 'Lightning':  this.air.finishLightning(this.currentSpellData); break;
+            case 'SkyFist':  this.air.finishSkyFist(this.currentSpellData); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);
@@ -236,7 +242,6 @@ MageS.Spells = function (game) {
         if (!options) {
             options = {};
         }
-
         var calculations = MageS.Game.spells.getDistanceBetweenTwoDots(x1, y1, x2, y2);
 
         if (options.moveTop === undefined) {
@@ -374,8 +379,15 @@ MageS.Spells = function (game) {
             fromX = (fromX * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
             fromY = (fromY * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
             flake.css({opacity:0,'margin-left':fromX, 'margin-top':fromY}); //'height': 0.25 * coordMultiplaer
+            var transform = '';
             if (options.scale !== undefined) {
-                flake[0].style.transform = 'scale(' + options.scale + ', ' + options.scale + ')';
+                transform += ' scale(' + options.scale + ', ' + options.scale + ')';
+            }
+            if (options.startRotate !== undefined) {
+                transform += ' rotate(' + options.startRotate + 'deg)';
+            }
+            if (transform) {
+                flake[0].style.transform = transform;
             }
             var svg = flake.find('svg');
             flake.animate({opacity:1},{duration:50});

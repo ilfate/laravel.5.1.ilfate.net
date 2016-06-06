@@ -10,22 +10,22 @@ return array(
             'behaviour' => 'Passive', 'aggressiveRange' => 4, 'attacks' => [
                 ['name' => 'teeth']
             ],
-            'icon' => 'icon-mouse-1', 'loot' => 2,
+            'icon' => 'icon-mouse-1', 'loot' => 100,
             'description' => 'Just a rat. Will not attack you unless you will you will attack it first.',
         ],
         2 => [
-            'name' => 'Dummy', 'class' => 'Stationary\\Dummy', 'health' => 1,
+            'name' => 'Obstacle', 'class' => 'Stationary\\Dummy', 'health' => 1,
             'behaviour' => 'Passive',
-            'icon' => 'icon-police-target', 'iconColor' => 'color-dark-blue',
-            'description' => 'This is a dummy. You can kill it. Probably you should!',
+            'icon' => 'icon-wood-chunks',
+            'description' => 'You have to destroy this to go further. Try one of your spells.',
         ],
         3 => [
-            'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 2,
+            'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 25,
             'behaviour' => 'AggressiveRange', 'aggressiveRange' => 6, 'attacks' => [
                 ['name' => 'spawnSpiders'],
                 ['name' => 'greenLaser']
             ],
-            'icon' => 'icon-witch-1',
+            'icon' => 'icon-witch-1', 'loot' => 102,
             'description' => 'She is common member of magic community. What she can do? You have to find out.',
         ],
         4 => [
@@ -34,7 +34,7 @@ return array(
                 ['name' => 'teeth2'],
                 ['name' => 'web']
             ],
-            'icon' => 'icon-spider-2', 'loot' => 6,//, 'iconColor' => 'color-red'
+            'icon' => 'icon-spider-2', 'loot' => 102,//, 'iconColor' => 'color-red'
             'description' => 'Not a strong creature, but can throw a web at you that would block you from moving. Thankfully a spider can carry only one net.',
         ],
         5 => [
@@ -42,7 +42,7 @@ return array(
             'behaviour' => 'JumpingMelee', 'aggressiveRange' => 6, 'attacks' => [
                 ['name' => 'teeth2']
             ],
-            'icon' => 'icon-spider-2', 'loot' => 2, 'morfIcon' => 'baby',
+            'icon' => 'icon-spider-2', 'loot' => 101, 'morfIcon' => 'baby',
             'description' => 'A small spider. Nothing special, but be cautious it can jump.',
         ],
         101 => [

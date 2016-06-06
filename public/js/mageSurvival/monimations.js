@@ -240,6 +240,21 @@ MageS.Monimations = function (game) {
                 }
             }
         }).run();
-    }
+    };
+    this.shake = function(el, options) {
+        var delay = 0;
+        var duration = 500;
+        var angle = 20;
+        return new mojs.Tween({
+            repeat:   0,
+            delay:    delay,
+            duration: duration,
+            onUpdate: function (progress) {
+                var bounce50 = (MageS.Game.monimations.bounce50(progress) - 0.5) * 3;
+                var rotate = bounce50 * angle;
+                el[0].style.transform = 'rotate(' + (rotate) + 'deg)';
+            }
+        }).run();
+    };
 };
 

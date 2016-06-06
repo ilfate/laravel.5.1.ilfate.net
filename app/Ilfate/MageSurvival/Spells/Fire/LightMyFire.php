@@ -29,14 +29,7 @@ class LightMyFire extends Fire
             /**
              * @var Unit $target
              */
-            Event::create(
-                Event::EVENT_UNIT_AFTER_TURN, [
-                Event::KEY_TIMES => 4,
-                Event::KEY_OWNER => $target,
-                Event::KEY_ON_COMPLETE => 'Fire:RemoveBurn'
-            ],
-                'Fire:Burn');
-            $target->addFlag(Unit::FLAG_BURN);
+            $target->burn(4, $this->getNormalCastStage());
             
         }
         return true;

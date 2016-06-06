@@ -16,9 +16,9 @@ MageS.Units = function (game) {
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {'id': unit.id, 'type': unit.type});
         var obj = $(rendered);
-        var icon = $(this.game.svg).find('#' + unit.icon + ' path');
+        var icons = this.game.getIcon(unit.icon);
         obj.data('icon', unit.icon);
-        obj.find('svg').append(icon.clone());
+        obj.find('svg').append(icons.clone());
         if (unit.iconColor !== undefined) { obj.find('.svg').addClass(unit.iconColor); }
         $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
         if (unit.d !== undefined) {
@@ -287,7 +287,7 @@ MageS.Units = function (game) {
                     break;
             }
 
-            var div = $('<div class="svg flag-' + flag + ' ' + addClass + ' unit-status"><svg viewBox="0 0 512 512"></svg></div>');
+            var div = $('<div class="fuckthisshit svg flag-' + flag + ' ' + addClass + ' unit-status"><svg viewBox="0 0 512 512"></svg></div>');
             var icon = $(this.game.svg).find('#' + iconName + ' path').css({'fill': color});
             div.find('svg').append(icon.clone());
             el.prepend(div);

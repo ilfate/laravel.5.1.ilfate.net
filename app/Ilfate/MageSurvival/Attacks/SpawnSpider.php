@@ -56,6 +56,8 @@ class SpawnSpider extends AbstractAttack
             }
         }
         if ($unit) {
+            $unit->addDataValue(Unit::DATA_KEY_NO_LOOT, true);
+            $unit->update();
             $mage = GameBuilder::getGame()->getMage();
             $mX   = $mage->getX();
             $mY   = $mage->getY();

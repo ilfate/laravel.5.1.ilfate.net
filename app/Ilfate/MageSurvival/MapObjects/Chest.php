@@ -35,8 +35,6 @@ class Chest extends MapObject
 {
     const ID = 1;
 
-    protected $possibleItems = [1,2,3,4,5];
-
     public function getActions()
     {
         return [
@@ -49,12 +47,4 @@ class Chest extends MapObject
         ];
     }
 
-    public function open(Mage $mage)
-    {
-        $itemId = ChanceHelper::oneFromArray($this->possibleItems);
-        GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
-        $mage->addItem($itemId);
-        $this->delete();
-        return ['action' => 'itemsFound', 'data' => [$itemId]];
-    }
 }

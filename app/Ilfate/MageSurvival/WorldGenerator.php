@@ -94,7 +94,7 @@ abstract class WorldGenerator
 
                 for ($y = -$radius; $y <= $radius; $y++) {
                     for ($x = -$radius; $x <= $radius; $x++) {
-                        $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_SPAWN);
+                        $map[$y][$x] = $this->getCellByType(self::CELL_TYPE_SPAWN, $x, $y);
                         if ($x == $portalLocation['x'] && $y == $portalLocation['y']) {
                             $this->world->addObject(1000, $x, $y);
                         }

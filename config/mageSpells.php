@@ -234,6 +234,13 @@ return array(
                 'directTargetSpell' => 'enemy',
             ],
             3 => [
+                'name' => 'Hard landing',
+                'class' => 'HardLanding',
+                'description' => 'Launch yourself to a location knocking away everyone around.',
+                'iconColor' => 'color-light-blue',
+                'iconClass' => 'icon-fire-dash',
+            ],
+            4 => [
                 'name' => 'Quardro lightning',
                 'class' => 'QuardroLightning',
                 'description' => 'Deal 1 damage to 4 random units.',
@@ -242,7 +249,7 @@ return array(
                 'noTargetSpell' => true,
                 'noAutoAnimationTrigger' => true,
             ],
-            4 => [
+            5 => [
                 'name' => 'Lightning',
                 'class' => 'Lightning',
                 'description' => 'Strike a random target(includes you) with lightning for 8.',
@@ -251,6 +258,16 @@ return array(
                 'noTargetSpell' => true,
                 'noAutoAnimationTrigger' => true,
             ],
+            6 => [
+                'name' => 'Sky fist',
+                'class' => 'SkyFist',
+                'description' => 'Hit a location dealing 3 damage to damage in place and 1 damage to all units around pushing them away.',
+                'iconColor' => 'color-light-blue',
+                'iconClass' => 'icon-fist',
+            ],
+
+
+
 //            8 => [
 //                'name' => 'Lightning protection',
 //                'class' => 'LightningProtection',

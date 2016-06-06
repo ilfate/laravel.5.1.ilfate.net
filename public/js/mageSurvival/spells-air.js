@@ -53,7 +53,7 @@ MageS.Spells.Air = function (game, spells) {
         var icon = this.spells.createIcon('icon-cloud-ring', 'color-light-blue');
         $('.animation-field').append(icon);
         icon[0].style.transform = 'rotate(' + (data.d * 90) + 'deg)';
-        this.game.monimations.blastInScale(icon.find('svg.svg-icon'), 4, null, 1800);
+        this.game.monimations.blastInScale(icon.find('svg.svg-icon'), 4, null, 900);
         var left = 0, top = 0;
         switch (data.d) {
             case 0: top = -2 * MageS.Game.cellSize + 'rem'; break;
@@ -61,14 +61,14 @@ MageS.Spells.Air = function (game, spells) {
             case 2: top = 2 * MageS.Game.cellSize + 'rem'; break;
             case 3: left = -2 * MageS.Game.cellSize + 'rem'; break;
         }
-        icon.animate({'margin-left': left, 'margin-top':top}, {duration:1200, easing:'easeInSine'});
+        icon.animate({'margin-left': left, 'margin-top':top}, {duration:600, easing:'easeInSine'});
         MageS.Game.monimations.camShake(data.d, 200, 4, 100);
         setTimeout(function() {
             icon.animate({opacity: 0.3}, {duration:200, queue:false});
-        }, 1000);
+        }, 500);
         setTimeout(function() {
             MageS.Game.spells.endSpellAnimation();
-        }, 1200);
+        }, 600);
     };
 
     this.finishHarmony = function(data) {
@@ -115,6 +115,41 @@ MageS.Spells.Air = function (game, spells) {
         setTimeout(function() {
             MageS.Game.spells.endSpellAnimation();
         }, 1000);
+    };
+
+    this.finishHardLanding = function(data) {
+        MageS.Game.animations.singleAnimationFinished(MageS.Game.spells.isSecondPartWaiting);
+        var icon = 'icon-bullet-cercle';
+        var options = {
+            'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'time': 0.7,
+            'beamWidth': 10,
+            'segment1': ["100%", "100%"],
+            'segment2': ["0%", "3%"],
+            'delete': true
+        };
+        for(var i = 0 ; i < 12; i++) {
+            //'icon-bullet-simple-middle-line'
+            this.spells.beamStrike(2 + (Math.random() * 0.4), 360 / 12 * i, icon, '#77d2e1', options)
+        }
+        MageS.Game.monimations.camShake('Y', 200, 5, 700, false);
+        var options2 = {
+            'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'time': 0.3,
+            'beamWidth': 12,
+            'segment1': ["0%", "0%"],
+            'segment2': ["100%", "200%"],
+            'delete':true,
+            delay:700
+        };
+        for(var i2 = 0 ; i2 < 12; i2++) {
+            this.spells.beamStrike(2, 360 / 12 * i2, 'icon-bullet-around-side-line', '#77d2e1', options2);
+        }
+        setTimeout(function(){
+            MageS.Game.spells.clearAnimationField();
+        }, 900);
     };
 
     this.finishQuardroLightning = function(data) {
@@ -167,6 +202,42 @@ MageS.Spells.Air = function (game, spells) {
         setTimeout(function() {
             MageS.Game.spells.beamStrike(5, -90, icon, '#FFF', options);
         }, 300);
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 800);
+    };
+
+    this.finishSkyFist = function(data) {
+        var targetX = data.pattern[0][0];
+        var targetY = data.pattern[0][1];
+        var options = {delay:0, time:300, scale:3, startRotate:180};
+        var startX = targetX;
+        var startY = targetY - 16;
+        this.spells.moveIcon('icon-fist', 'color-white',
+            startX, startY,
+            targetX, targetY-1, options);
+        MageS.Game.monimations.camShake('Y', 200, 8, 300, false);
+        var rand = [];
+
+        for(var i = 0; i < 10; i++) {
+            var beamOptions = {time:0.3, beamWidth: 17, 'delete':true}; // YES WE NEED IT HERE
+            rand[0] = (Math.random() * 2) - 1;
+            rand[1] = (Math.random() * 2) - 1;
+            MageS.Game.spells.beam(startX + rand[0], startY + rand[1], targetX + rand[0], targetY + rand[1], '#77d2e1', 'icon-bullet-line', beamOptions);
+        }
+        var beamOptions2 = {
+            'moveLeft': ((0.5 + targetX) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5 + targetY) * MageS.Game.cellSize) + 'rem',
+            'time': 0.3,
+            'beamWidth': 10,
+            'segment1': ["0%", "0%"],
+            'segment2': ["100%", "200%"],
+            'delay': 300,
+            'delete':true
+        };
+        for(var i2 = 0 ; i2 < 10; i2++) {
+            this.spells.beamStrike(2, 360 / 10 * i2, 'icon-bullet-start-spin', '#77d2e1', beamOptions2);
+        }
         setTimeout(function() {
             MageS.Game.spells.endSpellAnimation();
         }, 800);

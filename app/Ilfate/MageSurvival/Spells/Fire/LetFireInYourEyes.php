@@ -32,14 +32,7 @@ class LetFireInYourEyes extends Fire
             /**
              * @var Unit $target
              */
-            Event::create(
-                Event::EVENT_UNIT_AFTER_TURN, [
-                Event::KEY_TIMES => 3,
-                Event::KEY_OWNER => $target,
-                Event::KEY_ON_COMPLETE => 'Fire:RemoveBurn'
-            ],
-                'Fire:Burn');
-            $target->addFlag(Unit::FLAG_BURN);
+            $target->burn(3, $this->getNormalCastStage());
             $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_FIRE);
             $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
             if (ChanceHelper::chance(10)) {

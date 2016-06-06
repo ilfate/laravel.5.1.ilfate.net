@@ -3595,11 +3595,13 @@ body {
 .battle-border.Tutorial .cell.bl {
   background-color: darkgrey; }
 .battle-border.Tutorial .cell.f1 {
-  background-color: green; }
+  background-color: black; }
 .battle-border.Tutorial .cell.f2 {
-  background-color: darkolivegreen; }
+  background-color: black; }
 .battle-border.Tutorial .cell.f3 {
-  background-color: green; }
+  background-color: black; }
+.battle-border.Tutorial .cell.f4 {
+  background-color: black; }
 .battle-border.Tutorial .cell.s {
   background-color: green; }
 

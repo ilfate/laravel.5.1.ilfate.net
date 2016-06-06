@@ -30,6 +30,7 @@ use Ilfate\MageSurvival\Attacks\AbstractAttack;
 abstract class Unit extends AliveCommon
 {
     const DATA_KEY_IS_HOSTILE = 'is_h';
+    const DATA_KEY_NO_LOOT = 'noLoot';
 
     const TEAM_TYPE_HOSTILE = 'h';
     const TEAM_TYPE_FRIENDLY = 'f';
@@ -484,7 +485,7 @@ abstract class Unit extends AliveCommon
         $this->world->destroyUnit($this->x, $this->y, $this->getId());
         $this->alive = false;
         GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_KILL, ['id' => $this->getId()], $animationStage);
-        if (!empty($this->config['loot'])) {
+        if (!empty($this->config['loot']) && empty($this->data[self::DATA_KEY_NO_LOOT])) {
             $object = $this->world->addObject($this->config['loot'], $this->getX(), $this->getY());
             if ($object) {
                 GameBuilder::animateEvent(Game::EVENT_NAME_ADD_OBJECT,

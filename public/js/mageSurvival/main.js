@@ -520,7 +520,8 @@ MageS.Game = function () {
                 // MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
                 MageS.Game.spells.currentSpellData = {'targetX': -2, 'targetY': -1, 'd':1, 'data':[
                     [-2, 3], [3,3], [4,-1], [0, 2]
-                ], 'targets': [[0,-2], [3,3], [-3,2]]};
+                ], 'targets': [[0,-2], [3,3], [-3,2]],
+                'pattern' : [[-2, -3]]};
                 //     {'point':[-1,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-2,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-3,0], 'targets':[[-1, -2], [0, 2]]},
@@ -529,7 +530,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('NoMoreAirForYou');
+                MageS.Game.spells.startCast('HardLanding');
                 // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
             });
             $('#move-control-field .control-arrow').on('click', function () {
@@ -662,6 +663,15 @@ MageS.Game = function () {
         this.actionInProcess = false;
         $('.loading-field').fadeOut(50);
         $('.actions-container .actions').fadeIn();
+    };
+    
+    this.getIcon = function(name) {
+        var svg = $(this.svg).find('#' + name);
+        if (svg.length == 0) {
+            info('icon for "' + name + '" not found');
+            return;
+        }
+        return svg.children();
     };
 
     this.drawCell = function(cell, x, y, target) {

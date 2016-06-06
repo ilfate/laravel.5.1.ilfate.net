@@ -53,7 +53,7 @@ class DoorQuest extends MapObject
         }
     }
 
-    public function open()
+    public function openDoor()
     {
         $this->data['open'] = true;
         $this->isPassable = true;
@@ -62,7 +62,7 @@ class DoorQuest extends MapObject
         ], Game::ANIMATION_STAGE_UNIT_ACTION);
     }
 
-    public function close()
+    public function closeDoor()
     {
         $this->data['open'] = false;
         $this->isPassable = false;

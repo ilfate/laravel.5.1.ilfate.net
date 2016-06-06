@@ -10,6 +10,10 @@ MageS.Worlds = function (game) {
 
     this.worlds = {
         'Tutorial' : {
+            'f1' : {'icon':'tile-wood-plank'},
+            'f2' : {'icon':'tile-wood-plank', 'd' : 1},
+            'f3' : {'icon':'tile-wood-plank', 'd' : 2},
+            'f4' : {'icon':'tile-wood-plank', 'd' : 3},
             's' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
             'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey'},
             'w2' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey-darker'},
@@ -67,9 +71,13 @@ MageS.Worlds = function (game) {
     };
 
     this.addIcon = function(cellConfig, cellObj) {
-        var icon = $(this.game.svg).find('#' + cellConfig['icon'] + ' path');
+        var icon = this.game.getIcon(cellConfig['icon']);
         var svgContainerEl = $('<div></div>').addClass('svg svg-cell').append($('<svg class="svg-icon" viewBox="0 0 512 512"></svg>'));
-
+        if (cellConfig['d'] !== undefined) {
+            var randAngle = [0,90,180,270];
+            var angle = randAngle[cellConfig['d']];
+            svgContainerEl.find('svg')[0].style.transform = 'rotate(' + angle + 'deg)';
+        }
         svgContainerEl.find('svg').append(icon.clone());
         cellObj.append(svgContainerEl);
         if (cellConfig['icon-color'] !== undefined) {

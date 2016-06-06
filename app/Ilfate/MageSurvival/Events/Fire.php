@@ -54,7 +54,7 @@ class Fire extends Event
         $unit->removeFlag('burn');
         GameBuilder::getGame()->addAnimationEvent(Game::EVENT_NAME_UNIT_REMOVE_STATUS, [
             'id' => $unit->getId(), 'flag' => 'burn'
-        ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
+        ], Game::ANIMATION_STAGE_UNIT_ACTION_3);
         return $data;
     }
 }

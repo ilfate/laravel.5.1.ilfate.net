@@ -35,7 +35,7 @@ class Objects extends Event
     public static function openDoor($actionData, $eventData) {
 
         $door = GameBuilder::getGame()->getWorld()->getObject($eventData['doorX'], $eventData['doorY']);
-        $door->open();
+        $door->openDoor();
         $door->update();
 
         return $actionData;

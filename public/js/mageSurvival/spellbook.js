@@ -46,6 +46,10 @@ MageS.Spellbook = function (game) {
             info('This spell is on cooldown');
             return;
         }
+        if (this.game.animations.isAnimationsRunning) {
+            this.game.monimations.shake(spellEl);
+            return;
+        }
         var spellType = spellEl.data('spell-type');
         var targetType = spellEl.data('target-type');
         var isCastAllowed = false;

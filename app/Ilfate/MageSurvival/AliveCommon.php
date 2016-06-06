@@ -158,4 +158,26 @@ abstract class AliveCommon
             throw new MessageException('Well this is some thing new. Freeze on mage? Did not implement that');
         }
     }
+    
+    public function burn($turns, $stage)
+    {
+        Event::create(
+            Event::EVENT_UNIT_AFTER_TURN, [
+            Event::KEY_TIMES => $turns,
+            Event::KEY_OWNER => $this,
+            Event::KEY_ON_COMPLETE => 'Fire:RemoveBurn'
+        ],
+            'Fire:Burn');
+        $this->addFlag(Unit::FLAG_BURN);
+        if ($this->getUnitType() == self::UNIT_TYPE_UNIT) {
+            GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
+                [
+                    'flags' => [Unit::FLAG_BURN => true],
+                    'id'    => $this->getId()
+                ],
+                $stage);
+        } else {
+            throw new MessageException('Well this is some thing new. Burn on mage? Did not implement that');
+        }
+    }
 }

@@ -164,6 +164,7 @@ class World
         if (empty($this->objects[$y][$x])) {
             return null;
         }
+        unset($this->objectsInited[$y][$x]);
         unset($this->objects[$y][$x]);
         $this->update();
     }

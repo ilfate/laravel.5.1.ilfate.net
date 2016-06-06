@@ -130,6 +130,28 @@ return array(
         19 => [ // for FreshWaterFountain
             [0, -1],
         ],
+        20 => [ // Sky Fist
+            [0, -3],
+        ],
+        21 => [ // Sky Fist
+            [0, -2],
+        ],
+        22 => [ // Sky Fist
+            [3, -3],
+        ],
+        23 => [ // Sky Fist
+            [2, -2],
+        ],
+        24 => [ // HardLanding
+            [0, -4],
+            [4, -4],
+            [-4, -4],
+        ],
+        25 => [ // HardLanding
+            [0, -3],
+            [3, -3],
+            [-3, -3],
+        ],
     ],
 
 );

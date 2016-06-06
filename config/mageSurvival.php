@@ -57,12 +57,14 @@ return array(
     ],
     'objects' => [
         'list' => [
-            1 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay'],
-            2 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay'],
-            3 => ['name' => 'Chest', 'class' => 'BigChest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-blue'],
+            100 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay', 'loot' => [1,2,3,4,5]],
+            101 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay', 'loot' => [3,4,5,6,7]],
+            102 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay', 'loot' => [5,6,7,8,9,10], 'quantity' => 2],
+            110 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay', 'loot' => [1,2,3,4,5,6,7]],
+            111 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-blue', 'loot' => [8,9,10,11,12,13], 'quantity'=>3],
+            112 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-gold', 'loot' => [13, 14, 15], 'quantity' => 2],
             4 => ['name' => 'Bomb', 'class' => 'Bomb', 'icon' => 'icon-fire-bomb', 'iconColor' => 'color-red'],
             5 => ['name' => 'Ice wall', 'class' => 'IceWall', 'icon' => 'icon-cracked-glass', 'iconColor' => 'color-blue-bright'],
-            6 => ['name' => 'Corpse2', 'class' => 'Corpse2', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay'],
             7 => ['name' => 'Fresh water fountain', 'class' => 'FreshWaterFountain', 'icon' => 'icon-fountain', 'iconColor' => 'color-blue'],
             8 => ['name' => 'Rasengan', 'class' => 'Rasengan', 'icon' => 'icon-water-huracane', 'centered' => true],
             50 => ['name' => 'Door', 'class' => 'DoorQuest', 'icon' => 'icon-wooden-door', 'iconColor' => 'color-brown'],
@@ -73,19 +75,19 @@ return array(
             2 => [ // WitchForest world
                 // Range from world center
 
-                /* 0 - 50 */        50 => [1],
-                /* 50 - 100 */      100 => [1],
-                /* 100 - 500 */     500 => [1],
+                /* 0 - 50 */        50 => [110],
+                /* 50 - 100 */      100 => [110],
+                /* 100 - 500 */     500 => [110],
                 /* 500 - 1000 */    1000 => [1],
-                /* 1000 - 9999999 */9999999 => [1],
+                /* 1000 - 9999999 */9999999 => [111],
             ],
             900 => [ // Test world
 
-                /* 0 - 50 */        50 => [1],
-                /* 50 - 100 */      100 => [1],
-                /* 100 - 500 */     500 => [1],
-                /* 500 - 1000 */    1000 => [1],
-                /* 1000 - 9999999 */9999999 => [1],
+                /* 0 - 50 */        50 => [110],
+                /* 50 - 100 */      100 => [110],
+                /* 100 - 500 */     500 => [110],
+                /* 500 - 1000 */    1000 => [110],
+                /* 1000 - 9999999 */9999999 => [111],
             ],
         ],
     ],

@@ -78,14 +78,17 @@ class WorldGeneratorSecretCave extends WorldGeneratorWitchForest
 
     public function addAdditionalToMap(array &$map)
     {
-        $newMap = $this->addLocation(0, -self::$generatorConfig['mapDistance'], LocationsForest::$spiderNest, $map, 0);
+        $newMap = $this->addLocation(
+            0, -self::$generatorConfig['mapDistance'],
+            LocationsForest::$spiderNest, $map, 0, true
+        );
 
         $boss = null;
         $units = $this->world->getUnits();
         foreach ($units as $y => $row) {
             foreach ($row as $x => $unit) {
                 if ($unit['type'] == 101) {
-                    // this is witch
+                    // this is boss
                     $boss = $this->world->getUnit($x, $y);
                 }
             }

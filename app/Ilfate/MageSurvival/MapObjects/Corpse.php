@@ -34,8 +34,6 @@ use Ilfate\MageSurvival\ChanceHelper;
 class Corpse extends MapObject
 {
 
-    protected $possibleItems = [1001];
-
     public function getActions()
     {
         return [
@@ -46,14 +44,5 @@ class Corpse extends MapObject
              'location' => 'actions'
             ]
         ];
-    }
-
-    public function open(Mage $mage)
-    {
-        $itemId = ChanceHelper::oneFromArray($this->possibleItems);
-        GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
-        $mage->addItem($itemId);
-        $this->delete();
-        return ['action' => 'itemsFound', 'data' => [$itemId]];
     }
 }

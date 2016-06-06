@@ -349,9 +349,13 @@ abstract class Spell
             if (!in_array($data['d'], [0,1,2,3])) {
                 throw new MessageException('Wtf? You kidding me? Try harder bitch!');
             }
+
             $mageD = $this->mage->getD();
             $d = self::fixDirection($mageD, $data['x'], $data['y']);
             $this->rotatePattern($d, $data['x'], $data['y']);
+            if (!in_array([$data['x'], $data['y']], $this->pattern)) {
+                throw new MessageException('Wtf? You kidding me? x and y manipulation? rly?');
+            }
             if ($mageD != $d) {
                 $this->mage->rotate($d, Game::ANIMATION_STAGE_MAGE_ACTION);
                 $this->setNexStage();

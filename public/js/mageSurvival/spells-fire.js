@@ -107,7 +107,10 @@ MageS.Spells.Fire = function (game, spells) {
 
     this.finishExplodingBees = function(data) {
         this.standartFireToMiddle();
-
+        if (data.targetX === undefined) {
+            MageS.Game.spells.endSpellAnimation();
+            return;
+        }
         var rad = Math.atan2(data.targetY, data.targetX); // In radians
         //Then you can convert it to degrees as easy as:
         var deg = rad * (180 / Math.PI);
@@ -184,7 +187,7 @@ MageS.Spells.Fire = function (game, spells) {
         setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 150);
         setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 300);
         setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 450);
-        setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 600);
+        // setTimeout(function(){ MageS.Game.spells.fire.buttFire(rotate, mTop, mLeft); }, 600);
         setTimeout(function(){ 
             MageS.Game.spells.clearAnimationField();
         }, 900);
@@ -206,12 +209,6 @@ MageS.Spells.Fire = function (game, spells) {
             {duration:600, easing:'easeInBack', queue:false});
         torch.animate({'margin-top': data.targetY * MageS.Game.cellSize * MageS.Game.rem},
             {duration:600, easing:'easeInOutCirc', queue:false});
-
-        setTimeout(function () {
-            var unit = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY + ' .unit');
-            var icon = MageS.Game.spells.createIcon('icon-flame-tunnel', 'color-red').addClass('unit-status under');
-            unit.prepend(icon);
-        }, 600);
 
         setTimeout(function(){
             MageS.Game.spells.endSpellAnimation();
@@ -318,12 +315,6 @@ MageS.Spells.Fire = function (game, spells) {
             shakeDirection = 'Y';
         }
         MageS.Game.monimations.camShake(shakeDirection, 400, 3, castTime);
-
-        setTimeout(function () {
-            var unit = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY + ' .unit');
-            var icon = MageS.Game.spells.createIcon('icon-flame-tunnel', 'color-red').addClass('unit-status under');
-            unit.prepend(icon);
-        }, 1100);
 
         setTimeout(function(){
             MageS.Game.spells.endSpellAnimation();

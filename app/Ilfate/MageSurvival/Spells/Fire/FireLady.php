@@ -43,6 +43,13 @@ class FireLady extends Fire
     protected function spellEffect($data)
     {
         $visibleUnits = $this->game->getWorldGenerator()->getVisibleUnits($this->mage);
+        if (!$visibleUnits) {
+            $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
+                'spell' => $this->name
+            ], $this->getNormalCastStage());
+            $this->mage->say('I see no enemies!');
+            return true;
+        }
         /**
          * @var Unit $target
          */
