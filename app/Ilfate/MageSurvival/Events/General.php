@@ -36,6 +36,18 @@ class General extends Event
         GameBuilder::getGame()->setUserFlag($eventData['flag'], $eventData['value']);
         return $actionData;
     }
+
+    public static function mageSay($actionData, $eventData)
+    {
+        GameBuilder::getGame()->getMage()->say($eventData['text'], $eventData['stage']);
+        return $actionData;
+    }
+
+    public static function say($actionData, $eventData)
+    {
+        $actionData[Event::KEY_OWNER]->say($eventData['text'], $eventData['stage']);
+        return $actionData;
+    }
     
     
 

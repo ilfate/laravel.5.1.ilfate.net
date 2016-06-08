@@ -1,0 +1,26 @@
+
+.battle-border {
+    .tile-image {
+        background-image: url("/images/game/mage/sprite.png");
+        background-size:1100%;
+
+
+        &.tile-wood-plank {
+            background-position: 0 0;
+        }
+        &.someName { background-position: 10% 0; }
+        &.someName1 { background-position: 20% 0; }
+        &.someName2 { background-position: 30% 0; }
+        &.someName3 { background-position: 40% 0; }
+        &.someName4 { background-position: 50% 0; }
+        &.someName5 { background-position: 60% 0; }
+        &.someName6 { background-position: 70% 0; }
+        &.someName7 { background-position: 80% 0; }
+        &.someName8 { background-position: 90% 0; }
+        &.someName9 { background-position: 100% 0; }
+        &.someName10 { background-position: 0 10%; }
+        &.someName11 { background-position: 10% 10%; }
+        &.someName12 { background-position: 20% 10%; }
+        &.someName13 { background-position: 30% 10%; }
+    }
+}

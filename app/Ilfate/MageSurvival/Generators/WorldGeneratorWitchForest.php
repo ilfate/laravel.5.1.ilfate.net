@@ -15,6 +15,7 @@ namespace Ilfate\MageSurvival\Generators;
 use Ilfate\Geometry2DCells;
 use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\WorldGenerator;
 
@@ -194,6 +195,20 @@ class WorldGeneratorWitchForest extends WorldGenerator
                 'value' => 'open'
             ],
             'General:addUserFlag'
+        );
+        Event::create(Event::EVENT_UNIT_BEFORE_DYING, [
+                'times' => 1,
+                'owner' => $witch,
+                'text' => 'Wow. She is gone! Looks like it is a big start for an adventure!', 'stage' => Game::ANIMATION_STAGE_TURN_END_EFFECTS_2
+            ],
+            'General:mageSay'
+        );
+        Event::create(Event::EVENT_UNIT_BEFORE_DYING, [
+                'times' => 1,
+                'owner' => $witch,
+                'text' => 'AAAAA! Nooo!', 'stage' => Game::ANIMATION_STAGE_TURN_END_EFFECTS
+            ],
+            'General:say'
         );
         $this->world->setEvents(Event::export());
         $this->world->save();

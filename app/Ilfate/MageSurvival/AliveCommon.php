@@ -130,7 +130,7 @@ abstract class AliveCommon
             $x = $this->getX() - $mage->getX();
             $y = $this->getY() - $mage->getY();
         }
-        $time = strlen($message) * 20 + 300;
+        $time = (strlen($message) * 30) + 300;
         GameBuilder::animateEvent(Game::EVENT_NAME_SAY_MESSAGE, [
             'message' => $message, 'time' => $time,
             'targetX' => $x, 'targetY' => $y

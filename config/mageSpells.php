@@ -265,6 +265,14 @@ return array(
                 'iconColor' => 'color-light-blue',
                 'iconClass' => 'icon-fist',
             ],
+            7 => [
+                'name' => 'Lighting shield',
+                'class' => 'LightingShield',
+                'description' => 'Protect yourself with lighting that will zip one enemy near you for 1 damage for next 5 turns.',
+                'iconColor' => 'color-light-blue',
+                'iconClass' => 'icon-lighting-shield',
+                'noTargetSpell' => true,
+            ],
 
 
 

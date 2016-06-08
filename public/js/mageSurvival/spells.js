@@ -2,9 +2,6 @@
  * Created by Ilya Rubinchik (ilfate) on 06/11/15.
  */
 
-
-
-
 MageS.Spells = function (game) {
     this.game = game;
     this.currentSpellName = '';
@@ -115,38 +112,41 @@ MageS.Spells = function (game) {
                 info('No iteration animation for "' + name + '"');
         }
     };
-    this.continue = function(name) {
+    this.continue = function(name, data) {
+        if (!data) {
+            data = this.currentSpellData;
+        }
         switch (name) {
-            case 'Fireball': this.fire.finishFireball(this.currentSpellData); break;
-            case 'FireNova': this.fire.finishFireNova(this.currentSpellData); break;
-            case 'ExplodingBees': this.fire.finishExplodingBees(this.currentSpellData); break;
-            case 'ButthurtJump': this.fire.finishButthurtJump(this.currentSpellData); break;
-            case 'LightMyFire': this.fire.finishLightMyFire(this.currentSpellData); break;
-            case 'Bomb': this.fire.finishBomb(this.currentSpellData); break;
-            case 'FireLady': this.fire.finishExplodingBees(this.currentSpellData); break;
-            case 'FaceCanon': this.fire.finishFaceCanon(this.currentSpellData); break;
-            case 'LetFireInYourEyes': this.fire.finishLetFireInYourEyes(this.currentSpellData); break;
-            case 'PhoenixStrike': this.fire.finishPhoenixStrike(this.currentSpellData); break;
-            case 'RainOfFire': this.fire.finishRainOfFire(this.currentSpellData); break;
-            case 'FireImp': this.fire.finishFireImp(this.currentSpellData); break;
-            case 'IceCrown': this.water.finishIceCrown(this.currentSpellData); break;
-            case 'Freeze': this.water.finishFreeze(this.currentSpellData); break;
-            case 'IceWall': this.water.finishIceWall(this.currentSpellData); break;
-            case 'IceSpear': this.water.finishIceSpear(this.currentSpellData); break;
-            case 'IceCone': this.water.finishIceCone(this.currentSpellData); break;
-            case 'WashAndGo': this.water.finishWashAndGo(this.currentSpellData); break;
-            case 'Blizzard': this.water.finishBlizzard(this.currentSpellData); break;
-            case 'IceShield': this.water.finishIceShield(this.currentSpellData); break;
-            case 'Icelock': this.water.finishIcelock(this.currentSpellData); break;
-            case 'FreshWaterFountain': this.water.finishFreshWaterFountain(this.currentSpellData); break;
-            case 'WaterBody': this.water.finishWaterBody(this.currentSpellData); break;
-            case 'Push': this.air.finishPush(this.currentSpellData); break;
-            case 'Harmony':  this.air.finishHarmony(this.currentSpellData); break;
-            case 'NoMoreAirForYou':  this.air.finishNoMoreAirForYou(this.currentSpellData); break;
-            case 'HardLanding':  this.air.finishHardLanding(this.currentSpellData); break;
-            case 'QuardroLightning':  this.air.finishQuardroLightning(this.currentSpellData); break;
-            case 'Lightning':  this.air.finishLightning(this.currentSpellData); break;
-            case 'SkyFist':  this.air.finishSkyFist(this.currentSpellData); break;
+            case 'Fireball': this.fire.finishFireball(data); break;
+            case 'FireNova': this.fire.finishFireNova(data); break;
+            case 'ExplodingBees': this.fire.finishExplodingBees(data); break;
+            case 'ButthurtJump': this.fire.finishButthurtJump(data); break;
+            case 'LightMyFire': this.fire.finishLightMyFire(data); break;
+            case 'Bomb': this.fire.finishBomb(data); break;
+            case 'FireLady': this.fire.finishExplodingBees(data); break;
+            case 'FaceCanon': this.fire.finishFaceCanon(data); break;
+            case 'LetFireInYourEyes': this.fire.finishLetFireInYourEyes(data); break;
+            case 'PhoenixStrike': this.fire.finishPhoenixStrike(data); break;
+            case 'RainOfFire': this.fire.finishRainOfFire(data); break;
+            case 'FireImp': this.fire.finishFireImp(data); break;
+            case 'IceCrown': this.water.finishIceCrown(data); break;
+            case 'Freeze': this.water.finishFreeze(data); break;
+            case 'IceWall': this.water.finishIceWall(data); break;
+            case 'IceSpear': this.water.finishIceSpear(data); break;
+            case 'IceCone': this.water.finishIceCone(data); break;
+            case 'WashAndGo': this.water.finishWashAndGo(data); break;
+            case 'Blizzard': this.water.finishBlizzard(data); break;
+            case 'IceShield': this.water.finishIceShield(data); break;
+            case 'Icelock': this.water.finishIcelock(data); break;
+            case 'FreshWaterFountain': this.water.finishFreshWaterFountain(data); break;
+            case 'WaterBody': this.water.finishWaterBody(data); break;
+            case 'Push': this.air.finishPush(data); break;
+            case 'Harmony':  this.air.finishHarmony(data); break;
+            case 'NoMoreAirForYou':  this.air.finishNoMoreAirForYou(data); break;
+            case 'HardLanding':  this.air.finishHardLanding(data); break;
+            case 'QuardroLightning':  this.air.finishQuardroLightning(data); break;
+            case 'Lightning':  this.air.finishLightning(data); break;
+            case 'SkyFist':  this.air.finishSkyFist(data); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);

@@ -16,6 +16,7 @@ use Ilfate\Mage;
 use Ilfate\MageUser;
 use Ilfate\MageWorld;
 use Ilfate\User;
+use Validator;
 
 /**
  * PHP version 5
@@ -38,30 +39,33 @@ class Game
     const ACTION_CRAFT_SPELL     = 'craftSpell';
     const ACTION_SKIP_TURN       = 'skipTurn';
     const ACTION_SPELL           = 'spell';
+    const ACTION_REGISTER        = 'register';
 
-    const EVENT_NAME_MAGE_ROTATE        = 'mage-rotate';
-    const EVENT_NAME_MAGE_DAMAGE        = 'mage-damage';
-    const EVENT_NAME_MAGE_SPELL_CAST    = 'mage-spell-cast';
-    const EVENT_NAME_MAGE_HEAL          = 'mage-heal';
-    const EVENT_NAME_MAGE_ADD_ARMOR     = 'mage-add-armor';
-    const EVENT_NAME_MAGE_ADD_STATUS    = 'mage-add-status';
-    const EVENT_NAME_MAGE_REMOVE_STATUS = 'mage-remove-status';
-    const EVENT_NAME_MAGE_USE_PORTAL    = 'mage-use-portal';
-    const EVENT_NAME_UNIT_MOVE          = 'unit-move';
-    const EVENT_NAME_UNIT_KILL          = 'unit-kill';
-    const EVENT_NAME_UNIT_ROTATE        = 'unit-rotate';
-    const EVENT_NAME_UNIT_ATTACK        = 'unit-attack';
-    const EVENT_NAME_UNIT_DAMAGE        = 'unit-damage';
-    const EVENT_NAME_UNIT_REMOVE_STATUS = 'unit-remove-status';
-    const EVENT_NAME_OBJECT_DESTROY     = 'object-destroy';
-    const EVENT_NAME_OBJECT_MOVE        = 'object-move';
-    const EVENT_NAME_ADD_OBJECT         = 'add-object';
-    const EVENT_NAME_ADD_UNIT           = 'add-unit';
-    const EVENT_NAME_ADD_UNIT_STATUS    = 'add-unit-status';
-    const EVENT_NAME_SPELL_CRAFT        = 'spell-craft';
-    const EVENT_NAME_OBJECT_ACTIVATE    = 'object-activate';
-    const EVENT_CELL_CHANGE             = 'cell-change';
-    const EVENT_NAME_SAY_MESSAGE        = 'say-message';
+    const EVENT_NAME_MAGE_ROTATE          = 'mage-rotate';
+    const EVENT_NAME_MAGE_DAMAGE          = 'mage-damage';
+    const EVENT_NAME_MAGE_SPELL_CAST      = 'mage-spell-cast';
+    const EVENT_NAME_MAGE_HEAL            = 'mage-heal';
+    const EVENT_NAME_MAGE_ADD_ARMOR       = 'mage-add-armor';
+    const EVENT_NAME_MAGE_ADD_STATUS      = 'mage-add-status';
+    const EVENT_NAME_MAGE_REMOVE_STATUS   = 'mage-remove-status';
+    const EVENT_NAME_MAGE_USE_PORTAL      = 'mage-use-portal';
+    const EVENT_NAME_EFFECT               = 'effect';
+    const EVENT_NAME_UNIT_MOVE            = 'unit-move';
+    const EVENT_NAME_UNIT_KILL            = 'unit-kill';
+    const EVENT_NAME_UNIT_ROTATE          = 'unit-rotate';
+    const EVENT_NAME_UNIT_ATTACK          = 'unit-attack';
+    const EVENT_NAME_UNIT_DAMAGE          = 'unit-damage';
+    const EVENT_NAME_UNIT_REMOVE_STATUS   = 'unit-remove-status';
+    const EVENT_NAME_OBJECT_DESTROY       = 'object-destroy';
+    const EVENT_NAME_OBJECT_MOVE          = 'object-move';
+    const EVENT_NAME_ADD_OBJECT           = 'add-object';
+    const EVENT_NAME_ADD_UNIT             = 'add-unit';
+    const EVENT_NAME_ADD_UNIT_STATUS      = 'add-unit-status';
+    const EVENT_NAME_SPELL_CRAFT          = 'spell-craft';
+    const EVENT_NAME_OBJECT_ACTIVATE      = 'object-activate';
+    const EVENT_CELL_CHANGE               = 'cell-change';
+    const EVENT_NAME_SAY_MESSAGE          = 'say-message';
+    const EVENT_NAME_USER_ASK_TO_REGISTER = 'user-ask-to-register';
 
     const ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH = 'mage-before-action-speech';
     const ANIMATION_STAGE_MAGE_ACTION = 'mage-action';
@@ -171,23 +175,26 @@ class Game
         $return = [];
         switch ($action) {
             case self::ACTION_MOVE:
-                $this->mage->moveAction($data);
                 $this->turn();
+                $this->mage->moveAction($data);
                 break;
             case self::ACTION_OBJECT_INTERACT:
+                $this->turn();
                 $result = $this->mage->interactWithObject($this->world, $data['method']);
                 $return['data'] = $result['data'];
-                $this->turn();
                 break;
             case self::ACTION_CRAFT_SPELL:
                 $this->mage->craftSpell($data);
                 break;
             case self::ACTION_SPELL:
-                $this->mage->castSpell($data);
                 $this->turn();
+                $this->mage->castSpell($data);
                 break;
             case self::ACTION_SKIP_TURN:
                 $this->turn();
+                break;
+            case self::ACTION_REGISTER:
+                $this->register($data);
                 break;
             default:
                 throw new \Exception('Action "' . $action . '" do not exist');
@@ -641,5 +648,51 @@ class Game
             }
         }
         $this->mage->save();
+    }
+
+    public function registrationCheck()
+    {
+        if (!$this->user->is_guest) { return ; }
+        if ($this->getUserFlag('SecretCave') && ChanceHelper::chance(100)) {
+            // aha! You ser! Not registred and have finished first boss!
+            $this->mage->say('I thinks it is time to save my progress!', Game::ANIMATION_STAGE_MAGE_ACTION_3);
+            GameBuilder::animateEvent(Game::EVENT_NAME_USER_ASK_TO_REGISTER,
+                ['time' => 1000],
+                Game::ANIMATION_STAGE_MAGE_ACTION_3);
+        }
+
+    }
+
+    private function register($data)
+    {
+        $validator = Validator::make($data, [
+            'email' => 'required|email|unique:users,email|max:60',
+            'password' => 'required|min:6',
+        ], [
+            'required' => 'The :attribute field is required by the law.',
+            'email' => 'Your email... it not blends...',
+            'unique' => 'You are not alone! With this email!',
+            'max' => 'Your email is so big! Impressive! But we have to cut it.',
+            'min' => 'Your password is not khmmm... not long enough!',
+        ]);
+
+        if ($validator->fails()) {
+            $this->mage->say('Sorry. My magic is failed.');
+            $messages = $validator->errors();
+            foreach ($messages->all() as $message) {
+                $this->mage->say($message, Game::ANIMATION_STAGE_MESSAGE_TIME_2);
+                $this->mage->say('Let`s try again! I believe in you!', Game::ANIMATION_STAGE_MESSAGE_TIME_3);
+                GameBuilder::animateEvent(Game::EVENT_NAME_USER_ASK_TO_REGISTER,
+                    ['time' => 1400],
+                    Game::ANIMATION_STAGE_MESSAGE_TIME_3);
+                return;
+            }
+        }
+        $this->user->email = $data['email'];
+        $this->user->password = \Hash::make($data['password']);
+        $this->user->is_guest = false;
+        $this->user->save();
+        $this->mage->say('Thank you a lot! I hope you will enjoy crafting spells with me!');
+        $this->mage->say('Let`s go now! We have other worlds to explore!', Game::ANIMATION_STAGE_MESSAGE_TIME_2);
     }
 }

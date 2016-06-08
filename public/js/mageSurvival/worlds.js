@@ -10,10 +10,10 @@ MageS.Worlds = function (game) {
 
     this.worlds = {
         'Tutorial' : {
-            'f1' : {'icon':'tile-wood-plank'},
-            'f2' : {'icon':'tile-wood-plank', 'd' : 1},
-            'f3' : {'icon':'tile-wood-plank', 'd' : 2},
-            'f4' : {'icon':'tile-wood-plank', 'd' : 3},
+            'f1' : {'image':'tile-wood-plank' },
+            'f2' : {'image':'tile-wood-plank', 'd' : 1 },
+            'f3' : {'image':'tile-wood-plank', 'd' : 2 },
+            'f4' : {'image':'tile-wood-plank', 'd' : 3 },
             's' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
             'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey'},
             'w2' : {'icon':'icon-brick-wall', 'icon-color': 'color-grey-darker'},
@@ -62,6 +62,9 @@ MageS.Worlds = function (game) {
             return false;
         }
         var cellConfig = this.worlds[world][cell];
+        if (cellConfig['image'] !== undefined) {
+            this.addImage(cellConfig, cellObj);
+        }
         if (cellConfig['icon'] !== undefined) {
             this.addIcon(cellConfig, cellObj);
         }
@@ -74,16 +77,27 @@ MageS.Worlds = function (game) {
         var icon = this.game.getIcon(cellConfig['icon']);
         var svgContainerEl = $('<div></div>').addClass('svg svg-cell').append($('<svg class="svg-icon" viewBox="0 0 512 512"></svg>'));
         if (cellConfig['d'] !== undefined) {
-            var randAngle = [0,90,180,270];
+            var randAngle = [0, 90, 180, 270];
             var angle = randAngle[cellConfig['d']];
             svgContainerEl.find('svg')[0].style.transform = 'rotate(' + angle + 'deg)';
         }
         svgContainerEl.find('svg').append(icon.clone());
         cellObj.append(svgContainerEl);
+
+
         if (cellConfig['icon-color'] !== undefined) {
             svgContainerEl.addClass(cellConfig['icon-color']);
         }
-    }
+    };
+
+    this.addImage = function(cellConfig, cellObj) {
+        cellObj.addClass('tile-image ' + cellConfig['image']);
+        if (cellConfig['d'] !== undefined) {
+            var randAngle = [0, 90, 180, 270];
+            var angle = randAngle[cellConfig['d']];
+            cellObj[0].style.transform = 'rotate(' + angle + 'deg)';
+        }
+    };
 
 
 };

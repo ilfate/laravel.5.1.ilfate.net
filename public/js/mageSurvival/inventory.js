@@ -173,7 +173,7 @@ MageS.Inventory = function (game) {
     };
 
     this.bindItem = function (item) {
-        item.on('click', function() {
+        item.on('mousedown', function() {
             MageS.Game.inventory.itemClick($(this));
         })
     };

@@ -3591,6 +3591,28 @@ body {
     .mage-survival .pattern-field .pattern-cell.active {
       z-index: 45;
       opacity: 0.7; }
+.mage-survival .mage-registration {
+  background-color: #529BCA;
+  z-index: 95;
+  position: absolute;
+  width: 17.6rem;
+  height: 17.6rem;
+  text-align: center; }
+  .mage-survival .mage-registration .well {
+    color: #ffffff;
+    background-color: #428BBA; }
+  .mage-survival .mage-registration .close {
+    margin-bottom: 1.6rem; }
+  .mage-survival .mage-registration .form-control {
+    margin-left: 12.5%;
+    margin-top: 1.6rem;
+    width: 75%;
+    background-color: #ffffff;
+    color: #5E412F; }
+  .mage-survival .mage-registration .submit {
+    margin-top: 1.6rem;
+    background-color: #069E2D;
+    border: none; }
 
 .battle-border.Tutorial .cell.bl {
   background-color: darkgrey; }
@@ -4075,6 +4097,40 @@ body {
   .mage-map-builder .cell input {
     width: 40px;
     color: #584D3D; }
+
+.battle-border .tile-image {
+  background-image: url("/images/game/mage/sprite.png");
+  background-size: 1100%; }
+  .battle-border .tile-image.tile-wood-plank {
+    background-position: 0 0; }
+  .battle-border .tile-image.someName {
+    background-position: 10% 0; }
+  .battle-border .tile-image.someName1 {
+    background-position: 20% 0; }
+  .battle-border .tile-image.someName2 {
+    background-position: 30% 0; }
+  .battle-border .tile-image.someName3 {
+    background-position: 40% 0; }
+  .battle-border .tile-image.someName4 {
+    background-position: 50% 0; }
+  .battle-border .tile-image.someName5 {
+    background-position: 60% 0; }
+  .battle-border .tile-image.someName6 {
+    background-position: 70% 0; }
+  .battle-border .tile-image.someName7 {
+    background-position: 80% 0; }
+  .battle-border .tile-image.someName8 {
+    background-position: 90% 0; }
+  .battle-border .tile-image.someName9 {
+    background-position: 100% 0; }
+  .battle-border .tile-image.someName10 {
+    background-position: 0 10%; }
+  .battle-border .tile-image.someName11 {
+    background-position: 10% 10%; }
+  .battle-border .tile-image.someName12 {
+    background-position: 20% 10%; }
+  .battle-border .tile-image.someName13 {
+    background-position: 30% 10%; }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 i.rpg-icon-small {

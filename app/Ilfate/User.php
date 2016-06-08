@@ -82,7 +82,7 @@ class User extends Model implements AuthenticatableContract,
     public function getId()
     {
         if (!$this->id) {
-            $this->id = mt_rand(100000, 999999) . '2';
+            $this->id = mt_rand(100000, 9999999) . '2';
             $existingUser = User::where('id', $this->id)->first();
             if ($existingUser) {
                 return $this->id = $this->getId();

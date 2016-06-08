@@ -52,11 +52,14 @@ MageS.Game = function () {
     this.monimations = {};
     this.gameStatus = $('#game-status').val();
     this.rawData = [];
-    this.svg = {};
+    this.svg = $('<div></div>');
+    this.svgToLoad = 0;
+    this.callback = {};
     this.turn = 0;
     this.worldType = 0;
     this.actionInProcess = false;
     this.gameInited = false;
+    this.isGameRuning = true;
     /* CONFIG */
     this.fieldRadius = 5;
     this.cellSize = 1.6;
@@ -259,17 +262,7 @@ MageS.Game = function () {
     };
 
     this.pageResize = function() {
-        //$(window).bind('orientationchange resize', function(event){
-        //    if (event.orientation) {
-        //        if (event.orientation == 'landscape') {
-        //            if (window.rotation == 90) {
-        //                windowRotate(this, -90);
-        //            } else {
-        //                windowRotate(this, 90);
-        //            }
-        //        }
-        //    }
-        //});
+
         var rem = this.rem;
         var width = $(window).width();
         switch (this.device) {
@@ -284,7 +277,7 @@ MageS.Game = function () {
                 else if (width <= 360) { rem = 20; }
                 break;
         }
-        //info('rem=' + rem);
+
         this.rem = rem;
         $('html').css('font-size', rem + 'px');
     };
@@ -368,6 +361,10 @@ MageS.Game = function () {
                 break;
             case 'spell':
                 actionName = 'spell';
+                dataString = data;
+                break;
+            case 'register':
+                actionName = 'register';
                 dataString = data;
                 break;
             default:
@@ -624,13 +621,28 @@ MageS.Game = function () {
     };
 
     this.initSVG = function(callback) {
-        var url = '/images/game/mage/game-icons.svg';
-        jQuery.get(url, function(data) {
+        this.svgCallback = callback;
+        var urls = {'svg' : '/images/game/mage/game-icons.svg',
+        'tiles' :'/images/game/mage/game-tiles.svg'};
+        this.svgToLoad = Object.keys(urls).length;
+        for (var i in urls) {
+            MageS.Game.loadSingleSvg(urls[i], i);
+        }
+    };
+    this.loadSingleSvg = function(url, key) {
+        jQuery.get(url, function (data) {
 
-            MageS.Game.svg = jQuery(data).find('svg');
-            info(MageS.Game.svg);
-            callback();
+            MageS.Game.svg.append(jQuery(data).find('svg'));
+            MageS.Game.singleSvgLoadDone();
         }, 'xml');
+
+    };
+
+    this.singleSvgLoadDone = function() {
+        this.svgToLoad --;
+        if (this.svgToLoad == 0) {
+            this.svgCallback();
+        }
     };
 
     this.replaceMissingSvg = function() {
@@ -722,8 +734,36 @@ MageS.Game = function () {
         }, 3000);
     };
 
+    this.registrationPopup = function()
+    {
+        var temaplate = $('#template-registration').html();
+        Mustache.parse(temaplate);
+        var rendered = Mustache.render(temaplate, {});
+        var obj = $(rendered);
+        $('.battle-border').append(obj);
+        obj.css({opacity:0});
+        obj.animate({opacity:1});
+        MageS.Game.isGameRuning = false;
+
+    };
+    this.cancelRegistration = function() {
+        MageS.Game.isGameRuning = true;;
+        $('.mage-registration').animate({opacity:0}, {duration:500,complete:function(){$(this).remove()}});
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    };
+
+    this.register = function() {
+        this.cancelRegistration();
+        var email = $('.mage-registration .email').val();
+        var password= $('.mage-registration .password').val();
+        MageS.Game.action('register', '{"email":"' + email + '", "password":"' + password + '"}');
+    };
+
     this.configureKeys = function() {
         $(document).keypress(function (event) {
+            if (!MageS.Game.isGameRuning) {
+                return;
+            }
             switch (event.keyCode) {
                 case 40: // up
                 case 1094:

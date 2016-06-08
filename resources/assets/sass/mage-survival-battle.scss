@@ -185,6 +185,33 @@
             }
         }
     }
+    .mage-registration {
+        background-color: $mage-colors-blue;
+        z-index: 95;
+        position: absolute;
+        width:($map-radius * 2 + 1) * $cell-size + rem;
+        height:($map-radius * 2 + 1) * $cell-size + rem;
+        text-align: center;
+        .well {
+            color: $mage-colors-white;
+            background-color: $mage-colors-dark-blue;
+        }
+        .close {
+            margin-bottom: $cell-size + rem;
+        }
+        .form-control {
+            margin-left: 12.5%;
+            margin-top: $cell-size + rem;
+            width:75%;
+            background-color: $mage-colors-white;
+            color: $mage-colors-brown;
+        }
+        .submit {
+            margin-top: $cell-size + rem;
+            background-color: $mage-colors-green;
+            border: none;
+        }
+    }
 }
 
 .battle-border.Tutorial {

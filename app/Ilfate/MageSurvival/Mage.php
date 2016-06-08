@@ -307,6 +307,7 @@ abstract class Mage extends AliveCommon
             'objects' => $this->game->getWorldGenerator()->exportVisibleObjects(),
             'units' => $this->game->getWorldGenerator()->exportVisibleUnits(),
         ], $stageForMove);
+        $this->game->registrationCheck();
     }
 
     public function forceMove($x, $y, $animationStage)
@@ -575,8 +576,8 @@ abstract class Mage extends AliveCommon
             '1034275689',
             '1034275698',
             '1023456789',
-            '1203456789',
-            '1203456798',
+            '2103456789',
+            '1023456798',
             '1203475698',
             '1204375698',
             '0132546879',
@@ -649,11 +650,7 @@ abstract class Mage extends AliveCommon
     public function setGame($game)
     {
         $this->game = $game;
-    }
-
-    
-
-    
+    }    
 
     public function getItemsConfig() {
         if (!$this->itemsConfig) {

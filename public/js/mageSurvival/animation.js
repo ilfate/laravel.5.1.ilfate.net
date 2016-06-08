@@ -170,6 +170,12 @@ MageS.Animations = function (game) {
             case 'say-message':
                 this.sayMessageAnimation(data.data, stage);
                 break;
+            case 'user-ask-to-register':
+                this.askRegistrationAnimation(data.data, stage);
+                break;
+            case 'effect':
+                this.effectAnimation(data.data, stage);
+                break;
             case 'wait':
                 this.waitAnimation(data.data, stage);
                 break;
@@ -466,6 +472,24 @@ MageS.Animations = function (game) {
         setTimeout(function () {
             MageS.Game.animations.singleAnimationFinished(stage);
         }, 400);
+    };
+
+    this.askRegistrationAnimation = function(data, stage)
+    {
+        setTimeout(function() {
+            MageS.Game.registrationPopup();
+        }, data.time);
+
+
+        setTimeout(function() {
+            MageS.Game.animations.singleAnimationFinished(stage);
+        }, data.time+ 2000);
+    };
+
+    this.effectAnimation = function(data, stage)
+    {
+        this.game.spells.isSecondPartWaiting = stage;
+        this.game.spells.continue(data.spell, data)
     };
 
     this.waitAnimation = function(data, stage)
