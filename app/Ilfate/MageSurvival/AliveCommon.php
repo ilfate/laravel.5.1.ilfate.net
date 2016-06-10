@@ -39,13 +39,16 @@ abstract class AliveCommon
     const DATA_FLAG_KEY = 'f';
     const DATA_BUFF_KEY = 'b';
     const FLAG_FROZEN = 'frozen';
+    const FLAG_FROZE_IMMUNE = 'froze_immune';
     const FLAG_BURN = 'burn';
     const FLAG_WEB = 'web';
     const FLAG_WATER_BODY = 'water-body';
     
     const UNIT_TYPE_UNIT = 'unit';
     const UNIT_TYPE_MAGE = 'mage';
-    
+
+    protected $haveSaidSomething = false;
+
     abstract public function update();
     abstract public function damage($value, $animationStage, $sourceType);
     abstract public function getId();
@@ -122,6 +125,7 @@ abstract class AliveCommon
     
     public function say($message, $stage = Game::ANIMATION_STAGE_MESSAGE_TIME)
     {
+        $this->haveSaidSomething = true;
         if ($this->getUnitType() == self::UNIT_TYPE_MAGE) {
             $x = 0;
             $y = 0;
@@ -139,6 +143,13 @@ abstract class AliveCommon
     
     public function freeze($turns, $stage)
     {
+        $now = GameBuilder::getGame()->getTurn();
+        if ($this->getFlag(self::FLAG_FROZE_IMMUNE) > $now) {
+            if (ChanceHelper::chance(10)) {
+                GameBuilder::getGame()->getMage()->say('If I try to freeze some thing too often it is becoming immune to freezing for some time. Good to know.');
+            }
+            return;
+        }
         Event::create(
             Event::EVENT_UNIT_BEFORE_TURN, [
             Event::KEY_TIMES => $turns,
@@ -147,6 +158,7 @@ abstract class AliveCommon
         ],
             'Water:Freeze');
         $this->addFlag(Unit::FLAG_FROZEN);
+        $this->addFlag(Unit::FLAG_FROZE_IMMUNE, $now + $turns + 3);
         if ($this->getUnitType() == self::UNIT_TYPE_UNIT) {
             GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
                 [
@@ -179,5 +191,13 @@ abstract class AliveCommon
         } else {
             throw new MessageException('Well this is some thing new. Burn on mage? Did not implement that');
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHaveSaidSomething()
+    {
+        return $this->haveSaidSomething;
     }
 }

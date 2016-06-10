@@ -274,14 +274,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
                         width: 1.5 * $cell-size + rem;
                         height: 1.5 * $cell-size + rem;
                     }
-                    svg {
-                        @include animation(rotate-linear 3s linear 0s infinite reverse);
-                        width: 1.5 * $cell-size + rem;
-                        height: 1.5 * $cell-size + rem;
-                    }
-                    &.filled {
-                        svg { @include animation(rotate-linear 1s linear 0s infinite reverse); }
-                    }
+
                 }
                 .zone-1 { @include rotate(-90deg); }
                 .zone-2 {
@@ -291,6 +284,16 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
                 .zone-3 {
                     .svg { margin-left: 1.5 * $cell-size + rem; }
                     @include rotate(165deg);
+                }
+                &.active {
+                    svg {
+                        @include animation(rotate-linear 3s linear 0s infinite reverse);
+                        width: 1.5 * $cell-size + rem;
+                        height: 1.5 * $cell-size + rem;
+                    }
+                    &.filled {
+                        svg { @include animation(rotate-linear 1s linear 0s infinite reverse); }
+                    }
                 }
             }
         }

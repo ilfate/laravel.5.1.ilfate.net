@@ -138,11 +138,12 @@ abstract class Spell
             self::KEY_CARRIER_USAGES_TO => 10,
             self::KEY_ITEMS_SUM_VALUE => 0,
         ];
-
+        $logText = '';
         foreach ($itemIds as $itemId) {
             $item = $itemsConfig[$itemId];
             if ($item['type'] == Mage::ITEM_TYPE_INGREDIENT) {
                 $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE] += $item['value'];
+                $logText .= ' ing=' .$item['value'] . ' ';
             } else if ($item['type'] == Mage::ITEM_TYPE_CATALYST) {
                 $spellRandomizerConfig[self::KEY_SCHOOL_CHANCES] = [$item['school']];
             }
@@ -201,13 +202,15 @@ abstract class Spell
 
         $schoolId = ChanceHelper::oneFromArray($spellRandomizerConfig[self::KEY_SCHOOL_CHANCES]);
         $schoolName = $spellsConfig['schools'][$schoolId]['name'];
-        $game->addMessage('School of your new spell is ' . $schoolName);
 
         $allPossibleSpells = $spellsConfig['list'][$schoolId];
         $baseSumValue = $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE];
-        $game->addMessage('Base value = ' . $baseSumValue);
+        $logText .= 'value=' . $baseSumValue . ' ';
         $translatedSumValue = GameBuilder::getGame()->getMage()->translateItemValueForMage($baseSumValue);
-        $game->addMessage('Translated value = ' . $translatedSumValue);
+        $logText .= 'translated=' . $translatedSumValue . ' ';
+        $logText .= 'school=' . $schoolId . ' ';
+        \Log::info($logText);
+        $game->addMessage($logText);
         $spellConfiguration = self::getSpellByValue($allPossibleSpells, $translatedSumValue);
         $spellName = $spellConfiguration['class'];
 

@@ -3,7 +3,7 @@
 @section('head')
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    @if(isset($bodyClass) && $bodyClass == 'mage-survival')
+    @if(!empty($mobileFriendly))
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, minimal-ui">
         <meta name="mobile-web-app-capable" content="yes">
     @endif

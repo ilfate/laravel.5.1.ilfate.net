@@ -107,7 +107,7 @@ MageS.Spellcraft = function (game) {
     this.cancelCrafting = function () {
         $('.inventory').removeClass('craft');
         MageS.Game.spellcraft.hideShadow();
-        $('.item-drop-zone').removeClass('filled');
+        $('.item-drop-zone').removeClass('filled').removeClass('active');
         $('.craft-animation-item').remove();
         $('.craft-spell-overlay').hide();
         $('.confirm-create-spell').removeClass('active');
@@ -139,7 +139,7 @@ MageS.Spellcraft = function (game) {
             return;
         }
         this.craftingIsInProgress = true;
-        $('.craft-demo-zone').animate({'opacity': 1});
+        $('.craft-demo-zone').addClass('active').animate({'opacity': 1});
         MageS.Game.spellcraft.showShadow(function() {
             MageS.Game.spellcraft.cancelCrafting();
         });

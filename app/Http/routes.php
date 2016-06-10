@@ -16,6 +16,11 @@
 //});
 
 Route::get('/', 'PageController@index');
+Route::get('/login', 'PageController@login');
+Route::post('/login', 'PageController@loginAction');
+Route::get('/logout', 'PageController@logout');
+Route::get('/register', 'PageController@registerForm');
+Route::post('/register', 'PageController@registerSubmit');
 //Route::get('/', function () {
 //    view('pages.index');
 //});
@@ -28,6 +33,7 @@ Route::get('Code', 'CodeController@index');
 Route::get('GameTemplate', 'CodeController@gameTemplate');
 Route::get('RobotRock', 'CodeController@robotRock');
 
+Route::get('games', 'GamesController@index');
 Route::get('Games', 'GamesController@index');
 
 Route::get('MathEffect', 'MathEffectController@index');

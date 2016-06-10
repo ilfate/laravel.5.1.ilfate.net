@@ -415,6 +415,9 @@ abstract class WorldGenerator
     
     public function worldTips($turn)
     {
+        if ($this->mage->getHaveSaidSomething()) {
+            return;
+        }
         if (!empty(static::$generatorConfig['dialog'])) {
             if (!empty(static::$generatorConfig['dialog']['turn'][$turn])) {
                 $messageConfig = static::$generatorConfig['dialog']['turn'][$turn];

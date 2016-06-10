@@ -8,7 +8,7 @@
         </button>
         <div class="text-1">
             Ready to create spell? <br>
-            Maybe you want to add catalyst?
+            Maybe you want to add a catalyst?
         </div>
 
 <!--        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->

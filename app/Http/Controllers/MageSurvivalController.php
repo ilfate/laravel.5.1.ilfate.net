@@ -49,6 +49,7 @@ class MageSurvivalController extends BaseController
         view()->share('page_title', 'Spellcraft - turn based magic crafting Rogue like RPG game!');
         //view()->share('facebookEnabled', true);
         view()->share('bodyClass', 'mage-survival');
+        view()->share('mobileFriendly', true);
 
         $game = $this->getGame($request);
 
@@ -194,6 +195,7 @@ class MageSurvivalController extends BaseController
             case 'games.mageSurvival.mage-list':
                 $data['mages-types'] = \Config::get('mageSurvival.mages-types');
                 $data['mages'] = $game->getInactiveMages();
+                $data['user'] = $game->getUser();
                 break;
             case 'games.mageSurvival.mage-home':
                 $data = $game->getHomeData();

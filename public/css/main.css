@@ -3969,6 +3969,11 @@ body {
 
 .player-mage-list {
   width: 100%; }
+  .player-mage-list .auth-bar {
+    background-color: #529BCA;
+    color: #ffffff;
+    text-align: center;
+    padding: 0.5rem 0; }
   .player-mage-list .mage {
     width: 100%;
     padding: 0.5rem 1rem;
@@ -4099,7 +4104,7 @@ body {
     color: #584D3D; }
 
 .battle-border .tile-image {
-  background-image: url("/images/game/mage/sprite.png");
+  background-image: url("/images/game/mage/sprite-big.png");
   background-size: 1100%; }
   .battle-border .tile-image.tile-wood-plank {
     background-position: 0 0; }
@@ -6666,6 +6671,142 @@ i.rpg-icon-small.misc_cannon_nature {
 
 i.rpg-icon-large.misc_cannon_nature {
   background-position: -442px -986px; }
+
+.loginPage {
+  background: #529BCA;
+  padding: 10px;
+  /*=== 3. Text Outside the Box ===*/
+  /*=== 5. Login Button ===*/
+  /*=== 7. Form - Main Message ===*/
+  /* hover style just for information */ }
+  @media (min-width: 38.4rem) {
+    .loginPage .text-center {
+      padding: 50px 0; } }
+  .loginPage a {
+    color: #5E412F;
+    transition: all ease-in-out 200ms; }
+  .loginPage a:hover {
+    color: #F07818;
+    text-decoration: none; }
+  .loginPage .etc-login-form {
+    font-size: 16px;
+    color: #ffffff;
+    padding: 10px 20px; }
+  .loginPage .etc-login-form p {
+    margin-bottom: 5px; }
+  .loginPage .login-form-1 {
+    max-width: 300px;
+    border-radius: 5px;
+    display: inline-block; }
+  .loginPage .main-login-form {
+    position: relative; }
+  .loginPage .login-form-1 .form-control {
+    border: 0;
+    box-shadow: 0 0 0;
+    border-radius: 0;
+    background: transparent;
+    color: #5E412F;
+    padding: 7px 0;
+    font-weight: bold;
+    height: auto; }
+  .loginPage .login-form-1 .form-control::-webkit-input-placeholder {
+    color: #5E412F; }
+  .loginPage .login-form-1 .form-control:-moz-placeholder,
+  .loginPage .login-form-1 .form-control::-moz-placeholder,
+  .loginPage .login-form-1 .form-control:-ms-input-placeholder {
+    color: #5E412F; }
+  .loginPage .login-form-1 .form-group {
+    margin-bottom: 0;
+    border-bottom: 2px solid #529BCA;
+    padding-right: 20px;
+    position: relative; }
+  .loginPage .login-form-1 .form-group:last-child {
+    border-bottom: 0; }
+  .loginPage .login-group {
+    background: #ffffff;
+    color: #999999;
+    border-radius: 8px;
+    padding: 10px 20px; }
+  .loginPage .login-group-checkbox {
+    padding: 5px 0; }
+  .loginPage .login-form-1 .login-button {
+    position: absolute;
+    right: -25px;
+    top: 50%;
+    background: #ffffff;
+    color: #5E412F;
+    padding: 7px 0 11px 0;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    border: 5px solid #529BCA;
+    border-radius: 50%;
+    transition: all ease-in-out 500ms; }
+  .loginPage .login-form-1 .login-button:hover {
+    color: #555555;
+    transform: rotate(450deg); }
+  .loginPage .login-form-1 .login-button.clicked {
+    color: #555555; }
+  .loginPage .login-form-1 .login-button.clicked:hover {
+    transform: none; }
+  .loginPage .login-form-1 .login-button.clicked.success {
+    color: #2ecc71; }
+  .loginPage .login-form-1 .login-button.clicked.error {
+    color: #e74c3c; }
+  .loginPage label.form-invalid {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 5;
+    display: block;
+    margin-top: -25px;
+    padding: 7px 9px;
+    background: #777777;
+    color: #ffffff;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 11px; }
+  .loginPage label.form-invalid:after {
+    top: 100%;
+    right: 10px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: transparent;
+    border-top-color: #777777;
+    border-width: 6px; }
+  .loginPage .login-form-main-message {
+    background: #ffffff;
+    color: #999999;
+    border-left: 3px solid transparent;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    height: 0;
+    padding: 0 20px 0 17px;
+    opacity: 0;
+    transition: all ease-in-out 200ms; }
+    .loginPage .login-form-main-message p {
+      color: #FF8360;
+      font-size: 16px; }
+  .loginPage .login-form-main-message.show {
+    height: auto;
+    opacity: 1;
+    padding: 10px 20px 10px 17px; }
+  .loginPage .login-form-main-message.success {
+    border-left-color: #2ecc71; }
+  .loginPage .login-form-main-message.error {
+    border-left-color: #e74c3c; }
+  .loginPage label:hover:before {
+    border: 1px solid #f6f6f6 !important; }
+  .loginPage .logo {
+    padding: 15px 0;
+    font-size: 25px;
+    color: #ffffff;
+    font-weight: bold; }
 
 * {
   margin: 0px;
