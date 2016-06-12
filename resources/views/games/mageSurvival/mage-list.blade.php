@@ -7,7 +7,10 @@
             @if($viewData['user']->is_guest)
                 <span>You new here? If not you can login <a href="/login?page=spellcraft">here</a></span>
             @else
-                <h3>Hello@if ($viewData['user']->name) {{ ' ' . $viewData['user']->name }} @endif! Welcome back! </h3>
+                <h3>Hello
+                    @if ($viewData['user']->name) {{ ' ' . $viewData['user']->name }}
+                    @endif
+                    ! Welcome back! </h3>
             @endif
         </div>
         @if($viewData['mages']->count())

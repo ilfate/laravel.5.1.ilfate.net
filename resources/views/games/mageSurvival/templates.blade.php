@@ -1,6 +1,6 @@
 @include('games.mageSurvival.templates.action-button_mustache')
-@include('games.mageSurvival.templates.alert-helper-spell-craft-step-2-mustache')
 @include('games.mageSurvival.templates.alert-helper-spell-craft-step-1-mustache')
+@include('games.mageSurvival.templates.alert-helper-spell-craft-blender-mustache')
 @include('games.mageSurvival.templates.alert_items_mustache')
 @include('games.mageSurvival.templates.chat-message-mustache')
 @include('games.mageSurvival.templates.dialog-message-mustache')

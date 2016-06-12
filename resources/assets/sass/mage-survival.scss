@@ -218,6 +218,85 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         z-index: 70;
         display: none;
     }
+
+    .craft-demo-zone {
+        display: none;
+    }
+    .craft-demo-zone.active {
+        display: block;
+        position: absolute;
+        width:100%;
+        height: 4.5 * $cell-size + rem;
+        margin-top: - 4.5 * $cell-size + rem;
+        background-color: $mage-colors-blue;
+        z-index: 75;
+        .confirm-create-spell {
+            display: none;
+            position: absolute;
+            margin: 0 auto;
+            left:0;
+            right:0;
+            width: 2.1 * $cell-size + rem;
+            margin-top: 3.4 * $cell-size + rem;
+            &.active { display: inline-block; }
+        }
+        .chemical-animation {
+            position: absolute;
+            width:1px;
+            height: 1px;
+            margin: 2 * $cell-size + rem auto 0 auto;
+            left:0;
+            right:0;
+        }
+        .rotating-table {
+            position: absolute;
+            left:0; right:0;
+            margin: 2.7 * $cell-size + rem auto 0 auto;
+            width:0px;
+            height: 0px;
+        }
+        .item-drop-zone {
+            .svg {
+                position: absolute;
+                margin-left: 1 * $cell-size + rem;
+                margin-top: -0.75 * $cell-size + rem;
+                width: 1.5 * $cell-size + rem;
+                height: 1.5 * $cell-size + rem;
+            }
+
+        }
+        .zone-1 { @include rotate(-90deg); }
+        .zone-2 {
+            .svg { margin-left: 1.5 * $cell-size + rem; }
+            @include rotate(15deg);
+        }
+        .zone-3 {
+            .svg { margin-left: 1.5 * $cell-size + rem; }
+            @include rotate(165deg);
+        }
+        &.active {
+            svg {
+                @include animation(rotate-linear 3s linear 0s infinite reverse);
+                width: 1.5 * $cell-size + rem;
+                height: 1.5 * $cell-size + rem;
+            }
+            &.filled {
+                svg { @include animation(rotate-linear 1s linear 0s infinite reverse); }
+            }
+        }
+        .blend-spells-show-button{
+            z-index: 40;
+            display: none;
+            width:100%;
+            text-align: center;
+            height: 1.4 + rem;
+            margin-top: -0.75 * $cell-size + rem;
+            position: absolute;
+            border: 1px solid $mage-colors-orange;
+            background-color: $mage-colors-brown;
+        }
+    }
+
     .inventory {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -234,68 +313,6 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         &.craft {
             position: absolute;
             z-index: 71;
-            .craft-demo-zone {
-                display: block;
-                position: absolute;
-                width:100%;
-                height: 4.5 * $cell-size + rem;
-                margin-top: - 4.5 * $cell-size + rem;
-                background-color: $mage-colors-blue;
-                .confirm-create-spell {
-                    display: none;
-                    position: absolute;
-                    margin: 0 auto;
-                    left:0;
-                    right:0;
-                    width: 2.1 * $cell-size + rem;
-                    margin-top: 3.4 * $cell-size + rem;
-                    &.active { display: inline-block; }
-                }
-                .chemical-animation {
-                    position: absolute;
-                    width:1px;
-                    height: 1px;
-                    margin: 2 * $cell-size + rem auto 0 auto;
-                    left:0;
-                    right:0;
-                }
-                .rotating-table {
-                    position: absolute;
-                    left:0; right:0;
-                    margin: 2.7 * $cell-size + rem auto 0 auto;
-                    width:0px;
-                    height: 0px;
-                }
-                .item-drop-zone {
-                    .svg {
-                        position: absolute;
-                        margin-left: 1 * $cell-size + rem;
-                        margin-top: -0.75 * $cell-size + rem;
-                        width: 1.5 * $cell-size + rem;
-                        height: 1.5 * $cell-size + rem;
-                    }
-
-                }
-                .zone-1 { @include rotate(-90deg); }
-                .zone-2 {
-                    .svg { margin-left: 1.5 * $cell-size + rem; }
-                    @include rotate(15deg);
-                }
-                .zone-3 {
-                    .svg { margin-left: 1.5 * $cell-size + rem; }
-                    @include rotate(165deg);
-                }
-                &.active {
-                    svg {
-                        @include animation(rotate-linear 3s linear 0s infinite reverse);
-                        width: 1.5 * $cell-size + rem;
-                        height: 1.5 * $cell-size + rem;
-                    }
-                    &.filled {
-                        svg { @include animation(rotate-linear 1s linear 0s infinite reverse); }
-                    }
-                }
-            }
         }
         .items-filters-panel {
             height: $cell-size + rem;
@@ -373,6 +390,10 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         user-select: none;
         width:100%;
         background-color: $mage-colors-clay;
+        &.craft {
+            position: absolute;
+            z-index: 71;
+        }
         .spells-filter-panel {
             height: $cell-size + rem;
             border-bottom: 0.05rem solid $mage-colors-brown;
@@ -526,46 +547,49 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         position: fixed;
         z-index: 90;
     }
-    .craft-spell-overlay {
+    .craft-spell-overlay-blender { margin-top: -0.4rem; display: none }
+    .craft-spell-overlay, .craft-spell-overlay-blender {
         position: absolute;
-        z-index: 60;
+        z-index: 75;
         font-size: 0.65rem;
         width:100%;
         .alert {
             padding:0.1rem;
             border-color: $mage-colors-clay;
         }
-        .helper-spell-craft-step-1, .helper-spell-craft-step-2, .spell-craft-info {
+        .helper-spell-craft-step-1, .helper-spell-craft-blender, .spell-craft-info {
             background-color: $mage-colors-blue;
             color: $mage-colors-white;
             position: absolute;
             width:100%;
-            //width: $mage-inventory-size + rem;
             height: $item-size + rem;
             text-align: center;
         }
+        .helper-spell-craft-blender, {
+            height: 2rem;
+        }
         .spell-craft-info {
             //height: $mage-inventory-size + rem;
-            .text-1 {
-                height: 1 * $item-size + rem;
-                font-size: 0.6rem;
-            }
-            .craft-items {
-                height: 1.1 * $item-size + rem;
-                @media (min-width: $screen-sm-min + rem) {
-                    height: 1.5 * $item-size + rem;
-                }
-                margin: 0 auto;
-            }
-            .text-2 {
-                height: $mage-inventory-size - (5.2 * $item-size) + rem;
-                @media (min-width: $screen-sm-min + rem) {
-                    height: $mage-inventory-size - (4.4 * $item-size) + rem;
-                }
-
-                padding: 0 1rem;
-                font-size: 0.55rem;
-            }
+            //.text-1 {
+            //    height: 1 * $item-size + rem;
+            //    font-size: 0.6rem;
+            //}
+            //.craft-items {
+            //    height: 1.1 * $item-size + rem;
+            //    @media (min-width: $screen-sm-min + rem) {
+            //        height: 1.5 * $item-size + rem;
+            //    }
+            //    margin: 0 auto;
+            //}
+            //.text-2 {
+            //    height: $mage-inventory-size - (5.2 * $item-size) + rem;
+            //    @media (min-width: $screen-sm-min + rem) {
+            //        height: $mage-inventory-size - (4.4 * $item-size) + rem;
+            //    }
+            //
+            //    padding: 0 1rem;
+            //    font-size: 0.55rem;
+            //}
         }
     }
     .item svg.svg-icon,.spell svg.svg-icon {

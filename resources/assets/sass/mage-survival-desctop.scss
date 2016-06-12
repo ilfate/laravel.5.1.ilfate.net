@@ -1,0 +1,29 @@
+
+.mage-survival {
+    .container.main {
+        @media (min-width: $screen-md-min + rem) {
+            .right-panel {
+                .craft-demo-zone.active {
+                    width: $mage-inventory-size + rem;
+                    height: $mage-inventory-size + rem;
+                    margin-left: -$mage-inventory-size - 0.75 + rem;
+                    margin-top: 0;
+                }
+                .craft-spell-overlay, .craft-spell-overlay-blender {
+                    width: $mage-inventory-size + rem;
+                }
+                .spells-items-row {
+                    .items-col, .spells-col {
+                        width: $mage-inventory-size + rem;
+
+                    }
+                    .spells-col {
+                        padding-left: 0.75rem;
+                    }
+                }
+            }
+        }
+    }
+
+}
+

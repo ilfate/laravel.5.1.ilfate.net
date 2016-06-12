@@ -53,6 +53,7 @@
             </a>
         </div>
         <div id="mobile-spell-info-container"></div>
+        <div class="inventory-shadow"></div>
 
         <div class="row spells-items-row">
             <div class="col-md-6 items-col">

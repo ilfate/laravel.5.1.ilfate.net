@@ -11,6 +11,7 @@
         title="{{viewData.name}}"
         data-spell="{{viewData.class}}"
         data-id="{{id}}"
+        data-school="{{school}}"
     >
         <div class="svg">
             <svg class="svg-icon" viewBox="0 0 512 512">

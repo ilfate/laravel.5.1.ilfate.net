@@ -124,16 +124,40 @@ abstract class Spell
         $this->number = $number;
     }
 
+    public static function craftSpellFromSpells(array $spells)
+    {
+        $schoolId = 0;
+        $totalValue = 0;
+        foreach ($spells as $spell) {
+            $totalValue += $spell['code'];
+            if (!$schoolId) {
+                $schoolId = $spell['school'];
+            } else {
+                if ($schoolId != $spell['school']) {
+                    throw new MessageException('You can`t blend spells of different schools. A for trying thought!');
+                }
+            }
+        }
+        if ($totalValue > 3) {
+            $totalValue -= 1;
+        } else if ($totalValue > 6) {
+            $totalValue -= 3;
+        } else if ($totalValue >= 12) {
+            $totalValue = floor($totalValue / 2);
+        }
+        $spellRandomizerConfig = [
+            self::KEY_CARRIER_USAGES_FROM => 5,
+            self::KEY_CARRIER_USAGES_TO => 10,
+            self::KEY_ITEMS_SUM_VALUE => $totalValue,
+        ];
+        return self::craftSpell($schoolId, $spellRandomizerConfig);
+    }
+
     public static function craftSpellFromItems(array $itemIds)
     {
-        $game = GameBuilder::getGame();
-        $result = ['spell' => false];
-        $spellsConfig = \Config::get('mageSpells');
         $itemsConfig = \Config::get('mageItems.list');
 
         $spellRandomizerConfig = [
-            self::KEY_SCHOOL_CHANCES => $spellsConfig[self::KEY_SCHOOL_CHANCES],
-            //self::KEY_CHANCE_TO_CREATE_SPELL => 0,
             self::KEY_CARRIER_USAGES_FROM => 5,
             self::KEY_CARRIER_USAGES_TO => 10,
             self::KEY_ITEMS_SUM_VALUE => 0,
@@ -143,69 +167,68 @@ abstract class Spell
             $item = $itemsConfig[$itemId];
             if ($item['type'] == Mage::ITEM_TYPE_INGREDIENT) {
                 $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE] += $item['value'];
-                $logText .= ' ing=' .$item['value'] . ' ';
+                //$logText .= ' ing=' .$item['value'] . ' ';
             } else if ($item['type'] == Mage::ITEM_TYPE_CATALYST) {
                 $spellRandomizerConfig[self::KEY_SCHOOL_CHANCES] = [$item['school']];
             }
-            if (empty($item['stats'])) { continue; }
-            foreach ($item['stats'] as $statName => $statValue) {
-                switch ($statName) {
-                    case self::STAT_USAGES:
-                        list($from, $to) = explode('-', $statValue);
-                        $spellRandomizerConfig[self::KEY_CARRIER_USAGES_FROM] = $from;
-                        $spellRandomizerConfig[self::KEY_CARRIER_USAGES_TO]   = $to;
-                        break;
-                    case self::STAT_SPELL:
-                        $spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL] += $statValue;
-                        break;
-                    case self::STAT_SCHOOL:
-                        foreach ($statValue as $school => $value) {
-                            foreach ($spellsConfig['schools'] as $schoolId => $schoolConfig) {
-                                if ($schoolConfig['name'] == $school) {
-                                    for ($i = 0; $i < $value; $i++) {
-                                        $spellRandomizerConfig[self::KEY_SCHOOL_CHANCES][] = $schoolId;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    case self::STAT_COOLDOWN:
-                        if (!empty($spellRandomizerConfig[self::KEY_COOLDOWN])) {
-                            foreach ($statValue as $key => $value) {
-                                if (isset($spellRandomizerConfig[self::KEY_COOLDOWN][$key])) {
-                                    if (in_array($key, ['min', 'max'])) {
-                                        $spellRandomizerConfig[self::KEY_COOLDOWN][$key] += $value;
-                                    }
-                                } else {
-                                    $spellRandomizerConfig[self::KEY_COOLDOWN][$key] = $value;
-                                }
-                            }
-                        } else {
-                            $spellRandomizerConfig[self::KEY_COOLDOWN] = $statValue;
-                        }
-                        break;
-                }
-            }
+//            if (empty($item['stats'])) { continue; }
+//            foreach ($item['stats'] as $statName => $statValue) {
+//                switch ($statName) {
+//                    case self::STAT_USAGES:
+//                        list($from, $to) = explode('-', $statValue);
+//                        $spellRandomizerConfig[self::KEY_CARRIER_USAGES_FROM] = $from;
+//                        $spellRandomizerConfig[self::KEY_CARRIER_USAGES_TO]   = $to;
+//                        break;
+//                    case self::STAT_SPELL:
+//                        $spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL] += $statValue;
+//                        break;
+//                    case self::STAT_SCHOOL:
+//                        foreach ($statValue as $school => $value) {
+//                            foreach ($spellsConfig['schools'] as $schoolId => $schoolConfig) {
+//                                if ($schoolConfig['name'] == $school) {
+//                                    for ($i = 0; $i < $value; $i++) {
+//                                        $spellRandomizerConfig[self::KEY_SCHOOL_CHANCES][] = $schoolId;
+//                                    }
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                        break;
+//                    case self::STAT_COOLDOWN:
+//                        if (!empty($spellRandomizerConfig[self::KEY_COOLDOWN])) {
+//                            foreach ($statValue as $key => $value) {
+//                                if (isset($spellRandomizerConfig[self::KEY_COOLDOWN][$key])) {
+//                                    if (in_array($key, ['min', 'max'])) {
+//                                        $spellRandomizerConfig[self::KEY_COOLDOWN][$key] += $value;
+//                                    }
+//                                } else {
+//                                    $spellRandomizerConfig[self::KEY_COOLDOWN][$key] = $value;
+//                                }
+//                            }
+//                        } else {
+//                            $spellRandomizerConfig[self::KEY_COOLDOWN] = $statValue;
+//                        }
+//                        break;
+//                }
+//            }
         }
-        // ok config is done
-//        if (!ChanceHelper::chance($spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL])) {
-//            $game->addMessage(
-//                     'You had a chance of ' . $spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL] . '% and you failed to create a spell. Next time bro!'
-//            );
-//            return $result;
-//        }
-        // yea we got a new spell
-//        $game->addMessage(
-//                 'You had a chance of ' . $spellRandomizerConfig[self::KEY_CHANCE_TO_CREATE_SPELL] . '% and you successfully created a spell.'
-//        );
+        $schoolId = ChanceHelper::oneFromArray(\Config::get('mageSpells')[self::KEY_SCHOOL_CHANCES]);
+        return self::craftSpell($schoolId, $spellRandomizerConfig);
+    }
 
-        $schoolId = ChanceHelper::oneFromArray($spellRandomizerConfig[self::KEY_SCHOOL_CHANCES]);
+    public static function craftSpell($schoolId, $spellRandomizerConfig)
+    {
+        $spellsConfig = \Config::get('mageSpells');
+        $game = GameBuilder::getGame();
+        $result = ['spell' => false];
+
+
+
         $schoolName = $spellsConfig['schools'][$schoolId]['name'];
 
         $allPossibleSpells = $spellsConfig['list'][$schoolId];
         $baseSumValue = $spellRandomizerConfig[self::KEY_ITEMS_SUM_VALUE];
-        $logText .= 'value=' . $baseSumValue . ' ';
+        $logText = 'value=' . $baseSumValue . ' ';
         $translatedSumValue = GameBuilder::getGame()->getMage()->translateItemValueForMage($baseSumValue);
         $logText .= 'translated=' . $translatedSumValue . ' ';
         $logText .= 'school=' . $schoolId . ' ';
@@ -216,8 +239,8 @@ abstract class Spell
 
         $spellConfig = [];
         $spellConfig['usages'] = mt_rand(
-                $spellRandomizerConfig[self::KEY_CARRIER_USAGES_FROM], $spellRandomizerConfig[self::KEY_CARRIER_USAGES_TO]
-            );
+            $spellRandomizerConfig[self::KEY_CARRIER_USAGES_FROM], $spellRandomizerConfig[self::KEY_CARRIER_USAGES_TO]
+        );
         $class = self::getSpellClass($schoolName, $spellName);
         if (!class_exists($class)) {
             throw new \Exception('Spell with name "' . $spellName . '" not found at "' . $class . '"' );

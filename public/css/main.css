@@ -3078,6 +3078,82 @@ body {
   opacity: 0;
   z-index: 70;
   display: none; }
+.mage-survival .craft-demo-zone {
+  display: none; }
+.mage-survival .craft-demo-zone.active {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 7.2rem;
+  margin-top: -7.2rem;
+  background-color: #529BCA;
+  z-index: 75; }
+  .mage-survival .craft-demo-zone.active .confirm-create-spell {
+    display: none;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 3.36rem;
+    margin-top: 5.44rem; }
+    .mage-survival .craft-demo-zone.active .confirm-create-spell.active {
+      display: inline-block; }
+  .mage-survival .craft-demo-zone.active .chemical-animation {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 3.2rem auto 0 auto;
+    left: 0;
+    right: 0; }
+  .mage-survival .craft-demo-zone.active .rotating-table {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 4.32rem auto 0 auto;
+    width: 0px;
+    height: 0px; }
+  .mage-survival .craft-demo-zone.active .item-drop-zone .svg {
+    position: absolute;
+    margin-left: 1.6rem;
+    margin-top: -1.2rem;
+    width: 2.4rem;
+    height: 2.4rem; }
+  .mage-survival .craft-demo-zone.active .zone-1 {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg); }
+  .mage-survival .craft-demo-zone.active .zone-2 {
+    -webkit-transform: rotate(15deg);
+    -moz-transform: rotate(15deg);
+    -o-transform: rotate(15deg); }
+    .mage-survival .craft-demo-zone.active .zone-2 .svg {
+      margin-left: 2.4rem; }
+  .mage-survival .craft-demo-zone.active .zone-3 {
+    -webkit-transform: rotate(165deg);
+    -moz-transform: rotate(165deg);
+    -o-transform: rotate(165deg); }
+    .mage-survival .craft-demo-zone.active .zone-3 .svg {
+      margin-left: 2.4rem; }
+  .mage-survival .craft-demo-zone.active.active svg {
+    -webkit-animation: rotate-linear 3s linear 0s infinite reverse;
+    -o-animation: rotate-linear 3s linear 0s infinite reverse;
+    animation: rotate-linear 3s linear 0s infinite reverse;
+    width: 2.4rem;
+    height: 2.4rem; }
+  .mage-survival .craft-demo-zone.active.active.filled svg {
+    -webkit-animation: rotate-linear 1s linear 0s infinite reverse;
+    -o-animation: rotate-linear 1s linear 0s infinite reverse;
+    animation: rotate-linear 1s linear 0s infinite reverse; }
+  .mage-survival .craft-demo-zone.active .blend-spells-show-button {
+    z-index: 40;
+    display: none;
+    width: 100%;
+    text-align: center;
+    height: 1.4rem;
+    margin-top: -1.2rem;
+    position: absolute;
+    border: 1px solid #F07818;
+    background-color: #5E412F; }
 .mage-survival .inventory {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -3093,69 +3169,6 @@ body {
   .mage-survival .inventory.craft {
     position: absolute;
     z-index: 71; }
-    .mage-survival .inventory.craft .craft-demo-zone {
-      display: block;
-      position: absolute;
-      width: 100%;
-      height: 7.2rem;
-      margin-top: -7.2rem;
-      background-color: #529BCA; }
-      .mage-survival .inventory.craft .craft-demo-zone .confirm-create-spell {
-        display: none;
-        position: absolute;
-        margin: 0 auto;
-        left: 0;
-        right: 0;
-        width: 3.36rem;
-        margin-top: 5.44rem; }
-        .mage-survival .inventory.craft .craft-demo-zone .confirm-create-spell.active {
-          display: inline-block; }
-      .mage-survival .inventory.craft .craft-demo-zone .chemical-animation {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        margin: 3.2rem auto 0 auto;
-        left: 0;
-        right: 0; }
-      .mage-survival .inventory.craft .craft-demo-zone .rotating-table {
-        position: absolute;
-        left: 0;
-        right: 0;
-        margin: 4.32rem auto 0 auto;
-        width: 0px;
-        height: 0px; }
-      .mage-survival .inventory.craft .craft-demo-zone .item-drop-zone .svg {
-        position: absolute;
-        margin-left: 1.6rem;
-        margin-top: -1.2rem;
-        width: 2.4rem;
-        height: 2.4rem; }
-      .mage-survival .inventory.craft .craft-demo-zone .item-drop-zone svg {
-        -webkit-animation: rotate-linear 3s linear 0s infinite reverse;
-        -o-animation: rotate-linear 3s linear 0s infinite reverse;
-        animation: rotate-linear 3s linear 0s infinite reverse;
-        width: 2.4rem;
-        height: 2.4rem; }
-      .mage-survival .inventory.craft .craft-demo-zone .item-drop-zone.filled svg {
-        -webkit-animation: rotate-linear 1s linear 0s infinite reverse;
-        -o-animation: rotate-linear 1s linear 0s infinite reverse;
-        animation: rotate-linear 1s linear 0s infinite reverse; }
-      .mage-survival .inventory.craft .craft-demo-zone .zone-1 {
-        -webkit-transform: rotate(-90deg);
-        -moz-transform: rotate(-90deg);
-        -o-transform: rotate(-90deg); }
-      .mage-survival .inventory.craft .craft-demo-zone .zone-2 {
-        -webkit-transform: rotate(15deg);
-        -moz-transform: rotate(15deg);
-        -o-transform: rotate(15deg); }
-        .mage-survival .inventory.craft .craft-demo-zone .zone-2 .svg {
-          margin-left: 2.4rem; }
-      .mage-survival .inventory.craft .craft-demo-zone .zone-3 {
-        -webkit-transform: rotate(165deg);
-        -moz-transform: rotate(165deg);
-        -o-transform: rotate(165deg); }
-        .mage-survival .inventory.craft .craft-demo-zone .zone-3 .svg {
-          margin-left: 2.4rem; }
   .mage-survival .inventory .items-filters-panel {
     height: 1.6rem;
     border-bottom: 0.05rem solid #5E412F; }
@@ -3216,6 +3229,9 @@ body {
   user-select: none;
   width: 100%;
   background-color: #FCEBB6; }
+  .mage-survival .spellBook.craft {
+    position: absolute;
+    z-index: 71; }
   .mage-survival .spellBook .spells-filter-panel {
     height: 1.6rem;
     border-bottom: 0.05rem solid #5E412F; }
@@ -3332,37 +3348,26 @@ body {
 .mage-survival .craft-animation-item {
   position: fixed;
   z-index: 90; }
-.mage-survival .craft-spell-overlay {
+.mage-survival .craft-spell-overlay-blender {
+  margin-top: -0.4rem;
+  display: none; }
+.mage-survival .craft-spell-overlay, .mage-survival .craft-spell-overlay-blender {
   position: absolute;
-  z-index: 60;
+  z-index: 75;
   font-size: 0.65rem;
   width: 100%; }
-  .mage-survival .craft-spell-overlay .alert {
+  .mage-survival .craft-spell-overlay .alert, .mage-survival .craft-spell-overlay-blender .alert {
     padding: 0.1rem;
     border-color: #FCEBB6; }
-  .mage-survival .craft-spell-overlay .helper-spell-craft-step-1, .mage-survival .craft-spell-overlay .helper-spell-craft-step-2, .mage-survival .craft-spell-overlay .spell-craft-info {
+  .mage-survival .craft-spell-overlay .helper-spell-craft-step-1, .mage-survival .craft-spell-overlay .helper-spell-craft-blender, .mage-survival .craft-spell-overlay .spell-craft-info, .mage-survival .craft-spell-overlay-blender .helper-spell-craft-step-1, .mage-survival .craft-spell-overlay-blender .helper-spell-craft-blender, .mage-survival .craft-spell-overlay-blender .spell-craft-info {
     background-color: #529BCA;
     color: #ffffff;
     position: absolute;
     width: 100%;
     height: 1.7rem;
     text-align: center; }
-  .mage-survival .craft-spell-overlay .spell-craft-info .text-1 {
-    height: 1.7rem;
-    font-size: 0.6rem; }
-  .mage-survival .craft-spell-overlay .spell-craft-info .craft-items {
-    height: 1.87rem;
-    margin: 0 auto; }
-    @media (min-width: 38.4rem) {
-      .mage-survival .craft-spell-overlay .spell-craft-info .craft-items {
-        height: 2.55rem; } }
-  .mage-survival .craft-spell-overlay .spell-craft-info .text-2 {
-    height: 3.96rem;
-    padding: 0 1rem;
-    font-size: 0.55rem; }
-    @media (min-width: 38.4rem) {
-      .mage-survival .craft-spell-overlay .spell-craft-info .text-2 {
-        height: 5.32rem; } }
+  .mage-survival .craft-spell-overlay .helper-spell-craft-blender, .mage-survival .craft-spell-overlay-blender .helper-spell-craft-blender {
+    height: 2rem; }
 .mage-survival .item svg.svg-icon, .mage-survival .spell svg.svg-icon {
   opacity: 0.9; }
 .mage-survival .item:hover svg.svg-icon, .mage-survival .spell:hover svg.svg-icon {
@@ -4136,6 +4141,19 @@ body {
     background-position: 20% 10%; }
   .battle-border .tile-image.someName13 {
     background-position: 30% 10%; }
+
+@media (min-width: 49.6rem) {
+  .mage-survival .container.main .right-panel .craft-demo-zone.active {
+    width: 12.8rem;
+    height: 12.8rem;
+    margin-left: -13.55rem;
+    margin-top: 0; }
+  .mage-survival .container.main .right-panel .craft-spell-overlay, .mage-survival .container.main .right-panel .craft-spell-overlay-blender {
+    width: 12.8rem; }
+  .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
+    width: 12.8rem; }
+  .mage-survival .container.main .right-panel .spells-items-row .spells-col {
+    padding-left: 0.75rem; } }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 i.rpg-icon-small {

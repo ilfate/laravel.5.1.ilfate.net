@@ -336,20 +336,40 @@ abstract class Mage extends AliveCommon
 
     public function craftSpell($data)
     {
-        //$carrierId = $data['carrier'];
         $itemIds = $data['ingredients'];
-//        if (empty($this->items[$carrierId])) {
-//            throw new \Exception('Item for crafting is missing');
-//        }
-        //$this->addItem($carrierId, -1);
-        foreach ($itemIds as $itemId) {
-            if (empty($this->items[$itemId])) {
-                throw new MessageException('Item for crafting is missing');
+        if (!empty($data['blender'])) {
+            // IT IS BLENDER TIME!
+            $spells = [];
+            foreach ($itemIds as $itemId) {
+                if (empty($this->spells[$itemId])) {
+                    throw new MessageException('Spell for blending is missing');
+                }
+                $spells[] = $this->spells[$itemId];
+                $spellData = $this->spells[$itemId];
+                $spell = Spell::createSpell(
+                    $spellData['code'],
+                    $spellData['school'],
+                    $spellData['config'],
+                    $itemId,
+                    $this->game,
+                    $this->game->getWorld(),
+                    $this
+                );
+                $spell->spend(-1000);
+                $this->updateSpell($spell);
             }
-            $this->addItem($itemId, -1);
+            // ok we spend items let`s get the spell
+            $result = Spell::craftSpellFromSpells($spells);
+        } else {
+            foreach ($itemIds as $itemId) {
+                if (empty($this->items[$itemId])) {
+                    throw new MessageException('Item for crafting is missing');
+                }
+                $this->addItem($itemId, -1);
+            }
+            // ok we spend items let`s get the spell
+            $result = Spell::craftSpellFromItems($itemIds);
         }
-        // ok we spend items let`s get the spell
-        $result = Spell::craftSpellFromItems($itemIds);
         if (!empty($result['spell'])) {
             $this->addSpell($result['spell']);
         }

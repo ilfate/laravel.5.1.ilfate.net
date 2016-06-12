@@ -92,6 +92,7 @@ MageS.Game = function () {
         this.chat = chat;
         this.home = home;
         this.spellcraft = spellcraft;
+        spellcraft.init();
         this.animations = animations;
         this.attacks = attacks;
         attacks.init();

@@ -1,5 +1,10 @@
 
 <div class="spellBook-message-container"></div>
+<div class="craft-spell-overlay-blender">
+    <div class="alert alert-warning alert-dismissible helper-spell-craft-blender" role="alert">
+        You can blend 3 spells of the same school with more then 5 usages.
+    </div>
+</div>
 <div class="spellBook">
 
     <div class="spells-filter-panel" >

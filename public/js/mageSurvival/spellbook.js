@@ -42,6 +42,10 @@ MageS.Spellbook = function (game) {
     };
 
     this.spellClick = function(spellEl) {
+        if (this.game.spellcraft.isBlenderActive) {
+            this.game.spellcraft.itemClick(spellEl);
+            return;
+        }
         if (spellEl.hasClass('cooldown') && this.game.device !== 'mobile') {
             info('This spell is on cooldown');
             return;
@@ -267,6 +271,17 @@ MageS.Spellbook = function (game) {
         }
         filterEl.addClass('active');
         $('.spellBook .spell:not(.school-' + filterEl.data('school') + ')').addClass('filtered-out');
+    };
+    this.turnOffFilters = function () {
+        $('.spell-filter.active').removeClass('active');
+        $('.spellBook .spell.filtered-out').removeClass('filtered-out');
+    };
+    this.filterAllWithValueLessThen = function(value) {
+        $('.spellBook .spell').each(function() {
+            if (!$(this).hasClass('filtered-out') && parseInt($(this).find('.value').html()) < value) {
+                $(this).addClass('filtered-out');
+            }
+        })
     };
 
     this.checkForActiveSpells = function(spell) {
