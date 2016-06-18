@@ -161,7 +161,7 @@ MageS.Spellcraft = function (game) {
             itemsCount += 1;
         });
         if (itemsCount < 3) {
-            this.game.chat.postMessage('You need more then 3 ingredients to create a spell');
+            this.game.chat.postMessage('You need more than 3 ingredients to create a spell');
             return;
         }
         this.craftingIsInProgress = true;
@@ -177,7 +177,7 @@ MageS.Spellcraft = function (game) {
         if (this.isSpellBlenderAllowed) {
             setTimeout(function() {
                 $('.craft-demo-zone .blend-spells-show-button').fadeIn();
-            }, 1000);
+            }, 600);
         }
     };
     
@@ -190,6 +190,7 @@ MageS.Spellcraft = function (game) {
         $('.spells-col').prepend($('.craft-demo-zone'));
         // this.showSpellCraftHelperBlender();
         $('.craft-spell-overlay-blender').show();
+        $('.craft-spell-overlay').hide();
         this.game.spellbook.filterAllWithValueLessThen(5);
     };
 

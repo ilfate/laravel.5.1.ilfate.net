@@ -49,6 +49,7 @@ class Game
     const EVENT_NAME_MAGE_ADD_STATUS      = 'mage-add-status';
     const EVENT_NAME_MAGE_REMOVE_STATUS   = 'mage-remove-status';
     const EVENT_NAME_MAGE_USE_PORTAL      = 'mage-use-portal';
+    const EVENT_NAME_MAGE_DEATH           = 'mage-death';
     const EVENT_NAME_EFFECT               = 'effect';
     const EVENT_NAME_UNIT_MOVE            = 'unit-move';
     const EVENT_NAME_UNIT_KILL            = 'unit-kill';
@@ -370,7 +371,6 @@ class Game
         $this->userFlags[$name] = $value;
         $this->mageUserUpdated();
     }
-
 
     /**
      * @param User $user
@@ -694,5 +694,13 @@ class Game
         $this->user->save();
         $this->mage->say('Thank you a lot! I hope you will enjoy crafting spells with me!');
         $this->mage->say('Let`s go now! We have other worlds to explore!', Game::ANIMATION_STAGE_MESSAGE_TIME_2);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

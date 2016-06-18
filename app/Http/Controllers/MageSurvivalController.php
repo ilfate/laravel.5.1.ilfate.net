@@ -3,6 +3,7 @@
 namespace Ilfate\Http\Controllers;
 
 use Ilfate\Mage;
+use Ilfate\MageSurvival\AliveCommon;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\MessageException;
@@ -70,9 +71,20 @@ class MageSurvivalController extends BaseController
         $user = User::getUser();
         $mage = new Mage();
         $mageType = strip_tags(htmlentities($request->get('type')));
+
+        $addTutorialStatus = false;
+        $mages = $user->mages()->get();
+        if ($mages->count() < 1) {
+            $addTutorialStatus = true;
+        }
+
         $mage->class = $mageType;
         $mage->player_id = $user->getId();
+        $mage->status = 1;
         $mage->name = strip_tags(htmlentities($request->get('name')));
+        if ($addTutorialStatus) {
+            $mage->data = json_encode(['tutorial' => strip_tags(htmlentities($request->get('device')))]);
+        }
 
         $result = $mage->save();
 
@@ -193,8 +205,33 @@ class MageSurvivalController extends BaseController
         $data = [];
         switch($view) {
             case 'games.mageSurvival.mage-list':
+                $data['stats'] = $game->getMageUser()->getStats();
                 $data['mages-types'] = \Config::get('mageSurvival.mages-types');
-                $data['mages'] = $game->getInactiveMages();
+                foreach ($data['mages-types'] as &$mageType) {
+                    if (!empty($mageType['stats'])) {
+                        $isAvailable = true;
+                        foreach ($mageType['stats'] as $stat => $value) {
+                            if (empty($data['stats'][$stat]) || $value > $data['stats'][$stat]) {
+                                $isAvailable = false;
+                            }
+                        }
+                        if ($isAvailable) {
+                            $mageType['available'] = true;
+                        }
+                    }
+                }
+                $exportMages = [];
+                $mages = $game->getInactiveMages();
+                foreach ($mages as $mage) {
+                    $mageData = json_decode($mage->data, true);
+                    $exportMage = [
+                        'name' => $mage->name,
+                        'stats' => $mageData[AliveCommon::DATA_STAT_KEY]
+                    ];
+                    $exportMages[] = $exportMage;
+                }
+                $data['mages'] = $exportMages;
+                $data['schools'] = \Config::get('mageSpells.schools');
                 $data['user'] = $game->getUser();
                 break;
             case 'games.mageSurvival.mage-home':

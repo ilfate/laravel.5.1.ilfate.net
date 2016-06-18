@@ -12,12 +12,8 @@ MageS.Home = function (game) {
         });
         $('.player-mage-list .mage-type-select').on('click', function() {
             MageS.Game.home.mageType = $(this).data('type');
-            $('.player-mage-list .single-mage-type').css('height', '2.5rem');
             var el = $(this).parent();
-            el.append($('.player-mage-list .last-step').show());
-            el.animate({
-                height: '6.5rem'
-            }, {easing:'easeOutBounce'})
+            el.append($('.player-mage-list .last-step').slideDown());
         });
         $('#create-mage-pop-up a.submit').on('click', function() {
             var name = $(this).prev().prev().val();
@@ -27,9 +23,27 @@ MageS.Home = function (game) {
                 return false;
             }
             Ajax.json('/Spellcraft/createMage', {
-                data: 'name=' + name + '&type=' + type,
+                data: 'name=' + name + '&type=' + type + '&device=' + MageS.Game.device,
                 callBack : function(data){ MageS.Game.callback(data) }
             });
+        });
+        $('.open-dead-info').on('click', function() {
+            $(this).parents('.dead-mage').next().slideToggle();
+            if ($(this).hasClass('active')) {
+                $(this).find('i').animateRotate(180, 0, 200, 'easeInOutQuad');
+                $(this).removeClass('active');
+            } else {
+                // info($(this).find('svg'));
+                $(this).find('i').animateRotate(0, 180, 400, 'easeInOutQuad');
+                $(this).addClass('active');
+            }
+        })
+        $('.single-mage-type.locked').on('click', function() {
+            $(this).find('.requirements').slideToggle();
+        });
+        $('.progress-bar.colored').each(function(){
+            var color = $(this).data('color');
+            $(this).css({'background-color': MageS.Game.color[color]});
         });
     };
 

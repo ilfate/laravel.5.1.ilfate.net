@@ -60,6 +60,8 @@ return array(
             'icon' => 'icon-fireImp-1', 'iconColor' => 'color-red',
             'description' => 'Creation of fire magic! Will attack your enemies till it`s magic is over. When it is done the Imp would explode.',
         ],
+
+        // 'name' => 'The Cynical Brut'
     ],
     'chances' => [
         // World type

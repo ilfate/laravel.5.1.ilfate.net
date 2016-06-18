@@ -102,6 +102,30 @@ MageS.Animations = function (game) {
             case 'mage-rotate':
                 this.mageRotateAnimation(data.data, stage);
                 break;
+            case 'mage-spell-cast':
+                this.spellCastAnimation(data.data, stage);
+                break;
+            case 'mage-add-armor':
+                this.mageAddArmorAnimation(data.data, stage);
+                break;
+            case 'mage-add-status':
+                this.mageAddStatusAnimation(data.data, stage);
+                break;
+            case 'mage-remove-status':
+                this.mageRemoveStatusAnimation(data.data, stage);
+                break;
+            case 'mage-damage':
+                this.mageDamageAnimation(data.data, stage);
+                break;
+            case 'mage-heal':
+                this.mageHealAnimation(data.data, stage);
+                break;
+            case 'mage-use-portal':
+                this.mageUsePortalAnimation(data.data, stage);
+                break;
+            case 'mage-death':
+                this.mageUsePortalAnimation(data.data, stage);
+                break;
             case 'unit-kill':
                 this.unitKillAnimation(data.data, stage);
                 break;
@@ -117,29 +141,8 @@ MageS.Animations = function (game) {
             case 'unit-remove-status':
                 this.unitRemoveStatusAnimation(data.data, stage);
                 break;
-            case 'mage-spell-cast':
-                this.spellCastAnimation(data.data, stage);
-                break;
             case 'spell-craft':
                 this.game.spellcraft.endSpellCraftAnimations(data.data, stage);
-                break;
-            case 'mage-damage':
-                this.mageDamageAnimation(data.data, stage);
-                break;
-            case 'mage-heal':
-                this.mageHealAnimation(data.data, stage);
-                break;
-            case 'mage-add-armor':
-                this.mageAddArmorAnimation(data.data, stage);
-                break;
-            case 'mage-add-status':
-                this.mageAddStatusAnimation(data.data, stage);
-                break;
-            case 'mage-remove-status':
-                this.mageRemoveStatusAnimation(data.data, stage);
-                break;
-            case 'mage-use-portal':
-                this.mageUsePortalAnimation(data.data, stage);
                 break;
             case 'unit-damage':
                 info('Unit got ' + data.data.value + ' damage');
@@ -269,7 +272,6 @@ MageS.Animations = function (game) {
         if (unit.length < 1) {
             info('unit with ID = ' + data.id + ' was not on the map');
             info(data);
-            info(this.currentStage);
             var unit2 =  $('.unit.id-' + data.id);
             if (unit2.length) {
                 info('Animation unit is there... but not at right place...');

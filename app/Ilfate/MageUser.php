@@ -35,4 +35,24 @@ class MageUser extends Model
 	{
 		return $this->hasOne('Ilfate\User', 'id', 'user_id');
 	}
+
+	public function addStat($name, $value)
+	{
+		if ($this->stats) {
+			$stats = json_decode($this->stats, true);
+		} else {
+			$stats = [];
+		}
+		if (!empty($stats[$name])) {
+			$stats[$name] += $value;
+		} else {
+			$stats[$name] = $value;
+		}
+		$this->stats = json_encode($stats);
+	}
+
+	public function getStats()
+	{
+		return json_decode($this->stats, true);
+	}
 }

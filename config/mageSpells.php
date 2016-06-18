@@ -102,8 +102,6 @@ return array(
             ],
         ],
 
-        // level 2
-
         2 => [ // water
             0 => [
                 'name' => 'IceSlide',
@@ -171,7 +169,7 @@ return array(
             8 => [
                 'name' => 'Ice shield',
                 'class' => 'IceShield',
-                'description' => 'Protect yourself with lots of ice! You will get some armor and for next 3 attacks enemies would freeze.',
+                'description' => 'Protect yourself with lots of ice! You will get 5 armor and for next 3 attacks enemies would freeze.',
                 'iconClass' => 'icon-ice-shield',
                 'iconColor' => 'color-dark-blue',
                 'noTargetSpell' => true,
@@ -266,25 +264,31 @@ return array(
                 'iconClass' => 'icon-fist',
             ],
             7 => [
-                'name' => 'Lighting shield',
+                'name' => 'Lightning shield',
                 'class' => 'LightingShield',
-                'description' => 'Protect yourself with lighting that will zip one enemy near you for 1 damage for next 5 turns.',
+                'description' => 'Protect yourself with lighting that will zap one enemy near you for 1 damage for next 5 turns. And protect you from any Air damage',
                 'iconColor' => 'color-light-blue',
                 'iconClass' => 'icon-lighting-shield',
                 'noTargetSpell' => true,
             ],
+            8 => [
+                'name' => 'Wind sword',
+                'class' => 'WindSword',
+                'description' => 'Hit the ground in a direction to knock all enemies asides and deal 1 damage',
+                'iconColor' => 'color-light-blue',
+                'iconClass' => 'icon-windy-stripes',
+            ],
+            9 => [
+                'name' => 'Loot it all',
+                'class' => 'LootItAll',
+                'description' => 'Get all loot from all objects that you can see.',
+                'iconColor' => 'color-light-blue',
+                'iconClass' => 'icon-profit',
+                'noTargetSpell' => true,
+                'noAutoAnimationTrigger' => true,
+            ],
 
 
-
-//            8 => [
-//                'name' => 'Lightning protection',
-//                'class' => 'LightningProtection',
-//                'description' => 'Strike a random target(includes you) with lightning for 8.',
-//                'iconColor' => 'color-light-blue',
-//                'iconClass' => 'icon-thunder-struck',
-//                'noTargetSpell' => true,
-//                'noAutoAnimationTrigger' => true,
-//            ],
         ],
         4 => [ // earth
             0 => [
@@ -328,21 +332,21 @@ return array(
 //            10,
     ],
     'schools' => [
-        1 => ['name' => 'fire', 'icon' => 'icon-flame'],
-        2 => ['name' => 'water', 'icon' => 'icon-drop', 'class' => 'color-dark-blue'],
-        3 => ['name' => 'air', 'icon' => 'icon-cloud-ring', 'class' => 'color-light-blue'],
-        4 => ['name' => 'earth', 'icon' => 'icon-rock', 'class' => 'color-brown'],
-        5 => ['name' => 'light', 'icon' => 'icon-flame'],
-        6 => ['name' => 'death', 'icon' => 'icon-flame'],
-        7 => ['name' => 'nature', 'icon' => 'icon-flame'],
-        8 => ['name' => 'arcane', 'icon' => 'icon-flame'],
-        9 => ['name' => 'blood', 'icon' => 'icon-flame'],
-        10 => ['name' => 'voodoo', 'icon' => 'icon-flame'],
-        11 => ['name' => 'demonology', 'icon' => 'icon-flame'],
-        12 => ['name' => 'dragon', 'icon' => 'icon-flame'],
-        13 => ['name' => 'spirit', 'icon' => 'icon-flame'],
-        14 => ['name' => 'shadow', 'icon' => 'icon-flame'],
-        15 => ['name' => 'steel', 'icon' => 'icon-flame'],
+        1 => ['name' => 'fire', 'icon' => 'icon-flame', 'color' => 'red'],
+        2 => ['name' => 'water', 'icon' => 'icon-drop', 'color' => 'darkBlue'],
+        3 => ['name' => 'air', 'icon' => 'icon-cloud-ring', 'color' => 'lightBlue'],
+        4 => ['name' => 'earth', 'icon' => 'icon-rock', 'color' => 'brown'],
+        5 => ['name' => 'light', 'icon' => 'icon-flame', 'color' => 'red'],
+        6 => ['name' => 'death', 'icon' => 'icon-flame', 'color' => 'red'],
+        7 => ['name' => 'nature', 'icon' => 'icon-flame', 'color' => 'red'],
+        8 => ['name' => 'arcane', 'icon' => 'icon-flame', 'color' => 'red'],
+//        9 => ['name' => 'blood', 'icon' => 'icon-flame'],
+//        10 => ['name' => 'voodoo', 'icon' => 'icon-flame'],
+//        11 => ['name' => 'demonology', 'icon' => 'icon-flame'],
+//        12 => ['name' => 'dragon', 'icon' => 'icon-flame'],
+//        13 => ['name' => 'spirit', 'icon' => 'icon-flame'],
+//        14 => ['name' => 'shadow', 'icon' => 'icon-flame'],
+//        15 => ['name' => 'steel', 'icon' => 'icon-flame'],
     ],
 
 );

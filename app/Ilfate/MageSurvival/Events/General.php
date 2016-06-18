@@ -14,6 +14,7 @@
 namespace Ilfate\MageSurvival\Events;
 
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 
 /**
@@ -31,6 +32,13 @@ use Ilfate\MageSurvival\GameBuilder;
  */
 class General extends Event
 {
+    public static function protection($actionData, $eventData) 
+    {
+        if ($actionData['source'] === $eventData['source'] && $actionData['value'] > 0) {
+            $actionData['value'] = 0;
+        }
+        return $actionData;
+    }
     public static function addUserFlag($actionData, $eventData) 
     {
         GameBuilder::getGame()->setUserFlag($eventData['flag'], $eventData['value']);
@@ -46,6 +54,17 @@ class General extends Event
     public static function say($actionData, $eventData)
     {
         $actionData[Event::KEY_OWNER]->say($eventData['text'], $eventData['stage']);
+        return $actionData;
+    }
+
+    public static function tutorialStep($actionData, $eventData)
+    {
+        $world = GameBuilder::getGame()->getWorld();
+        $world->addData('tutorialStep', $eventData['step']);
+        if (!empty($eventData['message'])) {
+            GameBuilder::getGame()->getMage()->say($eventData['message'], Game::ANIMATION_STAGE_MESSAGE_TIME);
+        }
+        $world->save();
         return $actionData;
     }
     

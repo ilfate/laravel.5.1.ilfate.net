@@ -9,8 +9,8 @@
 
     <div class="spells-filter-panel" >
         @foreach($viewData['game']['mage']['spellSchools'] as $schoolId => $schoolConfig)
-            <div class="spell-filter school-{{$schoolId}} {{isset($schoolConfig['class']) ? $schoolConfig['class'] : ''}}" data-school="{{$schoolId}}">
-                <div class="svg svg-replace" data-svg="{{$schoolConfig['icon']}}">
+            <div class="spell-filter school-{{$schoolId}}" data-school="{{$schoolId}}">
+                <div class="svg svg-replace" data-svg="{{$schoolConfig['icon']}}" data-color="{{$schoolConfig['color']}}">
                     <svg class="svg-icon " viewBox="0 0 512 512">
                     </svg>
                 </div>

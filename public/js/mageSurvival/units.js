@@ -27,7 +27,7 @@ MageS.Units = function (game) {
             }
             obj.data('d', unit.d);
         }
-        this.addDescription(unit);
+        this.addDescription(unit, obj);
         if (unit.data.f !== undefined) {
             this.addUnitStatusIcons(obj, unit.data.f);
         }
@@ -50,7 +50,7 @@ MageS.Units = function (game) {
                 break;
         }   
     };
-    this.addDescription = function(unit) {
+    this.addDescription = function(unit, unitObject) {
         var temaplate = $('#template-unit-tooltip').html();
         Mustache.parse(temaplate);
 
@@ -60,7 +60,7 @@ MageS.Units = function (game) {
         var obj = $(rendered);
         $('.tooltip-unit-area').append(obj);
         if (this.game.device == 'pc') {
-            $('.unit.id-' + unit.id).on({
+            unitObject.on({
                 'mouseenter': function () {
                     var id = $(this).data('id');
                     $('.tooltip-unit-area .unit-tooltip.id-' + id).addClass('hover');
@@ -71,7 +71,7 @@ MageS.Units = function (game) {
                 }
             });
         } else {
-            $('.unit.id-' + unit.id).on({
+            unitObject.on({
 
                 'click': function () {
                     MageS.Game.units.mobileUnitClick($(this));

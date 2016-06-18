@@ -30,13 +30,16 @@ MageS.Monimations = function (game) {
         }).run();
     };
 
-    this.bounce = function(el) {
+    this.bounce = function(el, effect) {
+        if (!effect) {
+            effect = 2;
+        }
         new mojs.Tween({
             repeat:   0,
             delay:    10,
             duration: 1000,
             onUpdate: function (progress) {
-                var extremeInOutProgress = MageS.Game.monimations.bounce50(progress) * 2;
+                var extremeInOutProgress = MageS.Game.monimations.bounce50(progress) * effect;
                 el[0].style.transform = 'scale(' + extremeInOutProgress + ')';
             }
         }).run();

@@ -3278,6 +3278,53 @@ body {
     .mage-survival .spellBook {
       width: 12.8rem;
       height: 12.8rem; } }
+.mage-survival .actions-container {
+  float: left;
+  height: 2.4rem;
+  width: auto; }
+  .mage-survival .actions-container .default-actions {
+    display: none; }
+  .mage-survival .actions-container .action {
+    float: left; }
+    .mage-survival .actions-container .action a {
+      width: 2.4rem;
+      height: 2.4rem;
+      display: block;
+      border: 0.05rem solid #584D3D;
+      background-color: #5E412F; }
+      .mage-survival .actions-container .action a path {
+        fill: #FCEBB6; }
+      .mage-survival .actions-container .action a .text {
+        display: none; }
+      .mage-survival .actions-container .action a svg {
+        width: 2.4rem;
+        height: 2.4rem; }
+  @media (min-width: 38.4rem) {
+    .mage-survival .actions-container {
+      float: none;
+      position: absolute;
+      z-index: 40;
+      width: 2.4rem;
+      height: 9.6rem;
+      right: 0;
+      margin-top: 3.2rem;
+      margin-right: 1.2rem; }
+      .mage-survival .actions-container .action {
+        margin: 0.1rem 0;
+        float: none; } }
+.mage-survival .mobile-actions {
+  position: absolute;
+  right: 0;
+  width: 15%;
+  text-align: center; }
+  .mage-survival .mobile-actions a {
+    height: 2.4rem;
+    display: block; }
+    .mage-survival .mobile-actions a .text {
+      display: none; }
+    .mage-survival .mobile-actions a svg {
+      width: 2.4rem;
+      height: 2.4rem; }
 .mage-survival .bottom-panel {
   position: absolute;
   z-index: 65;
@@ -3349,9 +3396,9 @@ body {
   position: fixed;
   z-index: 90; }
 .mage-survival .craft-spell-overlay-blender {
-  margin-top: -0.4rem;
   display: none; }
 .mage-survival .craft-spell-overlay, .mage-survival .craft-spell-overlay-blender {
+  margin-top: -0.4rem;
   position: absolute;
   z-index: 75;
   font-size: 0.65rem;
@@ -3364,10 +3411,8 @@ body {
     color: #ffffff;
     position: absolute;
     width: 100%;
-    height: 1.7rem;
+    height: 2rem;
     text-align: center; }
-  .mage-survival .craft-spell-overlay .helper-spell-craft-blender, .mage-survival .craft-spell-overlay-blender .helper-spell-craft-blender {
-    height: 2rem; }
 .mage-survival .item svg.svg-icon, .mage-survival .spell svg.svg-icon {
   opacity: 0.9; }
 .mage-survival .item:hover svg.svg-icon, .mage-survival .spell:hover svg.svg-icon {
@@ -3737,71 +3782,6 @@ body {
       .mage-survival .container.main .mage-info-panel {
         width: 31.25rem;
         padding-left: 0.75rem; } }
-  .mage-survival .container.main .actions-container {
-    float: left;
-    height: 2.4rem;
-    width: auto; }
-    .mage-survival .container.main .actions-container .action {
-      float: left; }
-      .mage-survival .container.main .actions-container .action a {
-        width: 2.4rem;
-        height: 2.4rem;
-        display: block;
-        border: 0.05rem solid #584D3D;
-        background-color: #5E412F; }
-        .mage-survival .container.main .actions-container .action a path {
-          fill: #FCEBB6; }
-        .mage-survival .container.main .actions-container .action a .text {
-          display: none; }
-        .mage-survival .container.main .actions-container .action a svg {
-          width: 2.4rem;
-          height: 2.4rem; }
-    @media (min-width: 38.4rem) {
-      .mage-survival .container.main .actions-container {
-        float: none;
-        position: absolute;
-        z-index: 40;
-        width: 2.4rem;
-        height: 9.6rem;
-        right: 0;
-        margin-top: 3.2rem;
-        margin-right: 1.2rem; }
-        .mage-survival .container.main .actions-container .action {
-          margin: 0.1rem 0;
-          float: none; } }
-    @media (min-width: 49.6rem) {
-      .mage-survival .container.main .actions-container {
-        position: relative;
-        width: 100%;
-        height: 1.6rem;
-        margin: 0; }
-        .mage-survival .container.main .actions-container .action {
-          float: left;
-          margin: 0 0.1rem;
-          line-height: 1.1rem;
-          background-color: #F0A830; }
-          .mage-survival .container.main .actions-container .action a {
-            width: auto;
-            height: auto;
-            display: inline;
-            font-size: 0.6rem;
-            cursor: pointer;
-            padding: 0.15rem 0.3rem;
-            text-decoration: none;
-            background-color: #529BCA;
-            color: #ffffff;
-            border: none;
-            -webkit-transition: all 0.25s ease;
-            -o-transition: all 0.25s ease;
-            transition: all 0.25s ease; }
-            .mage-survival .container.main .actions-container .action a:hover {
-              color: #F0A830;
-              background-color: #428BBA;
-              transform: rotate(3deg); }
-            .mage-survival .container.main .actions-container .action a .svg {
-              display: none; }
-            .mage-survival .container.main .actions-container .action a .text {
-              display: inherit; } }
   @media (min-width: 38.4rem) {
     .mage-survival .container.main .inventory.craft .craft-demo-zone {
       margin-top: 0;
@@ -3984,6 +3964,54 @@ body {
     padding: 0.5rem 1rem;
     background-color: #FCEBB6;
     border-bottom: 1px solid #5E412F; }
+    .player-mage-list .mage #mage-create-button {
+      cursor: pointer;
+      text-shadow: -1px -1px #FCEBB6; }
+      .player-mage-list .mage #mage-create-button:hover {
+        text-decoration: none;
+        color: #FF8360;
+        text-shadow: -1px -1px #5E412F; }
+  .player-mage-list .hidden-mage-info {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background-color: #FCEBB6;
+    border-bottom: 1px solid #5E412F;
+    display: none;
+    text-align: center; }
+    .player-mage-list .hidden-mage-info th {
+      text-align: center; }
+  .player-mage-list .dead-mage {
+    width: 100%;
+    height: 5rem;
+    padding: 0.5rem 1rem;
+    background-color: #FCEBB6;
+    border-bottom: 1px solid #5E412F;
+    position: relative; }
+    .player-mage-list .dead-mage:hover svg {
+      animation: rotate-linear 3s linear 0s infinite normal;
+      -o-animation: rotate-linear 3s linear 0s infinite normal;
+      -ms-animation: rotate-linear 3s linear 0s infinite normal;
+      -moz-animation: rotate-linear 3s linear 0s infinite normal;
+      -webkit-animation: rotate-linear 3s linear 0s infinite normal; }
+    .player-mage-list .dead-mage .text {
+      text-align: center; }
+      .player-mage-list .dead-mage .text .name {
+        font-weight: bold; }
+      .player-mage-list .dead-mage .text .btn .fa {
+        color: #5E412F; }
+      .player-mage-list .dead-mage .text .btn:hover .fa {
+        color: #F07818; }
+    .player-mage-list .dead-mage .dead-mage-eye {
+      position: absolute;
+      width: 5rem;
+      height: 5rem;
+      margin-left: -3.5rem;
+      margin-top: -0.5rem; }
+      .player-mage-list .dead-mage .dead-mage-eye.right-eye {
+        right: -2.5rem; }
+      .player-mage-list .dead-mage .dead-mage-eye svg {
+        width: 5rem;
+        height: 5rem; }
   .player-mage-list #create-mage-pop-up {
     display: none; }
   .player-mage-list .single-mage-type {
@@ -3991,9 +4019,20 @@ body {
     width: 100%;
     background-color: #529BCA;
     padding: 0.5rem 1rem;
-    height: 2.5rem;
+    min-height: 2.5rem;
     vertical-align: middle;
     border-bottom: 1px solid #ffffff; }
+    .player-mage-list .single-mage-type.locked {
+      cursor: pointer; }
+      .player-mage-list .single-mage-type.locked:hover svg path {
+        fill: #F07818; }
+      .player-mage-list .single-mage-type.locked .requirements {
+        display: none;
+        padding-top: 1rem; }
+    .player-mage-list .single-mage-type:hover .mage-type-select {
+      text-decoration: none; }
+      .player-mage-list .single-mage-type:hover .mage-type-select .mage-type-name {
+        color: #F07818; }
     .player-mage-list .single-mage-type .svg {
       height: 1.5rem;
       width: 1.5rem;
@@ -4004,10 +4043,15 @@ body {
         height: 1.5rem; }
         .player-mage-list .single-mage-type .svg svg path {
           fill: #ffffff; }
+    .player-mage-list .single-mage-type .mage-type-select {
+      cursor: pointer; }
     .player-mage-list .single-mage-type .mage-type-name {
       margin-left: 1rem;
       line-height: 1.5rem;
       color: #ffffff; }
+      .player-mage-list .single-mage-type .mage-type-name .crossed {
+        color: #777;
+        text-decoration: line-through; }
   .player-mage-list .last-step {
     display: none;
     height: 4rem;
@@ -4148,12 +4192,54 @@ body {
     height: 12.8rem;
     margin-left: -13.55rem;
     margin-top: 0; }
+    .mage-survival .container.main .right-panel .craft-demo-zone.active .confirm-create-spell {
+      margin-top: 7.2rem; }
+    .mage-survival .container.main .right-panel .craft-demo-zone.active .rotating-table {
+      margin: 5.12rem auto 0 auto; }
+    .mage-survival .container.main .right-panel .craft-demo-zone.active .chemical-animation {
+      margin: 4rem auto 0 auto; }
   .mage-survival .container.main .right-panel .craft-spell-overlay, .mage-survival .container.main .right-panel .craft-spell-overlay-blender {
     width: 12.8rem; }
   .mage-survival .container.main .right-panel .spells-items-row .items-col, .mage-survival .container.main .right-panel .spells-items-row .spells-col {
     width: 12.8rem; }
   .mage-survival .container.main .right-panel .spells-items-row .spells-col {
-    padding-left: 0.75rem; } }
+    padding-left: 0.75rem; }
+  .mage-survival .container.main .actions-container {
+    position: relative;
+    width: 100%;
+    height: 1.6rem;
+    margin: 0; }
+    .mage-survival .container.main .actions-container .default-actions {
+      display: block; }
+    .mage-survival .container.main .actions-container .action {
+      float: left;
+      margin: 0 0.1rem;
+      line-height: 1.1rem;
+      background-color: #F0A830; }
+      .mage-survival .container.main .actions-container .action a {
+        width: auto;
+        height: auto;
+        display: inline;
+        font-size: 0.6rem;
+        cursor: pointer;
+        padding: 0.15rem 0.3rem;
+        text-decoration: none;
+        background-color: #529BCA;
+        color: #ffffff;
+        border: none;
+        -webkit-transition: all 0.25s ease;
+        -o-transition: all 0.25s ease;
+        transition: all 0.25s ease; }
+        .mage-survival .container.main .actions-container .action a:hover {
+          color: #F0A830;
+          background-color: #428BBA;
+          transform: rotate(3deg); }
+        .mage-survival .container.main .actions-container .action a .svg {
+          display: none; }
+        .mage-survival .container.main .actions-container .action a .text {
+          display: inherit; }
+  .mage-survival .container.main .mobile-actions {
+    display: none; } }
 
 /* Icon set by 7soul1 : http://7soul1.deviantart.com/ */
 i.rpg-icon-small {

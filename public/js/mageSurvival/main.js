@@ -18,24 +18,31 @@ $(document).ready(function() {
         var worlds = new MageS.Worlds(MageS.Game);
         var objects = new MageS.Objects(MageS.Game);
         var units = new MageS.Units(MageS.Game);
+        var mage = new MageS.Mage(MageS.Game);
         var chat = new MageS.Chat(MageS.Game);
         var home = new MageS.Home(MageS.Game);
         var spellcraft = new MageS.Spellcraft(MageS.Game);
         var monimations = new MageS.Monimations(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells, worlds, objects, units, chat, home, spellcraft, animations, attacks, monimations);
+        MageS.Game.init(inventory, spellbook, spells, worlds, objects, units, mage, chat, home, spellcraft, animations, attacks, monimations);
     }
 });
 
 
 MageS.Game = function () {
     this.color = {
-        'blue': '#428BCA',
+        'blue': '#529BCA',
+        'darkBlue': '#428BBA',
+        'lightBlue': '#77d2e1',
         'green': '#069E2D',
         'yellow': '#FFD416',
-        'red': '#F21616',
-        'orange': '#EF8354',
+        'red': '#FF8360',
+        'orange': '#F07818',
         'black': '#584D3D',
-        'white': '#FFFFFF'
+        'white': '#FFFFFF',
+        'grey': '#777',
+        'clay' : '#FCEBB6',
+        'brown' : '#5E412F',
+        'brownBright' : '#726056',
     };
     this.device = 'pc';
     this.inventory = {};
@@ -44,6 +51,7 @@ MageS.Game = function () {
     this.worlds = {};
     this.objects = {};
     this.units = {};
+    this.mage = {};
     this.chat = {};
     this.home = {};
     this.spellcraft = {};
@@ -81,7 +89,7 @@ MageS.Game = function () {
         }
     };
 
-    this.init = function (inventory, spellbook, spells, worlds, objects, units, chat, home, spellcraft, animations, attacks, monimations) {
+    this.init = function (inventory, spellbook, spells, worlds, objects, units, mage, chat, home, spellcraft, animations, attacks, monimations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
@@ -89,6 +97,7 @@ MageS.Game = function () {
         this.worlds = worlds;
         this.objects = objects;
         this.units = units;
+        this.mage = mage;
         this.chat = chat;
         this.home = home;
         this.spellcraft = spellcraft;
@@ -132,7 +141,7 @@ MageS.Game = function () {
                     //MageS.Game.pageResize();
                     MageS.Game.chat.buildChat();
                     MageS.Game.buildMap();
-                    MageS.Game.drawMage(MageS.Game.rawData.mage);
+                    MageS.Game.mage.drawMage(MageS.Game.rawData.mage);
                     MageS.Game.updateActions(MageS.Game.rawData.actions, true);
                     MageS.Game.spellbook.buildSpells();
                     MageS.Game.inventory.buildItems();
@@ -437,9 +446,9 @@ MageS.Game = function () {
     };
 
     this.updateActions = function (actions, isFirstLoad) {
-        actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
-        actions.push({'name':'Skip turn', 'method':'skip-turn', 'key':'F' , 'location':'actions', 'icon':'icon-empty-hourglass', 'actionName':'skipTurn'});
-        //actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
+        //actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions=side', 'icon':'icon-fizzing-flask'});
+        //actions.push({'name':'Skip turn', 'method':'skip-turn', 'key':'F' , 'location':'actions', 'icon':'icon-empty-hourglass', 'actionName':'skipTurn'});
+        actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
         var existingActions = {};
         actionsEl.find('.action').each(function() {
@@ -509,6 +518,9 @@ MageS.Game = function () {
             $('.method-craft-spell').on('click', function () {
                 MageS.Game.spellcraft.showSpellCrafting();
             });
+            $('.method-skip-turn').on('click', function () {
+                MageS.Game.action('skipTurn', '{"method":"skip-turn"}');
+            });
             $('.method-test-spell').on('click', function () {
                 MageS.Game.spells.isSecondPartWaiting = true;
                 // MageS.Game.spells.currentSpellData = {'data': [
@@ -518,8 +530,8 @@ MageS.Game = function () {
                 // MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
                 MageS.Game.spells.currentSpellData = {'targetX': -2, 'targetY': -1, 'd':1, 'data':[
                     [-2, 3], [3,3], [4,-1], [0, 2]
-                ], 'targets': [[0,-2], [3,3], [-3,2]],
-                'pattern' : [[-2, -3]]};
+                ], 'targets': [[-3,-3], [3,3], [-3,2]],
+                'pattern' : [[-1, -1], [-2, -2], [-3, -3], [-4, -4], [-5, -5]]};
                 //     {'point':[-1,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-2,0], 'targets':[[-1, -2], [0, 2]]},
                 //     {'point':[-3,0], 'targets':[[-1, -2], [0, 2]]},
@@ -528,7 +540,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('HardLanding');
+                MageS.Game.spells.startCast('LootItAll');
                 // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
             });
             $('#move-control-field .control-arrow').on('click', function () {
@@ -589,6 +601,9 @@ MageS.Game = function () {
                         .animate({'svgFill':'#FF8360'});
                 } else if (currentHealth > mage.health) {
                     MageS.Game.monimations.skweeze($('.health-mobile-info .health'));
+                    $('.health-mobile-info .health .normal path')
+                        .animate({'svgFill':this.color.yellow})
+                        .animate({'svgFill':this.color.red});
                 }
                 $('.health-mobile-info .health .cover').height(100 - health + '%');
                 $('.health-mobile-info .health .value').html(mage.health);
@@ -606,18 +621,20 @@ MageS.Game = function () {
                 $('.health-mobile-info .armor .value').html(mage.armor);
             }
         } else {
+            var armorWidth = 0;
+            var healthWidth = 100;
             if (mage.armor !== undefined) {
                 total += mage.armor;
+                armorWidth = Math.round(mage.armor / total * 100);
+                healthWidth = Math.round(mage.health / total * 100);
             }
-            var armor = 0;
-            if (mage.armor !== undefined) {
-                armor = Math.round(mage.armor / total * 100);
-            }
-            $('.health-bar .progress-bar-success').css('width', health + '%');
-            $('.health-bar .progress-bar-warning').css('width', armor + '%');
+            $('.health-bar .progress-bar-success').css('width', healthWidth + '%');
+            $('.health-bar .progress-bar-warning').css('width', armorWidth + '%');
 
             $('.health-bar .health-value').html(mage.health + 'HP');
-            $('.health-bar .armor-value').html(armor);
+            if (mage.armor !== undefined) {
+                $('.health-bar .armor-value').html(mage.armor);
+            }
         }
     };
 
@@ -655,7 +672,12 @@ MageS.Game = function () {
 
     this.replaceSvg = function(svgContainerEl) {
         var icon = MageS.Game.svg.find('#' + svgContainerEl.data('svg') + ' path');
-        svgContainerEl.removeClass('svg-replace').find('svg').append(icon.clone());
+        var newIcon = icon.clone();
+        var colorName = svgContainerEl.data('color');
+        svgContainerEl.removeClass('svg-replace').find('svg').append(newIcon);
+        if (colorName) {
+            newIcon.css({'fill': this.color[colorName]});
+        }
     };
 
     this.startAction = function(action) {
@@ -668,6 +690,11 @@ MageS.Game = function () {
                 $('.loading-field').fadeIn();
                 break;
         }
+        if (this.device == 'mobile') {
+            $('.mobile-actions').find('path').animate({'svgFill':this.color.brownBright});
+        } else if (this.device == 'pc') {
+            $('.actions-container .default-actions').fadeOut(this.animationTime / 2);
+        }
         $('.actions-container .actions').fadeOut(this.animationTime / 2);
         this.actionInProcess = true;
     };
@@ -676,15 +703,24 @@ MageS.Game = function () {
         this.actionInProcess = false;
         $('.loading-field').fadeOut(50);
         $('.actions-container .actions').fadeIn();
+        if (this.device == 'mobile') {
+            $('.mobile-actions').find('path').animate({'svgFill':this.color.clay}, {duration:200});
+        } else if (this.device == 'pc') {
+            $('.actions-container .default-actions').fadeIn();
+        }
     };
     
-    this.getIcon = function(name) {
+    this.getIcon = function(name, color) {
         var svg = $(this.svg).find('#' + name);
         if (svg.length == 0) {
             info('icon for "' + name + '" not found');
             return;
         }
-        return svg.children();
+        var children = svg.children();
+        if (color) {
+            children.css({'fill': this.color[color]});
+        }
+        return children;
     };
 
     this.drawCell = function(cell, x, y, target) {
@@ -702,28 +738,7 @@ MageS.Game = function () {
             'margin-top' : (y * this.cellSize) + 'rem'
         })
     };
-    
-    this.drawMage = function(mageConf) {
-        var temaplate = $('#template-mage').html();
-        Mustache.parse(temaplate);
-        var rendered = Mustache.render(temaplate, {'d': mageConf.d});
-        var obj = $(rendered);
-        $(this.svg).find('#icon-mage-1 path').each(function() {
-            obj.find('svg').append($(this).clone());
-        });
-        obj.animateRotate(0, mageConf.d * 90, 10);
 
-        $('.mage-container').prepend(obj);
-        info(mageConf);
-        if (mageConf.flags) {
-            this.addMageStatus(mageConf.flags);
-        }
-    };
-
-    this.addMageStatus = function(flags) {
-        this.units.addFlag($('.mage-container .mage'), flags);
-    };
-    
     this.itemsMessage = function(message, strong) {
         var temaplate = $('#template-alert-items').html();
         Mustache.parse(temaplate);
@@ -735,8 +750,7 @@ MageS.Game = function () {
         }, 3000);
     };
 
-    this.registrationPopup = function()
-    {
+    this.registrationPopup = function() {
         var temaplate = $('#template-registration').html();
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {});

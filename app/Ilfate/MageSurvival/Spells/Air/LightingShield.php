@@ -50,6 +50,12 @@ class LightingShield extends Air
             'range' => 1
         ],
             'Air:zip');
+        Event::create(
+            Event::EVENT_MAGE_BEFORE_GET_DAMAGE, [
+            Event::KEY_TURNS => 5,
+            'source' => Spell::ENERGY_SOURCE_AIR
+        ],
+            'General:protection');
         return true;
     }
 }

@@ -8,6 +8,15 @@
                     height: $mage-inventory-size + rem;
                     margin-left: -$mage-inventory-size - 0.75 + rem;
                     margin-top: 0;
+                    .confirm-create-spell {
+                        margin-top: 4.5 * $cell-size + rem;
+                    }
+                    .rotating-table {
+                        margin: 3.2 * $cell-size + rem auto 0 auto;
+                    }
+                    .chemical-animation {
+                        margin: 2.5 * $cell-size + rem auto 0 auto;
+                    }
                 }
                 .craft-spell-overlay, .craft-spell-overlay-blender {
                     width: $mage-inventory-size + rem;
@@ -21,6 +30,46 @@
                         padding-left: 0.75rem;
                     }
                 }
+            }
+
+            .actions-container {
+                position: relative;
+                width: 100%;
+                height: 1 * $cell-size + rem;
+                margin:0;
+                .default-actions {
+                    display: block;
+                }
+                .action {
+                    float:left;
+                    margin: 0 0.1rem;
+                    line-height: 1.1rem;
+                    background-color: $mage-colors-gold;
+                    a {
+                        width:auto;
+                        height: auto;
+                        display: inline;
+                        font-size: 0.6rem;
+                        cursor: pointer;
+                        padding: 0.15rem 0.3rem;
+                        text-decoration: none;
+                        background-color: $mage-colors-blue;
+                        color: $mage-colors-white;
+                        border: none;
+                        //transition: background-color 0.5s ease;
+                        @include transition(all 0.25s ease);
+                        &:hover {
+                            color: $mage-colors-gold;
+                            background-color: $mage-colors-dark-blue;
+                            transform: rotate(3deg);
+                        }
+                        .svg { display: none; }
+                        .text { display: inherit; }
+                    }
+                }
+            }
+            .mobile-actions {
+                display: none;
             }
         }
     }

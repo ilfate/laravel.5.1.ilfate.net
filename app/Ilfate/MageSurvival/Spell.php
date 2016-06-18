@@ -52,8 +52,33 @@ abstract class Spell
     const ENERGY_SOURCE_WATER = 'water';
     const ENERGY_SOURCE_AIR = 'air';
     const ENERGY_SOURCE_EARTH = 'earth';
-    const ENERGY_SOURCE_MELEE = 'melee';
+    const ENERGY_SOURCE_LIGHT = 'light';
+    const ENERGY_SOURCE_DEATH = 'death';
     const ENERGY_SOURCE_NATURE = 'nature';
+    const ENERGY_SOURCE_ARCANE = 'arcane';
+    const ENERGY_SOURCE_MELEE = 'melee';
+
+    static $energyToStats = [
+        self::ENERGY_SOURCE_FIRE => Mage::STAT_KEY_SPELL_FIRE,
+        self::ENERGY_SOURCE_WATER => Mage::STAT_KEY_SPELL_WATER,
+        self::ENERGY_SOURCE_AIR => Mage::STAT_KEY_SPELL_AIR,
+        self::ENERGY_SOURCE_EARTH => Mage::STAT_KEY_SPELL_EARTH,
+        self::ENERGY_SOURCE_LIGHT => Mage::STAT_KEY_SPELL_LIGHT,
+        self::ENERGY_SOURCE_DEATH => Mage::STAT_KEY_SPELL_DEATH,
+        self::ENERGY_SOURCE_NATURE => Mage::STAT_KEY_SPELL_DEATH,
+        self::ENERGY_SOURCE_ARCANE => Mage::STAT_KEY_SPELL_ARCANE,
+    ];
+    
+    static $schoolNameToId = [
+        self::ENERGY_SOURCE_FIRE   => 1,
+        self::ENERGY_SOURCE_WATER  => 2,
+        self::ENERGY_SOURCE_AIR    => 3,
+        self::ENERGY_SOURCE_EARTH  => 4,
+        self::ENERGY_SOURCE_LIGHT  => 5,
+        self::ENERGY_SOURCE_DEATH  => 6,
+        self::ENERGY_SOURCE_NATURE => 7,
+        self::ENERGY_SOURCE_ARCANE => 8,
+    ];
 
     protected $defaultCooldownMin = 2;
     protected $defaultCooldownMax = 2;
@@ -218,6 +243,7 @@ abstract class Spell
 
     public static function craftSpell($schoolId, $spellRandomizerConfig)
     {
+        GameBuilder::getGame()->getMage()->addStat(Mage::STAT_KEY_SPELL_CRAFTED);
         $spellsConfig = \Config::get('mageSpells');
         $game = GameBuilder::getGame();
         $result = ['spell' => false];

@@ -13,6 +13,71 @@
         padding: 0.5rem 1rem;
         background-color: $mage-colors-clay;
         border-bottom: 1px solid $mage-colors-brown;
+        #mage-create-button {
+            cursor: pointer;
+            text-shadow: -1px -1px $mage-colors-clay;
+            &:hover {
+                text-decoration: none;
+                color: $mage-colors-red;
+                text-shadow: -1px -1px $mage-colors-brown;
+            }
+        }
+    }
+    .hidden-mage-info {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        background-color: $mage-colors-clay;
+        border-bottom: 1px solid $mage-colors-brown;
+        display: none;
+        text-align: center;
+        th {
+            text-align: center;
+        }
+    }
+    .dead-mage {
+        width: 100%;
+        height: 5rem;
+        padding: 0.5rem 1rem;
+        background-color: $mage-colors-clay;
+        border-bottom: 1px solid $mage-colors-brown;
+        position: relative;
+
+        &:hover {
+            svg {
+                animation: rotate-linear 3s linear 0s infinite normal;
+                -o-animation: rotate-linear 3s linear 0s infinite normal;
+                -ms-animation: rotate-linear 3s linear 0s infinite normal;
+                -moz-animation: rotate-linear 3s linear 0s infinite normal;
+                -webkit-animation: rotate-linear 3s linear 0s infinite normal;
+            }
+        }
+        .text {
+            text-align: center;
+            .name {
+                font-weight: bold;
+            }
+            .btn {
+
+                .fa { color: $mage-colors-brown; }
+                &:hover{
+                    .fa { color: $mage-colors-orange; }
+                }
+            }
+        }
+        .dead-mage-eye {
+            position: absolute;
+            width: 5rem;
+            height: 5rem;
+            margin-left: -3.5rem;
+            margin-top: -0.5rem;
+            &.right-eye {
+                right:-2.5rem;
+            }
+            svg {
+                width: 5rem;
+                height: 5rem;
+            }
+        }
     }
     #create-mage-pop-up {
         display: none;
@@ -22,9 +87,29 @@
         width: 100%;
         background-color: $mage-colors-blue;
         padding: 0.5rem 1rem;
-        height: 2.5rem;
+        min-height: 2.5rem;
         vertical-align: middle;
         border-bottom: 1px solid $mage-colors-white;
+        &.locked {
+            cursor: pointer;
+            &:hover {
+                svg path{
+                    fill:$mage-colors-orange;
+                }
+            }
+            .requirements {
+                display: none;
+                padding-top: 1rem;
+            }
+        }
+        &:hover {
+            .mage-type-select {
+                text-decoration: none;
+                .mage-type-name {
+                    color: $mage-colors-orange;
+                }
+            }
+        }
         .svg {
             height: 1.5rem;
             width: 1.5rem;
@@ -38,10 +123,18 @@
                 }
             }
         }
+        .mage-type-select {
+            cursor: pointer;
+        }
         .mage-type-name {
             margin-left: 1rem;
             line-height: 1.5rem;
             color: $mage-colors-white;
+
+            .crossed {
+                color:$mage-colors-grey;
+                text-decoration: line-through;
+            }
         }
     }
     .last-step {

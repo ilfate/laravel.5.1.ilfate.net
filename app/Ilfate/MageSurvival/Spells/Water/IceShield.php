@@ -14,6 +14,7 @@
 namespace Ilfate\MageSurvival\Spells\Water;
 
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Water;
 
 /**
@@ -32,7 +33,8 @@ class IceShield extends Water
 {
     protected function spellEffect($data)
     {
-        $this->mage->armor(mt_rand(5, 10), $this->getNormalCastStage());
+        $armor = $this->mage->getDamage(5, Spell::ENERGY_SOURCE_AIR);
+        $this->mage->armor($armor, $this->getNormalCastStage());
 
         Event::create(Event::EVENT_MAGE_AFTER_ATTACKED_BY_UNIT, ['times' => 3], 'Water:iceShield');
         return true;

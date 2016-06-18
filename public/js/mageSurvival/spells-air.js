@@ -22,7 +22,7 @@ MageS.Spells.Air = function (game, spells) {
         };
         for(var i = 0 ; i < 7; i++) {
             //'icon-bullet-simple-middle-line'
-            this.spells.beamStrike(5, 360 / 7 * i, 'icon-bullet-start-spin', '#77d2e1', options);
+            this.spells.beamStrike(5, 360 / 7 * i, 'icon-bullet-start-spin', MageS.Game.color.lightBlue, options);
         }
         setTimeout(function(){
             MageS.Game.spells.air.iterateStandartAir();
@@ -42,7 +42,7 @@ MageS.Spells.Air = function (game, spells) {
         };
         for(var i = 0 ; i < 7; i++) {
             //'icon-bullet-simple-middle-line'
-            this.spells.beamStrike(2.2, 360 / 7 * i, icon, '#77d2e1', options)
+            this.spells.beamStrike(2.2, 360 / 7 * i, icon, MageS.Game.color.lightBlue, options)
         }
         setTimeout(function() {
             MageS.Game.spells.tryToEndFirstPart();
@@ -110,7 +110,7 @@ MageS.Spells.Air = function (game, spells) {
             'delete':true
         };
         for(var i = 0 ; i < 12; i++) {
-            this.spells.beamStrike(2, 360 / 12 * i, 'icon-bullet-around-side-line', '#77d2e1', options);
+            this.spells.beamStrike(2, 360 / 12 * i, 'icon-bullet-around-side-line', MageS.Game.color.lightBlue, options);
         }
         setTimeout(function() {
             MageS.Game.spells.endSpellAnimation();
@@ -131,7 +131,7 @@ MageS.Spells.Air = function (game, spells) {
         };
         for(var i = 0 ; i < 12; i++) {
             //'icon-bullet-simple-middle-line'
-            this.spells.beamStrike(2 + (Math.random() * 0.4), 360 / 12 * i, icon, '#77d2e1', options)
+            this.spells.beamStrike(2 + (Math.random() * 0.4), 360 / 12 * i, icon, MageS.Game.color.lightBlue, options)
         }
         MageS.Game.monimations.camShake('Y', 200, 5, 700, false);
         var options2 = {
@@ -145,7 +145,7 @@ MageS.Spells.Air = function (game, spells) {
             delay:700
         };
         for(var i2 = 0 ; i2 < 12; i2++) {
-            this.spells.beamStrike(2, 360 / 12 * i2, 'icon-bullet-around-side-line', '#77d2e1', options2);
+            this.spells.beamStrike(2, 360 / 12 * i2, 'icon-bullet-around-side-line', MageS.Game.color.lightBlue, options2);
         }
         setTimeout(function(){
             MageS.Game.spells.clearAnimationField();
@@ -223,7 +223,7 @@ MageS.Spells.Air = function (game, spells) {
             var beamOptions = {time:0.3, beamWidth: 17, 'delete':true}; // YES WE NEED IT HERE
             rand[0] = (Math.random() * 2) - 1;
             rand[1] = (Math.random() * 2) - 1;
-            MageS.Game.spells.beam(startX + rand[0], startY + rand[1], targetX + rand[0], targetY + rand[1], '#77d2e1', 'icon-bullet-line', beamOptions);
+            MageS.Game.spells.beam(startX + rand[0], startY + rand[1], targetX + rand[0], targetY + rand[1], MageS.Game.color.lightBlue, 'icon-bullet-line', beamOptions);
         }
         var beamOptions2 = {
             'moveLeft': ((0.5 + targetX) * MageS.Game.cellSize) + 'rem',
@@ -236,11 +236,82 @@ MageS.Spells.Air = function (game, spells) {
             'delete':true
         };
         for(var i2 = 0 ; i2 < 10; i2++) {
-            this.spells.beamStrike(2, 360 / 10 * i2, 'icon-bullet-start-spin', '#77d2e1', beamOptions2);
+            this.spells.beamStrike(2, 360 / 10 * i2, 'icon-bullet-start-spin', MageS.Game.color.lightBlue, beamOptions2);
         }
         setTimeout(function() {
             MageS.Game.spells.endSpellAnimation();
         }, 800);
+    };
+
+    this.finishLightingShield = function(data) {
+
+        var icon = 'icon-bullet-cercle';
+        var options = {
+            'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'time': 0.5,
+            'beamWidth': 10,
+            'segment1': ["0%", "0%"],
+            'segment2': ["0%", "100%"],
+            'delete': true
+        };
+        for(var i = 0 ; i < 7; i++) {
+            icon = 'icon-bullet-simple-middle-line'
+            this.spells.beamStrike(1, 360 / 7 * i, icon, MageS.Game.color.lightBlue, options)
+        }
+
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 800);
+    };
+
+    this.finishWindSword = function(data) {
+        for (var key in data.pattern) {
+            var icon = 'icon-bullet-around-side-line';
+            var options = {
+                'moveLeft': ((0.5 + data.pattern[key][0]) * MageS.Game.cellSize) + 'rem',
+                'moveTop': ((0.5 + data.pattern[key][1]) * MageS.Game.cellSize) + 'rem',
+                'time': 0.3,
+                'beamWidth': 10,
+                'segment1': ["0%", "0%"],
+                'segment2': ["100%", "150%"],
+                'delete': true,
+                'delay': (key * 200)
+            };
+            for (var i = 0; i < 7; i++) {
+                this.spells.beamStrike(1.5, 360 / 7 * i, icon, MageS.Game.color.lightBlue, options)
+            }
+        }
+
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1200);
+    };
+
+    this.finishLootItAll = function(data) {
+        if (data.targets.length == 0) {
+            MageS.Game.spells.endSpellAnimation();
+            return;
+        }
+        for (var key in data.targets) {
+            var icon = 'icon-bullet-start-spin';
+
+            for (var i = 0; i < 10; i++) {
+                var options = {
+                    'time': 0.7,
+                    'beamWidth': 10,
+                    'segment1': ["100%", "100%"],
+                    'segment2': ["-2%", "0%"],
+                    'delete': true,
+                    'delay': (i * 50)
+                };
+                this.spells.beam(0,0, data.targets[key][0], data.targets[key][1], MageS.Game.color.lightBlue, icon, options)
+            }
+        }
+
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1200);
     };
 
    

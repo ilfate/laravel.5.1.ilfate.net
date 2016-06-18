@@ -31,7 +31,18 @@ abstract class Mage extends AliveCommon
     const ITEM_TYPE_INGREDIENT = 'ingredient';
     const ITEM_TYPE_CATALYST = 'catalyst';
 
-    const DEFAULT_MAX_HEALTH = 100;
+    const STAT_KEY_SPELL_FIRE = 'sf';
+    const STAT_KEY_SPELL_WATER = 'sw';
+    const STAT_KEY_SPELL_AIR = 'sa';
+    const STAT_KEY_SPELL_EARTH = 'se';
+    const STAT_KEY_SPELL_LIGHT = 'sl';
+    const STAT_KEY_SPELL_DEATH = 'sd';
+    const STAT_KEY_SPELL_NATURE = 'sn';
+    const STAT_KEY_SPELL_ARCANE = 'sarc';
+    const STAT_KEY_UNIT_KILL = 'uk';
+    const STAT_KEY_SPELL_CRAFTED = 'sc';
+
+    const DEFAULT_MAX_HEALTH = 20;
     /**
      * @var \Ilfate\Mage
      */
@@ -100,7 +111,7 @@ abstract class Mage extends AliveCommon
             $this->was['health'] = static::DEFAULT_MAX_HEALTH;
             $this->was['maxHealth'] = static::DEFAULT_MAX_HEALTH;
             //let`s give him some Items
-            $this->addItems([1 => 3, 2 => 3, 3 => 3, 4 => 3, 5 => 3, 1001 => 2]);
+//            $this->addItems([1 => 3, 2 => 3, 3 => 3, 4 => 3, 5 => 3, 1001 => 2]);
         }
     }
 
@@ -512,7 +523,7 @@ abstract class Mage extends AliveCommon
 
     public function damage($value, $animationStage, $sourceType)
     {
-        $eventData = Event::trigger(Event::EVENT_MAGE_BEFORE_GET_DAMAGE, ['value' => $value]);
+        $eventData = Event::trigger(Event::EVENT_MAGE_BEFORE_GET_DAMAGE, ['value' => $value, 'source' => $sourceType]);
         $value = $eventData['value'];
         if ($this->armor > 0) {
 
@@ -527,7 +538,36 @@ abstract class Mage extends AliveCommon
         }
         $this->health -= $value;
         GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_DAMAGE, $this->exportMageHealth($eventData['value']), $animationStage);
+        if ($this->health <= 0) {
+            $this->death();
+        }
         $this->update();
+    }
+
+    public function death()
+    {
+        if (!$this->alive) { return; }
+        $this->alive = false;
+        $this->mageEntity->status = \Ilfate\Mage::MAGE_STATUS_DEAD;
+        $this->update();
+        
+        $stats = $this->getAllStats();
+        $mageUser = $this->game->getMageUser();
+        $userStats = $mageUser->getStats();
+        foreach (Spell::$energyToStats as $energy => $statName) {
+            if (!empty($stats[$statName])) {
+                if (empty($userStats[$energy])) {
+                    $userStats[$energy] = $stats[$statName];
+                } else {
+                    $userStats[$energy] += $stats[$statName];
+                }
+            }
+        }
+        $mageUser->stats = json_encode($userStats);
+        $mageUser->save();
+
+        $this->say('My time here is over...', Game::ANIMATION_STAGE_MESSAGE_TIME_2);
+        GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_DEATH, [], Game::ANIMATION_STAGE_MESSAGE_TIME_3);
     }
 
     public function heal($value, $animationStage)
@@ -786,5 +826,28 @@ abstract class Mage extends AliveCommon
     public function getUnitType()
     {
         return self::UNIT_TYPE_MAGE;
+    }
+
+    public function addStat($stat, $value = 1)
+    {
+        if (empty($this->data[self::DATA_STAT_KEY][$stat])) {
+            $this->data[self::DATA_STAT_KEY][$stat] = $value;
+        } else {
+            $this->data[self::DATA_STAT_KEY][$stat] += $value;
+        }
+        $this->update();
+    }
+
+    public function getStat($stat)
+    {
+        if (!empty($this->data[self::DATA_STAT_KEY][$stat])) {
+            return $this->data[self::DATA_STAT_KEY][$stat];
+        }
+        return null;
+    }
+
+    public function getAllStats()
+    {
+        return $this->data[self::DATA_STAT_KEY];
     }
 }

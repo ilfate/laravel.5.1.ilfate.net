@@ -54,7 +54,24 @@
         </div>
         <div id="mobile-spell-info-container"></div>
         <div class="inventory-shadow"></div>
-
+        <div class="mobile-actions">
+            <div class="action method-craft-spell key-Q" data-method="craft-spell">
+                <a>
+                    <div class="svg svg-replace" data-color="clay" data-svg="icon-fizzing-flask">
+                        <svg class="svg-icon" viewBox="0 0 512 512">
+                        </svg>
+                    </div>
+                </a>
+            </div>
+            <div class="action method-skip-turn key-F" data-method="skip-turn">
+                <a>
+                    <div class="svg svg-replace" data-color="clay" data-svg="icon-empty-hourglass">
+                        <svg class="svg-icon" viewBox="0 0 512 512">
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
         <div class="row spells-items-row">
             <div class="col-md-6 items-col">
                 @include('games.mageSurvival.items')

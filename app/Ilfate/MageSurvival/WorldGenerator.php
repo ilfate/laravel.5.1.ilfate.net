@@ -175,6 +175,12 @@ abstract class WorldGenerator
         }
         return $this->activeUnits;
     }
+
+    /**
+     * @param Mage $mage
+     *
+     * @return MapObject[]
+     */
     public function getActiveObjects(Mage $mage)
     {
         if (!$this->activeObjects) {
@@ -421,20 +427,35 @@ abstract class WorldGenerator
         if (!empty(static::$generatorConfig['dialog'])) {
             if (!empty(static::$generatorConfig['dialog']['turn'][$turn])) {
                 $messageConfig = static::$generatorConfig['dialog']['turn'][$turn];
-                $this->mage->say($this->processConfigMessage($messageConfig));
+                $this->mage->say(
+                    $this->processConfigMessage($messageConfig),
+                    Game::ANIMATION_STAGE_MESSAGE_TIME,
+                    ['showTime' => 0.2]
+                );
                 return ;
             }
         }
-        if (ChanceHelper::chance(10)) {
+        if (ChanceHelper::chance($this->getHelpMessageChance())) {
             // lets show some thing.
-            $massegesTypes = ['help', 'help', 'help', 'lore',' joke'];
-            $type = ChanceHelper::oneFromArray($massegesTypes);
+            $messagesTypes = $this->getHelpMessageTypes();
+            $type = ChanceHelper::oneFromArray($messagesTypes);
             if (!empty(static::$generatorConfig['dialog'][$type])) {
                 $messageConfig = ChanceHelper::oneFromArray(static::$generatorConfig['dialog'][$type]);
-                $this->mage->say($this->processConfigMessage($messageConfig));
+                $this->mage->say(
+                    $this->processConfigMessage($messageConfig),
+                    Game::ANIMATION_STAGE_MESSAGE_TIME,
+                    ['showTime' => 0.2]
+                );
                 return ;
             }
         }    
+    }
+
+    public function getHelpMessageTypes() {
+        return ['help', 'help', 'help', 'lore',' joke'];
+    }
+    public function getHelpMessageChance() {
+        return 10;
     }
 
     public function processConfigMessage($config)

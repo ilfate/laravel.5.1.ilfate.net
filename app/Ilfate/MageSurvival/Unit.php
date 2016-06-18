@@ -57,7 +57,7 @@ abstract class Unit extends AliveCommon
      */
     protected $team;
     
-    protected $alive = true;
+    
 
     /**
      * @var Game
@@ -469,7 +469,7 @@ abstract class Unit extends AliveCommon
         if ($this->data['health'] < 1) {
             // Unit dead
 
-            $this->dead($animationStage);
+            $this->dead($animationStage, $sourceType);
         } else {
             // unit damage
             if ($onDamageBehaviour = $this->getOnDamageBehaviour()) {
@@ -479,7 +479,7 @@ abstract class Unit extends AliveCommon
         }
     }
 
-    public function dead($animationStage)
+    public function dead($animationStage, $sourceType)
     {
         Event::trigger(Event::EVENT_UNIT_BEFORE_DYING, ['owner' => $this, 'stage' => $animationStage]);
         $this->world->destroyUnit($this->x, $this->y, $this->getId());
@@ -492,6 +492,9 @@ abstract class Unit extends AliveCommon
                     ['object' => $object->exportForView()],
                     $animationStage);
             }
+        }
+        if (!$this->isFriendly() && !empty(Spell::$energyToStats[$sourceType])) {
+            GameBuilder::getGame()->getMage()->addStat(Spell::$energyToStats[$sourceType]);
         }
         
     }
@@ -606,14 +609,6 @@ abstract class Unit extends AliveCommon
     public function getTemporaryDataValue($string)
     {
         return isset($this->temporaryData[$string]) ? $this->temporaryData[$string] : false;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isAlive()
-    {
-        return $this->alive;
     }
 
     public function getUnitType()

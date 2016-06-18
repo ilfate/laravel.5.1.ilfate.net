@@ -62,71 +62,7 @@
 
             }
         }
-        .actions-container {
-            float:left;
-            height: 1.5 * $cell-size + rem;
-            width: auto;
-            .action {
-                float: left;
-                a {
-                    width: 1.5 * $cell-size + rem;
-                    height: 1.5 * $cell-size + rem;
-                    display: block;
-                    border: 0.05rem solid $mage-colors-black;
-                    background-color: $mage-colors-brown;
-                    path { fill:$mage-colors-clay }
-                    .text { display: none; }
-                    svg {
-                        width: 1.5 * $cell-size + rem;
-                        height: 1.5 * $cell-size + rem;
-                    }
-                }
-            }
-            @media (min-width: $screen-sm-min + rem) {
-                float: none;
-                position: absolute;
-                z-index: 40;
-                width: 1.5 * $cell-size + rem;
-                height: 6 * $cell-size + rem;
-                right: 0;
-                margin-top: 2 * $cell-size + rem;
-                margin-right: 0.75 * $cell-size + rem;
-                .action { margin: 0.1rem 0; float: none; }
-            }
-            @media (min-width: $screen-md-min + rem) {
-                position: relative;
-                width: 100%;
-                height: 1 * $cell-size + rem;
-                margin:0;
-                .action {
-                    float:left;
-                    margin: 0 0.1rem;
-                    line-height: 1.1rem;
-                    background-color: $mage-colors-gold;
-                    a {
-                        width:auto;
-                        height: auto;
-                        display: inline;
-                        font-size: 0.6rem;
-                        cursor: pointer;
-                        padding: 0.15rem 0.3rem;
-                        text-decoration: none;
-                        background-color: $mage-colors-blue;
-                        color: $mage-colors-white;
-                        border: none;
-                        //transition: background-color 0.5s ease;
-                        @include transition(all 0.25s ease);
-                        &:hover {
-                            color: $mage-colors-gold;
-                            background-color: $mage-colors-dark-blue;
-                            transform: rotate(3deg);
-                        }
-                        .svg { display: none; }
-                        .text { display: inherit; }
-                    }
-                }
-            }
-        }
+
         .inventory {
             @media (min-width: $screen-sm-min + rem) {
                 &.craft {

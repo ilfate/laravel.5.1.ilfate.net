@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Mage extends Model
 {
 
-	const MAGE_STATUS_ACTIVE = 0;
+	const MAGE_STATUS_ACTIVE = 1;
+	const MAGE_STATUS_DEAD = 2;
 
 
 	/**

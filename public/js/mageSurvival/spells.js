@@ -63,6 +63,9 @@ MageS.Spells = function (game) {
            case 'QuardroLightning': 
            case 'Lightning': 
            case 'SkyFist':
+           case 'LightingShield':
+           case 'WindSword':
+           case 'LootItAll':
                this.air.startStandartAir() ; break;
            default:
                isSpellAnimated = false;
@@ -107,6 +110,9 @@ MageS.Spells = function (game) {
             case 'QuardroLightning':  
             case 'Lightning':  
             case 'SkyFist':
+            case 'LightingShield':
+            case 'WindSword':
+            case 'LootItAll':
                 this.air.iterateStandartAir() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
@@ -147,6 +153,9 @@ MageS.Spells = function (game) {
             case 'QuardroLightning':  this.air.finishQuardroLightning(data); break;
             case 'Lightning':  this.air.finishLightning(data); break;
             case 'SkyFist':  this.air.finishSkyFist(data); break;
+            case 'LightingShield':  this.air.finishLightingShield(data); break;
+            case 'WindSword':  this.air.finishWindSword(data); break;
+            case 'LootItAll':  this.air.finishLootItAll(data); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);

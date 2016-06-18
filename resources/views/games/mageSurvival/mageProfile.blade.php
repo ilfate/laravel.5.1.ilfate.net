@@ -17,18 +17,18 @@
     <div class="health-mobile-info">
         <div class="health">
 
-            <div class="svg svg-replace color-red normal" data-svg="icon-heart">
+            <div class="svg svg-replace normal" data-color="red" data-svg="icon-heart">
                 <svg class="svg-icon" viewBox="0 0 512 512" >
                 </svg>
             </div>
-            <div class="svg svg-replace color-grey cover" data-svg="icon-heart">
+            <div class="svg svg-replace cover" data-color="grey" data-svg="icon-heart">
                 <svg class="svg-icon" viewBox="0 0 512 512" >
                 </svg>
             </div>
             <span class="value">{{$viewData['game']['mage']['health']}}</span>
         </div>
         <div class="armor">
-            <div class="svg svg-replace color-brown" data-svg="icon-shield">
+            <div class="svg svg-replace" data-color="brown" data-svg="icon-shield">
                 <svg class="svg-icon" viewBox="0 0 512 512" >
                 </svg>
                 <span class="value">{{isset($viewData['game']['mage']['armor']) ? $viewData['game']['mage']['armor'] : ''}}</span>

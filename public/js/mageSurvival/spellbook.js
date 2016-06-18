@@ -138,7 +138,7 @@ MageS.Spellbook = function (game) {
                         'class': spell.schoolViewData.class,
                     });
                     var objFilter = $(rendered);
-                    var icon = $(this.game.svg).find('#' + spell.schoolViewData.icon + ' path');
+                    var icon = this.game.getIcon(spell.schoolViewData.icon, spell.schoolViewData.color);
                     objFilter.find('svg').append(icon.clone());
                     objFilter.on('click', function(){
                         MageS.Game.spellbook.filterSpells($(this));

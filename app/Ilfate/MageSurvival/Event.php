@@ -29,6 +29,7 @@ class Event
     const KEY_OWNER = 'owner';
     const KEY_TARGET = 'target';
     const KEY_TIMES = 'times';
+    const KEY_TURNS = 'turns';
     const KEY_ON_COMPLETE = 'complete';
 
     const OWNER_SEPARATOR = '+o+';
@@ -75,6 +76,13 @@ class Event
             return $triggerData;
         }
         foreach (self::$bindings[$key] as $num => &$eventData) {
+            if (isset($eventData['data'][self::KEY_TURNS])) {
+                if ($eventData['data'][self::KEY_TURNS] < GameBuilder::getGame()->getTurn()) {
+                    self::update();
+                    self::removeEvent($key, $num, $eventData, $triggerData);
+                    continue;
+                }
+            }
             if ($eventData['action']) {
                 list($class, $method) = explode(':', $eventData['action']);
                 $class       = '\Ilfate\MageSurvival\Events\\' . $class;
@@ -84,28 +92,33 @@ class Event
                 $eventData['data'][self::KEY_TIMES]--;
                 self::update();
                 if ($eventData['data'][self::KEY_TIMES] < 1) {
-                    if (!empty($eventData['data'][self::KEY_ON_COMPLETE])) {
-                        list($class, $method) = explode(':', $eventData['data'][self::KEY_ON_COMPLETE]);
-                        $class       = '\Ilfate\MageSurvival\Events\\' . $class;
-                        $class::$method($triggerData, $eventData['data']);
-                    }
-                    if (strpos($key, self::OWNER_SEPARATOR) !== false) {
-                        if (!empty(self::$index['o'][$triggerData['owner']->getId()])) {
-                            $indexArray = &self::$index['o'][$triggerData['owner']->getId()];
-                            unset($indexArray[array_search($key, $indexArray)]);
-                            if (!$indexArray) {
-                                unset(self::$index['o'][$triggerData['owner']->getId()]);
-                            }
-                        }
-                    }
-                    unset(self::$bindings[$key][$num]);
-                    if (empty(self::$bindings[$key])) {
-                        unset(self::$bindings[$key]);
-                    }
+                    self::removeEvent($key, $num, $eventData, $triggerData);
                 }
             }
         }
         return $triggerData;
+    }
+
+    protected static function removeEvent($key, $num, $eventData, $triggerData)
+    {
+        if (!empty($eventData['data'][self::KEY_ON_COMPLETE])) {
+            list($class, $method) = explode(':', $eventData['data'][self::KEY_ON_COMPLETE]);
+            $class       = '\Ilfate\MageSurvival\Events\\' . $class;
+            $class::$method($triggerData, $eventData['data']);
+        }
+        if (strpos($key, self::OWNER_SEPARATOR) !== false) {
+            if (!empty(self::$index['o'][$triggerData['owner']->getId()])) {
+                $indexArray = &self::$index['o'][$triggerData['owner']->getId()];
+                unset($indexArray[array_search($key, $indexArray)]);
+                if (!$indexArray) {
+                    unset(self::$index['o'][$triggerData['owner']->getId()]);
+                }
+            }
+        }
+        unset(self::$bindings[$key][$num]);
+        if (empty(self::$bindings[$key])) {
+            unset(self::$bindings[$key]);
+        }
     }
 
     public static function getEventKey($eventName, $data)
@@ -143,6 +156,9 @@ class Event
             self::$index['o'][$ownerId][] = $key;
 
             unset($data[self::KEY_OWNER]);
+        }
+        if (isset($data[self::KEY_TURNS])) {
+            $data[self::KEY_TURNS] += GameBuilder::getGame()->getTurn();
         }
         self::$bindings[$key][] = ['action' => $action, 'data' => $data];
         self::update();

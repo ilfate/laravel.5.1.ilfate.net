@@ -37,6 +37,7 @@ abstract class AliveCommon
     protected $world;
     
     const DATA_FLAG_KEY = 'f';
+    const DATA_STAT_KEY = 's';
     const DATA_BUFF_KEY = 'b';
     const FLAG_FROZEN = 'frozen';
     const FLAG_FROZE_IMMUNE = 'froze_immune';
@@ -48,10 +49,19 @@ abstract class AliveCommon
     const UNIT_TYPE_MAGE = 'mage';
 
     protected $haveSaidSomething = false;
+    protected $alive = true;
 
     abstract public function update();
     abstract public function damage($value, $animationStage, $sourceType);
     abstract public function getId();
+
+    /**
+     * @return boolean
+     */
+    public function isAlive()
+    {
+        return $this->alive;
+    }
 
     public function addFlag($flag, $value = true)
     {
@@ -123,8 +133,9 @@ abstract class AliveCommon
         $this->world = $world;
     }
     
-    public function say($message, $stage = Game::ANIMATION_STAGE_MESSAGE_TIME)
+    public function say($message, $stage = Game::ANIMATION_STAGE_MESSAGE_TIME, $options = [])
     {
+        if (!$message) return;
         $this->haveSaidSomething = true;
         if ($this->getUnitType() == self::UNIT_TYPE_MAGE) {
             $x = 0;
@@ -134,9 +145,12 @@ abstract class AliveCommon
             $x = $this->getX() - $mage->getX();
             $y = $this->getY() - $mage->getY();
         }
-        $time = (strlen($message) * 30) + 300;
+        $time = $showTime = (strlen($message) * 30) + 300;
+        if (!empty($options['showTime'])) {
+            $showTime *= $options['showTime'];
+        }
         GameBuilder::animateEvent(Game::EVENT_NAME_SAY_MESSAGE, [
-            'message' => $message, 'time' => $time,
+            'message' => $message, 'time' => $time, 'showTime' => $showTime,
             'targetX' => $x, 'targetY' => $y
         ], $stage);
     }
