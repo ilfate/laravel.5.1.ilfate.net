@@ -240,7 +240,8 @@ MageS.Spells.Water = function (game, spells) {
             time:300,
             rotateDistance: 180,
             rangeRandom:2,
-            rangeMove: 1
+            rangeMove: 1,
+            'delete': true
         };
         for (var i = 0; i < 70; i ++) {
             options.delay = Math.random() * 1200;

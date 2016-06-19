@@ -376,10 +376,13 @@ abstract class Spell
                 $this->setNexStage();
             }
             $this->targets = [$this->world->getUnit($mageX + $data['x'], $mageY + $data['y'])];
-            $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
-                'spell' => $this->configuration['class'], 'targetX' => $data['x'], 'targetY' => $data['y'],
-            ], $this->getNormalCastStage());
-            $this->setEffectStage();
+            if (empty($this->configuration[self::CONFIG_NO_AUTO_ANIMATION_TRIGGER])) {
+                // do not trigger animation
+                $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
+                    'spell' => $this->configuration['class'], 'targetX' => $data['x'], 'targetY' => $data['y'],
+                ], $this->getNormalCastStage());
+                $this->setEffectStage();
+            }
             $isSuccess = $this->spellEffect($data);
         } else if (!empty($this->configuration[self::CONFIG_NO_TARGET_SPELL])) {
             if (empty($this->configuration[self::CONFIG_NO_AUTO_ANIMATION_TRIGGER])) {

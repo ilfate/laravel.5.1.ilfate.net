@@ -314,6 +314,92 @@ MageS.Spells.Air = function (game, spells) {
         }, 1200);
     };
 
+    this.finishPush2 = function(data) {
+        var icon = 'icon-bullet-sinus-2';
+
+        for (var i = 0; i < 20; i++) {
+            var options = {
+                'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
+                'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
+                'time': 0.4,
+                'beamWidth': 20,
+                'segment1': ["0%", "0%"],
+                'segment2': ["100%", "150%"],
+                'delete': true,
+                'delay': (i * 5)
+            };
+            this.spells.beamStrike(2.5, 360 / 20 * i, icon, MageS.Game.color.lightBlue, options)
+        }
+
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 600);
+    };
+
+    this.finishTeslaTrap = function(data) {
+
+        var screenOptions = {color:'#000', 'delete':true, 'duration': 200, deleteDelay:300, deleteDuration:200};
+        this.spells.addScreen(screenOptions);
+        var icon = 'icon-bullet-lightning';
+        var options = {
+            'moveLeft': ((0.5 + parseInt(data.pattern[0][0])) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5 + parseInt(data.pattern[0][1])) * MageS.Game.cellSize) + 'rem',
+            'time': 0.1,
+            'beamWidth': 10,
+            'segment1': ["100%", "100%"],
+            'segment2': ["0%", "100%"],
+            'delete':true,
+            'delay': 100,
+            'yesIWantToHaveBlinkBug': true,
+        };
+        setTimeout(function() {
+            MageS.Game.spells.beamStrike(5, -90, icon, '#FFF', options);
+        }, 300);
+        setTimeout(function() {
+            MageS.Game.animations.singleAnimationFinished(MageS.Game.spells.isSecondPartWaiting);
+        }, 300);
+        setTimeout(function() {
+            MageS.Game.spells.clearAnimationField();
+        }, 800);
+    };
+
+    this.finishChainLighting = function(data) {
+
+        if (data.targets.length == 0 ) {
+            MageS.Game.spells.endSpellAnimation(); return;
+        }
+        var screenOptions = {color:'#000', 'delete':true, 'duration': 400, deleteDelay:300, deleteDuration:200};
+        this.spells.addScreen(screenOptions);
+        var icons = ['icon-bullet-lightning', 'icon-bullet-lightning-2'];
+
+        // MageS.Game.monimations.camShake('Y', 200, 8, 300, false, {el:$('body')});
+        var icon = '';
+        var centerX = 0;
+        var centerY = 0;
+        setTimeout(function() {
+            for (var i = 0; i < data.targets.length; i++) {
+                var options = {
+                    // 'moveLeft': ((0.5 + data.targetX) * MageS.Game.cellSize) + 'rem',
+                    // 'moveTop': ((0.5 + data.targetY) * MageS.Game.cellSize) + 'rem',
+                    'time': 0.1,
+                    'beamWidth': 10,
+                    'segment1': ["100%", "100%"],
+                    'segment2': ["0%", "100%"],
+                    'delete':true,
+                    'delay': 100 + (i * 100),
+                    'yesIWantToHaveBlinkBug': true,
+                };
+                icon = array_rand(icons);
+                MageS.Game.spells.beam(centerX, centerY, data.targets[i][0], data.targets[i][1], '#FFF', icon, options);
+                centerX = data.targets[i][0];
+                centerY = data.targets[i][1];
+            }
+        }, 300);
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 800);
+    };
+
    
 
 };

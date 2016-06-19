@@ -40,6 +40,11 @@ class RainOfFire extends Fire
     protected $defaultCooldownMin = 3;
     protected $defaultCooldownMax = 5;
 
+    public function setUsages()
+    {
+        $this->config['usages'] = 6;
+    }
+
     protected function spellEffect($data)
     {
         foreach($this->targets as $target) {

@@ -13,10 +13,12 @@ MageS.Spells = function (game) {
     this.fire = {};
     this.water = {};
     this.air = {};
+    this.earth = {};
     this.init = function () {
         this.fire = new MageS.Spells.Fire(this.game, this);
         this.water = new MageS.Spells.Water(this.game, this);
         this.air = new MageS.Spells.Air(this.game, this);
+        this.earth = new MageS.Spells.Earth(this.game, this);
     };
 
     this.cast = function(data, stage) {
@@ -66,7 +68,12 @@ MageS.Spells = function (game) {
            case 'LightingShield':
            case 'WindSword':
            case 'LootItAll':
+           case 'Push2':
+           case 'TeslaTrap':
+           case 'ChainLighting':
                this.air.startStandartAir() ; break;
+           case 'StoneFace':
+               this.earth.startStandartEarth() ; break;
            default:
                isSpellAnimated = false;
                info('No start animation for "' + name + '"');
@@ -113,7 +120,12 @@ MageS.Spells = function (game) {
             case 'LightingShield':
             case 'WindSword':
             case 'LootItAll':
+            case 'Push2':
+            case 'TeslaTrap':
+            case 'ChainLighting':
                 this.air.iterateStandartAir() ; break;
+            case 'StoneFace':
+                this.earth.iterateStandartEarth() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
         }
@@ -156,6 +168,10 @@ MageS.Spells = function (game) {
             case 'LightingShield':  this.air.finishLightingShield(data); break;
             case 'WindSword':  this.air.finishWindSword(data); break;
             case 'LootItAll':  this.air.finishLootItAll(data); break;
+            case 'Push2':  this.air.finishPush2(data); break;
+            case 'TeslaTrap':  this.air.finishTeslaTrap(data); break;
+            case 'ChainLighting':  this.air.finishChainLighting(data); break;
+            case 'StoneFace':  this.earth.finishStoneFace(data); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);
@@ -328,8 +344,8 @@ MageS.Spells = function (game) {
     this.spinIcon = function(icon, color, range, options) {
         var delay = 0;
         if (options.delay !== undefined) { delay = options.delay; }
+        var spinIcon = MageS.Game.spells.createIcon(icon, color).addClass('spinIcon');
         setTimeout(function(){
-            var spinIcon = MageS.Game.spells.createIcon(icon, color).addClass('spinIcon');
             $('.animation-field').append(spinIcon);
 
             var halfCell = 0.5 * MageS.Game.cellSize * MageS.Game.rem;
@@ -339,7 +355,10 @@ MageS.Spells = function (game) {
             });
             var svg = spinIcon.find('svg');
             if (options.rangeRandom !== undefined) { range += (Math.random() * options.rangeRandom) - (options.rangeRandom / 2) }
-            svg.css({'margin-left' : range * MageS.Game.cellSize * MageS.Game.rem});
+            svg.css({
+                'margin-left' : range * MageS.Game.cellSize * MageS.Game.rem,
+                'margin-top': -halfCell
+            });
             if (options.scale !== undefined) {
                 svg[0].style.transform = 'scale(' + options.scale + ')';
             }
@@ -356,16 +375,26 @@ MageS.Spells = function (game) {
             var rotateDistance = 360;
             if (options.rotateDistance !== undefined) { rotateDistance = options.rotateDistance; }
             var angleEnd = angleStart + rotateDistance;
-            spinIcon.animateRotate(angleStart, angleEnd, time, 'linear');
+            var preAnimationDelay = 0;
+            if (options.preAnimationDelay !== undefined) { preAnimationDelay = options.preAnimationDelay; }
+            spinIcon[0].style.transform = 'rotate(' + angleStart +'deg)';
+            setTimeout(function(){
+                spinIcon.animateRotate(angleStart, angleEnd, time, 'linear');
+            }, preAnimationDelay);
             spinIcon.animate({opacity:1}, {duration:100, queue:false});
             if (options.rangeMove !== undefined) {
                 var rangeMove = (Math.random() * options.rangeMove * 2) - options.rangeMove;
                 svg.animate({'margin-left' : (range + rangeMove) * MageS.Game.cellSize * MageS.Game.rem}, {duration:time})
             }
-            setTimeout(function(){
-                spinIcon.animate({opacity:0}, {duration:100, queue:false});
-            }, time - 100);
+            if (options.delete !== undefined) {
+                setTimeout(function () {
+                    spinIcon.animate({opacity: 0}, {duration: 100, queue: false, complete: function() {
+                        $(this).remove();
+                    }});
+                }, time - 100);
+            }
         }, delay);
+        return spinIcon;
     };
 
     this.moveIcon = function(icon, color, fromX, fromY, toX, toY, options) {

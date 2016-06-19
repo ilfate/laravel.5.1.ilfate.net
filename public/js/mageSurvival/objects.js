@@ -29,9 +29,25 @@ MageS.Objects = function (game) {
         if (object.config.centered !== undefined) {
             obj.addClass('centered');
         }
+        if (object.config.morfIcon !== undefined && object.config.morfIcon) {
+            this.morfObjectIcon(obj, object.config.morfIcon, object.config.icon);
+        }
 
         this.appendAnimations(object.config.icon, obj);
         return obj;
+    };
+    this.morfObjectIcon = function(obj, morf, iconName) {
+        switch (iconName) {
+            case 'icon-water-huracane':
+                switch(morf) {
+                    case 'lightBlue':
+                        info(obj);
+                        obj.find('svg .blue-wave').css('fill', MageS.Game.color.lightBlue);
+                        // obj.find('svg .head').css('fill', '#bab');
+                        break;
+                }
+                break;
+        }
     };
 
     this.appendAnimations = function(icon, obj) {
@@ -111,8 +127,33 @@ MageS.Objects = function (game) {
                 }
                 setTimeout(function() {MageS.Game.animations.singleAnimationFinished(stage);}, 500);
                 break;
+            case 'lightingZap':
+                //var screenOptions = {color:'#000', 'delete':true, 'duration': 200, deleteDelay:300, deleteDuration:200};
+                //this.spells.addScreen(screenOptions);
+                var icons = ['icon-bullet-lightning', 'icon-bullet-lightning-2'];
+                var options = {
+                    // 'moveLeft': ((0.5 + data.targetX) * MageS.Game.cellSize) + 'rem',
+                    // 'moveTop': ((0.5 + data.targetY) * MageS.Game.cellSize) + 'rem',
+                    'time': 0.1,
+                    'beamWidth': 10,
+                    'segment1': ["100%", "100%"],
+                    'segment2': ["0%", "100%"],
+                    'delete':true,
+                    'delay': 100,
+                    'yesIWantToHaveBlinkBug': true,
+                };
+                // MageS.Game.monimations.camShake('Y', 200, 8, 300, false, {el:$('body')});
+                var icon = '';
+                setTimeout(function() {
+                    for (var i = 0; i < data.targets.length; i++) {
+                        icon = array_rand(icons);
+                        MageS.Game.spells.beam(data.centerX, data.centerY, data.targets[i][0], data.targets[i][1], '#FFF', icon, options);
+                    }
+                }, 300);
+                setTimeout(function() {MageS.Game.animations.singleAnimationFinished(stage);}, 500);
+                break;
         }
-    }
+    };
 
     this.move = function(data, stage) {
 

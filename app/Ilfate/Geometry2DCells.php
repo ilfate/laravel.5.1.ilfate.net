@@ -64,6 +64,14 @@ class Geometry2DCells
         return [$distance, $deg];
     }
 
+    public static function isNeighbours($x1, $y1, $x2, $y2)
+    {
+        if (abs($x1 - $x2) <= 1 && abs($y1 - $y2) <= 1) {
+            return true;
+        }
+        return false;
+    }
+
     protected static function angle_trunc($a) {
         while ($a < 0.0) {
             $a += pi() * 2;

@@ -540,7 +540,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('LootItAll');
+                MageS.Game.spells.startCast('StoneFace');
                 // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
             });
             $('#move-control-field .control-arrow').on('click', function () {

@@ -47,9 +47,9 @@ class Bomb extends MapObject
         for ($y = -$this->radius; $y <= $this->radius; $y++) {
             for ($x = -$this->radius; $x <= $this->radius; $x++) {
                 if ($unit = $this->world->getUnit($this->getX() + $x, $this->getY() + $y)) {
-                    $unit->damage($this->damage, $animationStage, Spell::ENERGY_SOURCE_FIRE);
+                    $unit->damage($this->damage, Game::ANIMATION_STAGE_TURN_END_EFFECTS_2, Spell::ENERGY_SOURCE_FIRE);
                 } else if ($this->getX() + $x == $mage->getX() && $this->getY() + $y == $mage->getY()) {
-                    $mage->damage($this->damage, $animationStage, Spell::ENERGY_SOURCE_FIRE);
+                    $mage->damage($this->damage, Game::ANIMATION_STAGE_TURN_END_EFFECTS_2, Spell::ENERGY_SOURCE_FIRE);
                 }
             }
         }

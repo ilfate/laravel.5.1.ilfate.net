@@ -11,15 +11,13 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells\Water;
+namespace Ilfate\MageSurvival\Spells\Air;
 
-use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\MessageException;
-use Ilfate\MageSurvival\Spells\DamageSpell;
-use Ilfate\MageSurvival\Spells\Fire;
-use Ilfate\MageSurvival\Spells\Water;
+use Ilfate\MageSurvival\Spell;
+use Ilfate\MageSurvival\Spells\Air;
 use Ilfate\MageSurvival\Unit;
 
 /**
@@ -31,39 +29,37 @@ use Ilfate\MageSurvival\Unit;
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- *
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Rasengan extends Water
+class TeslaTrap extends Air
 {
-
-    protected $defaultCooldownMin = 15;
+    protected $defaultCooldownMin = 10;
     protected $defaultCooldownMax = 15;
-
-    protected $availablePatterns = [19];
+    protected $availablePatterns = [20, 21, 22];
 
     public function setUsages()
     {
-        $this->config['usages'] = 1;
+        $this->config['usages'] = 2;
     }
 
     protected function spellEffect($data)
     {
-        $cell = [$this->pattern[0][0] + $this->mage->getX(), $this->mage->getY() + $this->pattern[0][1]];
-        $object = $this->world->addObject(8,  + $cell[0], $cell[1]);
+        $rx = $this->pattern[0][0];
+        $ry = $this->pattern[0][1];
+        $x = $this->mage->getX() + $rx;
+        $y = $this->mage->getY() + $ry;
+        if (!$this->world->isPassable($x, $y)) {
+            throw new MessageException('You can`t place the trap here');
+        }
+        $object = $this->world->addObject(15, $x, $y);
         if ($object) {
-            $data = $object->getData();
-            $data['d'] = $this->d;
-            $object->setData($data);
-            $object->update();
             GameBuilder::animateEvent(Game::EVENT_NAME_ADD_OBJECT,
                 ['object' => $object->exportForView()],
-                Game::ANIMATION_STAGE_MAGE_ACTION_2);
+                Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
         } else {
-            throw new MessageException('You can`t place a Rasengun here');
+            throw new MessageException('You can`t place the trap here');
         }
-
         return true;
     }
 }

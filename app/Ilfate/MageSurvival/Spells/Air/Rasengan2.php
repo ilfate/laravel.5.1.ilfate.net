@@ -1,7 +1,5 @@
 <?php
 /**
- * TODO: Package description.
- *
  * PHP version 5
  *
  * @category
@@ -11,33 +9,26 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells\Water;
+namespace Ilfate\MageSurvival\Spells\Air;
 
-use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\MessageException;
-use Ilfate\MageSurvival\Spells\DamageSpell;
-use Ilfate\MageSurvival\Spells\Fire;
-use Ilfate\MageSurvival\Spells\Water;
+use Ilfate\MageSurvival\Spell;
+use Ilfate\MageSurvival\Spells\Air;
 use Ilfate\MageSurvival\Unit;
 
 /**
- * TODO: Short description.
- * TODO: Long description here.
- *
  * PHP version 5
  *
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- *
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Rasengan extends Water
+class Rasengan2 extends Air
 {
-
     protected $defaultCooldownMin = 15;
     protected $defaultCooldownMax = 15;
 
@@ -51,7 +42,7 @@ class Rasengan extends Water
     protected function spellEffect($data)
     {
         $cell = [$this->pattern[0][0] + $this->mage->getX(), $this->mage->getY() + $this->pattern[0][1]];
-        $object = $this->world->addObject(8,  + $cell[0], $cell[1]);
+        $object = $this->world->addObject(9,  + $cell[0], $cell[1]);
         if ($object) {
             $data = $object->getData();
             $data['d'] = $this->d;

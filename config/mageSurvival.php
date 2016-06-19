@@ -71,6 +71,8 @@ return array(
             5 => ['name' => 'Ice wall', 'class' => 'IceWall', 'icon' => 'icon-cracked-glass', 'iconColor' => 'color-blue-bright'],
             7 => ['name' => 'Fresh water fountain', 'class' => 'FreshWaterFountain', 'icon' => 'icon-fountain', 'iconColor' => 'color-blue'],
             8 => ['name' => 'Rasengan', 'class' => 'Rasengan', 'icon' => 'icon-water-huracane', 'centered' => true],
+            9 => ['name' => 'Rasengan', 'class' => 'Rasengan2', 'icon' => 'icon-water-huracane', 'centered' => true, 'morfIcon' => 'lightBlue',],
+            15 => ['name' => 'Tesla trap', 'class' => 'TeslaTrap', 'icon' => 'icon-tesla-coil', 'iconColor' => 'color-blue-bright'],
             50 => ['name' => 'Door', 'class' => 'DoorQuest', 'icon' => 'icon-wooden-door', 'iconColor' => 'color-brown'],
             1000 => ['name' => 'Portal', 'class' => 'Portal', 'icon' => 'icon-magic-portal', 'iconColor' => 'color-black'],
         ],
