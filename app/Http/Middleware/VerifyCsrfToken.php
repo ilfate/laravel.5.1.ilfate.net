@@ -17,5 +17,7 @@ class VerifyCsrfToken extends BaseVerifier
         'MathEffect/save',
         'MathEffect/saveName',
         'Spellcraft/action',
+        'Spellcraft/createMage',
+        'Spellcraft/mapBuilder/save',
     ];
 }
