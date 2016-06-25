@@ -650,6 +650,16 @@ class Game
         $this->mage->save();
     }
 
+    public function addAllItems()
+    {
+        $config = \Config::get('mageItems');
+
+        foreach ($config['list'] as $itemId => $itemConfig) {
+            $this->mage->addItem($itemId, 10);
+        }
+        $this->mage->save();
+    }
+
     public function registrationCheck()
     {
         if (!$this->user->is_guest) { return ; }

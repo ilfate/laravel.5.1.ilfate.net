@@ -13,6 +13,8 @@
  */
 namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\ChanceHelper;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\DamageSpell;
 use Ilfate\MageSurvival\Spells\Fire;
@@ -68,6 +70,9 @@ class FaceCanon extends Fire
         }
         $this->changeCellsBySpellSource($this->affectedCells, Spell::ENERGY_SOURCE_FIRE);
         $this->mage->forceMove($x, $y, $this->getNormalCastStage());
+        if (ChanceHelper::chance(3)) {
+            $this->mage->say('Surprise Motherfucker!!', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);
+        }
         return true;
     }
 }

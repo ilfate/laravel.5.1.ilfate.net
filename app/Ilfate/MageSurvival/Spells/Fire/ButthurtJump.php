@@ -80,6 +80,9 @@ class ButthurtJump extends Fire
         }
         if ($landing) {
             $this->mage->forceMove($landing[0], $landing[1], $this->getPreviousStage());
+            if (ChanceHelper::chance(12)) {
+                $this->mage->say('Ouch! Damn that hurts!!!', Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2);
+            }
         }
         return true;
     }

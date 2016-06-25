@@ -41,6 +41,7 @@ MageS.Game = function () {
         'white': '#FFFFFF',
         'grey': '#777',
         'clay' : '#FCEBB6',
+        'sand' : '#c2b280',
         'brown' : '#5E412F',
         'brownBright' : '#726056',
     };
@@ -523,12 +524,12 @@ MageS.Game = function () {
             });
             $('.method-test-spell').on('click', function () {
                 MageS.Game.spells.isSecondPartWaiting = true;
-                // MageS.Game.spells.currentSpellData = {'data': [
+                // MageS.Game.spells.currentSpellData = {'data  ': [
                 //     [-2, -3],[-1, -3],[0, -3],[1, -3],[2, -3],
                 //     [-2, -2],[-1, -2],[0, -2],[1, -2],[2, -2]
                 // ]};
                 // MageS.Game.spells.currentSpellData = {'d': $('.battle-border .mage').data('d')};
-                MageS.Game.spells.currentSpellData = {'targetX': -2, 'targetY': -1, 'd':1, 'data':[
+                MageS.Game.spells.currentSpellData = {'targetX': -2, 'targetY': 3, 'd':1, 'data':[
                     [-2, 3], [3,3], [4,-1], [0, 2]
                 ], 'targets': [[-3,-3], [3,3], [-3,2]],
                 'pattern' : [[-1, -1], [-2, -2], [-3, -3], [-4, -4], [-5, -5]]};
@@ -540,8 +541,8 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('StoneFace');
-                // MageS.Game.objects.activate({'action': 'bombTrigger', 'targetX':-3,'targetY':-2})
+                // MageS.Game.spells.startCast('Astonishing');
+                MageS.Game.objects.activate({'action': 'wallExplode', 'targetX':0,'targetY':-1})
             });
             $('#move-control-field .control-arrow').on('click', function () {
                 switch ($(this).data('d')) {

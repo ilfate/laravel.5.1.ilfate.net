@@ -33,18 +33,18 @@ use Ilfate\MageSurvival\Unit;
  */
 class Water extends Event
 {
-    public static function iceCrown($data) {
-        if ($data['value'] > 0) {
-            $data['value'] -= 1;
+    public static function iceCrown($actionData) {
+        if ($actionData['value'] > 0) {
+            $actionData['value'] -= 1;
         }
-        return $data;
+        return $actionData;
     }
-    public static function iceSlide($data) {
-        $newX = $x = $data['x'];
-        $newY = $y = $data['y'];
+    public static function iceSlide($actionData) {
+        $newX = $x = $actionData['x'];
+        $newY = $y = $actionData['y'];
         $world = GameBuilder::getGame()->getWorld();
         for ($i = 0; $i < 5; $i++) {
-            switch ($data['d']) {
+            switch ($actionData['d']) {
                 case 0 : $newY--; break;
                 case 1 : $newX++; break;
                 case 2 : $newY++; break;
@@ -57,36 +57,36 @@ class Water extends Event
                 break;
             }
         }
-        $data['x'] = $x;
-        $data['y'] = $y;
+        $actionData['x'] = $x;
+        $actionData['y'] = $y;
 
-        return $data;
+        return $actionData;
     }
-    public static function Freeze($data)
+    public static function Freeze($actionData)
     {
-        $data['no-move']   = true;
-        $data['skip-turn'] = true;
-        return $data;
+        $actionData['no-move']   = true;
+        $actionData['skip-turn'] = true;
+        return $actionData;
     }
-    public static function RemoveFreeze($data) {
+    public static function RemoveFreeze($actionData) {
         /**
          * @var Unit $unit
          */
-        $unit = $data[Event::KEY_OWNER];
+        $unit = $actionData[Event::KEY_OWNER];
         $unit->removeFlag('frozen');
         GameBuilder::getGame()->addAnimationEvent(Game::EVENT_NAME_UNIT_REMOVE_STATUS, [
             'id' => $unit->getId(), 'flag' => 'frozen'
         ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
-        return $data;
+        return $actionData;
 
     }
-    public static function iceShield($data) {
+    public static function iceShield($actionData) {
         /**
          * @var Unit $target
          */
-        $target = $data['attacker'];
+        $target = $actionData['attacker'];
         $target->freeze(3, Game::ANIMATION_STAGE_UNIT_ACTION_3);
 
-        return $data;
+        return $actionData;
     }
 }

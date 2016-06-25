@@ -60,6 +60,9 @@ class Rasengan extends Water
             GameBuilder::animateEvent(Game::EVENT_NAME_ADD_OBJECT,
                 ['object' => $object->exportForView()],
                 Game::ANIMATION_STAGE_MAGE_ACTION_2);
+            if (ChanceHelper::chance(5)) {
+                $this->mage->say('Rasengun! I choose you!', Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2);
+            }
         } else {
             throw new MessageException('You can`t place a Rasengun here');
         }

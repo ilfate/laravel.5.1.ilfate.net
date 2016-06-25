@@ -49,10 +49,10 @@ abstract class Air extends Spell
             $is2Passable = $this->world->isPassable(($dx * 2) + $ux, ($dy * 2) + $uy);
 
             if ($is1Passable && $is2Passable) {
-                $target->move(($dx * 2) + $ux, ($dy * 2) + $uy, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+                $target->move(($dx * 2) + $ux, ($dy * 2) + $uy, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, true);
                 $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2, Spell::ENERGY_SOURCE_AIR);
             } else if ($is1Passable) {
-                $target->move($dx + $ux, $dy + $uy, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+                $target->move($dx + $ux, $dy + $uy, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, true);
                 $damage2 = $this->mage->getDamage($damageOnPush + 1, Spell::ENERGY_SOURCE_AIR);
                 $target->damage($damage2, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2, Spell::ENERGY_SOURCE_AIR);
             } else {

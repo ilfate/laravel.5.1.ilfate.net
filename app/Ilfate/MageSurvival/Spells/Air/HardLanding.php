@@ -58,9 +58,9 @@ class HardLanding extends Air
             $is2Passable = $this->world->isPassable(($dx * 2) + $ux, ($dy * 2) + $uy);
 
             if ($is1Passable && $is2Passable) {
-                $target->move(($dx * 2) + $ux, ($dy * 2) + $uy, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+                $target->move(($dx * 2) + $ux, ($dy * 2) + $uy, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, true);
             } else if ($is1Passable) {
-                $target->move($dx + $ux, $dy + $uy, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+                $target->move($dx + $ux, $dy + $uy, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, true);
                 $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2, Spell::ENERGY_SOURCE_AIR);
             } else {
                 $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2, Spell::ENERGY_SOURCE_AIR);

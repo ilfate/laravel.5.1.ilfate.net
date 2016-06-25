@@ -42,7 +42,9 @@ MageS.Spellcraft = function (game) {
         this.craftingIsInProgress = false;
         $('.craft-demo-zone').animate({
             'opacity':0
-        }, {duration:1000});
+        }, {duration:1000, complete:function() {
+            $(this).removeClass('active');
+        }});
         this.game.spellbook.showSpellbook();
         //if (this.game.device == 'mobile') {
             //var destinationEl = $('.interface-switch-panel .toggle-spellbook');

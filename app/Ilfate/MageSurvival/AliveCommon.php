@@ -39,12 +39,16 @@ abstract class AliveCommon
     const DATA_FLAG_KEY = 'f';
     const DATA_STAT_KEY = 's';
     const DATA_BUFF_KEY = 'b';
+
     const FLAG_FROZEN = 'frozen';
     const FLAG_FROZE_IMMUNE = 'froze_immune';
     const FLAG_BURN = 'burn';
     const FLAG_WEB = 'web';
     const FLAG_WATER_BODY = 'water-body';
-    
+    const FLAG_QUICKSAND = 'quicksand';
+    const FLAG_STONED = 'stoned';
+    const FLAG_STONE_IMMUNE = 'stone_immune';
+
     const UNIT_TYPE_UNIT = 'unit';
     const UNIT_TYPE_MAGE = 'mage';
 
@@ -182,6 +186,63 @@ abstract class AliveCommon
                 $stage);
         } else {
             throw new MessageException('Well this is some thing new. Freeze on mage? Did not implement that');
+        }
+    }
+
+    public function sand($turns, $stage)
+    {
+        if ($this->getFlag(Unit::FLAG_QUICKSAND)) {
+            return false;
+        }
+        Event::create(
+            Event::EVENT_UNIT_BEFORE_MOVE, [
+                Event::KEY_TURNS => $turns,
+                Event::KEY_OWNER => $this,
+                Event::KEY_ON_COMPLETE => 'Earth:RemoveSand'
+            ],
+            'Earth:Sand');
+        $this->addFlag(Unit::FLAG_QUICKSAND);
+
+        if ($this->getUnitType() == self::UNIT_TYPE_UNIT) {
+            GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
+                [
+                    'flags' => [Unit::FLAG_QUICKSAND => true],
+                    'id'    => $this->getId()
+                ],
+                $stage);
+        } else {
+            throw new MessageException('Well this is some thing new. Sand on mage? Did not implement that');
+        }
+        return true;
+    }
+
+    public function stone($turns, $stage)
+    {
+        $now = GameBuilder::getGame()->getTurn();
+        if ($this->getFlag(self::FLAG_STONE_IMMUNE) > $now) {
+            if (ChanceHelper::chance(10)) {
+                GameBuilder::getGame()->getMage()->say('If I try to turn into stone some thing too often it is becoming immune to that for some time. Good to know.');
+            }
+            return;
+        }
+        Event::create(
+            Event::EVENT_UNIT_BEFORE_TURN, [
+            Event::KEY_TIMES => $turns,
+            Event::KEY_OWNER => $this,
+            Event::KEY_ON_COMPLETE => 'Earth:RemoveStone'
+        ],
+            'Earth:Stone');
+        $this->addFlag(Unit::FLAG_STONED);
+        $this->addFlag(Unit::FLAG_STONE_IMMUNE, $now + $turns + 3);
+        if ($this->getUnitType() == self::UNIT_TYPE_UNIT) {
+            GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT_STATUS,
+                [
+                    'flags' => [Unit::FLAG_STONED => true],
+                    'id'    => $this->getId()
+                ],
+                $stage);
+        } else {
+            throw new MessageException('Well this is some thing new. Stone on mage? Did not implement that');
         }
     }
     

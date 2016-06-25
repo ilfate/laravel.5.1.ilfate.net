@@ -12,9 +12,10 @@
     <div class="middle-panel" id="mage-middle-panel">
         <div class="responsive-container">
             <div class="battle-border {{ $viewData['game']['world'] }}" id="battle-border">
-                <div class="mage-container" id="mage-container"></div>
                 @include('games.mageSurvival.patternField')
                 <div class="battle-field current"></div>
+                <div class="mage-damage-container"></div>
+                <div class="mage-container" id="mage-container"></div>
                 <div class="unit-field"></div>
                 <div class="animation-shadow"></div>
                 <div class="animation-field"></div>

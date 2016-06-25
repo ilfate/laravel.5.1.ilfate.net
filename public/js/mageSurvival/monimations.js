@@ -205,13 +205,13 @@ MageS.Monimations = function (game) {
         }).run();
     };
     
-    this.camShake = function (direction, duration, startAmplitude, delay, callback, options) {
+    this.camShake = function (direction, duration, startAmplitude, options, callback) {
         if (!options) { options = {};}
         var el = $('.battle-border');
         if (options.el !== undefined) {
             el = options.el;
         }
-        var sign = 1;
+        var sign = array_rand([1, -1]);
         if (!direction) { direction = 'X'; }
         if (direction !== 'X' && direction !== 'Y') {
             switch (direction) {
@@ -221,7 +221,10 @@ MageS.Monimations = function (game) {
         }
         if (!duration) { duration = 600; }
         if (!startAmplitude) { startAmplitude = 5; }
-        if (!delay) { delay = 1; }
+        var delay = 0;
+        if (options.delay !== undefined) {
+            delay = options.delay;
+        }
         return new mojs.Tween({
             repeat:   0,
             delay:    delay,

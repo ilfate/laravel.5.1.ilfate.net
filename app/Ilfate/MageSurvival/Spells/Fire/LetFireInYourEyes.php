@@ -36,7 +36,7 @@ class LetFireInYourEyes extends Fire
             $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_FIRE);
             $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
             if (ChanceHelper::chance(10)) {
-                $this->mage->say('Burn!!!', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);
+                $this->mage->say('Burn like hell!!!', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);
             }
         }
         return true;

@@ -13,7 +13,11 @@
  */
 namespace Ilfate\MageSurvival\Spells\Earth;
 
+use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Earth;
+use Ilfate\MageSurvival\Unit;
 
 /**
  * TODO: Short description.
@@ -28,18 +32,22 @@ use Ilfate\MageSurvival\Spells\Earth;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class StoneFace extends Earth
+class StoneSpear extends Earth
 {
-    protected $defaultCooldownMin = 3;
+    protected $defaultCooldownMin = 2;
     protected $defaultCooldownMax = 4;
     
-    protected $availablePatterns = [];
 
     protected function spellEffect($data)
     {
-        $this->mage->heal(3, $this->getNormalCastStage());
-        $this->setNexStage();
-        $this->mage->armor(3, $this->getNormalCastStage());
+        foreach($this->targets as $target) {
+            /**
+             * @var Unit $target
+             */
+            $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_EARTH);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_EARTH);
+            Event::create(Event::EVENT_UNIT_BEFORE_GET_DAMAGE, ['times' => 1, Event::KEY_OWNER => $target], 'Earth:damageBuff');
+        }
         return true;
     }
 }

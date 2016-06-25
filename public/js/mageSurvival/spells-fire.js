@@ -93,7 +93,11 @@ MageS.Spells.Fire = function (game, spells) {
         }
         var svg = this.spells.createIcon('icon-sun-fire', color);
         $('.animation-field').append(svg);
-        this.game.monimations.blastInScale(svg.find('svg.svg-icon'), 6, null, 1200);
+        var scale = 6;
+        if (options.scale !== undefined) {
+            scale = options.scale;
+        }
+        this.game.monimations.blastInScale(svg.find('svg.svg-icon'), scale, null, 1200);
         if (options.marginTop !== undefined) { svg.css('margin-top', options.marginTop * MageS.Game.cellSize * MageS.Game.rem)}
         if (options.marginLeft !== undefined) { svg.css('margin-left', options.marginLeft * MageS.Game.cellSize * MageS.Game.rem)}
         setTimeout(function() {
@@ -266,7 +270,7 @@ MageS.Spells.Fire = function (game, spells) {
         }
         $('.animation-field').append(svgContEl);
 
-        MageS.Game.monimations.camShake(shakeDirection, 500, 6, 800);
+        MageS.Game.monimations.camShake(shakeDirection, 500, 6, {delay:800});
 
         setTimeout(function() {
                     MageS.Game.spells.endSpellAnimation();
@@ -314,7 +318,7 @@ MageS.Spells.Fire = function (game, spells) {
         if (calculations[1] >= 45 && calculations[1] < 135 || calculations[1] >= 225 && calculations[1] < 315) {
             shakeDirection = 'Y';
         }
-        MageS.Game.monimations.camShake(shakeDirection, 400, 3, castTime);
+        MageS.Game.monimations.camShake(shakeDirection, 400, 3, {delay:castTime});
 
         setTimeout(function(){
             MageS.Game.spells.endSpellAnimation();
@@ -422,7 +426,7 @@ MageS.Spells.Fire = function (game, spells) {
     this.finishRainOfFire = function(data) {
         this.standartFireToMiddle();
 
-        MageS.Game.monimations.camShake('Y', 1500, 3, 100, function() {
+        MageS.Game.monimations.camShake('Y', 1500, 3, {delay:100}, function() {
             MageS.Game.spells.endSpellAnimation();
         });
 

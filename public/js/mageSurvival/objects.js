@@ -104,6 +104,27 @@ MageS.Objects = function (game) {
                 }, 200);
                 setTimeout(function() {MageS.Game.animations.singleAnimationFinished(stage);}, 500);
                 break;
+            case 'wallExplode':
+                var icon = 'icon-wall-particle-';
+                var options = {
+                    time:400,
+                    startRandomRange:MageS.Game.cellSize * MageS.Game.rem,
+                    randomRange:4 * MageS.Game.cellSize * MageS.Game.rem,
+                    scale:0.25, rotate:true};
+                for (var i = 0; i < 15; i ++) {
+                    MageS.Game.spells.moveIcon(icon + ((i % 4) + 1), 'color-grey', data.targetX, data.targetY, data.targetX, data.targetY, options);
+                }
+                // var options = {'marginLeft' : data.targetX, 'marginTop' : data.targetY, scale:3};
+                // MageS.Game.spells.fire.blastSunRing('color-red-bright', options);
+                // setTimeout(function() {
+                //     MageS.Game.spells.fire.blastSunRing('color-yellow', options);
+                // }, 100);
+                // setTimeout(function() {
+                //     MageS.Game.spells.fire.blastSunRing('color-white', options);
+                // }, 200);
+                MageS.Game.monimations.camShake('X', 300, 6, {});
+                setTimeout(function() {MageS.Game.animations.singleAnimationFinished(stage);}, 400);
+                break;
             case 'fountainHeal':
                 var options = {beamWidth:20, 'delete':true};
 

@@ -1,5 +1,7 @@
 <?php namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\ChanceHelper;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
@@ -36,6 +38,9 @@ class ExplodingBees extends Fire
              */
             $damage = $this->mage->getDamage(mt_rand(1, 4), Spell::ENERGY_SOURCE_FIRE);
             $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
+        }
+        if (ChanceHelper::chance(10)) {
+            $this->mage->say('Bzzzz-bzzzz', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);
         }
         return true;
     }

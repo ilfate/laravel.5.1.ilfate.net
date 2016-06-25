@@ -13,7 +13,11 @@
  */
 namespace Ilfate\MageSurvival\Spells\Earth;
 
+use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Earth;
+use Ilfate\MageSurvival\Unit;
 
 /**
  * TODO: Short description.
@@ -28,18 +32,25 @@ use Ilfate\MageSurvival\Spells\Earth;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class StoneFace extends Earth
+class Astonishing extends Earth
 {
-    protected $defaultCooldownMin = 3;
-    protected $defaultCooldownMax = 4;
-    
-    protected $availablePatterns = [];
+    protected $defaultCooldownMin = 6;
+    protected $defaultCooldownMax = 8;
 
     protected function spellEffect($data)
     {
-        $this->mage->heal(3, $this->getNormalCastStage());
-        $this->setNexStage();
-        $this->mage->armor(3, $this->getNormalCastStage());
+        $target = $this->targets[0];
+        
+            /**
+             * @var Unit $target
+             */
+        $target->stone(3, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+        Event::create(
+            Event::EVENT_UNIT_BEFORE_GET_DAMAGE,
+            [Event::KEY_TURNS => 3, Event::KEY_OWNER => $target],
+            'Earth:damageBuff'
+        );
+        
         return true;
     }
 }

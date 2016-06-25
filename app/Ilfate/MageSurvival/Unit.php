@@ -416,22 +416,20 @@ abstract class Unit extends AliveCommon
         return $attackConfig;
     }
 
-    public function move($x, $y, $stage = Game::ANIMATION_STAGE_UNIT_ACTION)
+    public function move($x, $y, $stage = Game::ANIMATION_STAGE_UNIT_ACTION, $isForceMove = false)
     {
         $oldX = $this->x;
         $oldY = $this->y;
-        $event = Event::trigger(Event::EVENT_UNIT_BEFORE_MOVE, ['owner' => $this]);
-        if (!empty($event['no-move'])) {
-            return;
+        if (!$isForceMove) {
+            $event = Event::trigger(Event::EVENT_UNIT_BEFORE_MOVE, ['owner' => $this]);
+            if (!empty($event['no-move'])) {
+                return;
+            }
         }
         $wasOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
         $this->x = $x;
         $this->y = $y;
-        //$isOutside = $this->world->isOutSideOfViewArea($this->x, $this->y, $this->mage);
         $this->world->moveUnit($oldX, $oldY, $x, $y);
-//        if ($isOutside) {
-//            return;
-//        }
         if ($wasOutside) {
             // unit was outside of view area but now entered the view
             GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_MOVE, [
@@ -460,6 +458,8 @@ abstract class Unit extends AliveCommon
 
     public function damage($value, $animationStage, $sourceType)
     {
+        $event = Event::trigger(Event::EVENT_UNIT_BEFORE_GET_DAMAGE, ['owner' => $this, 'value' => $value, 'source' => $sourceType]);
+        $value = $event['value'];
         $this->data['health'] -= $value;
         GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_DAMAGE, [
             'id' => $this->getId(),

@@ -38,6 +38,7 @@ class Event
     const EVENT_UNIT_GET_DAMAGE = 'u-get-dmg';
     const EVENT_UNIT_BEFORE_DYING = 'u-b-die';
     const EVENT_UNIT_BEFORE_MOVE = 'u-b-move';
+    const EVENT_UNIT_BEFORE_GET_DAMAGE = 'u-b-g-dmg';
     const EVENT_UNIT_AFTER_TURN = 'u-a-turn';
     const EVENT_UNIT_BEFORE_TURN = 'u-b-turn';
     const EVENT_UNIT_AFTER_ATTACK_MAGE = 'u-a-atk-mage';
@@ -55,6 +56,7 @@ class Event
         self::EVENT_UNIT_GET_DAMAGE,
         self::EVENT_UNIT_BEFORE_DYING,
         self::EVENT_UNIT_BEFORE_TURN,
+        self::EVENT_UNIT_BEFORE_GET_DAMAGE,
         self::EVENT_UNIT_AFTER_TURN,
         self::EVENT_UNIT_BEFORE_MOVE,
         self::EVENT_UNIT_AFTER_ATTACK_MAGE,

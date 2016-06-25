@@ -9,6 +9,7 @@ $mage-colors-black-absolute:#000;
 $mage-colors-brown:#5E412F;
 $mage-colors-brown-bright:#726056;
 $mage-colors-clay: #FCEBB6;
+$mage-colors-sand: #c2b280;
 $mage-colors-green:#069E2D;
 $mage-colors-green-darker:#07B26A;
 $mage-colors-green-darkest:#1C3923;
@@ -409,6 +410,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
             }
         }
         .spells {
+            overflow-x: hidden;
             overflow-y: scroll;
             height: calc(100% - #{$cell-size + rem});
             .spell {

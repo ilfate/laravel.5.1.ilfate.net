@@ -92,6 +92,7 @@ MageS.Spells.Water = function (game, spells) {
 
         var options = {
             time:400,
+            startRandomRange:MageS.Game.cellSize * MageS.Game.rem,
             randomRange:MageS.Game.cellSize * MageS.Game.rem,
             delayRange:300,
             scale: 0.25,
@@ -122,7 +123,11 @@ MageS.Spells.Water = function (game, spells) {
 
     this.finishIceWall = function(data) {
         this.finishStandartWater();
-        var options = {time:500, randomRange:MageS.Game.cellSize * 1.5 * MageS.Game.rem, scale: 0.25, rotate:true};
+        var options = {
+            time:500,
+            startRandomRange:MageS.Game.cellSize * 1.5 * MageS.Game.rem, 
+            randomRange:MageS.Game.cellSize * 1.5 * MageS.Game.rem, 
+            scale: 0.25, rotate:true};
         var range = 3;
         if (data.patternId == 14) { range = 2; }
         switch (data.d) {
@@ -182,7 +187,11 @@ MageS.Spells.Water = function (game, spells) {
     this.finishIceCone = function(data) {
         this.finishStandartWater();
 
-        var options = {time:400, randomRange:MageS.Game.cellSize * MageS.Game.rem, scale:0.25, rotate:true};
+        var options = {
+            time:400,
+            startRandomRange:MageS.Game.cellSize * MageS.Game.rem, 
+            randomRange:MageS.Game.cellSize * MageS.Game.rem, 
+            scale:0.25, rotate:true};
         var possibleCells = [];
         for (var n in data.pattern) {
             if (Math.abs(data.pattern[n][0]) + Math.abs(data.pattern[n][1]) > 2) {
@@ -258,6 +267,7 @@ MageS.Spells.Water = function (game, spells) {
 
         var options = {
             time:400,
+            startRandomRange:MageS.Game.cellSize * MageS.Game.rem,
             randomRange:MageS.Game.cellSize * MageS.Game.rem,
             delayRange:300,
             scale: 0.25,

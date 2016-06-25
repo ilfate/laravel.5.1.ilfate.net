@@ -15,17 +15,29 @@
         }
         .mage-container {
             position: absolute;
-            margin:($map-radius) * $cell-size + rem 0 0 ($map-radius) * $cell-size + rem;
+            margin:($map-radius - 1) * $cell-size + rem 0 0 ($map-radius - 1) * $cell-size + rem;
             .mage {
+                overflow: visible;
                 position: absolute;
-                width:$cell-size + rem;
-                height:$cell-size + rem;
+                width: 3 * $cell-size + rem;
+                height: 3 * $cell-size + rem;
+                padding: $cell-size + rem 0 0 $cell-size + rem;
                 z-index: 35;
                 //background-image: url('/images/game/mage/mage.png');
                 //&.d-1 { @include rotate(90deg); }
                 //&.d-2 { @include rotate(180deg); }
                 //&.d-3 { @include rotate(270deg); }
+                .svg {
+                    overflow: visible;
+                }
             }
+        }
+        .mage-damage-container {
+            position: absolute;
+            margin:($map-radius) * $cell-size + rem 0 0 ($map-radius) * $cell-size + rem;
+            width: $cell-size + rem;
+            height: $cell-size + rem;
+            z-index: 36;
         }
         .animation-field, .attacks-field {
             opacity: 1;

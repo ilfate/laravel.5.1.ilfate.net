@@ -1,6 +1,8 @@
 <?php namespace Ilfate\MageSurvival\Spells\Fire;
 
+use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\Spells\Fire;
 use Ilfate\MageSurvival\Unit;
 
@@ -32,6 +34,11 @@ class LightMyFire extends Fire
             $target->burn(4, $this->getNormalCastStage());
             
         }
+        if (ChanceHelper::chance(5)) {
+            $this->mage->say('Come on baby, light my fire 
+Try to set the night on fire ', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);
+        }
+
         return true;
     }
 }

@@ -62,7 +62,7 @@ MageS.Spells.Air = function (game, spells) {
             case 3: left = -2 * MageS.Game.cellSize + 'rem'; break;
         }
         icon.animate({'margin-left': left, 'margin-top':top}, {duration:600, easing:'easeInSine'});
-        MageS.Game.monimations.camShake(data.d, 200, 4, 100);
+        MageS.Game.monimations.camShake(data.d, 200, 4, {'delay':100});
         setTimeout(function() {
             icon.animate({opacity: 0.3}, {duration:200, queue:false});
         }, 500);
@@ -133,7 +133,7 @@ MageS.Spells.Air = function (game, spells) {
             //'icon-bullet-simple-middle-line'
             this.spells.beamStrike(2 + (Math.random() * 0.4), 360 / 12 * i, icon, MageS.Game.color.lightBlue, options)
         }
-        MageS.Game.monimations.camShake('Y', 200, 5, 700, false);
+        MageS.Game.monimations.camShake('Y', 200, 5, {'delay':700});
         var options2 = {
             'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
             'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
@@ -198,7 +198,7 @@ MageS.Spells.Air = function (game, spells) {
             'delay': 100,
             'yesIWantToHaveBlinkBug': true,
         };
-        MageS.Game.monimations.camShake('Y', 200, 8, 300, false, {el:$('body')});
+        MageS.Game.monimations.camShake('Y', 200, 8, {el:$('body'), delay:300});
         setTimeout(function() {
             MageS.Game.spells.beamStrike(5, -90, icon, '#FFF', options);
         }, 300);
@@ -216,7 +216,7 @@ MageS.Spells.Air = function (game, spells) {
         this.spells.moveIcon('icon-fist', 'color-white',
             startX, startY,
             targetX, targetY-1, options);
-        MageS.Game.monimations.camShake('Y', 200, 8, 300, false);
+        MageS.Game.monimations.camShake('Y', 200, 8, {delay:300});
         var rand = [];
 
         for(var i = 0; i < 10; i++) {

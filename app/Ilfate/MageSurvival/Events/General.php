@@ -44,6 +44,13 @@ class General extends Event
         GameBuilder::getGame()->setUserFlag($eventData['flag'], $eventData['value']);
         return $actionData;
     }
+    public static function noDamage($actionData, $eventData)
+    {
+        if ($actionData['value'] > 0) {
+            $actionData['value'] = 0;
+        }
+        return $actionData;
+    }
 
     public static function mageSay($actionData, $eventData)
     {

@@ -73,6 +73,15 @@ MageS.Spells = function (game) {
            case 'ChainLighting':
                this.air.startStandartAir() ; break;
            case 'StoneFace':
+           case 'GroundShake':
+           case 'Quicksand':
+           case 'StoneSpear':
+           case 'TunnelTravel':
+           case 'EarthProtection':
+           case 'StalactitesFall':
+           case 'Astonishing':
+           case 'WallUp':
+           case 'MilestoneHit':
                this.earth.startStandartEarth() ; break;
            default:
                isSpellAnimated = false;
@@ -88,28 +97,30 @@ MageS.Spells = function (game) {
     this.iterate = function(name) {
         switch (name) {
             case 'Fireball': this.fire.iterateFireball() ; break;
-            case 'FireNova': this.fire.iterateStandartFire() ; break;
-            case 'ExplodingBees': this.fire.iterateStandartFire() ; break;
-            case 'ButthurtJump': this.fire.iterateStandartFire() ; break;
-            case 'LightMyFire': this.fire.iterateStandartFire() ; break;
-            case 'Bomb': this.fire.iterateStandartFire() ; break;
-            case 'FireLady': this.fire.iterateStandartFire() ; break;
-            case 'FaceCanon': this.fire.iterateStandartFire() ; break;
-            case 'LetFireInYourEyes': this.fire.iterateStandartFire() ; break;
-            case 'PhoenixStrike': this.fire.iterateStandartFire() ; break;
-            case 'RainOfFire': this.fire.iterateStandartFire() ; break;
-            case 'FireImp': this.fire.iterateStandartFire() ; break;
-            case 'IceCrown': this.water.iterateIceCrown() ; break;
-            case 'Freeze': this.water.iterateStandertWater() ; break;
-            case 'IceWall': this.water.iterateStandertWater() ; break;
-            case 'IceSpear': this.water.iterateStandertWater() ; break;
-            case 'IceCone': this.water.iterateStandertWater() ; break;
-            case 'WashAndGo': this.water.iterateStandertWater() ; break;
-            case 'Blizzard': this.water.iterateStandertWater() ; break;
-            case 'IceShield': this.water.iterateStandertWater() ; break;
+            case 'FireNova':
+            case 'ExplodingBees':
+            case 'ButthurtJump':
+            case 'LightMyFire':
+            case 'Bomb':
+            case 'FireLady':
+            case 'FaceCanon':
+            case 'LetFireInYourEyes':
+            case 'PhoenixStrike':
+            case 'RainOfFire':
+            case 'FireImp':
+                this.fire.iterateStandartFire() ; break;
+            case 'IceCrown': this.water.iterateIceCrown(); break;
+            case 'Freeze':
+            case 'IceWall':
+            case 'IceSpear':
+            case 'IceCone':
+            case 'WashAndGo':
+            case 'Blizzard':
+            case 'IceShield':
             case 'Icelock': 
             case 'FreshWaterFountain': 
-            case 'WaterBody': this.water.iterateStandertWater() ; break;
+            case 'WaterBody':
+                this.water.iterateStandertWater() ; break;
             case 'Push':
             case 'Harmony':  
             case 'NoMoreAirForYou':  
@@ -125,6 +136,15 @@ MageS.Spells = function (game) {
             case 'ChainLighting':
                 this.air.iterateStandartAir() ; break;
             case 'StoneFace':
+            case 'GroundShake':
+            case 'Quicksand':
+            case 'StoneSpear':
+            case 'TunnelTravel':
+            case 'EarthProtection':
+            case 'StalactitesFall':
+            case 'Astonishing':
+            case 'WallUp':
+            case 'MilestoneHit':
                 this.earth.iterateStandartEarth() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
@@ -172,6 +192,15 @@ MageS.Spells = function (game) {
             case 'TeslaTrap':  this.air.finishTeslaTrap(data); break;
             case 'ChainLighting':  this.air.finishChainLighting(data); break;
             case 'StoneFace':  this.earth.finishStoneFace(data); break;
+            case 'GroundShake':  this.earth.finishGroundShake(data); break;
+            case 'Quicksand':  this.earth.finishQuicksand(data); break;
+            case 'StoneSpear':  this.earth.finishStoneSpear(data); break;
+            case 'TunnelTravel':  this.earth.finishTunnelTravel(data); break;
+            case 'EarthProtection':  this.earth.finishEarthProtection(data); break;
+            case 'StalactitesFall':  this.earth.finishStalactitesFall(data); break;
+            case 'Astonishing':  this.earth.finishAstonishing(data); break;
+            case 'WallUp':  this.earth.finishWallUp(data); break;
+            case 'MilestoneHit':  this.earth.finishMilestoneHit(data); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);
@@ -320,23 +349,33 @@ MageS.Spells = function (game) {
         var segment1End = "0";
         var segment2Start = "100%";
         var segment2End = "150%";
+        var isSegment3 = false;
+        var time2 = 0;
         if (options.segment1 !== undefined) { segment1Start = options.segment1[0]; segment1End = options.segment1[1]; }
         if (options.segment2 !== undefined) { segment2Start = options.segment2[0]; segment2End = options.segment2[1]; }
+        if (options.segment3 !== undefined) { isSegment3 = true; var segment3Start = options.segment3[0]; var segment3End = options.segment3[1]; time2 = options.time2 }
         if (options.yesIWantToHaveBlinkBug === undefined) {
             segment.draw(segment1Start, segment1End, 0);
         }
         var delay = 0;
+        var delay2 = 0;
         if (options.delay !== undefined) { delay = options.delay; }
+        if (options.delay2 !== undefined) { delay2 = options.delay2; }
         setTimeout(function() {
             if (options.yesIWantToHaveBlinkBug !== undefined) {
                 segment.draw(segment1Start, segment1End, 0);
             }
             segment.draw(segment2Start, segment2End, time);
         }, delay);
+        if (isSegment3) {
+            setTimeout(function () {
+                segment.draw(segment3Start, segment3End, time2);
+            }, delay + (time * 1000) + delay2);
+        }
         if (options.delete !== undefined) {
             setTimeout(function() {
                 beam.remove();
-            }, delay + (time * 1000))
+            }, delay + (time * 1000) + (time2 * 1000) + delay2)
         }
         return beam;
     };
@@ -414,8 +453,12 @@ MageS.Spells = function (game) {
             if (options.randomRange !== undefined) {
                 randomRange = options.randomRange;
             }
-            fromX = (fromX * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
-            fromY = (fromY * coordMultiplaer) + (Math.random() * randomRange) - (randomRange / 2);
+            var startRandomRange = 0;
+            if (options.startRandomRange !== undefined) {
+                startRandomRange = options.startRandomRange;
+            }
+            fromX = (fromX * coordMultiplaer) + (Math.random() * startRandomRange) - (startRandomRange / 2);
+            fromY = (fromY * coordMultiplaer) + (Math.random() * startRandomRange) - (startRandomRange / 2);
             flake.css({opacity:0,'margin-left':fromX, 'margin-top':fromY}); //'height': 0.25 * coordMultiplaer
             var transform = '';
             if (options.scale !== undefined) {
@@ -481,6 +524,61 @@ MageS.Spells = function (game) {
                 }
             }});
         }, delay);
+    }
+    
+    this.cellShake = function(cells, options) {
+        var x = 0;
+        var y = 0;
+        var amplitude = 5;
+        if (options.amplitude !== undefined) {
+            amplitude = options.amplitude; 
+        }
+        var duration = 200;
+        if (options.duration !== undefined) {
+            duration = options.duration; 
+        }
+        var delay = 0;
+        if (options.delay !== undefined) {
+            delay = options.delay; 
+        }
+        for (var i in cells) {
+            x = cells[i][0];
+            y = cells[i][1];
+            var cellObj = $('.battle-border .cell.x-' + x + '.y-' + y);
+            MageS.Game.monimations.camShake('Y', duration, amplitude, {el:cellObj, delay:delay});
+        }
+    }
+
+    this.getRightHandCoordinates = function(distance) {
+        var d = $('.battle-border .mage').data('d');
+        var x = 0, y = 0;
+        switch(d) {
+            case 0:
+                x = distance; break;
+            case 1:
+                y = distance; break;
+            case 2:
+                x = -distance; break;
+            case 3:
+                y = -distance; break;
+        }
+        return [x, y];
+    }
+
+    this.getLeftHandCoordinates = function(distance) {
+        var d = $('.battle-border .mage').data('d');
+        var x = 0, y = 0;
+        switch(d) {
+            case 0:
+                x = -distance; break;
+            case 1:
+                y = -distance; break;
+            case 2:
+                x = distance; break;
+            case 3:
+                y = distance; break;
+        }
+        return [x, y];
     }
 };
 

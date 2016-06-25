@@ -281,6 +281,14 @@ MageS.Units = function (game) {
                     iconName = 'icon-spider-web';
                     color = '#FFF';
                     break;
+                case 'quicksand':
+                    iconName = 'icon-sand';
+                    color = MageS.Game.color.sand;
+                    break;
+                case 'stoned':
+                    iconName = 'icon-stoned';
+                    color = MageS.Game.color.grey;
+                    break;
                 default :
                     info('Flag "' + flag + '" is not implemented');
                     continue;

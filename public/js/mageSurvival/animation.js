@@ -434,7 +434,7 @@ MageS.Animations = function (game) {
                 unitTooltip.find('.current-health').html(data.health);
             }
         } else {
-            target = $('.battle-border .mage-container');
+            target = $('.battle-border .mage-damage-container');
         }
         
         var el = $('<div>' + value + '</div>').addClass('damage');
@@ -547,6 +547,7 @@ MageS.Animations = function (game) {
     };
     
     this.mageMoveHands = function(duration) {
+        info('mageMoveHands');
         var mageSvg = $('.battle-border .mage svg');
         var leftHand = mageSvg.find('.mage-hand-left');
         var leftHandFist = mageSvg.find('.mage-hand-left-fist');
@@ -565,6 +566,7 @@ MageS.Animations = function (game) {
     };
     
     this.handSwitch = function(delay, toHide) {
+        info('handSwitch');
         setTimeout(function() {
             $('.battle-border .mage path.hand').show();
             for (var n in toHide) {

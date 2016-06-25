@@ -59,9 +59,9 @@ class Push extends Air
             $is2Passable = $this->world->isPassable($x2, $y2);
             $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_AIR);
             if ($is1Passable && $is2Passable) {
-                $target->move($x2, $y2, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+                $target->move($x2, $y2, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, true);
             } else if ($is1Passable) {
-                $target->move($x1, $y1, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+                $target->move($x1, $y1, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, true);
                 $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2, Spell::ENERGY_SOURCE_AIR);
             } else {
                 $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2, Spell::ENERGY_SOURCE_AIR);
