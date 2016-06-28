@@ -38,6 +38,12 @@ return array(
             'map-visual' => 'WitchForest',
             'is-available' => false,
         ],
+        4 => [
+            'name' => 'School basement',
+            'map-type' => 'SchoolBasement',
+            'map-visual' => 'Tutorial',
+            'is-available' => false,
+        ],
         900 => [
             'name' => 'Battle Test',
             'map-type' => 'BattleTest',
@@ -75,7 +81,7 @@ return array(
             9 => ['name' => 'Rasengan', 'class' => 'Rasengan2', 'icon' => 'icon-water-huracane', 'centered' => true, 'morfIcon' => 'lightBlue',],
             15 => ['name' => 'Tesla trap', 'class' => 'TeslaTrap', 'icon' => 'icon-tesla-coil', 'iconColor' => 'color-blue-bright'],
             50 => ['name' => 'Door', 'class' => 'DoorQuest', 'icon' => 'icon-wooden-door', 'iconColor' => 'color-brown'],
-            1000 => ['name' => 'Portal', 'class' => 'Portal', 'icon' => 'icon-magic-portal', 'iconColor' => 'color-black'],
+            1000 => ['name' => 'Portal', 'class' => 'Portal', 'icon' => 'icon-magic-portal', 'iconColor' => 'color-purple-dark'],
         ],
         'chances' => [
             // World type

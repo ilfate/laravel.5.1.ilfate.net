@@ -27,10 +27,12 @@ class FireImp extends Friendly
         for ($y = -$radius; $y <= $radius; $y++) {
             for ($x = -$radius; $x <= $radius; $x++) {
                 if ($unit = $world->getUnit($this->getX() + $x, $this->getY() + $y)) {
-                    $unit->damage($damage, Game::ANIMATION_STAGE_UNIT_ACTION_3, Spell::ENERGY_SOURCE_FIRE);
+                    if ($unit->getId() !== $this->getId()) {
+                        $unit->damage($damage, Game::ANIMATION_STAGE_UNIT_ACTION_3, Spell::ENERGY_SOURCE_FIRE);
+                    }
                 }
             }
         }
-        $this->dead(Game::ANIMATION_STAGE_UNIT_ACTION_2);
+        $this->dead(Game::ANIMATION_STAGE_UNIT_ACTION_2, Spell::ENERGY_SOURCE_FIRE);
     }
 }

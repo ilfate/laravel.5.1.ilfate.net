@@ -41,7 +41,19 @@ class General extends Event
     }
     public static function addUserFlag($actionData, $eventData) 
     {
-        GameBuilder::getGame()->setUserFlag($eventData['flag'], $eventData['value']);
+        if (!is_array($eventData['flag'])) {
+            GameBuilder::getGame()->setUserFlag($eventData['flag'], $eventData['value']);
+        } else {
+            foreach ($eventData['flag'] as $flag) {
+                GameBuilder::getGame()->setUserFlag($flag, $eventData['value']);
+            }
+        }
+        return $actionData;
+    }
+    public static function removeWorldDataKey($actionData, $eventData) 
+    {
+        $world = GameBuilder::getWorld();
+        $world->deleteDataKey($eventData['key']);
         return $actionData;
     }
     public static function noDamage($actionData, $eventData)

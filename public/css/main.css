@@ -3243,6 +3243,7 @@ body {
     .mage-survival .spellBook .spell-filter.active {
       opacity: 1; }
   .mage-survival .spellBook .spells {
+    overflow-x: hidden;
     overflow-y: scroll;
     height: calc(100% - 1.6rem); }
     .mage-survival .spellBook .spells .spell {
@@ -3428,6 +3429,10 @@ body {
   fill: #FF8360; }
 .mage-survival .color-red-bright svg.svg-icon path {
   fill: #ff3f03; }
+.mage-survival .color-purple svg.svg-icon path {
+  fill: #c700d6; }
+.mage-survival .color-purple-dark svg.svg-icon path {
+  fill: #990096; }
 .mage-survival .color-yellow svg.svg-icon path {
   fill: #FFD416; }
 .mage-survival .color-light-blue svg.svg-icon path {

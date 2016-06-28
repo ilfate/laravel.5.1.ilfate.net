@@ -141,6 +141,9 @@ MageS.Animations = function (game) {
             case 'unit-remove-status':
                 this.unitRemoveStatusAnimation(data.data, stage);
                 break;
+            case 'unit-spawn':
+                this.unitSpawnAnimation(data.data, stage);
+                break;
             case 'spell-craft':
                 this.game.spellcraft.endSpellCraftAnimations(data.data, stage);
                 break;
@@ -186,58 +189,9 @@ MageS.Animations = function (game) {
     };
 
     this.mageMoveAnimation = function(data, stage) {
-        var newBattleField = $('<div class="battle-field new"></div>');
-        for (var y in data.map) {
-            for (var x in data.map[y]) {
-                this.game.drawCell(data.map[y][x], x, y, newBattleField);
-            }
-        }
-        $('.battle-border').append(newBattleField);
-        for(var y in data.objects) {
-            for(var x in data.objects[y]) {
-                this.game.objects.drawObject(data.objects[y][x], x, y, '.battle-field.new');
-            }
-        }
-        $('.tooltip-unit-area .unit-tooltip').remove();
-        for(var y in data.units) {
-            for(var x in data.units[y]) {
-                this.game.units.drawUnit(data.units[y][x], x, y, '.battle-field.new');
-            }
-        }
-        var newX = data.mage.x;
-        var newY = data.mage.y;
-        var oldX = data.mage.was.x;
-        var oldY = data.mage.was.y;
-        var baseMargin = this.game.fieldRadius * this.game.cellSize;
-
-        newBattleField.css({
-            'margin-left': baseMargin + (newX - oldX) * this.game.cellSize + 'rem',
-            'margin-top': baseMargin + (newY - oldY) * this.game.cellSize + 'rem'
-        });
-        var animateTime = this.game.animationTime;
-        var dX = Math.abs(newX - oldX);
-        var dY = Math.abs(newY - oldY);
-        var dSum = dX + dY;
-        if (dSum > 1) { animateTime = animateTime * 2; }
-        if (!this.game.spells.spellAnimationRunning) {
-            this.mageMoveHands(animateTime);
-        }
-        this.rotateTorso(animateTime, 2);
-        newBattleField.animate({
-            'margin-left': baseMargin + 'rem',
-            'margin-top': baseMargin + 'rem'
-        }, {'duration': animateTime});
-        var that = this;
-        $('.battle-field.current').animate({
-            'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'rem',
-            'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'rem'
-        }, {duration: animateTime,
-            complete:function(){
-            $('.battle-field.current').remove();
-            $('.battle-field.new').removeClass('new').addClass('current');
-            MageS.Game.animations.singleAnimationFinished(stage);
-        }});
+        this.game.mage.moveMage(data, stage);
     };
+    
     this.mageRotateAnimation = function(data, stage) {
         var el = $('.battle-border .mage');
         this.rotate(el, data, stage);
@@ -260,63 +214,20 @@ MageS.Animations = function (game) {
         });
     };
     this.unitKillAnimation = function(data, stage) {
-        var unit = $('.battle-field.current .unit.id-' + data.id);
+        var unit = $('.battle-border .unit.id-' + data.id);
         if (unit.length < 1) {
             MageS.Game.animations.singleAnimationFinished(stage);
             return;
         }
         this.game.units.animateDeath(unit, stage);
     };
+    
     this.unitMoveAnimation = function(data, stage) {
-        var unit = $('.battle-field.current .unit.id-' + data.id);
-        if (unit.length < 1) {
-            info('unit with ID = ' + data.id + ' was not on the map');
-            info(data);
-            var unit2 =  $('.unit.id-' + data.id);
-            if (unit2.length) {
-                info('Animation unit is there... but not at right place...');
-                info(unit2);
-            }
-            // ok we don't have that unit at all.
-            var unit = this.game.units.drawUnit(data.data, data.oldX, data.oldY);
-            var oldX = data.oldX;
-            var oldY = data.oldY;
-        } else {
-            var oldCell = unit.parent('.cell');
-            var oldX = oldCell.data('x');
-            var oldY = oldCell.data('y');
-        }
-
-        var cellToGo = $('.battle-field.current .cell.x-' + data.x + '.y-' + data.y);
-        $('.unit-field').append(unit);
-        unit.css({
-            'margin-left': oldX * this.game.cellSize + 'rem',
-            'margin-top': oldY * this.game.cellSize + 'rem'
-        });
-        unit.animate({
-            'margin-left' : data.x * this.game.cellSize + 'rem',
-            'margin-top' : data.y * this.game.cellSize + 'rem'
-        }, {
-            duration:this.animationTime,
-            'complete': (function () {
-                if (cellToGo.length < 1) {
-                    MageS.Game.animations.singleAnimationFinished(stage);
-                    $(this).remove();
-                    return;
-                }
-                $(this).css({
-                    'margin-left' : '0',
-                    'margin-top' : '0'
-                });
-                cellToGo.append($(this));
-
-                MageS.Game.animations.singleAnimationFinished(stage);
-            }
-        )});
-        this.game.units.animateMove(unit);
+        this.game.units.moveUnit(data, stage);
     };
+    
     this.unitRotateAnimation = function(data, stage) {
-        var unit = $('.battle-field.current .unit.id-' + data.id + ' .rotate-div');
+        var unit = $('.battle-border .unit.id-' + data.id + ' .rotate-div');
 
         if (unit.length > 0) {
             this.rotate(unit, data, stage);
@@ -343,6 +254,13 @@ MageS.Animations = function (game) {
         MageS.Game.animations.singleAnimationFinished(stage);
      
     };
+    this.unitSpawnAnimation = function(data, stage) {
+
+        this.game.units.unitSpawn(data, stage);
+
+        
+     
+    };
     this.addUnitStatusAnimation = function(data, stage)
     {
         var unit = $('.battle-border .unit.id-' + data.id);
@@ -357,7 +275,7 @@ MageS.Animations = function (game) {
     this.mageAddStatusAnimation = function(data, stage)
     {
         var mage = $('.battle-border .mage');
-        this.game.addMageStatus(data.flags);
+        this.game.mage.addMageStatus(data.flags);
 
         setTimeout(function () {
             MageS.Game.animations.singleAnimationFinished(stage);
@@ -546,48 +464,6 @@ MageS.Animations = function (game) {
         MageS.Game.animations.singleAnimationFinished(stage);
     };
     
-    this.mageMoveHands = function(duration) {
-        info('mageMoveHands');
-        var mageSvg = $('.battle-border .mage svg');
-        var leftHand = mageSvg.find('.mage-hand-left');
-        var leftHandFist = mageSvg.find('.mage-hand-left-fist');
-        var rightHand = mageSvg.find('.mage-hand-right');
-        var rightHandFist = mageSvg.find('.mage-hand-right-fist');
-        var left = [leftHand, leftHandFist];
-        var right = [rightHand, rightHandFist];
-        var num = Math.floor(duration / 100);
-
-        for (var i = 0; i < num; i++) {
-            this.handSwitch(i * 100, (i%2==1) ? left : right);
-        }
-        setTimeout(function(){
-            $('.battle-border .mage path.hand').show();
-        }, duration);
-    };
     
-    this.handSwitch = function(delay, toHide) {
-        info('handSwitch');
-        setTimeout(function() {
-            $('.battle-border .mage path.hand').show();
-            for (var n in toHide) {
-                toHide[n].hide();
-            }
-        }, delay);
-    };
-
-    this.rotateTorso = function(duration, amplitude) {
-        var num = Math.floor(duration / 100);
-        for (var i = 0; i < num; i++) {
-            this.rotateTorsoSingle(i * 100, amplitude, (i%2==1) ? -1 : 1);
-        }
-        setTimeout(function(){
-            $('.battle-border .mage path.mage-torso')[0].style.transform = 'rotate(0)';
-        }, duration);
-    };
-    this.rotateTorsoSingle = function(delay, amplitude, direction) {
-        setTimeout(function() {
-            $('.battle-border .mage path.mage-torso')[0].style.transform = 'rotate(' + (amplitude * direction) + 'deg)';
-        }, delay);
-    };
 };
 

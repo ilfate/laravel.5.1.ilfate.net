@@ -54,11 +54,12 @@ abstract class AbstractAttack
         $mY = $mage->getY();
         GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_ATTACK, [
 
-            'attack'  => $this->config,
-            'targetX' => $this->target->getX() - $mX,
-            'targetY' => $this->target->getY() - $mY,
-            'fromX'   => $this->unit->getX() - $mX,
-            'fromY'   => $this->unit->getY() - $mY
+            'attack'     => $this->config,
+            'targetX'    => $this->target->getX() - $mX,
+            'targetY'    => $this->target->getY() - $mY,
+            'fromX'      => $this->unit->getX() - $mX,
+            'fromY'      => $this->unit->getY() - $mY,
+            'attackerId' => $this->unit->getId()
         ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
     }
 

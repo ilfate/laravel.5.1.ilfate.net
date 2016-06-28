@@ -45,6 +45,22 @@ return array(
             'icon' => 'icon-spider-2', 'loot' => 101, 'morfIcon' => 'baby',
             'description' => 'A small spider. Nothing special, but be cautious it can jump.',
         ],
+        12 => [
+            'name' => 'Orc', 'class' => 'Orcs\\Orc', 'health' => 8,
+            'behaviour' => 'AggressiveMelee', 'aggressiveRange' => 8, 'attacks' => [
+                ['name' => 'orcWeapon']
+            ],
+            'icon' => 'icon-unit-orc', 'loot' => 102,
+            'description' => 'That is just orc. He has lot of HP and could hit like a truck.',
+        ],
+        18 => [
+            'name' => 'Skeleton', 'class' => 'Orcs\\Skeleton', 'health' => 3,
+            'behaviour' => 'AggressiveRange', 'aggressiveRange' => 8, 'attacks' => [
+                ['name' => 'bow']
+            ],
+            'icon' => 'icon-unit-skeleton-archer', 'loot' => 102,
+            'description' => 'Skeleton with a bow? Again? And he will shoot at me... It has to be skeleton isn`t it?',
+        ],
         101 => [
             'name' => 'Spider Nest', 'class' => 'Boss\\SpiderNest', 'health' => 20,
             'behaviour' => 'Stationary', 'attacks' => [
@@ -71,13 +87,12 @@ return array(
             /* 0 - 5 */        5 => [],
             /* 5 - 10 */       10 => [1, 1, 1, 1, 5],
             /* 10 - 20 */      20 => [1, 1, 1, 5, 5, 4],
-            /* 20 - 30 */      30 => [1, 5, 5, 4],
-            /* 30 - 40 */      40 => [5, 4],
+            /* 20 - 30 */      30 => [1, 5, 5, 5, 4, 4, 12],
+            /* 30 - 40 */      40 => [5, 4, 12],
             /* 40 - 1000 */    1000 => [1],
             /* 1000 - 9999999 */9999999 => [1],
         ],
-        3 => [ // WitchForest world
-            // Range from world center
+        3 => [ // Secret cave world
 
             /* 0 - 5 */        5 => [],
             /* 5 - 10 */       10 => [ 5, ],
@@ -89,17 +104,19 @@ return array(
             // Range from world center
 
             /* 0 - 3 */        3 => [],
-            /* 3 - 10 */      10 => [1, 5],
-            /* 10 - 20 */     20 => [1, 5],
-            /* 20 - 30 */    30 => [1, 5],
-            /* 30 - 9999999 */9999999 => [1, 5],
+            /* 3 - 10 */      10 => [12, 5],
+            /* 10 - 20 */     20 => [12, 5],
+            /* 20 - 30 */    30 => [12, 5],
+            /* 30 - 9999999 */9999999 => [12, 5],
         ],
     ],
     'attacks' => [
         'teeth' => ['range' => 1.9, 'damage' => 1, 'animation' => 'melee'],
         'teeth2' => ['range' => 1.9, 'damage' => 2, 'animation' => 'melee'],
+        'orcWeapon' => ['range' => 1.9, 'damage' => 6, 'animation' => 'weapon'],
+        'bow' => ['range' => 3.8, 'damage' => 1, 'animation' => 'bow'],
         'web' => ['range' => 3.2, 'damage' => 0, 'animation' => 'web', 'class' => 'Web', 'charges' => 1],
-        'fireSpit' => ['range' => 2.5, 'damage' => 2, 'animation' => 'fireSpit', 'charges' => 3, 'source' => 'fire'],
+        'fireSpit' => ['range' => 2.5, 'damage' => 2, 'animation' => 'fireSpit', 'charges' => 7, 'source' => 'fire'],
         'spawnSpiders' => ['range' => 4, 'damage' => 0, 'animation' => 'spawn', 'class' => 'WitchSpiders',  'charges' => 1],
         'spawnSpider' => ['range' => 6, 'damage' => 0, 'animation' => 'spawn', 'class' => 'SpawnSpider'],
         'greenLaser' => ['range' => 3.2, 'damage' => 3, 'animation' => 'greenLaser', 'source' => 'nature'],

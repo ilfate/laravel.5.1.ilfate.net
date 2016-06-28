@@ -6,6 +6,20 @@ MageS.Home = function (game) {
     this.game = game;
     this.mageType = '';
 
+    this.createMageSubmitFormAction = function(){
+        var name = $('#create-mage-pop-up .last-step .mage-name').val();
+        var type = MageS.Game.home.mageType;
+        info(name);
+        if (!name || !type) {
+            //display error
+            return false;
+        }
+        Ajax.json('/Spellcraft/createMage', {
+            data: 'name=' + name + '&type=' + type + '&device=' + MageS.Game.device,
+            callBack : function(data){ MageS.Game.callback(data) }
+        });
+    };
+
     this.init = function() {
         $('a#mage-create-button').on('click', function () {
             MageS.Game.home.showCreateMagePopUp();
@@ -16,16 +30,11 @@ MageS.Home = function (game) {
             el.append($('.player-mage-list .last-step').slideDown());
         });
         $('#create-mage-pop-up a.submit').on('click', function() {
-            var name = $(this).prev().prev().val();
-            var type = MageS.Game.home.mageType;
-            if (!name || !type) {
-                //display error
-                return false;
-            }
-            Ajax.json('/Spellcraft/createMage', {
-                data: 'name=' + name + '&type=' + type + '&device=' + MageS.Game.device,
-                callBack : function(data){ MageS.Game.callback(data) }
-            });
+            MageS.Game.home.createMageSubmitFormAction();
+        });
+        $('#create-mage-pop-up form').on('submit', function() {
+            MageS.Game.home.createMageSubmitFormAction();
+            return false;
         });
         $('.open-dead-info').on('click', function() {
             $(this).parents('.dead-mage').next().slideToggle();

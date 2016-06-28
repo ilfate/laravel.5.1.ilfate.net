@@ -418,6 +418,11 @@ abstract class WorldGenerator
     {
         return in_array($cell, $this->water);
     }
+
+    public function afterTurnWorldEvents($turn)
+    {
+        // nothing normaly here;
+    }
     
     public function worldTips($turn)
     {

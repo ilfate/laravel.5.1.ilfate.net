@@ -345,7 +345,8 @@ abstract class Unit extends AliveCommon
                 'targetX' => $target->getX() - $mX,
                 'targetY' => $target->getY() - $mY,
                 'fromX'   => $this->getX() - $mX,
-                'fromY'   => $this->getY() - $mY
+                'fromY'   => $this->getY() - $mY,
+                'attackerId' => $this->getId(),
             ], Game::ANIMATION_STAGE_UNIT_ACTION_2);
         }
         Event::trigger(Event::EVENT_UNIT_AFTER_ATTACK_MAGE, [Event::KEY_OWNER => $this]);

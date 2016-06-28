@@ -384,10 +384,10 @@ MageS.Spellbook = function (game) {
         spell.addClass('active');
         $('#move-control-field').addClass('disable');
 
-        $('.battle-field.current .unit').each(function () {
-            var cellElem = $(this).parent('.cell');
-            var x = cellElem.data('x');
-            var y = cellElem.data('y');
+        $('.battle-border .unit-field .unit').each(function () {
+            // var cellElem = $(this).parent('.cell');
+            var x = $(this).data('x');
+            var y = $(this).data('y');
             var patternCell = $('.pattern-cell.x-' + x + '.y-' + y);
             patternCell.addClass('active');
         });

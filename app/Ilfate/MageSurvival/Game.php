@@ -57,6 +57,7 @@ class Game
     const EVENT_NAME_UNIT_ATTACK          = 'unit-attack';
     const EVENT_NAME_UNIT_DAMAGE          = 'unit-damage';
     const EVENT_NAME_UNIT_REMOVE_STATUS   = 'unit-remove-status';
+    const EVENT_NAME_UNIT_SPAWN           = 'unit-spawn';
     const EVENT_NAME_OBJECT_DESTROY       = 'object-destroy';
     const EVENT_NAME_OBJECT_MOVE          = 'object-move';
     const EVENT_NAME_ADD_OBJECT           = 'add-object';
@@ -259,6 +260,7 @@ class Game
                     $activeObject->activate();
                 }
             }
+            $this->worldGenerator->afterTurnWorldEvents($this->getTurn());
         }
     }
 

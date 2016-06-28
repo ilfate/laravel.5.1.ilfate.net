@@ -44,9 +44,8 @@ class MilestoneHit extends Earth
             /**
              * @var Unit $target
              */
-            $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_EARTH);
+            $damage = $this->mage->getDamage(3, Spell::ENERGY_SOURCE_EARTH);
             $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_EARTH);
-            Event::create(Event::EVENT_UNIT_BEFORE_GET_DAMAGE, ['times' => 1, Event::KEY_OWNER => $target], 'Earth:damageBuff');
         }
         return true;
     }

@@ -191,10 +191,17 @@ class WorldGeneratorWitchForest extends WorldGenerator
         Event::create(Event::EVENT_UNIT_BEFORE_DYING, [
                 'times' => 1,
                 'owner' => $witch,
-                'flag' => 'SecretCave',
+                'flag' => ['SecretCave', 'SchoolBasement'],
                 'value' => 'open'
             ],
             'General:addUserFlag'
+        );
+        Event::create(Event::EVENT_UNIT_BEFORE_DYING, [
+                'times' => 1,
+                'owner' => $witch,
+                'key' => 'witchLocation'
+            ],
+            'General:removeWorldDataKey'
         );
         Event::create(Event::EVENT_UNIT_BEFORE_DYING, [
                 'times' => 1,
@@ -242,7 +249,11 @@ class WorldGeneratorWitchForest extends WorldGenerator
 
     public function whereIsWitch()
     {
-        $location = $this->world->getData()['witchLocation'];
+        $worldData = $this->world->getData();
+        if (empty($worldData['witchLocation'])) {
+            return 'There should be a portal in Witch`s house. Probably I should use it!';
+        }
+        $location = ['witchLocation'];
         $directionText = $this->coordinatsToDirection($this->mage->getX(), $this->mage->getY(), $location[0], $location[1]);
 
         return 'Witch should be somewhere ' . $directionText . ' from here.';

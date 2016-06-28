@@ -114,14 +114,6 @@ MageS.Objects = function (game) {
                 for (var i = 0; i < 15; i ++) {
                     MageS.Game.spells.moveIcon(icon + ((i % 4) + 1), 'color-grey', data.targetX, data.targetY, data.targetX, data.targetY, options);
                 }
-                // var options = {'marginLeft' : data.targetX, 'marginTop' : data.targetY, scale:3};
-                // MageS.Game.spells.fire.blastSunRing('color-red-bright', options);
-                // setTimeout(function() {
-                //     MageS.Game.spells.fire.blastSunRing('color-yellow', options);
-                // }, 100);
-                // setTimeout(function() {
-                //     MageS.Game.spells.fire.blastSunRing('color-white', options);
-                // }, 200);
                 MageS.Game.monimations.camShake('X', 300, 6, {});
                 setTimeout(function() {MageS.Game.animations.singleAnimationFinished(stage);}, 400);
                 break;
@@ -181,10 +173,7 @@ MageS.Objects = function (game) {
         var object = $('.battle-field.current .object.id-' + data.id);
         if (object.length < 1) {
             info('object with ID = ' + data.id + ' was not on the map');
-            var unit2 =  $('.unit.id-' + data.id);
-            if (unit2.length) {
-                info('Animation object is there... but not at right place...');
-            }
+            
             // ok we don't have that unit at all.
             object = this.game.objects.drawObject(data.data, data.oldX, data.oldY);
             var oldX = data.oldX;

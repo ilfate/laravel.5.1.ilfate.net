@@ -378,20 +378,49 @@ MageS.Spells.Earth = function (game, spells) {
 
     this.finishWallUp = function(data) {
         this.finishStandartEarth(200);
-
-
         setTimeout(function() {
             MageS.Game.spells.endSpellAnimation();
-        }, 600);
+        }, 200);
     };
 
     this.finishMilestoneHit = function(data) {
         this.finishStandartEarth(200);
 
+        var x = parseInt(data.targetX);
+        var y = parseInt(data.targetY);
+        var tx = x;
+        var ty = y - 2;
+
+        var options = {
+            'moveLeft': ((0.5 + tx) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5 + ty) * MageS.Game.cellSize) + 'rem',
+            'time': 0.4,
+            'beamWidth': 12,
+            'segment1': ["100%", "100%"],
+            'segment2': ["-100%", "0%"],
+            'delay': 0,
+            'delete':true
+        };
+        for(var i2 = 0 ; i2 < 10; i2++) {
+            this.spells.beamStrike(3, 360 / 10 * i2, 'icon-bullet-cast-angle-1', MageS.Game.color.brown, options);
+        }
+
+        var icon = this.spells.createIcon('icon-stone-tablet', 'color-brown');
+        icon.css({'margin-top': ((ty) * MageS.Game.cellSize) + 'rem', 'margin-left': ((tx) * MageS.Game.cellSize) + 'rem'});
+        $('.animation-field').append(icon);
+        MageS.Game.monimations.blastInScale(icon, 2, function(){}, 500);
+
+        setTimeout(function(){
+            icon.animate({
+                'margin-top':((y) * MageS.Game.cellSize) + 'rem'
+            }, {duration:400, easing:'easeOutBounce'});
+        }, 500);
+
+        MageS.Game.monimations.camShake('Y', 150, 6, {delay:700});
 
         setTimeout(function() {
             MageS.Game.spells.endSpellAnimation();
-        }, 600);
+        }, 1100);
     };
 
 

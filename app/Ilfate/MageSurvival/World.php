@@ -127,12 +127,16 @@ class World
         $this->update();
         if ($stage) {
             $mage = GameBuilder::getGame()->getMage();
-            GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT,
-                ['unit' => $unit->exportForView(),
-                 'targetX' => $x - $mage->getX(),
-                 'targetY' => $y - $mage->getY(),
-                ],
-                $stage);
+            $targetX = $x - $mage->getX();
+            $targetY = $y - $mage->getY();
+            if (abs($targetX) <= 5 && abs($targetY) <= 5) {
+                GameBuilder::animateEvent(Game::EVENT_NAME_ADD_UNIT,
+                    ['unit'    => $unit->exportForView(),
+                     'targetX' => $x - $mage->getX(),
+                     'targetY' => $y - $mage->getY(),
+                    ],
+                    $stage);
+            }
         }
         return $unit;
     }
@@ -590,6 +594,14 @@ class World
     public function setData($data)
     {
         $this->data = $data;
+    }
+
+    public function deleteDataKey($key)
+    {
+        if (!empty($this->data[$key])) {
+            unset($this->data[$key]);
+        }
+        $this->update();
     }
 
     public  function addData($key, $value)

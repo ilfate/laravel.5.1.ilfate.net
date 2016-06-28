@@ -9,9 +9,9 @@ MageS.Units = function (game) {
     this.game = game;
 
     this.drawUnit = function(unit, x, y, target) {
-        if (!target) {
-            target = '.battle-field.current';
-        }
+        // if (!target) {
+        //     target = '.battle-field.current';
+        // }
         var temaplate = $('#template-unit').html();
         Mustache.parse(temaplate);
         var rendered = Mustache.render(temaplate, {'id': unit.id, 'type': unit.type});
@@ -20,7 +20,14 @@ MageS.Units = function (game) {
         obj.data('icon', unit.icon);
         obj.find('svg').append(icons.clone());
         if (unit.iconColor !== undefined) { obj.find('.svg').addClass(unit.iconColor); }
-        $(target + ' .cell.x-' + x + '.y-' + y).append(obj);
+        //
+        if (!target) {
+            this.unitToUnitField(obj, x, y);
+        } else {
+            obj.data('x', x);
+            obj.data('y', y);
+            this.unitToCell(obj, target);
+        }
         if (unit.d !== undefined) {
             if ( unit.d > 0) {
                 obj.find('.rotate-div')[0].style.transform = 'rotate(' + (unit.d * 90) + 'deg)';
@@ -36,6 +43,47 @@ MageS.Units = function (game) {
         }
 
         return obj;
+    };
+
+    this.unitToUnitField = function(unit, x, y) {
+        unit.data('x', x);
+        unit.data('y', y);
+        $('.battle-border .unit-field').append(unit);
+        unit.css({
+            'margin-left': x * MageS.Game.cellSize + 'rem',
+            'margin-top': y * MageS.Game.cellSize + 'rem'
+        });
+    };
+
+    this.unitToCell = function(unit, target) {
+        if (!target) {
+            target = '.battle-field.current';
+        }
+        var x = unit.data('x');
+        var y = unit.data('y');
+        unit.css({
+            'margin-left' : '0',
+            'margin-top' : '0'
+        });
+        $(target + ' .cell.x-' + x + '.y-' + y).append(unit);
+    };
+    this.allToCell = function(mark) {
+        $('.battle-border .unit-field .unit').each(function() {
+            if (mark) {
+                $(this).addClass(mark);
+            }
+            MageS.Game.units.unitToCell($(this));
+        })
+    };
+    this.allBackToField = function() {
+        $('.battle-field.current .unit').each(function() {
+            var unit = $(this);
+            if (unit.hasClass('toDelete')) {
+                unit.remove();
+            } else {
+                MageS.Game.units.unitToUnitField(unit, unit.data('x'), unit.data('y'));
+            }
+        });
     };
     
     this.morfUnitIcon = function(obj, morf, iconName) {
@@ -79,6 +127,54 @@ MageS.Units = function (game) {
             });
         }
     };
+    
+    this.moveUnit = function(data, stage) {
+        var unit = $('.battle-border .unit-field .unit.id-' + data.id);
+        if (unit.length < 1) {
+            info('unit with ID = ' + data.id + ' was not on the map');
+            info(data);
+            var unit2 =  $('.unit.id-' + data.id);
+            if (unit2.length) {
+                info('Animation unit is there... but not at right place...');
+                info(unit2);
+            }
+            // ok we don't have that unit at all.
+            var unit = this.drawUnit(data.data, data.oldX, data.oldY);
+        }
+
+        // var cellToGo = $('.battle-field.current .cell.x-' + data.x + '.y-' + data.y);
+        // $('.unit-field').append(unit);
+        // unit.css({
+        //     'margin-left': oldX * this.game.cellSize + 'rem',
+        //     'margin-top': oldY * this.game.cellSize + 'rem'
+        // });
+        unit.animate({
+            'margin-left' : parseInt(data.x) * this.game.cellSize + 'rem',
+            'margin-top' : parseInt(data.y) * this.game.cellSize + 'rem'
+        }, {
+            duration : MageS.Game.animations.animationTime,
+            'complete': (function () {
+                    $(this).data('x', data.x)
+                        .data('y', data.y);
+                    if (Math.abs(data.x) > MageS.Game.fieldRadius || Math.abs(data.y) > MageS.Game.fieldRadius) {
+                        $(this).remove();
+                    }
+                    // if (cellToGo.length < 1) {
+                    //     MageS.Game.animations.singleAnimationFinished(stage);
+                    //     $(this).remove();
+                    //     return;
+                    // }
+                    // $(this).css({
+                    //     'margin-left' : '0',
+                    //     'margin-top' : '0'
+                    // });
+                    // cellToGo.append($(this));
+
+                    MageS.Game.animations.singleAnimationFinished(stage);
+                }
+            )});
+        MageS.Game.units.animateMove(unit);
+    };
 
     this.mobileUnitClick = function(el) {
         MageS.Game.inventory.showInventory();
@@ -102,7 +198,7 @@ MageS.Units = function (game) {
     };
 
     this.meleeAttack = function(data, container, attackId, stage) {
-        var unit = $('.battle-border .cell.x-' + data.fromX + '.y-' + data.fromY + ' .unit');
+        var unit = $('.battle-border .unit.id-' + data.attackerId);
         var iconName = unit.data('icon');
 
         switch (iconName) {
@@ -221,14 +317,32 @@ MageS.Units = function (game) {
         }, 850);
     };
 
+    this.unitSpawn = function(data, stage) {
+        var icon = 'icon-bullet-around-side-line';
+        var options = {
+            'moveLeft': ((0.5 + parseInt(data.targetX)) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5 + parseInt(data.targetY)) * MageS.Game.cellSize) + 'rem',
+            'time': 0.8,
+            'beamWidth': 12,
+            'segment1': ["100%", "100%"],
+            'segment2': ["-40%", "0%"],
+            'delete': true
+        };
+        for (var i = 0; i < 5; i++) {
+            MageS.Game.spells.beamStrike(3, 360 / 5 * i, icon, MageS.Game.color.purpleDark, options);
+        }
+        setTimeout(function(){
+            MageS.Game.animations.singleAnimationFinished(stage);
+        }, 800);
+    };
+
     this.animateDeath = function(unit, stage) {
         var iconName = unit.data('icon');
 
         switch (iconName) {
             case 'icon-fireImp-1':
                 this.standartDeath(unit);
-                var cell = unit.parents('.cell')
-                var options = {'marginLeft' : cell.data('x'), 'marginTop' : cell.data('y')};
+                var options = {'marginLeft' : unit.data('x'), 'marginTop' : unit.data('y')};
                 MageS.Game.spells.fire.blastSunRing('color-red-bright', options);
                 setTimeout(function() {
                     MageS.Game.spells.fire.blastSunRing('color-yellow', options);

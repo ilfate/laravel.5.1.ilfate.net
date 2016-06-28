@@ -104,7 +104,7 @@ MageS.Attacks = function (game) {
             'segment1': ["0%", "0%"],
             'segment2': ["0%", "100%"],
         };
-        var unit = $('.battle-border .cell.x-' + data.fromX +'.y-' + data.fromY + ' .unit');
+        var unit = $('.battle-border .unit.id-' + data.attackerId);
         MageS.Game.units.rotateUnitToTarget(unit, data);
         var beam = MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, '#07B26A', 'icon-bullet-line',  options);
 

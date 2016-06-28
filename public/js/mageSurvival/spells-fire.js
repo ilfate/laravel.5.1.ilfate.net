@@ -11,32 +11,80 @@ MageS.Spells.Fire = function (game, spells) {
 
     this.startStandartFire = function()
     {
-        info('Standart Fire start');
-        for (var i = 0; i < 4; i++)
-        {
-            var svg = this.spells.createIcon('icon-flame', 'color-red');
-            var radius = this.game.cellSize / 2;
-            switch (i) {
-                case 0: svg.css('margin-top', '-' + radius + 'rem'); break;
-                case 1: svg.css('margin-left', radius + 'rem'); break;
-                case 2: svg.css('margin-top', radius + 'rem'); break;
-                case 3: svg.css('margin-left', '-' + radius + 'rem'); break;
-            }
-            $('.animation-field').append(svg);
-            var path = svg.find('path')
-            path.css({'fill': 'none', 'stroke': '#F07818', 'stroke-width': '1.5rem', 'stroke-opacity': 1});
-            var pathEl = path[0];
-            var segment = new Segment(pathEl);
-
-            segment.draw("0", "0", 0);
-            segment.draw("0", "100%", 0.5);
-            this.spells.savedData[i] = svg;
+        // info('Standart Fire start');
+        // for (var i = 0; i < 4; i++)
+        // {
+        //     var svg = this.spells.createIcon('icon-flame', 'color-red');
+        //     var radius = this.game.cellSize / 2;
+        //     switch (i) {
+        //         case 0: svg.css('margin-top', '-' + radius + 'rem'); break;
+        //         case 1: svg.css('margin-left', radius + 'rem'); break;
+        //         case 2: svg.css('margin-top', radius + 'rem'); break;
+        //         case 3: svg.css('margin-left', '-' + radius + 'rem'); break;
+        //     }
+        //     $('.animation-field').append(svg);
+        //     var path = svg.find('path')
+        //     path.css({'fill': 'none', 'stroke': '#F07818', 'stroke-width': '1.5rem', 'stroke-opacity': 1});
+        //     var pathEl = path[0];
+        //     var segment = new Segment(pathEl);
+        //
+        //     segment.draw("0", "0", 0);
+        //     segment.draw("0", "100%", 0.5);
+        //     this.spells.savedData[i] = svg;
+        // }
+        // setTimeout(function(){
+        //     MageS.Game.spells.fire.iterateStandartFire();
+        // }, 500);
+        var icon = 'icon-bullet-cast-2-spirals';
+        var icon2 = 'icon-bullet-cast-2-spirals-2';
+        // var icon = 'icon-bullet-cast-angle-2';
+        var rightHand = this.spells.getRightHandCoordinates(0.7);
+        var leftHand = this.spells.getLeftHandCoordinates(0.7);
+        var time = 0.5;
+        for(var i2 = 0 ; i2 < 1; i2++) {
+            var options = {
+                'time':time,
+                'time2':time,
+                'delay2':0,
+                'beamWidth': 12,
+                'segment1': ["0%", "0%"],
+                'segment2': ["25%", "75%"],
+                'segment3': ["100%", "200%"],
+                'delete': true,
+            };
+            this.spells.beam(
+                rightHand[0], rightHand[1], leftHand[0], leftHand[1],
+                MageS.Game.color.red, icon, options
+            );
+            this.spells.beam(
+                rightHand[0], rightHand[1], leftHand[0], leftHand[1],
+                MageS.Game.color.red, icon2, options
+            );
+            var options2 = {
+                'time':time,
+                'time2':time,
+                'delay2':0,
+                'beamWidth': 12,
+                'segment1': ["0%", "0%"],
+                'segment2': ["0%", "100%"],
+                'segment3': ["100%", "200%"],
+                'delete': true,
+            };
+            this.spells.beam(
+                leftHand[0], leftHand[1], rightHand[0], rightHand[1],
+                MageS.Game.color.red, icon, options2
+            );
+            this.spells.beam(
+                leftHand[0], leftHand[1], rightHand[0], rightHand[1],
+                MageS.Game.color.red, icon2, options2
+            );
         }
+        // info(rightHand[0] + ' '  +rightHand[1] + ' ' + leftHand[0] + ' ' + leftHand[1]);
+
+
         setTimeout(function(){
             MageS.Game.spells.fire.iterateStandartFire();
-        }, 500);
-
-
+        }, 600);
         //this.game.monimations.blastInScale(svg.find('svg.svg-icon'), 1.5, function() {
         //    MageS.Game.spells.fire.iterateStandartFire();
         //});
@@ -44,33 +92,56 @@ MageS.Spells.Fire = function (game, spells) {
     };
 
     this.iterateStandartFire = function() {
-        info('FIRE standart iterate');
-        for (var i = 0; i < 4; i++) {
-            var svg = this.spells.savedData[i];
-            if (i == 3) {
-                this.game.monimations.rotate(svg, 0, 360, 300, false, false, function() {
-                    MageS.Game.spells.tryToEndFirstPart();
-                })
-            } else {
-                this.game.monimations.rotate(svg, 0, 360, 300, false, false);
+        var icon = 'icon-bullet-cast-2-segments';
+
+        // info('FIRE standart iterate');
+        // for (var i = 0; i < 4; i++) {
+        //     var svg = this.spells.savedData[i];
+        //     if (i == 3) {
+        //         this.game.monimations.rotate(svg, 0, 360, 300, false, false, function() {
+        //             MageS.Game.spells.tryToEndFirstPart();
+        //         })
+        //     } else {
+        //         this.game.monimations.rotate(svg, 0, 360, 300, false, false);
+        //     }
+        // }
+        for (var n = 0; n < 3; n++) {
+            var options = {
+                'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
+                'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
+                'time': 0.2,
+                'time2': 0.2,
+                'beamWidth': 12,
+                'segment1': ["100%", "100%"],
+                'segment2': ["15%", "85%"],
+                'segment3': ["-50%", "0%"],
+                'delete': true,
+                delay: n * 200
+            };
+            for (var i = 0; i < 4; i++) {
+                this.spells.beamStrike(2, (360 / 4 * i) + (n * 45), icon, MageS.Game.color.red, options);
             }
         }
+
+        setTimeout(function(){
+            MageS.Game.spells.tryToEndFirstPart();
+        }, 800);
     };
 
     this.standartFireToMiddle = function(duration) {
         if (!duration) {
             duration = 300;
         }
-        for (var i = 0; i < 4; i++) {
-            var svg = this.spells.savedData[i];
-            this.game.monimations.rotate(svg, 0, 360, 300, false, false);
-            svg.animate({'margin':0}, {'duration':duration, complete:function() {
-                $(this).animate({opacity:0}, {'duration':100, complete:function() {
-                    $(this).remove();
-                }});
-            }
-            });
-        }
+        // for (var i = 0; i < 4; i++) {
+        //     var svg = this.spells.savedData[i];
+        //     this.game.monimations.rotate(svg, 0, 360, 300, false, false);
+        //     svg.animate({'margin':0}, {'duration':duration, complete:function() {
+        //         $(this).animate({opacity:0}, {'duration':100, complete:function() {
+        //             $(this).remove();
+        //         }});
+        //     }
+        //     });
+        // }
     };
 
     this.finishFireNova = function(data) {
