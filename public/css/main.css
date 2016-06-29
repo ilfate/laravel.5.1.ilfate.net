@@ -4085,6 +4085,38 @@ body {
       background-color: #F0A830;
       color: #584D3D; }
 
+.admin-view .player-mage-list {
+  width: 50%; }
+  .admin-view .player-mage-list .mage {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background-color: #FCEBB6;
+    border-bottom: 1px solid #5E412F; }
+    .admin-view .player-mage-list .mage #mage-create-button {
+      cursor: pointer;
+      text-shadow: -1px -1px #FCEBB6; }
+      .admin-view .player-mage-list .mage #mage-create-button:hover {
+        text-decoration: none;
+        color: #FF8360;
+        text-shadow: -1px -1px #5E412F; }
+  .admin-view .player-mage-list .hidden-mage-info {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background-color: #FCEBB6;
+    border-bottom: 1px solid #5E412F;
+    display: none;
+    text-align: center; }
+    .admin-view .player-mage-list .hidden-mage-info th {
+      text-align: center; }
+  .admin-view .player-mage-list .dead-mage {
+    cursor: pointer;
+    width: 100%;
+    height: 2rem;
+    padding: 0.25rem 1rem;
+    background-color: #FCEBB6;
+    border-bottom: 1px solid #5E412F;
+    position: relative; }
+
 .game-container.home .home-portal-animation {
   width: 100%;
   height: 12rem;

@@ -253,7 +253,7 @@ class WorldGeneratorWitchForest extends WorldGenerator
         if (empty($worldData['witchLocation'])) {
             return 'There should be a portal in Witch`s house. Probably I should use it!';
         }
-        $location = ['witchLocation'];
+        $location = $worldData['witchLocation'];
         $directionText = $this->coordinatsToDirection($this->mage->getX(), $this->mage->getY(), $location[0], $location[1]);
 
         return 'Witch should be somewhere ' . $directionText . ' from here.';

@@ -412,6 +412,7 @@ return array(
                 'iconColor' => 'color-brown',
                 'directTargetSpell' => 'enemy',
             ],
+            //Eruption
         ],
         5 => [ // light
             0 => [

@@ -87,6 +87,10 @@ Route::post('Spellcraft/mapBuilder/save', 'MageSurvivalController@saveMapName');
 Route::get('Spellcraft/mapBuilder/show/{name}', 'MageSurvivalController@showMap');
 Route::get('Spellcraft/mapBuilder/edit/{name}', 'MageSurvivalController@editMap');
 
+Route::get('Spellcraft/admin', 'MageSurvivalController@admin');
+Route::get('Spellcraft/admin/page/{userId}/{pageTime}', 'MageSurvivalController@adminPage');
+Route::post('Spellcraft/admin/getActions/{userId}/{pageTime}', 'MageSurvivalController@adminGetActions');
+
 
 Route::get('deplotment/resetopcache', 'DeploymentController@resetopcache');
 

@@ -4,6 +4,7 @@ namespace Ilfate\Http\Controllers;
 
 use Ilfate\Mage;
 use Ilfate\MageSurvival\AliveCommon;
+use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\MessageException;
@@ -13,12 +14,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Cache;
+use Illuminate\Support\Facades\DB;
 
 class MageSurvivalController extends BaseController
 {
     const PAGE_NAME = 'mageSurvival';
 
     const ACTION_MAGE_CREATE = 'mage-create';
+    
+    const CACHE_USER_LOGGING = 'ms-user-is-logged-';
+    const CACHE_USER_LOGGING_INDEX = 'ms-user-log-index-';
+    const CACHE_USER_LOGGING_DATA = 'ms-user-logged-data-';
+    const CACHE_ENABLED_MINUTES = 60;
+    const CACHE_SAVED_MINUTES = 180;
+
+    protected $isLogged = false;
 
     /**
      * @var Mage
@@ -53,6 +63,8 @@ class MageSurvivalController extends BaseController
         view()->share('mobileFriendly', true);
 
         $game = $this->getGame($request);
+        
+        $this->setUpLogging($game);
 
         $viewFileName = $game->getViewName();
         $data = $this->getDataForView($viewFileName, $game);
@@ -111,29 +123,10 @@ class MageSurvivalController extends BaseController
                        ]
             ];
         }
+        if ($this->isLoggingEnabled($game->getUser())) {
+            $this->logAction(['result' => $result, 'action' => $action, 'data' => $data], $game->getUser());
+        }
         return json_encode($result);
-    }
-
-    public function addAllSpells(Request $request)
-    {
-        if (env('APP_DEBUG') !== true) {
-//            return redirect('/Spellcraft');
-        }
-        $game = $this->getGame($request);
-
-        $game->addAllSpells();
-        return redirect('/Spellcraft');
-    }
-
-    public function addAllItems(Request $request)
-    {
-        if (env('APP_DEBUG') !== true) {
-//            return redirect('/Spellcraft');
-        }
-        $game = $this->getGame($request);
-
-        $game->addAllItems();
-        return redirect('/Spellcraft');
     }
 
     public function world($name, Request $request)
@@ -141,6 +134,54 @@ class MageSurvivalController extends BaseController
         $game = $this->getGame($request);
         $game->setWorldType($name);
         return redirect('/Spellcraft');
+    }
+
+    public function admin(Request $request)
+    {
+        $user = User::getUser();
+
+        if ($user->rights != 2) {
+            return redirect('/Spellcraft');
+        }
+        $userLogs = $this->getAllUserLogs();
+
+        view()->share('isAdmin', true);
+        view()->share('viewData', ['userLogs' => $userLogs]);
+        view()->share('bodyClass', 'mage-survival');
+        view()->share('mobileFriendly', true);
+        return view('games.mageSurvival.admin');
+    }
+
+    public function adminPage($userId, $pageTime, Request $request)
+    {
+        $user = User::getUser();
+        if ($user->rights != 2) {
+            return redirect('/Spellcraft');
+        }
+        $pageLogs = $this->getLoggedPage($userId, $pageTime);
+        if (!$pageLogs) {
+            return redirect('/Spellcraft/admin');
+        }
+
+        view()->share('isAdmin', true);
+        view()->share('viewData', $pageLogs);
+        view()->share('bodyClass', 'mage-survival');
+        view()->share('mobileFriendly', true);
+        return view('games.mageSurvival.admin-battle');
+    }
+
+    public function adminGetActions($userId, $pageTime, Request $request)
+    {
+        $actionId = $request->get('action');
+        $user = User::getUser();
+        if ($user->rights != 2) {
+            return '[]';
+        }
+        $actions = $this->getActions($userId, $pageTime, $actionId);
+        if (!$actions) {
+            return '[]';
+        }
+        return json_encode($actions);
     }
 
     public function redirect()
@@ -248,10 +289,14 @@ class MageSurvivalController extends BaseController
             case 'games.mageSurvival.mage-home':
                 $data = $game->getHomeData();
                 break;
-            case 'games.mageSurvival.battle':
+            case 'games.mageSurvival.user-battle':
                 $data = $game->getData();
+                if ($this->isLogged) {
+                    $this->logPageOpen($data, $game->getUser());
+                }
                 break;
         }
+
         return $data;
     }
 
@@ -268,7 +313,186 @@ class MageSurvivalController extends BaseController
         $game = GameBuilder::getGame($request);
         return $game;
     }
+    
+    protected function setUpLogging(Game $game)
+    {
+        if ($game->getStatus() !== Game::STATUS_BATTLE) {
+            return false;
+        }
+        $user = User::getUser();
+        $isLoggingWasEnabled = $this->isLoggingEnabled($user);
+        if ($isLoggingWasEnabled) {
+            return true;
+        }
+        // it was not enabled. on it is expired.
+        $chance = \Config::get('mageSurvival.game.user-logging-chance');
+        if(ChanceHelper::chance($chance)) {
+            $this->enableLogging($user);
+        }
+        return false;
+    }
+
+    protected function isLoggingEnabled(User $user)
+    {
+        if ($this->isLogged === true) return true;
+        $isEnabled = Cache::get(self::CACHE_USER_LOGGING . $user->id);
+        if ($isEnabled) {
+            $this->enableLogging($user);
+            return true;
+        }
+        return false;
+    }
+
+    protected function enableLogging($user)
+    {
+        $this->isLogged = true;
+        Cache::put(self::CACHE_USER_LOGGING . $user->id, true, self::CACHE_ENABLED_MINUTES);
+    }
+
+    protected function logPageOpen($data, User $user)
+    {
+        $index = Cache::get(self::CACHE_USER_LOGGING_INDEX . $user->id);
+        $pageTime = time();
+        if ($index) {
+            $index['pages'][] = $pageTime;
+            $index['currentPage'] = $pageTime;
+        } else {
+             $index = [
+                 'pages' => [
+                     $pageTime
+                 ],
+                 'actions' => [],
+                 'currentPage' => $pageTime
+             ];
+        }
+        Cache::put(self::CACHE_USER_LOGGING_INDEX . $user->id, $index, self::CACHE_SAVED_MINUTES);
+        Cache::put($this->getKeyForPageLog($user->id, $pageTime), json_encode($data), self::CACHE_SAVED_MINUTES);
+        $user->last_visit = new \DateTime();
+        $user->save();
+    }
+
+    protected function logAction($data, User $user)
+    {
+        $index = Cache::get(self::CACHE_USER_LOGGING_INDEX . $user->id);
+
+        if ($index && !empty($index['currentPage'])) {
+            $pageTime = $index['currentPage'];
+            if (empty($index['actions'][$pageTime])) {
+                $index['actions'][$pageTime] = 0;
+                $actionId = 1;
+            } else {
+                $actionId = $index['actions'][$pageTime] + 1;
+            }
+            $index['actions'][$pageTime]++;
+        } else {
+             return;
+        }
+        Cache::put(self::CACHE_USER_LOGGING_INDEX . $user->id, $index, self::CACHE_SAVED_MINUTES);
+        Cache::put($this->getKeyForActionLog($user->id, $pageTime, $actionId), json_encode($data), self::CACHE_SAVED_MINUTES);
+    }
+
+    protected function loadAllPages($user)
+    {
+        $result = false;
+        $index = Cache::get(self::CACHE_USER_LOGGING_INDEX . $user->id);
+        if (!$index || empty($index['pages'])) return $result;
+        $pages = [];
+        foreach ($index['pages'] as $pageTime) {
+            $pages[] = [
+                'pageTime' => $pageTime,
+                'time' => Carbon::createFromTimestamp($pageTime)->toDateTimeString(),
+                'actions' => empty($index['actions'][$pageTime]) ? 0 : $index['actions'][$pageTime]
+            ];
+        }
+        return $pages;
+    }
+
+    protected function getAllUserLogs()
+    {
+        $users = [];
+        $activeUsers = DB::table('users')
+            ->select(DB::raw('id,name,email'))
+            ->where('last_visit', '>', Carbon::now()->subHour())
+            ->orderBy('last_visit')
+            ->get();
+        foreach ($activeUsers as $activeUser) {
+            $users[] = [
+                'id' => $activeUser->id,
+                'name' => $activeUser->name,
+                'email' => $activeUser->email,
+                'pages' => $this->loadAllPages($activeUser)
+            ];
+        }
+        return $users;
+    }
+
+    protected function getLoggedPage($userId, $pageTime)
+    {
+        $index = Cache::get(self::CACHE_USER_LOGGING_INDEX . $userId);
+        if (!$index) {
+            return null;
+        }
+        $page = Cache::get($this->getKeyForPageLog($userId, $pageTime));
+        if (!$page) return null;
+        $viewData = json_decode($page, true);
+        $actions = [];
+        if (!empty($index['actions'][$pageTime])) {
+            for ($i = 1; $i <= $index['actions'][$pageTime]; $i++) {
+                $actions[] = json_decode(Cache::get($this->getKeyForActionLog($userId, $pageTime, $i)), true);
+            }
+        }
+        $viewData['game']['loggedActions'] = $actions;
+        $viewData['game']['userId'] = $userId;
+        $viewData['game']['pageTime'] = $pageTime;
+        return $viewData;
+    }
+
+    protected function getActions($userId, $pageTime, $actionId)
+    {
+        $index = Cache::get(self::CACHE_USER_LOGGING_INDEX . $userId);
+        if (!$index || $index['actions'][$pageTime] == $actionId) {
+            return null;
+        }
+        $actions = [];
+        if (!empty($index['actions'][$pageTime])) {
+            for ($i = $actionId + 1; $i <= $index['actions'][$pageTime]; $i++) {
+                $actions[] = json_decode(Cache::get($this->getKeyForActionLog($userId, $pageTime, $i)), true);
+            }
+        }
+        return $actions;
+    }
+
+    protected function getKeyForPageLog($userId, $time)
+    {
+        return self::CACHE_USER_LOGGING_DATA . $userId . '-page-' . $time;
+    }
+
+    protected function getKeyForActionLog($userId, $pageTime, $actionId)
+    {
+        return self::CACHE_USER_LOGGING_DATA . $userId . '-page-' . $pageTime . '-action-' . $actionId;
+    }
 
 
+    public function addAllSpells(Request $request)
+    {
+        if (env('APP_DEBUG') !== true) {
+//            return redirect('/Spellcraft');
+        }
+        $game = $this->getGame($request);
+
+        $game->addAllSpells();
+        return redirect('/Spellcraft');
+    }
+
+    public function addAllItems(Request $request)
+    {
+        if (env('APP_DEBUG') !== true) {
+//            return redirect('/Spellcraft');
+        }
+        $game = $this->getGame($request);
+
+        $game->addAllItems();
+        return redirect('/Spellcraft');
+    }
 
 }

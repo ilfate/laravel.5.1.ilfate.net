@@ -270,9 +270,7 @@ abstract class Mage extends AliveCommon
         }
         if ($web = $this->getFlag('web')) {
             if ($web >= $this->game->getTurn()) {
-                if (count($this->spells) > 0 && count($this->items) > 3) {
                     throw new MessageException('Your are stuck in web for some time and can`t move for now.');
-                }
             }
         }
         $x = $this->getX();

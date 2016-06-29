@@ -20,7 +20,7 @@ return array(
             'description' => 'You have to destroy this to go further. Try one of your spells.',
         ],
         3 => [
-            'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 25,
+            'name' => 'Witch', 'class' => 'Boss\\Witch', 'health' => 10,
             'behaviour' => 'AggressiveRange', 'aggressiveRange' => 6, 'attacks' => [
                 ['name' => 'spawnSpiders'],
                 ['name' => 'greenLaser']

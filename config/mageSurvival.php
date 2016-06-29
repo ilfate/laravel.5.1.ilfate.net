@@ -10,11 +10,12 @@ return array(
     'pages' => [
         'mage-list' => 'games.mageSurvival.mage-list',
         'mage-home' => 'games.mageSurvival.mage-home',
-        'battle' => 'games.mageSurvival.battle',
+        'battle' => 'games.mageSurvival.user-battle',
     ],
     'game' => [
         'screen-radius' => 5,
         'active-units-radius' => 8,
+        'user-logging-chance' => env('MS_USER_LOGGING_CHANCE', 5),
     ],
     'world-types' => [
         1 => 'Tutorial'
@@ -43,6 +44,12 @@ return array(
             'map-type' => 'SchoolBasement',
             'map-visual' => 'Tutorial',
             'is-available' => false,
+        ],
+        50 => [
+            'name' => 'Home',
+            'map-type' => 'Home',
+            'map-visual' => 'Tutorial',
+            'is-available' => true,
         ],
         900 => [
             'name' => 'Battle Test',
@@ -73,6 +80,7 @@ return array(
             111 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-blue', 'loot' => [8,9,10,11,12,13], 'quantity'=>3],
             112 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-gold', 'loot' => [13, 14, 15], 'quantity' => 2],
             113 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay', 'loot' => [1,2,3,4,5,6,7], 'quantity' => 4],
+            115 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-purple', 'loot' => [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 'quantity' => 7],
             4 => ['name' => 'Bomb', 'class' => 'Bomb', 'icon' => 'icon-fire-bomb', 'iconColor' => 'color-red'],
             5 => ['name' => 'Ice wall', 'class' => 'IceWall', 'icon' => 'icon-cracked-glass', 'iconColor' => 'color-blue-bright'],
             6 => ['name' => 'Stone wall', 'class' => 'StoneWall', 'icon' => 'icon-stoned', 'iconColor' => 'color-grey'],

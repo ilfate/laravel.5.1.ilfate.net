@@ -100,6 +100,7 @@
 <script src="/js/mageSurvival/objects.js"></script>
 <script src="/js/mageSurvival/units.js"></script>
 <script src="/js/mageSurvival/mage.js"></script>
+<script src="/js/mageSurvival/admin.js"></script>
 <script src="/js/mageSurvival/chat.js"></script>
 <script src="/js/mageSurvival/home.js"></script>
 <script src="/js/mageSurvival/spellcraft.js"></script>

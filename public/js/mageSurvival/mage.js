@@ -7,6 +7,7 @@
 
 MageS.Mage = function (game) {
     this.game = game;
+    this.bind = [];
 
     this.drawMage = function(mageConf) {
         var temaplate = $('#template-mage').html();
@@ -90,18 +91,29 @@ MageS.Mage = function (game) {
         this.game.units.addFlag($('.mage-container .mage'), flags);
     };
 
-    this.tutorialFirstMessage = function() {
+    this.onLoad = function() {
+        if (this.bind['onload'] !== undefined) {
+            this.bind['onload']();
+        }
+    };
 
-        var options = {
-            time: 2000,
-            direction: 2,
-            message: 'Move me with W A S D ',
-            targetX: 0,
-            targetY: 0,
-            noPost: true,
-            delay: 1500
-        };
-        MageS.Game.chat.dialogMessage(options, false);
+    this.tutorialFirstMessage = function() {
+        this.bind['onload'] = function() {
+            var text = 'You can swipe me to move!';
+            if (MageS.Game.device == 'pc') {
+                text = 'Move me with W A S D ';
+            }
+            var options = {
+                time: 2000,
+                direction: 2,
+                message: text,
+                targetX: 0,
+                targetY: 0,
+                noPost: true,
+                delay: 1500
+            };
+            MageS.Game.chat.dialogMessage(options, false);
+        }
     };
 
     this.mageMoveHands = function(duration) {

@@ -19,11 +19,12 @@ $(document).ready(function() {
         var objects = new MageS.Objects(MageS.Game);
         var units = new MageS.Units(MageS.Game);
         var mage = new MageS.Mage(MageS.Game);
+        var admin = new MageS.Admin(MageS.Game);
         var chat = new MageS.Chat(MageS.Game);
         var home = new MageS.Home(MageS.Game);
         var spellcraft = new MageS.Spellcraft(MageS.Game);
         var monimations = new MageS.Monimations(MageS.Game);
-        MageS.Game.init(inventory, spellbook, spells, worlds, objects, units, mage, chat, home, spellcraft, animations, attacks, monimations);
+        MageS.Game.init(inventory, spellbook, spells, worlds, objects, units, mage, admin, chat, home, spellcraft, animations, attacks, monimations);
     }
 });
 
@@ -55,6 +56,7 @@ MageS.Game = function () {
     this.objects = {};
     this.units = {};
     this.mage = {};
+    this.admin = {};
     this.chat = {};
     this.home = {};
     this.spellcraft = {};
@@ -92,7 +94,7 @@ MageS.Game = function () {
         }
     };
 
-    this.init = function (inventory, spellbook, spells, worlds, objects, units, mage, chat, home, spellcraft, animations, attacks, monimations) {
+    this.init = function (inventory, spellbook, spells, worlds, objects, units, mage, admin, chat, home, spellcraft, animations, attacks, monimations) {
         this.inventory = inventory;
         this.spellbook = spellbook;
         this.spells = spells;
@@ -101,6 +103,7 @@ MageS.Game = function () {
         this.objects = objects;
         this.units = units;
         this.mage = mage;
+        this.admin = admin;
         this.chat = chat;
         this.home = home;
         this.spellcraft = spellcraft;
@@ -140,7 +143,6 @@ MageS.Game = function () {
 
                 this.initSVG(function() {
                     // Get the SVG tag, ignore the rest
-
                     //MageS.Game.pageResize();
                     MageS.Game.chat.buildChat();
                     MageS.Game.buildMap();
@@ -150,13 +152,12 @@ MageS.Game = function () {
                     MageS.Game.inventory.buildItems();
                     MageS.Game.buildUnits();
                     MageS.Game.replaceMissingSvg();
-                    info(MageS.Game.rawData.mage);
                     MageS.Game.updateHealth(MageS.Game.rawData.mage);
-
-
+                    
                     if (MageS.Game.device !== 'mobile') {
                         setTimeout(function () {
                             MageS.Game.hideGameLoadOverlay();
+                            MageS.Game.mage.onLoad();
                         }, 150);
                     } else {
                         $('#overlay-loading-text').hide();
@@ -165,17 +166,44 @@ MageS.Game = function () {
                         MageS.Game.monimations.blastInScale(textEl, 2);
                         $('.game-load-overlay').on('click', function(){
                             MageS.Game.hideGameLoadOverlay();
+                            MageS.Game.mage.onLoad();
                         })
-
                     }
-
                 });
 
                 this.configureKeys();
+                break;
+            case 'admin':
+                this.admin.init();
+                break;
+            case 'admin-battle':
+                this.deviceInit();
+                info( this.device);
 
-                // $('.inventory-shadow').on('click', );
+                this.initSVG(function() {
+                    // Get the SVG tag, ignore the rest
+                    //MageS.Game.pageResize();
+                    MageS.Game.chat.buildChat();
+                    MageS.Game.buildMap();
+                    MageS.Game.mage.drawMage(MageS.Game.rawData.mage);
+                    MageS.Game.updateActions(MageS.Game.rawData.actions, true);
+                    MageS.Game.spellbook.buildSpells();
+                    MageS.Game.inventory.buildItems();
+                    MageS.Game.buildUnits();
+                    MageS.Game.replaceMissingSvg();
+                    MageS.Game.updateHealth(MageS.Game.rawData.mage);
 
+                    MageS.Game.hideGameLoadOverlay();
+                    MageS.Game.mage.onLoad();
 
+                    MageS.Game.admin.isEnabled = true;
+                    setTimeout(function(){
+                        info('ADMIN SHOW START');
+                        MageS.Game.admin.start();
+                    }, 600);
+                });
+
+                //this.configureKeys();
                 break;
         }
     };
@@ -337,6 +365,7 @@ MageS.Game = function () {
             info('Action is locked');
             return;
         }
+        if (!data) { data = {}; }
         this.startAction(action);
         this.spellbook.turnOffPatterns();
         this.spellbook.removePermanentTooltip();
@@ -384,6 +413,11 @@ MageS.Game = function () {
                 info('action not found');
                 return;
         }
+        if (data.fake !== undefined || this.admin.isEnabled) {
+            // this is a fake action
+            info('faked action ' + actionName);
+            return;
+        }
         Ajax.json('/Spellcraft/action', {
             data: 'action=' + actionName + '&data=' + dataString,
             callBack : function(data){ MageS.Game.callback(data) }
@@ -415,8 +449,8 @@ MageS.Game = function () {
                     //this.spells.castSpell(data);
                     break;
                 case 'error-message':
-                    info(data.game.messages);
-                    this.endAction();
+                    //info(data.game.messages);
+                    //this.endAction();
                     if (this.spells.spellAnimationRunning) {
                         this.spells.stopAnimation = true;
                     }
@@ -451,7 +485,7 @@ MageS.Game = function () {
     this.updateActions = function (actions, isFirstLoad) {
         //actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions=side', 'icon':'icon-fizzing-flask'});
         //actions.push({'name':'Skip turn', 'method':'skip-turn', 'key':'F' , 'location':'actions', 'icon':'icon-empty-hourglass', 'actionName':'skipTurn'});
-        //actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
+        actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
         var existingActions = {};
         actionsEl.find('.action').each(function() {
@@ -711,6 +745,7 @@ MageS.Game = function () {
         } else if (this.device == 'pc') {
             $('.actions-container .default-actions').fadeIn();
         }
+        this.admin.actionEnded();
     };
     
     this.getIcon = function(name, color) {

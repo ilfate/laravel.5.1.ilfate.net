@@ -329,7 +329,11 @@ MageS.Animations = function (game) {
         //});
         this.game.monimations.rotateWithScale($('body'), 0, 540, 1, -1, 1000);
         setTimeout(function(){
-            window.location = '/Spellcraft';
+            if (MageS.Game.admin.isEnabled) {
+                window.location = '/Spellcraft/admin';
+            } else {
+                window.location = '/Spellcraft';
+            }
         }, 500);
             //.animate()
     };

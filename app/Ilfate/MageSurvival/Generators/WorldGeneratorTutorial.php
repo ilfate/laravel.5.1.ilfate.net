@@ -26,53 +26,9 @@ use Ilfate\MageSurvival\WorldGenerator;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class WorldGeneratorTutorial extends WorldGenerator
+class WorldGeneratorTutorial extends WorldGeneratorSchool
 {
-    const CELL_BURNT_LANDING = 'bl';
-    const CELL_FIELD_1 = 'f1';
-    const CELL_FIELD_2 = 'f2';
-    const CELL_FIELD_3 = 'f3';
-    const CELL_FIELD_4 = 'f4';
-    const CELL_STONE = 's';
-    const CELL_WALL   = 'w1';
-    const CELL_WALL_2 = 'w2';
-    const CELL_WALL_3 = 'w3';
-    const CELL_WALL_4 = 'w4';
-    const CELL_WALL_5 = 'w5';
-    const CELL_WALL_6 = 'w6';
-
-    protected $cells = [
-        self::CELL_BURNT_LANDING, // birnedLanding
-    ];
-
-    protected $random = [
-        self::CELL_WALL,
-        self::CELL_WALL,
-        self::CELL_WALL,
-        self::CELL_WALL,
-        self::CELL_WALL_2,
-        self::CELL_WALL_2,
-        self::CELL_WALL_2,
-        self::CELL_WALL_2,
-        self::CELL_WALL_3,
-        self::CELL_WALL_3,
-        self::CELL_WALL_3,
-        self::CELL_WALL_3,
-        self::CELL_WALL_4,
-        self::CELL_WALL_5,
-        self::CELL_WALL_6,
-    ];
-
-    protected $notPassable = [
-        self::CELL_STONE,
-        self::CELL_WALL,
-        self::CELL_WALL_2,
-        self::CELL_WALL_3,
-        self::CELL_WALL_4,
-        self::CELL_WALL_5,
-        self::CELL_WALL_6,
-    ];
-
+    
     protected static $generatorConfig = [
         'world-predefined' => true,
         'full-world' =>
@@ -161,29 +117,6 @@ class WorldGeneratorTutorial extends WorldGenerator
         $spell->generateCoolDown();
         $this->mage->addSpell($spell);
         $this->mage->save();
-    }
-
-    /**
-     * @param $type
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function getCellByType($type, $x, $y)
-    {
-        $cell = '';
-        switch($type) {
-            case WorldGenerator::CELL_TYPE_SPAWN:
-                $cell = self::CELL_BURNT_LANDING;
-                break;
-            case WorldGenerator::CELL_TYPE_RANDOM:
-
-                $cell = $this->random[array_rand($this->random)];
-                break;
-            default:
-                throw new \Exception('In ' . __CLASS__ . ' cell for type "' . $type . '" is not defined');
-        }
-        return $cell;
     }
     
     public function onLeaveWorld()
