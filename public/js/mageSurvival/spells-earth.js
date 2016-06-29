@@ -331,6 +331,18 @@ MageS.Spells.Earth = function (game, spells) {
         }, 600 * data.targets.length);
     };
 
+    this.finishEarthquake = function(data) {
+        this.finishStandartEarth(100);
+
+        MageS.Game.monimations.camShake('Y', 300, 4, {delay:50});
+        MageS.Game.monimations.camShake('X', 300, 8, {delay:400});
+        MageS.Game.monimations.camShake('Y', 300, 12, {delay:750});
+
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1000);
+    };
+
     this.finishAstonishing = function(data) {
         this.finishStandartEarth(200);
 

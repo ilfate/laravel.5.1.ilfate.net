@@ -752,8 +752,10 @@ abstract class Mage extends AliveCommon
         if (!empty($config['is-delete-on-exit'])) {
             $this->world->destroy();
         }
-        foreach ($this->spells as &$spell) {
-            $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = 0;
+        if ($this->spells) {
+            foreach ($this->spells as &$spell) {
+                $spell['config'][Spell::CONFIG_FIELD_COOLDOWN_MARK] = 0;
+            }
         }
         $this->removeAllBuffsAndFlags();
         $this->game->getWorldGenerator()->onLeaveWorld();

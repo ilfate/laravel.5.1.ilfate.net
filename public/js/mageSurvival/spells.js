@@ -79,6 +79,7 @@ MageS.Spells = function (game) {
            case 'TunnelTravel':
            case 'EarthProtection':
            case 'StalactitesFall':
+           case 'Earthquake':
            case 'Astonishing':
            case 'WallUp':
            case 'MilestoneHit':
@@ -142,6 +143,7 @@ MageS.Spells = function (game) {
             case 'TunnelTravel':
             case 'EarthProtection':
             case 'StalactitesFall':
+            case 'Earthquake':
             case 'Astonishing':
             case 'WallUp':
             case 'MilestoneHit':
@@ -198,6 +200,7 @@ MageS.Spells = function (game) {
             case 'TunnelTravel':  this.earth.finishTunnelTravel(data); break;
             case 'EarthProtection':  this.earth.finishEarthProtection(data); break;
             case 'StalactitesFall':  this.earth.finishStalactitesFall(data); break;
+            case 'Earthquake':  this.earth.finishEarthquake(data); break;
             case 'Astonishing':  this.earth.finishAstonishing(data); break;
             case 'WallUp':  this.earth.finishWallUp(data); break;
             case 'MilestoneHit':  this.earth.finishMilestoneHit(data); break;

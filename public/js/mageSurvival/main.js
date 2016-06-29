@@ -577,7 +577,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('MilestoneHit');
+                MageS.Game.spells.startCast('Earthquake');
                 // MageS.Game.objects.activate({'action': 'wallExplode', 'targetX':0,'targetY':-1})
             });
             $('#move-control-field .control-arrow').on('click', function () {
