@@ -14,11 +14,13 @@ MageS.Spells = function (game) {
     this.water = {};
     this.air = {};
     this.earth = {};
+    this.arcane = {};
     this.init = function () {
         this.fire = new MageS.Spells.Fire(this.game, this);
         this.water = new MageS.Spells.Water(this.game, this);
         this.air = new MageS.Spells.Air(this.game, this);
         this.earth = new MageS.Spells.Earth(this.game, this);
+        this.arcane = new MageS.Spells.Arcane(this.game, this);
     };
 
     this.cast = function(data, stage) {
@@ -84,6 +86,8 @@ MageS.Spells = function (game) {
            case 'WallUp':
            case 'MilestoneHit':
                this.earth.startStandartEarth() ; break;
+           case 'arcane':
+               this.arcane.startStandartArcane() ; break;
            default:
                isSpellAnimated = false;
                info('No start animation for "' + name + '"');
@@ -148,6 +152,8 @@ MageS.Spells = function (game) {
             case 'WallUp':
             case 'MilestoneHit':
                 this.earth.iterateStandartEarth() ; break;
+            case 'arcane':
+                this.arcane.iterateStandartArcane() ; break;
             default:
                 info('No iteration animation for "' + name + '"');
         }
@@ -204,6 +210,7 @@ MageS.Spells = function (game) {
             case 'Astonishing':  this.earth.finishAstonishing(data); break;
             case 'WallUp':  this.earth.finishWallUp(data); break;
             case 'MilestoneHit':  this.earth.finishMilestoneHit(data); break;
+            case 'arcane':  this.arcane.finisharcane(data); break;
             default:
                 info('No last animation for "' + name + '"');
                 MageS.Game.animations.singleAnimationFinished(this.isSecondPartWaiting);

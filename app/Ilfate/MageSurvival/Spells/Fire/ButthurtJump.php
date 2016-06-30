@@ -89,6 +89,6 @@ class ButthurtJump extends Fire
 
     public function setUsages()
     {
-        $this->config['usages'] = mt_rand(10, 25);
+        $this->config['usages'] = mt_rand(10, 20);
     }
 }

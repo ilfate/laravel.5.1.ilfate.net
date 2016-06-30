@@ -29,7 +29,7 @@ MageS.Spellcraft = function (game) {
     };
 
     this.startSpellCraftAnimations = function () {
-
+        // this.craftAnimationsInProcess = true;
         $('.craft-spell-overlay').hide();
         $('.craft-spell-overlay-blender').hide();
         $('.confirm-create-spell').removeClass('active');
@@ -39,11 +39,11 @@ MageS.Spellcraft = function (game) {
         }
 
         this.spellCraftProcess = {};
-        this.craftingIsInProgress = false;
-        $('.craft-demo-zone').animate({
+
+        $('.craft-demo-zone').removeClass('active').animate({
             'opacity':0
         }, {duration:1000, complete:function() {
-            $(this).removeClass('active');
+            $(this);
         }});
         this.game.spellbook.showSpellbook();
         //if (this.game.device == 'mobile') {
@@ -90,21 +90,19 @@ MageS.Spellcraft = function (game) {
         for (var i = 0; i < 4; i++) {
             var animationEl = $('.craft-animation-item.n-' + i);
             if (animationEl.length < 1) { continue; }
-            this.craftAnimationsInProcess ++;
+            //this.craftAnimationsInProcess ++;
             animationEl.animate({'left': this.animationDestination.left + 'px'}, {duration: 1000, queue:false, easing:'easeInBack'});
             animationEl.animate({
                 'top': this.animationDestination.top + 'px', opacity: 0.3
             }, {
-                //step: function(now,fx) {
-                //    var x = now / MageS.Game.spellcraft.animationDestination.top;
-                //    $(this)[0].style.transform = 'scale(' + (2 - x) + ')';
-                //},
                 duration: 1000, easing: 'easeInOutSine', complete: function () {
-                //duration: 1000, easing: 'easeInBack', complete: function () {
                     $(this).remove();
                 }
             });
         }
+        setTimeout(function(){
+            MageS.Game.spellcraft.craftingIsInProgress = false;
+        }, 1200);
         $('.inventory,.spellBook').removeClass('craft');
         $('.inventory-shadow').animate({'opacity': 0}, {'duration': this.game.animationTime / 3,'complete':function(){
             $(this).hide();

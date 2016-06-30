@@ -48,7 +48,7 @@ class FaceCanon extends Fire
             /**
              * @var Unit $target
              */
-            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
         }
         //$this->setNexStage();
         $x = $this->mage->getX();
@@ -69,7 +69,7 @@ class FaceCanon extends Fire
             $x = $nx; $y = $ny;
         }
         $this->changeCellsBySpellSource($this->affectedCells, Spell::ENERGY_SOURCE_FIRE);
-        $this->mage->forceMove($x, $y, $this->getNormalCastStage());
+        $this->mage->forceMove($x, $y, Game::ANIMATION_STAGE_MAGE_ACTION_3);
         if (ChanceHelper::chance(3)) {
             $this->mage->say('Surprise Motherfucker!!', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);
         }

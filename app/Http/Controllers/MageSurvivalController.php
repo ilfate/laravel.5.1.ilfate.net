@@ -292,7 +292,7 @@ class MageSurvivalController extends BaseController
             case 'games.mageSurvival.user-battle':
                 $data = $game->getData();
                 if ($this->isLogged) {
-                    $this->logPageOpen($data, $game->getUser());
+                    $this->logPageOpen($data, $game);
                 }
                 break;
         }
@@ -349,12 +349,18 @@ class MageSurvivalController extends BaseController
         Cache::put(self::CACHE_USER_LOGGING . $user->id, true, self::CACHE_ENABLED_MINUTES);
     }
 
-    protected function logPageOpen($data, User $user)
+    protected function logPageOpen($data, Game $game)
     {
+        $user = $game->getUser();
         $index = Cache::get(self::CACHE_USER_LOGGING_INDEX . $user->id);
         $pageTime = time();
+        $info = [
+            'map' => $game->getWorld()->getType(),
+            'turn' => $game->getWorld()->getTurn(),
+        ];
         if ($index) {
             $index['pages'][] = $pageTime;
+            $index['info'][$pageTime] = $info;
             $index['currentPage'] = $pageTime;
         } else {
              $index = [
@@ -362,6 +368,7 @@ class MageSurvivalController extends BaseController
                      $pageTime
                  ],
                  'actions' => [],
+                 'info' => [$pageTime => $info],
                  'currentPage' => $pageTime
              ];
         }
@@ -400,6 +407,7 @@ class MageSurvivalController extends BaseController
         foreach ($index['pages'] as $pageTime) {
             $pages[] = [
                 'pageTime' => $pageTime,
+                'info' => $index['info'][$pageTime],
                 'time' => Carbon::createFromTimestamp($pageTime)->toDateTimeString(),
                 'actions' => empty($index['actions'][$pageTime]) ? 0 : $index['actions'][$pageTime]
             ];
@@ -450,8 +458,12 @@ class MageSurvivalController extends BaseController
     protected function getActions($userId, $pageTime, $actionId)
     {
         $index = Cache::get(self::CACHE_USER_LOGGING_INDEX . $userId);
+        $return = [];
+        if ($index && $index['currentPage'] != $pageTime) {
+            $return['thisWasLast'] = true;
+        }
         if (!$index || $index['actions'][$pageTime] == $actionId) {
-            return null;
+            return $return;
         }
         $actions = [];
         if (!empty($index['actions'][$pageTime])) {
@@ -459,7 +471,9 @@ class MageSurvivalController extends BaseController
                 $actions[] = json_decode(Cache::get($this->getKeyForActionLog($userId, $pageTime, $i)), true);
             }
         }
-        return $actions;
+        $return['actions'] = $actions;
+
+        return $return;
     }
 
     protected function getKeyForPageLog($userId, $time)

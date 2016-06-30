@@ -237,7 +237,10 @@ abstract class Spell
 //                }
 //            }
         }
-        $schoolId = ChanceHelper::oneFromArray(\Config::get('mageSpells')[self::KEY_SCHOOL_CHANCES]);
+        if (empty($spellRandomizerConfig[self::KEY_SCHOOL_CHANCES])) {
+            $spellRandomizerConfig[self::KEY_SCHOOL_CHANCES] = \Config::get('mageSpells')[self::KEY_SCHOOL_CHANCES];
+        }
+        $schoolId = ChanceHelper::oneFromArray($spellRandomizerConfig[self::KEY_SCHOOL_CHANCES]);
         return self::craftSpell($schoolId, $spellRandomizerConfig);
     }
 

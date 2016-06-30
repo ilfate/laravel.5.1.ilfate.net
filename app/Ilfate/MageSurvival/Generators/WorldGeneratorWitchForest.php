@@ -144,6 +144,11 @@ class WorldGeneratorWitchForest extends WorldGenerator
         ]
     ];
 
+    public function getObjectCreatingChance($x, $y)
+    {
+        return 4;
+    }
+
     public function addAdditionalToMap(array &$map)
     {
         $possibleLocationsForLake = [

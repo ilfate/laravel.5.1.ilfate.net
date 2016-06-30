@@ -31,7 +31,7 @@ class LightMyFire extends Fire
             /**
              * @var Unit $target
              */
-            $target->burn(4, $this->getNormalCastStage());
+            $target->burn(4, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
             
         }
         if (ChanceHelper::chance(5)) {

@@ -37,7 +37,7 @@ class ExplodingBees extends Fire
              * @var Unit $target
              */
             $damage = $this->mage->getDamage(mt_rand(1, 4), Spell::ENERGY_SOURCE_FIRE);
-            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
         }
         if (ChanceHelper::chance(10)) {
             $this->mage->say('Bzzzz-bzzzz', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);

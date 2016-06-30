@@ -25,7 +25,7 @@ return array(
                 ['name' => 'spawnSpiders'],
                 ['name' => 'greenLaser']
             ],
-            'icon' => 'icon-witch-1', 'loot' => 102,
+            'icon' => 'icon-witch-1', 'loot' => 104,
             'description' => 'She is common member of magic community. What she can do? You have to find out.',
         ],
         4 => [
@@ -46,11 +46,11 @@ return array(
             'description' => 'A small spider. Nothing special, but be cautious it can jump.',
         ],
         12 => [
-            'name' => 'Orc', 'class' => 'Orcs\\Orc', 'health' => 8,
+            'name' => 'Orc - The Cynical Brut', 'class' => 'Orcs\\Orc', 'health' => 8,
             'behaviour' => 'AggressiveMelee', 'aggressiveRange' => 8, 'attacks' => [
                 ['name' => 'orcWeapon']
             ],
-            'icon' => 'icon-unit-orc', 'loot' => 102,
+            'icon' => 'icon-unit-orc', 'loot' => 103,
             'description' => 'That is just orc. He has lot of HP and could hit like a truck.',
         ],
         18 => [
@@ -58,7 +58,7 @@ return array(
             'behaviour' => 'AggressiveRange', 'aggressiveRange' => 8, 'attacks' => [
                 ['name' => 'bow']
             ],
-            'icon' => 'icon-unit-skeleton-archer', 'loot' => 102,
+            'icon' => 'icon-unit-skeleton-archer', 'loot' => 103,
             'description' => 'Skeleton with a bow? Again? And he will shoot at me... It has to be skeleton isn`t it?',
         ],
         101 => [
@@ -76,8 +76,6 @@ return array(
             'icon' => 'icon-fireImp-1', 'iconColor' => 'color-red',
             'description' => 'Creation of fire magic! Will attack your enemies till it`s magic is over. When it is done the Imp would explode.',
         ],
-
-        // 'name' => 'The Cynical Brut'
     ],
     'chances' => [
         // World type

@@ -14,6 +14,7 @@
 namespace Ilfate\MageSurvival\Spells\Water;
 
 use Ilfate\MageSurvival\Event;
+use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\Spells\Water;
 
 /**
@@ -37,6 +38,10 @@ class IceSlide extends Water
 
     protected function spellEffect($data)
     {
+        $targets = $this->world->getUnitsAround($this->mage->getX(), $this->mage->getY(), 1);
+        foreach ($targets as $target) {
+            $target->freeze(2, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+        }
         Event::create(Event::EVENT_MAGE_AFTER_MOVE, ['times' => 1], 'Water:iceSlide');
         return true;
     }

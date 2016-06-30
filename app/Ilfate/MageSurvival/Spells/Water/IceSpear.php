@@ -47,14 +47,14 @@ class IceSpear extends Water
             $distance = $this->world->getRealDistance($target, $this->mage);
 
             $damage = floor(6 - $distance);
-            if ($damage < 0) {
-                $damage = 0;
+            if ($damage < 1) {
+                $damage = 1;
             }
             $damage = $this->mage->getDamage($damage, Spell::ENERGY_SOURCE_WATER);
-            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_WATER);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_WATER);
 
         } else {
-            $target->freeze(3, Game::ANIMATION_STAGE_UNIT_ACTION_3);
+            $target->freeze(3, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
         }
         
         return true;

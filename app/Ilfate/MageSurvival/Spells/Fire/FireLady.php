@@ -59,11 +59,11 @@ class FireLady extends Fire
         $mageY = $mage = $this->mage->getY();
         $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
             'spell' => $this->name, 'targetX' => $target->getX() - $mageX, 'targetY' => $target->getY() - $mageY
-        ], $this->getNormalCastStage());
+        ], Game::ANIMATION_STAGE_MAGE_ACTION_2);
         $this->setEffectStage();
 
         $damage = $this->mage->getDamage(mt_rand(1, 6), Spell::ENERGY_SOURCE_FIRE);
-        $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_FIRE);
+        $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
 
         return true;
     }

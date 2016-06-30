@@ -54,12 +54,12 @@ class Blizzard extends Water
              */
 
             if (!$target->getFlag(Unit::FLAG_FROZEN)) {
-                $target->freeze(3, Game::ANIMATION_STAGE_MAGE_ACTION_2);
+                $target->freeze(3, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
             }
 
             $damage = mt_rand($this->damageMin, $this->damageMax);
             $damage = $this->mage->getDamage($damage, Spell::ENERGY_SOURCE_WATER);
-            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_WATER);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_WATER);
         }
         if (ChanceHelper::chance(1)) {
             $this->mage->say('Night gathers, and now my watch begins.', Game::ANIMATION_STAGE_MAGE_BEFORE_ACTION_SPEECH);

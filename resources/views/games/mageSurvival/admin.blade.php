@@ -21,6 +21,8 @@
                         <tr>
                             <th>time</th>
                             <th>actions</th>
+                            <th>world</th>
+                            <th>turn</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -30,6 +32,8 @@
                                     <a href="/Spellcraft/admin/page/{{$user['id']}}/{{$page['pageTime']}}">{{$page['time']}}</a>
                                 </td>
                                 <td>{{$page['actions']}}</td>
+                                <td>{{$page['info']['map']}}</td>
+                                <td>{{$page['info']['turn']}}</td>
                             </tr>
                         @endforeach
                         </tbody>

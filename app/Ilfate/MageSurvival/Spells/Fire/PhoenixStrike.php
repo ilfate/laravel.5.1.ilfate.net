@@ -72,7 +72,7 @@ class PhoenixStrike extends Fire
             for($i = 0; $i < 2; $i++) {
                 if ($units) {
                     $randomKey = array_rand($units);
-                    $units[$randomKey]->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_FIRE);
+                    $units[$randomKey]->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
                     $targetsForAnimation[$step]['targets'][] = [$units[$randomKey]->getX() - $mageX, $units[$randomKey]->getY() - $mageY];
                     unset($units[$randomKey]);
                 }
@@ -82,7 +82,7 @@ class PhoenixStrike extends Fire
         $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
             'spell' => $this->name, 'targetX' => $phoenixTargetX - $mageX, 'targetY' => $phoenixTargetY - $mageY,
             'data' => $targetsForAnimation, 'd' => $d
-        ], Game::ANIMATION_STAGE_MAGE_ACTION);
+        ], Game::ANIMATION_STAGE_MAGE_ACTION_2);
 //        $this->mage->forceMove($x, $y, $this->getNormalCastStage());
         return true;
     }

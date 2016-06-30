@@ -39,7 +39,7 @@ class Freeze extends Water
     protected function spellEffect($data)
     {
         $target = $this->targets[0];
-        $target->freeze(3, Game::ANIMATION_STAGE_MAGE_ACTION_2);
+        $target->freeze(3, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
         return true;
     }
 }

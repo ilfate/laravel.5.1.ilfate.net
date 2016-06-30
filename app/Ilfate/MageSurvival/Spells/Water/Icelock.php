@@ -53,12 +53,12 @@ class Icelock extends Water
             }
 
             $animationCoords[] = [$target->getX() - $this->mage->getX(), $target->getY() - $this->mage->getY()];
-            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_WATER);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_WATER);
         }
         $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
             'spell' => $this->name,
             'data' => $animationCoords, 'd' => $this->mage->getD()
-        ], Game::ANIMATION_STAGE_MAGE_ACTION);
+        ], Game::ANIMATION_STAGE_MAGE_ACTION_2);
 
         return true;
     }

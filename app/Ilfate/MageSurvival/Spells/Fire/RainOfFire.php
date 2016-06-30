@@ -51,14 +51,14 @@ class RainOfFire extends Fire
             /**
              * @var Unit $target
              */
-            $damage = $this->mage->getDamage(mt_rand(1, 2), Spell::ENERGY_SOURCE_FIRE);
-            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_FIRE);
+            $damage = $this->mage->getDamage(mt_rand(1, 3), Spell::ENERGY_SOURCE_FIRE);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
         }
 
         $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
             'spell' => $this->name,
             'data' => $this->pattern,
-        ], Game::ANIMATION_STAGE_MAGE_ACTION);
+        ], Game::ANIMATION_STAGE_MAGE_ACTION_2);
 
         $this->changeCellsBySpellSource($this->affectedCells, Spell::ENERGY_SOURCE_FIRE);
 

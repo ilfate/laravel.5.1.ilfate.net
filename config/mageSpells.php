@@ -8,7 +8,7 @@ return array(
             0 => [
                 'name' => 'Fireball',
                 'class' => 'Fireball',
-                'description' => 'Hit a single target with fire',
+                'description' => 'Hit a single target with fire. For only 1 damage...',
                 'iconClass' => 'icon-ember-shot',
                 'iconColor' => 'color-red',
                 'directTargetSpell' => 'enemy',
@@ -16,14 +16,14 @@ return array(
             1 => [
                 'name' => 'FireNova',
                 'class' => 'FireNova',
-                'description' => 'Create ring of Fire to burn all the enemies around',
+                'description' => 'Create ring of Fire to burn all the enemies around for 2 damage',
                 'iconClass' => 'icon-fire-ring',
                 'iconColor' => 'color-red',
             ],
             2 => [
                 'name' => 'Exploding Bees',
                 'class' => 'ExplodingBees',
-                'description' => 'Bees all hunt your enemy down',
+                'description' => 'Bees all hunt your enemy down. (For 1-4 damage)',
                 'iconClass' => 'icon-bee',
                 'iconColor' => 'color-red',
                 'directTargetSpell' => 'enemy',
@@ -31,7 +31,7 @@ return array(
             3 => [
                 'name' => 'Butthurt jump',
                 'class' => 'ButthurtJump',
-                'description' => 'Use you anger to travel larger distances.',
+                'description' => 'Use you anger to travel larger distances. Landing would not be very exact.',
                 'iconClass' => 'icon-fire-dash',
                 'iconColor' => 'color-red',
             ],
@@ -46,7 +46,7 @@ return array(
             5 => [
                 'name' => 'Bomb',
                 'class' => 'Bomb',
-                'description' => 'Leave a bomb where you stand.',
+                'description' => 'Leave a bomb where you stand. It will explode for 3 damage when any unit will be around. Explosion will also damage you.',
                 'iconClass' => 'icon-fire-bomb',
                 'iconColor' => 'color-red',
                 'noTargetSpell' => true,
@@ -54,7 +54,7 @@ return array(
             6 => [
                 'name' => 'Fire Woman',
                 'class' => 'FireLady',
-                'description' => 'Lady will go around battle field and put your enemies on fire',
+                'description' => 'Deal from 1 to 6 damage to a random target.',
                 'iconClass' => 'icon-fire-woman',
                 'iconColor' => 'color-red',
                 'noTargetSpell' => true,
@@ -63,14 +63,14 @@ return array(
             7 => [
                 'name' => 'Face canon',
                 'class' => 'FaceCanon',
-                'description' => 'Shoot your enemy in the face. Kickback might be hard thought.',
+                'description' => 'Shoot your enemy in the face for 2 damage. Kickback might be hard thought.',
                 'iconClass' => 'icon-blaster',
                 'iconColor' => 'color-red',
             ],
             8 => [
                 'name' => 'Let the Fire in your eyes',
                 'class' => 'LetFireInYourEyes',
-                'description' => 'Let your enemies burn like hell. Unless they are devils in disguise.',
+                'description' => 'Let your enemies burn like hell. Unless they are devils in disguise. (2 damage + burn for 3 turns)',
                 'iconClass' => 'icon-pyromaniac',
                 'iconColor' => 'color-red',
                 'directTargetSpell' => 'enemy',
@@ -86,7 +86,7 @@ return array(
             10 => [
                 'name' => 'Fire and Rain',
                 'class' => 'RainOfFire',
-                'description' => 'Drown your enemies in fire from the sky.',
+                'description' => 'Drown your enemies in fire from the sky dealing 1 - 3 damage.',
                 'iconClass' => 'icon-fire-tail',
                 'iconColor' => 'color-red',
                 'noAutoAnimationTrigger' => true,
@@ -106,7 +106,7 @@ return array(
             0 => [
                 'name' => 'IceSlide',
                 'class' => 'IceSlide',
-                'description' => 'Next move you do you can slide very far away',
+                'description' => 'Freeze all enemies around you. Next move you do you can slide very far away',
                 'iconClass' => 'icon-snowflake-1',
                 'iconColor' => 'color-dark-blue',
                 'noTargetSpell' => true,
@@ -432,6 +432,15 @@ return array(
                 'directTargetSpell' => 'enemy',
             ],
         ],
+        8 => [ // arcane
+            0 => [
+                'name' => 'Arcane missiles',
+                'class' => 'ArcaneMissiles',
+                'description' => 'Default description',
+                'iconClass' => 'icon-flame',
+                'directTargetSpell' => 'enemy',
+            ],
+        ],
     ],
     'school-chances' => [
         1,1,1,1,1,1,1,1,   //fire
@@ -453,7 +462,7 @@ return array(
         5 => ['name' => 'light', 'icon' => 'icon-flame', 'color' => 'red'],
         6 => ['name' => 'death', 'icon' => 'icon-flame', 'color' => 'red'],
         7 => ['name' => 'nature', 'icon' => 'icon-flame', 'color' => 'red'],
-        8 => ['name' => 'arcane', 'icon' => 'icon-flame', 'color' => 'red'],
+        8 => ['name' => 'arcane', 'icon' => 'icon-abstract-119', 'color' => 'purple'],
 //        9 => ['name' => 'blood', 'icon' => 'icon-flame'],
 //        10 => ['name' => 'voodoo', 'icon' => 'icon-flame'],
 //        11 => ['name' => 'demonology', 'icon' => 'icon-flame'],

@@ -11,6 +11,10 @@ MageS.Admin = function (game) {
     this.actions = {};
     this.currentAction = {};
     this.actionNumber = 0;
+    this.timeToLoadAjax = 1000;
+    this.timeToLoadAjax2 = 5000;
+    this.timeToLoadAjax3 = 30000;
+    this.failedActions = 0;
 
     this.init = function() {
         this.isEnabled = true;
@@ -48,7 +52,7 @@ MageS.Admin = function (game) {
         var action = this.getNextAction();
         if (!action) {
             info ('Preloaded actions are finished');
-            setTimeout(function(){ MageS.Game.admin.loadActions();}, 1500);
+            setTimeout(function(){ MageS.Game.admin.loadActions();}, MageS.Game.admin.timeToLoadAjax);
             return;
         }
         action.data.fake = true;
@@ -87,11 +91,21 @@ MageS.Admin = function (game) {
 
     this.callback = function(data) {
         info(data);
-        if (data && data.length > 0) {
+        if (data && data.actions !== undefined && data.actions.length > 0) {
             this.actions = data;
+            this.failedActions = 0;
             this.performAction();
         } else {
-            setTimeout(function(){ MageS.Game.admin.loadActions();}, 3000);
+            if (data.thisWasLast !== undefined) {
+                MageS.Game.chat.dialogMessage({'targetX':0, 'targetY':0, 'message':'This was last action on this page'});
+                return;
+            }
+            this.failedActions++;
+            var time = MageS.Game.admin.timeToLoadAjax2;
+            if (this.failedActions > 5) {
+                time = MageS.Game.admin.timeToLoadAjax3;
+            }
+            setTimeout(function(){ MageS.Game.admin.loadActions();}, time);
         }
     }
 };

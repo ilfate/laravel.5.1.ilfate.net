@@ -44,12 +44,12 @@ class IceCone extends Water
              */
 
             if (!$target->getFlag(Unit::FLAG_FROZEN)) {
-                $target->freeze(2, Game::ANIMATION_STAGE_MAGE_ACTION_2);
+                $target->freeze(2, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
             }
 
             $damage = mt_rand(1, 2);
             $damage = $this->mage->getDamage($damage, Spell::ENERGY_SOURCE_WATER);
-            $target->damage($damage, $this->getNormalCastStage(), Spell::ENERGY_SOURCE_WATER);
+            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_WATER);
         }
         
         
