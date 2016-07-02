@@ -111,20 +111,24 @@ Ajax = function() {
       this.callBack[n_cb](data);
     }
     F.handleEvent('ajaxloadcompleted');
-  }
+  };
+
   this.doneHtml = function(data, target, n_cb)
   {
     F.handleEvent('ajaxonload');
     $(target).html(data);
     F.handleEvent('ajaxloadcompleted');
-  }
+  };
   
   this.fail = function(jqXHR, textStatus)
   {
-    alert('FAIL');
+    Ajax.json('/jsLog', {
+      data: 'data=' + textStatus + '&jqXHR=' + jqXHR
+    });
+    alert('Something vent wrong. Try to reload the page. If this happens again plz inform administrator.');
     info(jqXHR);
     info(textStatus);
-  }
+  };
   
   this.init = function()
   {

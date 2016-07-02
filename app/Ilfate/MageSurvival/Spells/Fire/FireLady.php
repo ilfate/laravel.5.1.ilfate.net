@@ -40,6 +40,11 @@ class FireLady extends Fire
     protected $defaultCooldownMin = 4;
     protected $defaultCooldownMax = 6;
 
+    public function setUsages()
+    {
+        $this->config['usages'] = mt_rand(5, 10);
+    }
+
     protected function spellEffect($data)
     {
         $visibleUnits = $this->game->getWorldGenerator()->getVisibleUnits($this->mage);

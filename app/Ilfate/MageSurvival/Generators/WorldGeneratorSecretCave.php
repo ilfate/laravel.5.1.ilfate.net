@@ -37,14 +37,14 @@ class WorldGeneratorSecretCave extends WorldGeneratorWitchForest
     ];
 
     protected $random = [
-        self::CELL_CAVE_FLOOR,
-        self::CELL_CAVE_FLOOR,
-        self::CELL_CAVE_FLOOR,
-        self::CELL_CAVE_FLOOR,
-        self::CELL_CAVE_FLOOR,
+        self::CELL_CAVE_FLOOR_1,
+        self::CELL_CAVE_FLOOR_1,
+        self::CELL_CAVE_FLOOR_1,
         self::CELL_CAVE_FLOOR_2,
         self::CELL_CAVE_FLOOR_2,
-        self::CELL_CAVE_FLOOR_2,
+        self::CELL_CAVE_FLOOR_3,
+        self::CELL_CAVE_FLOOR_3,
+        self::CELL_CAVE_FLOOR_3,
         self::CELL_STONE_2,
         self::CELL_STONE_2,
     ];
@@ -122,7 +122,7 @@ class WorldGeneratorSecretCave extends WorldGeneratorWitchForest
                 break;
             case WorldGenerator::CELL_TYPE_RANDOM:
                 if ($y < 3 && $y > -(self::$generatorConfig['mapDistance'] + 2) && abs($x) <= 1) {
-                    return ChanceHelper::oneFromArray([self::CELL_ROAD, self::CELL_ROAD_3, self::CELL_ROAD_4]);
+                    return ChanceHelper::oneFromArray([self::CELL_CAVE_FLOOR_ROAD]);
                 }
                 $cell = $this->random[array_rand($this->random)];
                 break;

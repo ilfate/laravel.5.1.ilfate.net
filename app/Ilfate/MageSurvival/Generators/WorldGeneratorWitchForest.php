@@ -31,9 +31,18 @@ use Ilfate\MageSurvival\WorldGenerator;
 class WorldGeneratorWitchForest extends WorldGenerator
 {
     const CELL_BURNT_LANDING = 'bl';
+    const CELL_BURNED = 'f3';
     const CELL_FIELD_1 = 'f1';
     const CELL_FIELD_2 = 'f2';
-    const CELL_FIELD_3 = 'f3';
+    const CELL_FIELD_5 = 'f5';
+    const CELL_FIELD_6 = 'f6';
+    const CELL_FIELD_7 = 'f7';
+    const CELL_FIELD_8 = 'f8';
+    const CELL_FIELD_9 = 'f9';
+    const CELL_FIELD_0 = 'f0';
+    const CELL_FIELD_10 = 'F1';
+    const CELL_FIELD_11 = 'F3';
+    const CELL_STUMP = 'F2';
     const CELL_FLOOR = 'f4';
     const CELL_WALL = 'w1';
     const CELL_WALL_2 = 'w2';
@@ -45,27 +54,36 @@ class WorldGeneratorWitchForest extends WorldGenerator
     const CELL_TREE_PINE = 't1';
     const CELL_TREE_PINE_2 = 't2';
     const CELL_TREE_PINE_3 = 't3';
+    const CELL_TREE_PINE_4 = 't4';
+    const CELL_TREE_PINE_5 = 't5';
+    const CELL_TREE_PINE_6 = 't6';
     const CELL_TREE_OAK = 't4';
-    const CELL_FOREST = 't0';
-    const CELL_FOREST_2 = 'tf';
-    const CELL_FOREST_3 = 'tF';
+//    const CELL_FOREST = 't0';
+//    const CELL_FOREST_2 = 'tf';
+//    const CELL_FOREST_3 = 'tF';
+//    const CELL_FOREST_4 = 'TF';
+//    const CELL_FOREST_5 = 'Tf';
+//    const CELL_FOREST_6 = 'T0';
     const CELL_RIVER = 'r1';
     const CELL_ROAD = 'r2';
     const CELL_ROAD_3 = 'r3';
     const CELL_ROAD_4    = 'r4';
-    const CELL_CAVE_FLOOR = 'c1';
+    const CELL_CAVE_FLOOR_1 = 'c1';
     const CELL_CAVE_FLOOR_2 = 'c2';
+    const CELL_CAVE_FLOOR_3 = 'c4';
+    const CELL_CAVE_FLOOR_ROAD = 'c3';
 
     protected $cells = [
         self::CELL_BURNT_LANDING, // birnedLanding
     ];
 
     protected $walls = [
-        self::CELL_FOREST,
-        self::CELL_FOREST,
-        self::CELL_FOREST,
-        self::CELL_FOREST_2,
-        self::CELL_FOREST_3,
+        self::CELL_TREE_PINE,
+        self::CELL_TREE_PINE_2,
+        self::CELL_TREE_PINE_3,
+        self::CELL_TREE_PINE_4,
+        self::CELL_TREE_PINE_5,
+        self::CELL_TREE_PINE_6,
     ];
 
     protected $random = [
@@ -74,10 +92,37 @@ class WorldGeneratorWitchForest extends WorldGenerator
         self::CELL_FIELD_1,
         self::CELL_FIELD_1,
         self::CELL_FIELD_1,
+        self::CELL_FIELD_1,
         self::CELL_FIELD_2,
-        self::CELL_FIELD_3,
+        self::CELL_FIELD_2,
+        self::CELL_FIELD_2,
+        self::CELL_FIELD_2,
+        self::CELL_FIELD_2,
+        self::CELL_FIELD_2,
+        self::CELL_FIELD_5,
+        self::CELL_FIELD_5,
+        self::CELL_FIELD_5,
+        self::CELL_FIELD_5,
+        self::CELL_FIELD_5,
+        self::CELL_FIELD_11,
+        self::CELL_FIELD_11,
+        self::CELL_FIELD_11,
+        self::CELL_FIELD_11,
+        self::CELL_STUMP,
+        self::CELL_FIELD_6,
+        self::CELL_FIELD_7,
+        self::CELL_FIELD_8,
+        self::CELL_FIELD_9,
+        self::CELL_FIELD_0,
+        self::CELL_FIELD_10,
         self::CELL_TREE_PINE,
-        self::CELL_TREE_OAK,
+        self::CELL_TREE_PINE,
+        self::CELL_TREE_PINE_2,
+        self::CELL_TREE_PINE_2,
+        self::CELL_TREE_PINE_3,
+        self::CELL_TREE_PINE_3,
+        self::CELL_TREE_PINE_4,
+        self::CELL_TREE_PINE_4,
     ];
 
     protected $notPassable = [
@@ -89,10 +134,10 @@ class WorldGeneratorWitchForest extends WorldGenerator
         self::CELL_TREE_PINE,
         self::CELL_TREE_PINE_2,
         self::CELL_TREE_PINE_3,
+        self::CELL_TREE_PINE_4,
+        self::CELL_TREE_PINE_5,
+        self::CELL_TREE_PINE_6,
         self::CELL_TREE_OAK,
-        self::CELL_FOREST,
-        self::CELL_FOREST_2,
-        self::CELL_FOREST_3,
         self::CELL_RIVER,
         self::CELL_WALL,
         self::CELL_WALL_2,
@@ -100,13 +145,16 @@ class WorldGeneratorWitchForest extends WorldGenerator
 
     protected $destroyable = [
         Spell::ENERGY_SOURCE_FIRE => [
-            self::CELL_TREE_PINE   => self::CELL_FIELD_3,
-            self::CELL_TREE_PINE_2 => self::CELL_FIELD_3,
-            self::CELL_TREE_PINE_3 => self::CELL_FIELD_3,
-            self::CELL_TREE_OAK    => self::CELL_FIELD_3,
-            self::CELL_FOREST      => self::CELL_FIELD_3,
-            self::CELL_FOREST_2    => self::CELL_FIELD_3,
-            self::CELL_FOREST_3    => self::CELL_FIELD_3,
+            self::CELL_TREE_PINE   => self::CELL_BURNED,
+            self::CELL_TREE_PINE_2 => self::CELL_BURNED,
+            self::CELL_TREE_PINE_3 => self::CELL_BURNED,
+            self::CELL_TREE_PINE_4 => self::CELL_BURNED,
+            self::CELL_TREE_PINE_5 => self::CELL_BURNED,
+            self::CELL_TREE_PINE_6 => self::CELL_BURNED,
+            self::CELL_TREE_OAK    => self::CELL_BURNED,
+//            self::CELL_FOREST      => self::CELL_FIELD_3,
+//            self::CELL_FOREST_2    => self::CELL_FIELD_3,
+//            self::CELL_FOREST_3    => self::CELL_FIELD_3,
         ]
     ];
     
@@ -196,7 +244,7 @@ class WorldGeneratorWitchForest extends WorldGenerator
         Event::create(Event::EVENT_UNIT_BEFORE_DYING, [
                 'times' => 1,
                 'owner' => $witch,
-                'flag' => ['SecretCave', 'SchoolBasement'],
+                'flag' => ['SecretCave', 'SchoolBasement', 'Home'],
                 'value' => 'open'
             ],
             'General:addUserFlag'

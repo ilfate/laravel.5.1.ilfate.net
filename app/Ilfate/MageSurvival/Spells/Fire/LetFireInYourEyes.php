@@ -26,6 +26,11 @@ class LetFireInYourEyes extends Fire
     protected $defaultCooldownMin = 3;
     protected $defaultCooldownMax = 5;
 
+    public function setUsages()
+    {
+        $this->config['usages'] = mt_rand(5, 10);
+    }
+
     protected function spellEffect($data)
     {
         foreach($this->targets as $target) {

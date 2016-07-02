@@ -4200,38 +4200,56 @@ body {
     color: #584D3D; }
 
 .battle-border .tile-image {
-  background-image: url("/images/game/mage/sprite-big.png");
+  background-image: url("/images/game/mage/sprite-big2.png");
   background-size: 1100%; }
   .battle-border .tile-image.tile-wood-plank {
     background-position: 0 0; }
-  .battle-border .tile-image.someName {
+  .battle-border .tile-image.forest-tree {
     background-position: 10% 0; }
-  .battle-border .tile-image.someName1 {
+  .battle-border .tile-image.grass1 {
     background-position: 20% 0; }
-  .battle-border .tile-image.someName2 {
+  .battle-border .tile-image.grass2 {
     background-position: 30% 0; }
-  .battle-border .tile-image.someName3 {
+  .battle-border .tile-image.grass3 {
     background-position: 40% 0; }
-  .battle-border .tile-image.someName4 {
+  .battle-border .tile-image.grass4 {
     background-position: 50% 0; }
-  .battle-border .tile-image.someName5 {
+  .battle-border .tile-image.forest-tree2 {
     background-position: 60% 0; }
-  .battle-border .tile-image.someName6 {
+  .battle-border .tile-image.forest-tree3 {
     background-position: 70% 0; }
-  .battle-border .tile-image.someName7 {
+  .battle-border .tile-image.forest-tree4 {
     background-position: 80% 0; }
-  .battle-border .tile-image.someName8 {
+  .battle-border .tile-image.forest-tree5 {
     background-position: 90% 0; }
-  .battle-border .tile-image.someName9 {
+  .battle-border .tile-image.forest-tree6 {
     background-position: 100% 0; }
-  .battle-border .tile-image.someName10 {
-    background-position: 0 10%; }
-  .battle-border .tile-image.someName11 {
-    background-position: 10% 10%; }
-  .battle-border .tile-image.someName12 {
-    background-position: 20% 10%; }
-  .battle-border .tile-image.someName13 {
-    background-position: 30% 10%; }
+  .battle-border .tile-image.grass-stump {
+    background-position: 0 -32px; }
+  .battle-border .tile-image.grass-stump-burned {
+    background-position: 10% -32px; }
+  .battle-border .tile-image.grass-flowers-1 {
+    background-position: 20% -32px; }
+  .battle-border .tile-image.grass-flowers-2 {
+    background-position: 30% -32px; }
+  .battle-border .tile-image.grass-flowers-3 {
+    background-position: 40% -32px; }
+  .battle-border .tile-image.grass-decor-1 {
+    background-position: 50% -32px; }
+  .battle-border .tile-image.grass-decor-2 {
+    background-position: 60% -32px; }
+  .battle-border .tile-image.grass-decor-3 {
+    background-position: 70% -32px; }
+  .battle-border .tile-image.cave-floor-1 {
+    background-position: 80% -32px; }
+  .battle-border .tile-image.cave-floor-2 {
+    background-position: 90% -32px; }
+  .battle-border .tile-image.cave-floor-3 {
+    background-position: 100% -32px; }
+  .battle-border .tile-image.cave-floor-4 {
+    background-position: 0 -64px; }
+  .battle-border .tile-image.noName {
+    background-position: 10% -64px; }
 
 @media (min-width: 49.6rem) {
   .mage-survival .container.main .right-panel .craft-demo-zone.active {

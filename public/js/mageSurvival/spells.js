@@ -38,28 +38,32 @@ MageS.Spells = function (game) {
         var isSpellAnimated = true;
         switch (name) {
            case 'Fireball': this.fire.startFireball() ; break;
-           case 'FireNova': this.fire.startStandartFire() ; break;
-           case 'ExplodingBees': this.fire.startStandartFire() ; break;
-           case 'ButthurtJump': this.fire.startStandartFire() ; break;
-           case 'LightMyFire': this.fire.startStandartFire() ; break;
-           case 'Bomb': this.fire.startStandartFire() ; break;
-           case 'FireLady': this.fire.startStandartFire() ; break;
-           case 'FaceCanon': this.fire.startStandartFire() ; break;
-           case 'LetFireInYourEyes': this.fire.startStandartFire() ; break;
-           case 'PhoenixStrike': this.fire.startStandartFire() ; break;
-           case 'RainOfFire': this.fire.startStandartFire() ; break;
-           case 'FireImp': this.fire.startStandartFire() ; break;
+           case 'FireNova': 
+           case 'ExplodingBees': 
+           case 'ButthurtJump': 
+           case 'LightMyFire': 
+           case 'Bomb': 
+           case 'FireLady': 
+           case 'FaceCanon': 
+           case 'LetFireInYourEyes': 
+           case 'PhoenixStrike': 
+           case 'RainOfFire': 
+           case 'BurnCitiesToTheGround': 
+           case 'FireImp': 
+           case 'DoesItBurns': 
+               this.fire.startStandartFire() ; break;
            case 'IceCrown': this.water.startIceCrown() ; break;
-           case 'Freeze': this.water.startStandartWater() ; break;
-           case 'IceWall': this.water.startStandartWater() ; break;
-           case 'IceSpear': this.water.startStandartWater() ; break;
-           case 'IceCone': this.water.startStandartWater() ; break;
-           case 'WashAndGo': this.water.startStandartWater() ; break;
-           case 'Blizzard': this.water.startStandartWater() ; break;
-           case 'IceShield': this.water.startStandartWater() ; break;
+           case 'Freeze': 
+           case 'IceWall': 
+           case 'IceSpear': 
+           case 'IceCone': 
+           case 'WashAndGo': 
+           case 'Blizzard': 
+           case 'IceShield': 
            case 'Icelock': 
            case 'FreshWaterFountain':
-           case 'WaterBody': this.water.startStandartWater() ; break; 
+           case 'WaterBody': 
+               this.water.startStandartWater() ; break; 
            case 'Push': 
            case 'Harmony': 
            case 'NoMoreAirForYou': 
@@ -112,7 +116,9 @@ MageS.Spells = function (game) {
             case 'LetFireInYourEyes':
             case 'PhoenixStrike':
             case 'RainOfFire':
+            case 'BurnCitiesToTheGround':
             case 'FireImp':
+            case 'DoesItBurns':
                 this.fire.iterateStandartFire() ; break;
             case 'IceCrown': this.water.iterateIceCrown(); break;
             case 'Freeze':
@@ -174,7 +180,10 @@ MageS.Spells = function (game) {
             case 'LetFireInYourEyes': this.fire.finishLetFireInYourEyes(data); break;
             case 'PhoenixStrike': this.fire.finishPhoenixStrike(data); break;
             case 'RainOfFire': this.fire.finishRainOfFire(data); break;
+            case 'BurnCitiesToTheGround': this.fire.finishBurnCitiesToTheGround(data); break;
             case 'FireImp': this.fire.finishFireImp(data); break;
+            case 'DoesItBurns': this.fire.finishDoesItBurns(data); break;
+            
             case 'IceCrown': this.water.finishIceCrown(data); break;
             case 'Freeze': this.water.finishFreeze(data); break;
             case 'IceWall': this.water.finishIceWall(data); break;
@@ -490,12 +499,46 @@ MageS.Spells = function (game) {
             if (options.rotate !== undefined) {
                 svg.animateRotate(0, 720, options.time);
             }
+            var deleteDelay = 0;
+            if (options.deleteDelay !== undefined) {
+                deleteDelay = options.deleteDelay;
+            }
             setTimeout(function(){
                 flake.fadeOut(50, function() {
                     $(this).remove();
                 });
-            }, options.time - 50);
+            }, options.time - 50 + deleteDelay);
         }, delay);
+    };
+
+    this.particleExplosion = function(x, y, color, options) {
+        if (options.time === undefined) {
+            options.time = 300;
+        }
+        var options2 = {
+            time:options.time
+        };
+        var toX = 0;
+        var toY = 0;
+        var count = 20;
+        if (options.count !== undefined) {
+            count = options.count;
+        }
+        var delay = 0;
+        if (options.delay !== undefined) {
+            delay = options.delay;
+        }
+        var randomDelay = 400;
+        if (options.randomDelay !== undefined) {
+            randomDelay = options.randomDelay;
+        }
+        for(var i = 0; i < count; i ++) {
+            toX = x + (Math.random() * 2) - 1;
+            toY = y + (Math.random() * 2) - 1;
+            options2.delay = delay + (Math.random() * randomDelay);
+            options2.scale = 0.1;
+            MageS.Game.spells.moveIcon('icon-cercle', color, x, y, toX, toY, options2);
+        }
     };
     
     this.addScreen = function(options) {
@@ -534,7 +577,7 @@ MageS.Spells = function (game) {
                 }
             }});
         }, delay);
-    }
+    };
     
     this.cellShake = function(cells, options) {
         var x = 0;
@@ -557,7 +600,7 @@ MageS.Spells = function (game) {
             var cellObj = $('.battle-border .cell.x-' + x + '.y-' + y);
             MageS.Game.monimations.camShake('Y', duration, amplitude, {el:cellObj, delay:delay});
         }
-    }
+    };
 
     this.getRightHandCoordinates = function(distance) {
         var d = $('.battle-border .mage').data('d');
@@ -589,6 +632,10 @@ MageS.Spells = function (game) {
                 y = distance; break;
         }
         return [x, y];
+    }
+
+    this.getMiddleCoordinats = function(x1,y1,x2,y2) {
+        return [(x1 + x2) / 2, (y1 + y2) / 2];
     }
 };
 

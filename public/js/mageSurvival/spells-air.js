@@ -82,9 +82,9 @@ MageS.Spells.Air = function (game, spells) {
             'easing': 'easeOutCubic'
         };
         //easeOutBounce
-        this.spells.moveIcon('icon-cercle', 'color-light-blue', 5, -3, 0.5, -0.1, options)
-        this.spells.moveIcon('icon-cercle', 'color-light-blue', -5, -3, 0, -0.1, options)
-        this.spells.moveIcon('icon-cercle', 'color-light-blue', 0, 5, 0.25, 0.25, options)
+        this.spells.moveIcon('icon-cercle', 'color-light-blue', 5, -3, 0.5, -0.1, options);
+        this.spells.moveIcon('icon-cercle', 'color-light-blue', -5, -3, 0, -0.1, options);
+        this.spells.moveIcon('icon-cercle', 'color-light-blue', 0, 5, 0.25, 0.25, options);
 
 
         setTimeout(function() {

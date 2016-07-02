@@ -21,6 +21,8 @@ Route::post('/login', 'PageController@loginAction');
 Route::get('/logout', 'PageController@logout');
 Route::get('/register', 'PageController@registerForm');
 Route::post('/register', 'PageController@registerSubmit');
+
+Route::post('/jsLog', 'PageController@jsLog');
 //Route::get('/', function () {
 //    view('pages.index');
 //});

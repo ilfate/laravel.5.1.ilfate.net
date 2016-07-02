@@ -54,7 +54,10 @@ class FireNova extends Fire
              */
             $target->damage($this->getDamage(), Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
         }
-        $this->changeCellsBySpellSource($this->affectedCells, Spell::ENERGY_SOURCE_FIRE);
+        $this->changeCellsBySpellSource(
+            $this->affectedCells, 
+            Spell::ENERGY_SOURCE_FIRE, 
+            Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
         return true;
     }
 }

@@ -37,7 +37,7 @@ return array(
             'name' => 'Secret cave',
             'map-type' => 'SecretCave',
             'map-visual' => 'WitchForest',
-            'is-available' => false,
+            'is-available' => true,
         ],
         4 => [
             'name' => 'School basement',
@@ -49,7 +49,7 @@ return array(
             'name' => 'Home',
             'map-type' => 'Home',
             'map-visual' => 'Tutorial',
-            'is-available' => true,
+            'is-available' => false,
         ],
         900 => [
             'name' => 'Battle Test',

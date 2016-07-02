@@ -1,26 +1,34 @@
+$tileSize:-32px;
 
 .battle-border {
     .tile-image {
-        background-image: url("/images/game/mage/sprite-big.png");
+        background-image: url("/images/game/mage/sprite-big2.png");
         background-size:1100%;
 
 
-        &.tile-wood-plank {
-            background-position: 0 0;
-        }
-        &.someName { background-position: 10% 0; }
-        &.someName1 { background-position: 20% 0; }
-        &.someName2 { background-position: 30% 0; }
-        &.someName3 { background-position: 40% 0; }
-        &.someName4 { background-position: 50% 0; }
-        &.someName5 { background-position: 60% 0; }
-        &.someName6 { background-position: 70% 0; }
-        &.someName7 { background-position: 80% 0; }
-        &.someName8 { background-position: 90% 0; }
-        &.someName9 { background-position: 100% 0; }
-        &.someName10 { background-position: 0 10%; }
-        &.someName11 { background-position: 10% 10%; }
-        &.someName12 { background-position: 20% 10%; }
-        &.someName13 { background-position: 30% 10%; }
+        &.tile-wood-plank { background-position: 0 0; }
+        &.forest-tree { background-position: 10% 0; }
+        &.grass1 { background-position: 20% 0; }
+        &.grass2 { background-position: 30% 0; }
+        &.grass3 { background-position: 40% 0; }
+        &.grass4 { background-position: 50% 0; }
+        &.forest-tree2 { background-position: 60% 0; }
+        &.forest-tree3 { background-position: 70% 0; }
+        &.forest-tree4 { background-position: 80% 0; }
+        &.forest-tree5 { background-position: 90% 0; }
+        &.forest-tree6 { background-position: 100% 0; }
+        &.grass-stump { background-position: 0 $tileSize; }
+        &.grass-stump-burned { background-position: 10% $tileSize; }
+        &.grass-flowers-1 { background-position: 20% $tileSize; }
+        &.grass-flowers-2 { background-position: 30% $tileSize; }
+        &.grass-flowers-3 { background-position: 40% $tileSize; }
+        &.grass-decor-1 { background-position: 50% $tileSize; }
+        &.grass-decor-2 { background-position: 60% $tileSize; }
+        &.grass-decor-3 { background-position: 70% $tileSize; }
+        &.cave-floor-1 { background-position: 80% $tileSize; }
+        &.cave-floor-2 { background-position: 90% $tileSize; }
+        &.cave-floor-3 { background-position: 100% $tileSize; }
+        &.cave-floor-4 { background-position: 0 $tileSize * 2; }
+        &.noName { background-position: 10% $tileSize * 2; }
     }
 }

@@ -626,7 +626,7 @@ abstract class Spell
         return ChanceHelper::oneFromArray([3,2]);
     }
 
-    protected function changeCellsBySpellSource($cells, $source) {
+    protected function changeCellsBySpellSource($cells, $source, $stage) {
         foreach ($cells as $affectedCell) {
             $newCell = $this->game->getWorldGenerator()->getCellDestroyableBySource(
                 $affectedCell[0], $affectedCell[1], $source);
@@ -636,7 +636,7 @@ abstract class Spell
                 $this->world->setCell($affectedCell[0], $affectedCell[1], $newCell);
                 $this->game->addAnimationEvent(Game::EVENT_CELL_CHANGE, [
                     'cell' => $newCell, 'targetX' => $affectedCell[0] - $mageX, 'targetY' => $affectedCell[1] - $mageY
-                ], $this->getNormalCastStage());
+                ], $stage);
             }
         }
     }

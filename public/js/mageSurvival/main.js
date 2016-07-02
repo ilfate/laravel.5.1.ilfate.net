@@ -419,7 +419,7 @@ MageS.Game = function () {
             return;
         }
         Ajax.json('/Spellcraft/action', {
-            data: 'action=' + actionName + '&data=' + dataString,
+            data: 'action=' + actionName + '&data=' + dataString+ '&turn=' + this.turn,
             callBack : function(data){ MageS.Game.callback(data) }
         });
         if (this.device == 'mobile') {
@@ -453,6 +453,13 @@ MageS.Game = function () {
                     //this.endAction();
                     if (this.spells.spellAnimationRunning) {
                         this.spells.stopAnimation = true;
+                    }
+                    break;
+                case 'reload':
+                    if (MageS.Game.admin.isEnabled) {
+                        window.location = '/Spellcraft/admin';
+                    } else {
+                        window.location.reload();
                     }
                     break;
             }
@@ -577,7 +584,7 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('Earthquake');
+                MageS.Game.spells.startCast('DoesItBurns');
                 // MageS.Game.objects.activate({'action': 'wallExplode', 'targetX':0,'targetY':-1})
             });
             $('#move-control-field .control-arrow').on('click', function () {

@@ -112,6 +112,10 @@ class MageSurvivalController extends BaseController
 
         $action = $request->get('action');
         $data = $request->get('data');
+        $turn = (int) $request->get('turn');
+        if ($game->getTurn() != $turn) {
+            return json_encode(['action' => 'reload']);
+        }
         try {
             $result = $game->action($action, json_decode($data, true));
         } catch (MessageException $e) {

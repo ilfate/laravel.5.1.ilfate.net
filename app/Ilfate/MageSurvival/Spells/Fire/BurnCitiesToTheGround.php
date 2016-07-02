@@ -33,39 +33,38 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class RainOfFire extends Fire
+class BurnCitiesToTheGround extends Fire
 {
-    protected $availablePatterns = [10,11,12,13];
+    protected $availablePatterns = [];
 
-    protected $defaultCooldownMin = 3;
-    protected $defaultCooldownMax = 5;
+    protected $defaultCooldownMin = 8;
+    protected $defaultCooldownMax = 12;
+
 
     public function setUsages()
     {
-        $this->config['usages'] = 6;
+        $this->config['usages'] = 2;
     }
 
     protected function spellEffect($data)
     {
-        foreach($this->targets as $target) {
-            /**
-             * @var Unit $target
-             */
-            $damage = $this->mage->getDamage(mt_rand(1, 3), Spell::ENERGY_SOURCE_FIRE);
-            $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
-        }
 
+        $x = $mageX = $this->mage->getX();
+        $y = $mageY = $this->mage->getY();
+        $units = $this->world->getUnitsAround($x, $y, 5);
+
+        $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_FIRE);
+        $animationTargets = [];
+
+        foreach ($units as $unit) {
+            $unit->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
+            $unit->burn(3, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+            $animationTargets[] = [$unit->getX() - $x, $unit->getY() - $y];
+        }
         $this->game->addAnimationEvent(Game::EVENT_NAME_MAGE_SPELL_CAST, [
             'spell' => $this->name,
-            'data' => $this->pattern,
+            'targets' => $animationTargets
         ], Game::ANIMATION_STAGE_MAGE_ACTION_2);
-
-        $this->changeCellsBySpellSource(
-            $this->affectedCells,
-            Spell::ENERGY_SOURCE_FIRE,
-            Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT
-        );
-
         return true;
     }
 }

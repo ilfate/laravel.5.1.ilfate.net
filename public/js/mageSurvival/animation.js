@@ -327,14 +327,14 @@ MageS.Animations = function (game) {
         //        'margin-left': Math.random() * 500
         //    }, {'easing': 'easeInBack'})
         //});
-        this.game.monimations.rotateWithScale($('body'), 0, 540, 1, -1, 1000);
+        this.game.monimations.rotateWithScale($('body'), 0, 540, 1, -1, 1500);
         setTimeout(function(){
             if (MageS.Game.admin.isEnabled) {
                 window.location = '/Spellcraft/admin';
             } else {
                 window.location = '/Spellcraft';
             }
-        }, 500);
+        }, 750);
             //.animate()
     };
 

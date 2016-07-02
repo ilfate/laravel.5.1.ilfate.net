@@ -9,7 +9,7 @@
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-namespace Ilfate\MageSurvival\Spells\Air;
+namespace Ilfate\MageSurvival\Spells\Arcane;
 
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;

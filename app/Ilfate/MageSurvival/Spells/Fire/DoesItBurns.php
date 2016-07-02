@@ -18,21 +18,29 @@ use Ilfate\MageSurvival\Unit;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Fireball extends Fire
+class DoesItBurns extends Fire
 {
-    protected $availablePatterns = [4];
+    protected $availablePatterns = [];
 
-    protected $defaultCooldownMin = 0;
-    protected $defaultCooldownMax = 2;
+    protected $defaultCooldownMin = 4;
+    protected $defaultCooldownMax = 6;
+
+    public function setUsages()
+    {
+        $this->config['usages'] = 5;
+    }
 
     protected function spellEffect($data)
     {
-        $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_FIRE);
+        $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_FIRE);
         foreach($this->targets as $target) {
             /**
              * @var Unit $target
              */
             $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
+            if ($target->getFlag(Unit::FLAG_BURN)) {
+                $target->damage($damage + 1, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_FIRE);
+            }
         }
         return true;
     }

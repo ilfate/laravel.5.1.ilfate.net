@@ -517,6 +517,65 @@ MageS.Spells.Fire = function (game, spells) {
 
     };
 
+    this.finishBurnCitiesToTheGround = function(data) {
+        this.standartFireToMiddle(50);
+        var icon = 'icon-bullet-cast-2-segments';
+        var colors = [
+            MageS.Game.color.red,
+            MageS.Game.color.white,
+            MageS.Game.color.orange,
+        ];
+        for (var n = 0; n < 3; n++) {
+            var options = {
+                'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
+                'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
+                'time': 0.3,
+                'beamWidth': 12,
+                'segment1': ["100%", "100%"],
+                'segment2': ["0%", "100%"],
+                delay: n * 400
+            };
+            for (var i = 0; i < 4; i++) {
+                this.spells.beamStrike(2, (360 / 4 * i), icon, colors[n], options);
+            }
+        }
+
+
+        // var rightHand = this.spells.getRightHandCoordinates(0.7);
+        // var leftHand = this.spells.getLeftHandCoordinates(0.7);
+        // var hands = [rightHand, leftHand];
+        var icons = [
+            'icon-bullet-line',
+            'icon-bullet-line-small-curve-right',
+            'icon-bullet-line-small-curve-left',
+        ];
+
+        MageS.Game.monimations.camShake('Y', 500, 3, {delay:50});
+        MageS.Game.monimations.camShake('X', 500, 3, {delay:550});
+        MageS.Game.monimations.camShake('Y', 500, 3, {delay:1050});
+
+        for (var i2 = 0; i2 < 60; i2++) {
+            // var target = array_rand(hands);
+            var options2 = {
+                'moveLeft': ((0.5 ) * MageS.Game.cellSize) + 'rem',
+                'moveTop': ((0.5 ) * MageS.Game.cellSize) + 'rem',
+                'time': 0.3,
+                'beamWidth': 12,
+                'segment1': ["8%", "8%"],
+                'segment2': ["100%", "140%"],
+                'delete': true,
+                delay: i2 * 20
+            };
+            var icon2 = array_rand(icons);
+            this.spells.beamStrike(7, 360 / 60 * i2, icon2, MageS.Game.color.red, options2);
+        }
+
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1500);
+
+    };
+
     this.finishFireImp = function(data) {
         this.standartFireToMiddle(50);
 
@@ -543,6 +602,74 @@ MageS.Spells.Fire = function (game, spells) {
         }, 1500);
 
     };
+
+    this.finishDoesItBurns = function(data) {
+
+        var iconHalfCercle = 'icon-bullet-cast-middle-half-cercle';
+        var iconCercle = 'icon-bullet-cast-middle-only-cercle';
+        // MageS.Game.monimations.camShake('Y', 1500, 3, 100, function() {
+        //     MageS.Game.spells.endSpellAnimation();
+        // });
+        var x = parseInt(data.targetX);
+        var y = parseInt(data.targetY);
+        var middle = this.spells.getMiddleCoordinats(0,0, x, y);
+        var options = {
+            'delay': 0,
+            'scale': 0.5,
+            time:500,
+            rotate:true,
+            'easing': 'easeOutCubic',
+            deleteDelay:400
+        };
+        this.spells.moveIcon('icon-fireflake', 'color-red', 0, 0, middle[0], middle[1], options);
+        for (var i = 0; i < 4; i ++) {
+            var options = {
+                'time': 0.5,
+                'delay':100 * i,
+                'segment1': ["0%", "0%"],
+                'segment2': ["100%", "110%"],
+                'delete': true,
+            };
+            this.spells.beam(
+                0, 0, x, y,
+                MageS.Game.color.white, iconCercle, options
+            );
+        }
+        var time = 0.5;
+        var options = {
+            'time':time,
+            'delay':500,
+            'segment1': ["8%", "8%"],
+            'segment2': ["100%", "200%"],
+            'delete': true,
+        };
+        this.spells.beam(
+            0, 0, x, y,
+            MageS.Game.color.red, iconHalfCercle, options
+        );
+        var options2 = {
+            'time':time,
+            'delay':500,
+            'segment1': ["92%", "92%"],
+            'segment2': ["-100%", "0%"],
+            'delete': true,
+        };
+        this.spells.beam(
+            x, y, 0, 0,
+            MageS.Game.color.red, iconHalfCercle, options2
+        );
+        var optionsE = {
+            delay:700,
+            randomDelay:300,
+        };
+        this.spells.particleExplosion(x, y, 'color-red', optionsE)
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1200);
+
+    };
+
+
 
 
 

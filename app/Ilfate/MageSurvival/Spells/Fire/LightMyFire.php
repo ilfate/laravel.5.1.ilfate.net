@@ -25,6 +25,12 @@ class LightMyFire extends Fire
     protected $defaultCooldownMin = 2;
     protected $defaultCooldownMax = 4;
 
+    public function setUsages()
+    {
+        $this->config['usages'] = mt_rand(5, 10);
+    }
+
+
     protected function spellEffect($data)
     {
         foreach($this->targets as $target) {

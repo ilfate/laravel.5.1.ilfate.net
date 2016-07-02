@@ -16,6 +16,7 @@ namespace Ilfate\MageSurvival\Spells\Water;
 use Ilfate\MageSurvival\Event;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
+use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Water;
 use Ilfate\MageSurvival\Unit;
 
@@ -40,9 +41,11 @@ class IceWall extends Water
 
     protected function spellEffect($data)
     {
+        $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_WATER);
         foreach ($this->affectedCells as $affectedCell) {
             if ($unit = $this->world->getUnit($affectedCell[0], $affectedCell[1])) {
-                $unit->freeze(5, Game::ANIMATION_STAGE_MAGE_ACTION_3);
+                $unit->freeze(5, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
+                $unit->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_WATER);
             } else if ($this->world->isPassable($affectedCell[0], $affectedCell[1])) {
                 $object = $this->world->addObject(5, $affectedCell[0], $affectedCell[1]);
                 if ($object) {

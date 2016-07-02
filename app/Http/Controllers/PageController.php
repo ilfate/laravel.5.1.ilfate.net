@@ -192,6 +192,14 @@ class PageController extends BaseController
         }
     }
 
+    public function jsLog(Request $request)
+    {
+        $errorMessage = $request->get('data');
+        $jqXHR = $request->get('jqXHR');
+        \Log::error('JS ERROR:' . $errorMessage . ' jqXHR=' . $jqXHR);
+        return '[]';
+    }
+
     /**
      * My photo page
      *

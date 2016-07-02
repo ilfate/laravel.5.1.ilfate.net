@@ -84,7 +84,7 @@ return array(
                 'noAutoAnimationTrigger' => true,
             ],
             10 => [
-                'name' => 'Fire and Rain',
+                'name' => 'Fire rains from above',
                 'class' => 'RainOfFire',
                 'description' => 'Drown your enemies in fire from the sky dealing 1 - 3 damage.',
                 'iconClass' => 'icon-fire-tail',
@@ -92,6 +92,15 @@ return array(
                 'noAutoAnimationTrigger' => true,
             ],
             11 => [
+                'name' => 'Burn cities to the ground',
+                'class' => 'BurnCitiesToTheGround',
+                'description' => 'Unleash the wild fire upon your enemies dealing 1 damage to all in range of sight and burning them for 3 turns.',
+                'iconClass' => 'icon-eruption',
+                'iconColor' => 'color-red',
+                'noAutoAnimationTrigger' => true,
+                'noTargetSpell' => true,
+            ],
+            12 => [
                 'name' => 'Fire imp',
                 'class' => 'FireImp',
                 'description' => 'Summon an imp. Let`s hope he will help you defeating your enemies.',
@@ -99,6 +108,14 @@ return array(
                 'iconColor' => 'color-red',
                 'noAutoAnimationTrigger' => true,
                 'noTargetSpell' => true,
+            ],
+            13 => [
+                'name' => 'Does it burns?',
+                'class' => 'DoesItBurns',
+                'description' => 'Deal 2 damage to a target. If the target is already burning deal 3 more damage.',
+                'iconClass' => 'icon-flame-spin',
+                'iconColor' => 'color-red',
+                'directTargetSpell' => 'enemy',
             ],
         ],
 
@@ -130,7 +147,7 @@ return array(
             3 => [
                 'name' => 'Ice wall',
                 'class' => 'IceWall',
-                'description' => 'Create an ice wall that will last for 5 turns',
+                'description' => 'Create an ice wall that will last for 5 turns. Deal 2 damage to every unit stuck in wall.',
                 'iconClass' => 'icon-frozen-block',
                 'iconColor' => 'color-dark-blue',
             ],
@@ -412,6 +429,13 @@ return array(
                 'iconColor' => 'color-brown',
                 'directTargetSpell' => 'enemy',
             ],
+            11 => [
+                'name' => 'Rolling Stones',
+                'class' => 'RollingStones',
+                'description' => 'Deal 3 damage to all units in four directions.',
+                'iconClass' => 'icon-striking-balls',
+                'iconColor' => 'color-brown',
+            ],
             //Eruption
         ],
         5 => [ // light
@@ -442,6 +466,10 @@ return array(
             ],
         ],
     ],
+
+    // TODO: fix chat bug on mobile
+
+
     'school-chances' => [
         1,1,1,1,1,1,1,1,   //fire
         2,2,2,2,2,2,2,2, // water
