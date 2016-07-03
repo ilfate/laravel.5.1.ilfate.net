@@ -26,7 +26,7 @@ class MageSurvivalController extends BaseController
     const CACHE_USER_LOGGING_INDEX = 'ms-user-log-index-';
     const CACHE_USER_LOGGING_DATA = 'ms-user-logged-data-';
     const CACHE_ENABLED_MINUTES = 60;
-    const CACHE_SAVED_MINUTES = 180;
+    const CACHE_SAVED_MINUTES = 540;
 
     protected $isLogged = false;
 
@@ -440,7 +440,7 @@ class MageSurvivalController extends BaseController
         $users = [];
         $activeUsers = DB::table('users')
             ->select(DB::raw('id,name,email'))
-            ->where('last_visit', '>', Carbon::now()->subHour())
+            ->where('last_visit', '>', Carbon::now()->subHours(6))
             ->orderBy('last_visit')
             ->get();
         foreach ($activeUsers as $activeUser) {
