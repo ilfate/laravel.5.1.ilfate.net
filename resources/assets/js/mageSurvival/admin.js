@@ -74,7 +74,6 @@ MageS.Admin = function (game) {
     };
 
     this.actionEnded = function () {
-        info('ACTION ENDED');
         if (!this.isEnabled) return;
 
         setTimeout(function(){
@@ -83,9 +82,12 @@ MageS.Admin = function (game) {
     };
 
     this.loadActions = function() {
-        Ajax.json('/Spellcraft/admin/getActions/' + this.game.rawData.userId + '/' + this.game.rawData.pageTime, {
-            data: 'action=' + this.actionNumber ,
-            callBack : function(data){ MageS.Game.admin.callback(data) }
+        var url = '/Spellcraft/admin/getActions/' + this.game.rawData.userId + '/' + this.game.rawData.pageTime;
+        Ajax.json(url, {
+             data: 'action=' + MageS.Game.admin.actionNumber,
+             callBack : function(data){
+                MageS.Game.admin.callback(data)
+             }
         });
     };
 

@@ -294,7 +294,7 @@ abstract class MapObject
         $foundItems = [];
         for ($i = 0; $i < $numberOfItems; $i++) {
             $itemId = ChanceHelper::oneFromArray($possibleLoot);
-            GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
+            //GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
             $mage->addItem($itemId);
             $foundItems[] = $itemId;
         }

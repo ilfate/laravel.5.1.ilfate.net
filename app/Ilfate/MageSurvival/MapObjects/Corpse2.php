@@ -51,7 +51,7 @@ class Corpse2 extends MapObject
     public function open(Mage $mage)
     {
         $itemId = ChanceHelper::oneFromArray($this->possibleItems);
-        GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
+        //GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
         $mage->addItem($itemId);
         $this->delete();
         return ['action' => 'itemsFound', 'data' => [$itemId]];

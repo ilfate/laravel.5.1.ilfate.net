@@ -55,7 +55,7 @@ class BigChest extends MapObject
         $itemIds = [];
         for($i = 0; $i < $items; $i++) {
             $itemId = ChanceHelper::oneFromArray($this->possibleItems);
-            GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
+            //GameBuilder::message('Congratulations! You found item :item', '', ['data' => ['item' => $itemId]]);
             $mage->addItem($itemId);
             $itemIds[] = $itemId;
         }

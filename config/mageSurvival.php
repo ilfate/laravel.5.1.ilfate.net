@@ -43,7 +43,7 @@ return array(
             'name' => 'School basement',
             'map-type' => 'SchoolBasement',
             'map-visual' => 'Tutorial',
-            'is-available' => true,
+            'is-available' => false,
         ],
         50 => [
             'name' => 'Home',
