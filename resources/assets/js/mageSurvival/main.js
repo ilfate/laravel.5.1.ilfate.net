@@ -465,7 +465,7 @@ MageS.Game = function () {
             }
         }
         info(data);
-        if (data.game.actions) {
+        if (data.game.actions !== undefined) {
             this.updateActions(data.game.actions, false);
         }
         if (data.game.items) {
@@ -492,7 +492,7 @@ MageS.Game = function () {
     this.updateActions = function (actions, isFirstLoad) {
         //actions.push({'name':'Craft Spell', 'method':'craft-spell', 'key':'Q' ,'noAjax':true, 'location':'actions=side', 'icon':'icon-fizzing-flask'});
         //actions.push({'name':'Skip turn', 'method':'skip-turn', 'key':'F' , 'location':'actions', 'icon':'icon-empty-hourglass', 'actionName':'skipTurn'});
-        actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
+        //actions.push({'name':'Test Spell', 'method':'test-spell', 'key':'T' ,'noAjax':true, 'location':'actions', 'icon':'icon-fizzing-flask'});
         var actionsEl = $('.actions');
         var existingActions = {};
         actionsEl.find('.action').each(function() {
@@ -584,8 +584,9 @@ MageS.Game = function () {
                 //MageS.Game.spells.startCast('Fireball');
                 //MageS.Game.spells.startCast('IceCrown');
                 // MageS.Game.spells.startCast('ButthurtJump');
-                MageS.Game.spells.startCast('DoesItBurns');
+                // MageS.Game.spells.startCast('IceSlide');
                 // MageS.Game.objects.activate({'action': 'wallExplode', 'targetX':0,'targetY':-1})
+                MageS.Game.attacks.attack({'attack' :{animation:'bow'}, 'fromX':3, 'fromY':-4, 'targetX':0,'targetY':0})
             });
             $('#move-control-field .control-arrow').on('click', function () {
                 switch ($(this).data('d')) {

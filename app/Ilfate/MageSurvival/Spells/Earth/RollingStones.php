@@ -47,6 +47,11 @@ class RollingStones extends Earth
              */
             $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_EARTH);
         }
+        $this->changeCellsBySpellSource(
+            $this->affectedCells,
+            Spell::ENERGY_SOURCE_EARTH,
+            Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2
+        );
         return true;
     }
 }

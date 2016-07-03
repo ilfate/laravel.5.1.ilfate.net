@@ -52,6 +52,7 @@ class StalactitesFall extends Earth
         $my = $this->mage->getY();
         
         $stalactitesLocations = [];
+        $affectedCells = [];
         $location = [];
         $directHitDamage = $this->mage->getDamage(5, Spell::ENERGY_SOURCE_EARTH);
         $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_EARTH);
@@ -60,6 +61,8 @@ class StalactitesFall extends Earth
             while (!$location || in_array($location, $stalactitesLocations)) {
                 $location = [mt_rand(-5, 5), mt_rand(-5, 5)];
             }
+            $affectedCells[] = [$location[0] + $mx, $location[1] + $my];
+            $affectedCells = array_merge($affectedCells, Geometry2DCells::getNeighbours($location[0] + $mx, $location[1] + $my));
             $stalactitesLocations[] = $location;
             $units = $this->world->getUnitsAround($location[0] + $mx, $location[1] + $my, 1);
             foreach ($units as $unit) {
@@ -81,6 +84,12 @@ class StalactitesFall extends Earth
             'spell' => $this->name,
             'targets' => $stalactitesLocations,
         ], Game::ANIMATION_STAGE_MAGE_ACTION_2);
+
+        $this->changeCellsBySpellSource(
+            $affectedCells,
+            Spell::ENERGY_SOURCE_EARTH,
+            Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2
+        );
 
         return true;
     }

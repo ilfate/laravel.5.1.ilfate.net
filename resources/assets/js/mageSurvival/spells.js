@@ -54,6 +54,7 @@ MageS.Spells = function (game) {
                this.fire.startStandartFire() ; break;
            case 'IceCrown': this.water.startIceCrown() ; break;
            case 'Freeze': 
+           case 'IceSlide': 
            case 'IceWall': 
            case 'IceSpear': 
            case 'IceCone': 
@@ -89,6 +90,7 @@ MageS.Spells = function (game) {
            case 'Astonishing':
            case 'WallUp':
            case 'MilestoneHit':
+           case 'RollingStones':
                this.earth.startStandartEarth() ; break;
            case 'arcane':
                this.arcane.startStandartArcane() ; break;
@@ -121,6 +123,7 @@ MageS.Spells = function (game) {
             case 'DoesItBurns':
                 this.fire.iterateStandartFire() ; break;
             case 'IceCrown': this.water.iterateIceCrown(); break;
+            case 'IceSlide':
             case 'Freeze':
             case 'IceWall':
             case 'IceSpear':
@@ -157,6 +160,7 @@ MageS.Spells = function (game) {
             case 'Astonishing':
             case 'WallUp':
             case 'MilestoneHit':
+            case 'RollingStones':
                 this.earth.iterateStandartEarth() ; break;
             case 'arcane':
                 this.arcane.iterateStandartArcane() ; break;
@@ -185,6 +189,7 @@ MageS.Spells = function (game) {
             case 'DoesItBurns': this.fire.finishDoesItBurns(data); break;
             
             case 'IceCrown': this.water.finishIceCrown(data); break;
+            case 'IceSlide': this.water.finishIceSlide(data); break;
             case 'Freeze': this.water.finishFreeze(data); break;
             case 'IceWall': this.water.finishIceWall(data); break;
             case 'IceSpear': this.water.finishIceSpear(data); break;
@@ -195,6 +200,7 @@ MageS.Spells = function (game) {
             case 'Icelock': this.water.finishIcelock(data); break;
             case 'FreshWaterFountain': this.water.finishFreshWaterFountain(data); break;
             case 'WaterBody': this.water.finishWaterBody(data); break;
+            
             case 'Push': this.air.finishPush(data); break;
             case 'Harmony':  this.air.finishHarmony(data); break;
             case 'NoMoreAirForYou':  this.air.finishNoMoreAirForYou(data); break;
@@ -208,6 +214,7 @@ MageS.Spells = function (game) {
             case 'Push2':  this.air.finishPush2(data); break;
             case 'TeslaTrap':  this.air.finishTeslaTrap(data); break;
             case 'ChainLighting':  this.air.finishChainLighting(data); break;
+            
             case 'StoneFace':  this.earth.finishStoneFace(data); break;
             case 'GroundShake':  this.earth.finishGroundShake(data); break;
             case 'Quicksand':  this.earth.finishQuicksand(data); break;
@@ -219,6 +226,8 @@ MageS.Spells = function (game) {
             case 'Astonishing':  this.earth.finishAstonishing(data); break;
             case 'WallUp':  this.earth.finishWallUp(data); break;
             case 'MilestoneHit':  this.earth.finishMilestoneHit(data); break;
+            case 'RollingStones':  this.earth.finishRollingStones(data); break;
+            
             case 'arcane':  this.arcane.finisharcane(data); break;
             default:
                 info('No last animation for "' + name + '"');

@@ -37,13 +37,13 @@ return array(
             'name' => 'Secret cave',
             'map-type' => 'SecretCave',
             'map-visual' => 'WitchForest',
-            'is-available' => true,
+            'is-available' => false,
         ],
         4 => [
             'name' => 'School basement',
             'map-type' => 'SchoolBasement',
             'map-visual' => 'Tutorial',
-            'is-available' => false,
+            'is-available' => true,
         ],
         50 => [
             'name' => 'Home',
@@ -104,6 +104,16 @@ return array(
                 /* 50 - 100 */      100 => [110],
                 /* 100 - 500 */     500 => [110],
                 /* 500 - 1000 */    1000 => [1],
+                /* 1000 - 9999999 */9999999 => [111],
+            ],
+            // World type
+            3 => [ // WitchForest world
+                // Range from world center
+
+                /* 0 - 50 */        10 => [110],
+                /* 10 - 20 */      20 => [110, 111],
+                /* 20 - 30 */     30 => [111],
+                /* 30 - 1000 */    1000 => [110, 111, 112],
                 /* 1000 - 9999999 */9999999 => [111],
             ],
             900 => [ // Test world

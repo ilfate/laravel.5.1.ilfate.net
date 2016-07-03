@@ -47,7 +47,10 @@ class WorldGeneratorWitchForest extends WorldGenerator
     const CELL_WALL = 'w1';
     const CELL_WALL_2 = 'w2';
     const CELL_STONE = 's';
-    const CELL_STONE_2 = 's1';
+    const CELL_STONE_1 = 's1';
+    const CELL_STONE_2 = 's2';
+    const CELL_STONE_3 = 's3';
+    const CELL_STONE_4 = 's4';
     const CELL_CAVE = 'c';
     const CELL_CAVE_2 = 'cc';
     const CELL_CAVE_3 = 'cC';
@@ -65,13 +68,12 @@ class WorldGeneratorWitchForest extends WorldGenerator
 //    const CELL_FOREST_5 = 'Tf';
 //    const CELL_FOREST_6 = 'T0';
     const CELL_RIVER = 'r1';
-    const CELL_ROAD = 'r2';
     const CELL_ROAD_3 = 'r3';
     const CELL_ROAD_4    = 'r4';
     const CELL_CAVE_FLOOR_1 = 'c1';
     const CELL_CAVE_FLOOR_2 = 'c2';
-    const CELL_CAVE_FLOOR_3 = 'c4';
-    const CELL_CAVE_FLOOR_ROAD = 'c3';
+    const CELL_CAVE_FLOOR_3 = 'c3';
+    const CELL_CAVE_ROAD = 'r2';
 
     protected $cells = [
         self::CELL_BURNT_LANDING, // birnedLanding
@@ -127,7 +129,10 @@ class WorldGeneratorWitchForest extends WorldGenerator
 
     protected $notPassable = [
         self::CELL_STONE,
+        self::CELL_STONE_1,
         self::CELL_STONE_2,
+        self::CELL_STONE_3,
+        self::CELL_STONE_4,
         self::CELL_CAVE,
         self::CELL_CAVE_2,
         self::CELL_CAVE_3,
@@ -155,7 +160,13 @@ class WorldGeneratorWitchForest extends WorldGenerator
 //            self::CELL_FOREST      => self::CELL_FIELD_3,
 //            self::CELL_FOREST_2    => self::CELL_FIELD_3,
 //            self::CELL_FOREST_3    => self::CELL_FIELD_3,
-        ]
+        ],
+        Spell::ENERGY_SOURCE_EARTH => [
+            self::CELL_CAVE   => self::CELL_CAVE_FLOOR_2,
+            self::CELL_CAVE_2 => self::CELL_CAVE_FLOOR_2,
+            self::CELL_CAVE_3 => self::CELL_CAVE_FLOOR_2,
+        ],
+
     ];
     
     protected $water = [

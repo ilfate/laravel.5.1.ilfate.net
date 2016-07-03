@@ -457,15 +457,7 @@ MageS.Animations = function (game) {
     this.changeCellAnimation = function(data, stage)
     {
         // var newObject = this.game.drawObject(data.object, data.object.x, data.object.y);
-        var cell = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY);
-        var svgs = cell.find('.svg');
-        if (svgs.length > 0) {
-            svgs.remove();
-        }
-        var currentType = cell.data('class');
-        cell.removeClass(currentType).addClass(data.cell).data('class', data.cell);
-        this.game.worlds.cell(this.game.worldType, data.cell, cell);
-        MageS.Game.animations.singleAnimationFinished(stage);
+        this.game.worlds.cellsChange(data, stage);
     };
     
     

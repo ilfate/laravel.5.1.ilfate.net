@@ -82,10 +82,13 @@
 <script src="/js/main.min.js"></script>
 {{--<script src="/js/cosmos/main.js"></script>--}}
 {{--<script src="/js/hex/main.js"></script>--}}
-<script src="/packages/mo.min.js"></script>
-<script src="/packages/segment.js"></script>
-<script src="/packages/jquery.svg.package-1.5.0/jquery.svg.min.js"></script>
-<script src="/packages/jquery.svg.package-1.5.0/jquery.svganim.min.js"></script>
+{{--<script src="/packages/mo.min.js"></script>  --}}
+{{--<script src="/packages/segment.js"></script> --}}
+{{--<script src="/packages/jquery.svg.package-1.5.0/jquery.svg.min.js"></script>--}}
+{{--<script src="/packages/jquery.svg.package-1.5.0/jquery.svganim.min.js"></script>--}}
+@if (!empty($localDevelopment))
+
+
 <script src="/js/mageSurvival/main.js"></script>
 <script src="/js/mageSurvival/inventory.js"></script>
 <script src="/js/mageSurvival/animation.js"></script>
@@ -107,6 +110,7 @@
 <script src="/js/mageSurvival/spellcraft.js"></script>
 <script src="/js/mageSurvival/monimations.js"></script>
 <script src="/js/mageSurvival/map-builder.js"></script>
+@endif
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

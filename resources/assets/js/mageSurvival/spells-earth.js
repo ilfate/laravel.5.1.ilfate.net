@@ -435,6 +435,60 @@ MageS.Spells.Earth = function (game, spells) {
         }, 1100);
     };
 
+    this.finishRollingStones = function(data) {
+        //this.finishStandartEarth(200);
+        var time = 500;
+        for (var i in this.spells.savedData[0]) {
+            var iconObject = this.spells.savedData[0][i];
+            var angleStart = (i * 90) - 7;
+            iconObject.animateRotate(angleStart, angleStart + 7, 100, 'linear');
+            var svg = iconObject.find('svg');
+            svg[0].style.transform = 'scale(1)';
+            svg.animate({'margin-left' : 5 * MageS.Game.cellSize * MageS.Game.rem}, {duration:time, complete:function(){ $(this).remove();}})
+        }
+        for (var i2 in this.spells.savedData[1]) {
+            var beamObject = this.spells.savedData[1][i2];
+            beamObject.animate({opacity:0}, {duration:100, complete:function(){ $(this).remove();}});
+        }
+        for (var i3 in this.spells.savedData[2]) {
+            var beamObject = this.spells.savedData[2][i3];
+            beamObject.animate({opacity:0}, {duration:100, complete:function(){ $(this).remove();}});
+        }
+
+        var startX = 0;
+        var startY = 0;
+        var targetX = 0;
+        var targetY = 0;
+        var icon = 'icon-bullet-sinus';
+        for (var n = 0; n < 4; n++) {
+            switch (n) {
+                case 0: targetX = 0; targetY = -5; break;
+                case 1: targetX = 5; targetY = 0; break;
+                case 2: targetX = 0; targetY = 5; break;
+                case 3: targetX = -5; targetY = 0; break;
+            }
+            var options = {
+                'time': 0.5,
+                'beamWidth': 10,
+                'segment1': ["8%", "8%"],
+                'segment2': ["100%", "200%"],
+                'delete': true
+            };
+            for (var i = 0; i < 3; i++) {
+                var randX = Math.random() - 0.5;
+                var randY = Math.random() - 0.5;
+                this.spells.beam(startX, startY, targetX + randX, targetY + randY, MageS.Game.color.orange, icon, options);
+            }
+        }
+
+
+        MageS.Game.monimations.camShake('Y', 350, 6, {delay:100});
+
+        setTimeout(function() {
+            MageS.Game.spells.endSpellAnimation();
+        }, 1100);
+    };
+
 
    
 

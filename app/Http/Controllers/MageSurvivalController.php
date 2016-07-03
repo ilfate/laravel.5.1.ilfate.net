@@ -82,8 +82,18 @@ class MageSurvivalController extends BaseController
     {
         $user = User::getUser();
         $mage = new Mage();
-        $mageType = strip_tags(htmlentities($request->get('type')));
+        $mageType = strtolower(strip_tags(htmlentities($request->get('type'))));
 
+        $game = $this->getGame($request);
+        $data = [];
+        $data['stats'] = $game->getMageUser()->getStats();
+        $availableTypes = $this->getAvailableMagesList($data);
+        if (empty($availableTypes[$mageType]['available'])) {
+            return [
+                'action'=> 'reload',
+                'status' => 0
+            ];
+        }
         $addTutorialStatus = false;
         $mages = $user->mages()->get();
         if ($mages->count() < 1) {
@@ -262,27 +272,14 @@ class MageSurvivalController extends BaseController
         switch($view) {
             case 'games.mageSurvival.mage-list':
                 $data['stats'] = $game->getMageUser()->getStats();
-                $data['mages-types'] = \Config::get('mageSurvival.mages-types');
-                foreach ($data['mages-types'] as &$mageType) {
-                    if (!empty($mageType['stats'])) {
-                        $isAvailable = true;
-                        foreach ($mageType['stats'] as $stat => $value) {
-                            if (empty($data['stats'][$stat]) || $value > $data['stats'][$stat]) {
-                                $isAvailable = false;
-                            }
-                        }
-                        if ($isAvailable) {
-                            $mageType['available'] = true;
-                        }
-                    }
-                }
+                $data['mages-types'] = $this->getAvailableMagesList($data);
                 $exportMages = [];
                 $mages = $game->getInactiveMages();
                 foreach ($mages as $mage) {
                     $mageData = json_decode($mage->data, true);
                     $exportMage = [
                         'name' => $mage->name,
-                        'stats' => $mageData[AliveCommon::DATA_STAT_KEY]
+                        'stats' => empty($mageData[AliveCommon::DATA_STAT_KEY]) ? [] : $mageData[AliveCommon::DATA_STAT_KEY]
                     ];
                     $exportMages[] = $exportMage;
                 }
@@ -302,6 +299,25 @@ class MageSurvivalController extends BaseController
         }
 
         return $data;
+    }
+
+    protected function getAvailableMagesList($data)
+    {
+        $allTypes = \Config::get('mageSurvival.mages-types');
+        foreach ($allTypes as &$mageType) {
+            if (!empty($mageType['stats'])) {
+                $isAvailable = true;
+                foreach ($mageType['stats'] as $stat => $value) {
+                    if (empty($data['stats'][$stat]) || $value > $data['stats'][$stat]) {
+                        $isAvailable = false;
+                    }
+                }
+                if ($isAvailable) {
+                    $mageType['available'] = true;
+                }
+            }
+        }
+        return $allTypes;
     }
 
     protected function getPlayer(Request $request)

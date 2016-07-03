@@ -262,7 +262,7 @@ abstract class Spell
         $logText .= 'translated=' . $translatedSumValue . ' ';
         $logText .= 'school=' . $schoolId . ' ';
         \Log::info($logText);
-        $game->addMessage($logText);
+        //$game->addMessage($logText);
         $spellConfiguration = self::getSpellByValue($allPossibleSpells, $translatedSumValue);
         $spellName = $spellConfiguration['class'];
 

@@ -4,4 +4,11 @@
 Homestead.yaml
 Homestead.json
 .env
+.idea
+.idea
+.sass-cache
+.vagrant
 /public/phpMyAdmin
+/public/svg/*
+/public/images/game/mage/assets/*
+/public/images/game/mage/icons_htmlcode/*

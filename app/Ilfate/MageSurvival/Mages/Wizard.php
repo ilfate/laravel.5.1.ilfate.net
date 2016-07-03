@@ -30,15 +30,21 @@ use Ilfate\MageSurvival\Spell;
  * @license   Proprietary license.
  * @link      http://ilfate.net
  */
-class Sorcerer extends Mage
+class Wizard extends Mage
 {
-    const DEFAULT_MAX_HEALTH = 25;
+    const DEFAULT_MAX_HEALTH = 30;
 
     protected function initMage()
     {
         parent::initMage();
-        $this->addItems([1 => 5, 2 => 5, 3 => 5, 4 => 4, 5 => 4, 6 => 3, 7 => 3, 8 => 3, 9 => 2, 10 => 1]);
+        $this->addItems([1 => 10, 2 => 10, 3 => 10, 4 => 8, 5 => 8, 6 => 7, 7 => 6, 8 => 5, 9 => 4,
+                         10 => 3,
+                         11 => 2,
+                         12 => 1,
+        ]);
 
     }
+
     
+
 }

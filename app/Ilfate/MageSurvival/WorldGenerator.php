@@ -100,6 +100,11 @@ abstract class WorldGenerator
                         }
                     }
                 }
+            } else if (!empty(static::$generatorConfig['portalLocation'])) {
+                $this->world->addObject(1000,
+                    static::$generatorConfig['portalLocation']['x'],
+                    static::$generatorConfig['portalLocation']['y']
+                );
             }
             // generate cell for rest of the screen
             $radius = $this->config['game']['screen-radius'];

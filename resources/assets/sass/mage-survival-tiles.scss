@@ -1,4 +1,4 @@
-$tileSize:-32px;
+$tileSize:10%;
 
 .battle-border {
     .tile-image {
@@ -27,8 +27,15 @@ $tileSize:-32px;
         &.grass-decor-3 { background-position: 70% $tileSize; }
         &.cave-floor-1 { background-position: 80% $tileSize; }
         &.cave-floor-2 { background-position: 90% $tileSize; }
-        &.cave-floor-3 { background-position: 100% $tileSize; }
-        &.cave-floor-4 { background-position: 0 $tileSize * 2; }
+        &.cave-road { background-position: 100% $tileSize; }
+        &.cave-floor-3 { background-position: 0 $tileSize * 2; }
+        &.cave-rock-1 { background-position: 10% $tileSize * 2; }
+        &.cave-rock-2 { background-position: 20% $tileSize * 2; }
+        &.cave-rock-3 { background-position: 30% $tileSize * 2; }
+        &.cave-rock-4 { background-position: 40% $tileSize * 2; }
+        &.cave-wall-1 { background-position: 50% $tileSize * 2; }
+        &.cave-wall-2 { background-position: 60% $tileSize * 2; }
+        &.cave-wall-3 { background-position: 70% $tileSize * 2; }
         &.noName { background-position: 10% $tileSize * 2; }
     }
 }

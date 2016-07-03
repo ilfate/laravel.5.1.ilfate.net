@@ -13,6 +13,7 @@
  */
 namespace Ilfate\MageSurvival\Spells\Earth;
 
+use Ilfate\Geometry2DCells;
 use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\Spell;
 use Ilfate\MageSurvival\Spells\Earth;
@@ -51,6 +52,11 @@ class Earthquake extends Earth
             $damage = $this->mage->getDamage(mt_rand(1, 2), Spell::ENERGY_SOURCE_EARTH);
             $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_EARTH);
         }
+        $this->changeCellsBySpellSource(
+            Geometry2DCells::getNeighbours($this->mage->getX(), $this->mage->getY()),
+            Spell::ENERGY_SOURCE_EARTH,
+            Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2
+        );
         return true;
     }
 }

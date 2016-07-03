@@ -47,6 +47,11 @@ class GroundShake extends Earth
             $damage = $this->mage->getDamage(1, Spell::ENERGY_SOURCE_EARTH);
             $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_EARTH);
         }
+        $this->changeCellsBySpellSource(
+            $this->affectedCells,
+            Spell::ENERGY_SOURCE_EARTH,
+            Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2
+        );
         return true;
     }
 }

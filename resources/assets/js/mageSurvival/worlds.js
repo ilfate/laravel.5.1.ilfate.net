@@ -25,7 +25,10 @@ MageS.Worlds = function (game) {
         },
         'WitchForest' : {
             's' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
-            's1' : {'icon':'icon-rock', 'icon-color': 'color-grey'},
+            's1' : {'image':'cave-rock-1'},
+            's2' : {'image':'cave-rock-2'},
+            's3' : {'image':'cave-rock-3'},
+            's4' : {'image':'cave-rock-4'},
             // 'f2' : {'icon':'icon-grass', 'icon-color': 'color-yellow'},
             // 't0' : {'icon':'icon-forest', 'icon-color': 'color-green-darker', 'icon2' : {
             //     'icon':'icon-forest-base', 'icon-color':'color-brown'
@@ -66,7 +69,7 @@ MageS.Worlds = function (game) {
             'c1' : {'image':'cave-floor-1'},
             'c2' : {'image':'cave-floor-2'},
             'c3' : {'image':'cave-floor-3'},
-            'c4' : {'image':'cave-floor-4'},
+            'r2' : {'image':'cave-road'},
             // 't2' : {'icon':'icon-pine-tree', 'icon-color': 'color-green-darkest'},
             // 't3' : {'icon':'icon-pine-tree', 'icon-color': 'color-green'},
             // 't4' : {'icon':'icon-tree-oak', 'icon-color': 'color-green-darker', 'icon2':{
@@ -74,12 +77,12 @@ MageS.Worlds = function (game) {
             // }},
             'w1' : {'icon':'icon-brick-wall', 'icon-color': 'color-brown'},
             'w2' : {'icon':'icon-obelisk', 'icon-color': 'color-clay'},
-            'r2' : {'icon':'icon-footprints', 'icon-color': 'color-grey-darkest'},
+            // 'r2' : {'icon':'icon-footprints', 'icon-color': 'color-grey-darkest'},
             'r3' : {'icon':'icon-footprints-2', 'icon-color': 'color-grey-darkest'},
             'r4' : {'icon':'icon-footprints-3', 'icon-color': 'color-grey-darkest'},
-            'c' : {'icon':'icon-wall-texture-1', 'icon-color': 'color-clay'},
-            'cc' : {'icon':'icon-wall-texture-2', 'icon-color': 'color-clay'},
-            'cC' : {'icon':'icon-wall-texture-3', 'icon-color': 'color-clay'},
+            'c' : {'image':'cave-wall-1'},
+            'cc' : {'image':'cave-wall-2'},
+            'cC' : {'image':'cave-wall-3'},
         },
     };
 
@@ -102,6 +105,22 @@ MageS.Worlds = function (game) {
         }
     };
 
+    this.cellsChange = function(data, stage) {
+        var cell = $('.battle-border .cell.x-' + data.targetX + '.y-' + data.targetY);
+        var svgs = cell.find('.svg');
+        if (svgs.length > 0) {
+            svgs.remove();
+        }
+        var currentType = cell.data('class');
+        var currentImage = cell.data('image');
+        if (currentImage) {
+            cell.removeClass(currentImage);
+        }
+        cell.removeClass(currentType).addClass(data.cell).data('class', data.cell);
+        this.game.worlds.cell(this.game.worldType, data.cell, cell);
+        MageS.Game.animations.singleAnimationFinished(stage);
+    };
+
     this.addIcon = function(cellConfig, cellObj) {
         var icon = this.game.getIcon(cellConfig['icon']);
         var svgContainerEl = $('<div></div>').addClass('svg svg-cell').append($('<svg class="svg-icon" viewBox="0 0 512 512"></svg>'));
@@ -120,7 +139,7 @@ MageS.Worlds = function (game) {
     };
 
     this.addImage = function(cellConfig, cellObj) {
-        cellObj.addClass('tile-image ' + cellConfig['image']);
+        cellObj.addClass('tile-image ' + cellConfig['image']).data('image', cellConfig['image']);
         if (cellConfig['d'] !== undefined) {
             var randAngle = [0, 90, 180, 270];
             var angle = randAngle[cellConfig['d']];

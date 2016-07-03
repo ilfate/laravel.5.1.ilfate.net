@@ -87,6 +87,53 @@ MageS.Spells.Water = function (game, spells) {
         $('.casting-sphere').remove();
     };
 
+    this.finishIceSlide = function(data) {
+        this.finishStandartWater();
+
+        var targets = [
+            [3, 3],
+            [-3, -3],
+            [-3, 3],
+            [3, -3],
+        ];
+        var icon2 = 'icon-bullet-cercle-sinus-2';
+        var icon3 = 'icon-bullet-cercle-sinus';
+        var options3 = {
+            'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'time': 0.8,
+            'beamWidth': 10,
+            'segment1': ["0%", "0%"],
+            'segment2': ["100%", "200%"],
+        };
+        for(var i = 0 ; i < 4; i++) {
+            this.spells.beamStrike(2.7 - (i * 0.3), 360 / 4 * i, icon2, MageS.Game.color.darkBlue, options3);
+            this.spells.beamStrike(2.9 - (i * 0.3), 360 / 4 * i, icon3, MageS.Game.color.darkBlue, options3);
+
+            // this.spells.beam(0, 0, targets[i][0], targets[i][1], MageS.Game.color.darkBlue, icon2, options3);
+            // this.spells.beam(0, 0, targets[i][0], targets[i][1], MageS.Game.color.darkBlue, icon3, options3);
+        }
+        var options4 = {
+            'moveLeft': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'moveTop': ((0.5) * MageS.Game.cellSize) + 'rem',
+            'time': 0.8,
+            'beamWidth': 10,
+            'segment1': ["100%", "100%"],
+            'segment2': ["-100%", "0%"],
+        };
+        for(var i = 0 ; i < 4; i++) {
+            this.spells.beamStrike(3 - (i * 0.5), 360 / 4 * i, icon2, MageS.Game.color.darkBlue, options4);
+            this.spells.beamStrike(3.3 - (i * 0.5), 360 / 4 * i, icon3, MageS.Game.color.darkBlue, options4);
+
+            // this.spells.beam(0, 0, targets[i][0], targets[i][1], MageS.Game.color.darkBlue, icon2, options3);
+            // this.spells.beam(0, 0, targets[i][0], targets[i][1], MageS.Game.color.darkBlue, icon3, options3);
+        }
+
+        setTimeout(function () {
+            MageS.Game.spells.endSpellAnimation();
+        }, 800)
+    };
+
     this.finishFreeze = function(data) {
         this.finishStandartWater();
 

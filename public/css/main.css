@@ -4225,31 +4225,45 @@ body {
   .battle-border .tile-image.forest-tree6 {
     background-position: 100% 0; }
   .battle-border .tile-image.grass-stump {
-    background-position: 0 -32px; }
+    background-position: 0 10%; }
   .battle-border .tile-image.grass-stump-burned {
-    background-position: 10% -32px; }
+    background-position: 10% 10%; }
   .battle-border .tile-image.grass-flowers-1 {
-    background-position: 20% -32px; }
+    background-position: 20% 10%; }
   .battle-border .tile-image.grass-flowers-2 {
-    background-position: 30% -32px; }
+    background-position: 30% 10%; }
   .battle-border .tile-image.grass-flowers-3 {
-    background-position: 40% -32px; }
+    background-position: 40% 10%; }
   .battle-border .tile-image.grass-decor-1 {
-    background-position: 50% -32px; }
+    background-position: 50% 10%; }
   .battle-border .tile-image.grass-decor-2 {
-    background-position: 60% -32px; }
+    background-position: 60% 10%; }
   .battle-border .tile-image.grass-decor-3 {
-    background-position: 70% -32px; }
+    background-position: 70% 10%; }
   .battle-border .tile-image.cave-floor-1 {
-    background-position: 80% -32px; }
+    background-position: 80% 10%; }
   .battle-border .tile-image.cave-floor-2 {
-    background-position: 90% -32px; }
+    background-position: 90% 10%; }
+  .battle-border .tile-image.cave-road {
+    background-position: 100% 10%; }
   .battle-border .tile-image.cave-floor-3 {
-    background-position: 100% -32px; }
-  .battle-border .tile-image.cave-floor-4 {
-    background-position: 0 -64px; }
+    background-position: 0 20%; }
+  .battle-border .tile-image.cave-rock-1 {
+    background-position: 10% 20%; }
+  .battle-border .tile-image.cave-rock-2 {
+    background-position: 20% 20%; }
+  .battle-border .tile-image.cave-rock-3 {
+    background-position: 30% 20%; }
+  .battle-border .tile-image.cave-rock-4 {
+    background-position: 40% 20%; }
+  .battle-border .tile-image.cave-wall-1 {
+    background-position: 50% 20%; }
+  .battle-border .tile-image.cave-wall-2 {
+    background-position: 60% 20%; }
+  .battle-border .tile-image.cave-wall-3 {
+    background-position: 70% 20%; }
   .battle-border .tile-image.noName {
-    background-position: 10% -64px; }
+    background-position: 10% 20%; }
 
 @media (min-width: 49.6rem) {
   .mage-survival .container.main .right-panel .craft-demo-zone.active {

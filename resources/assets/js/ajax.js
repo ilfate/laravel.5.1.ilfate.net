@@ -126,6 +126,9 @@ Ajax = function() {
       data: 'data=' + textStatus + '&jqXHR=' + jqXHR
     });
     alert('Something vent wrong. Try to reload the page. If this happens again plz inform administrator.');
+    setTimeout(function(){
+      window.location.reload();
+    }, 2500);
     info(jqXHR);
     info(textStatus);
   };

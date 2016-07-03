@@ -40,17 +40,25 @@ class WorldGeneratorSecretCave extends WorldGeneratorWitchForest
         self::CELL_CAVE_FLOOR_1,
         self::CELL_CAVE_FLOOR_1,
         self::CELL_CAVE_FLOOR_1,
+        self::CELL_CAVE_FLOOR_1,
         self::CELL_CAVE_FLOOR_2,
         self::CELL_CAVE_FLOOR_2,
+        self::CELL_CAVE_FLOOR_2,
         self::CELL_CAVE_FLOOR_3,
         self::CELL_CAVE_FLOOR_3,
         self::CELL_CAVE_FLOOR_3,
+        self::CELL_CAVE_FLOOR_3,
+        self::CELL_STONE_1,
         self::CELL_STONE_2,
-        self::CELL_STONE_2,
+        self::CELL_STONE_3,
     ];
    
 
     protected static $generatorConfig = [
+        'spawnLocation' => [
+            'radius' => 0,
+        ],
+        'portalLocation' => ['x' => 0, 'y' => 1],
         'dialog' => [
 //            'help' => [
 //                ['method' => 'whereIsWitch']
@@ -73,7 +81,7 @@ class WorldGeneratorSecretCave extends WorldGeneratorWitchForest
 //                //100 => ['message' => 'I h.'],
 //            ]
         ],
-        'mapDistance' => 10,
+        'mapDistance' => 35,
     ];
 
     public function addAdditionalToMap(array &$map)
@@ -122,7 +130,7 @@ class WorldGeneratorSecretCave extends WorldGeneratorWitchForest
                 break;
             case WorldGenerator::CELL_TYPE_RANDOM:
                 if ($y < 3 && $y > -(self::$generatorConfig['mapDistance'] + 2) && abs($x) <= 1) {
-                    return ChanceHelper::oneFromArray([self::CELL_CAVE_FLOOR_ROAD]);
+                    return ChanceHelper::oneFromArray([self::CELL_CAVE_ROAD]);
                 }
                 $cell = $this->random[array_rand($this->random)];
                 break;
@@ -164,7 +172,7 @@ class WorldGeneratorSecretCave extends WorldGeneratorWitchForest
 
     public function getObjectCreatingChance($x, $y)
     {
-        return 0;
+        return 2;
     }
 
 }

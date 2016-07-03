@@ -43,6 +43,9 @@ MageS.Attacks = function (game) {
             case 'greenLaser':
                 this.greenLaser(attackId, stage);
                 break;
+            case 'bow':
+                this.bow(attackId, stage);
+                break;
             default:
                 info('there is no attack animation for ' + data.attack.animation);
                 MageS.Game.attacks.finishAttack(attackId, stage);
@@ -126,6 +129,28 @@ MageS.Attacks = function (game) {
         }, 1200);
     };
     
+    this.bow = function(id, stage) {
+        var data = this.attacks[id].data;
+        var options = {
+            'time': 0.1,
+            'time2': 0.1,
+            'beamWidth': 12,
+            'segment1': ["0%", "0%"],
+            'segment2': ["40%", "60%"],
+            'segment3': ["80%", "100%"],
+            'delete':true,
+        };
+        var unit = $('.battle-border .unit.id-' + data.attackerId);
+        MageS.Game.units.rotateUnitToTarget(unit, data);
+        var beam = MageS.Game.spells.beam(data.fromX, data.fromY, data.targetX, data.targetY, MageS.Game.color.white, 'icon-bullet-line',  options);
+
+        setTimeout(function() {
+            MageS.Game.units.rotateUnitBack(unit);
+            beam.remove();
+            MageS.Game.attacks.finishAttack(id, stage);
+        }, 350);
+    };
+
     this.finishAttack = function (id, stage) {
         this.clearAttack(id);
         MageS.Game.animations.singleAnimationFinished(stage);

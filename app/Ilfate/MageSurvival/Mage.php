@@ -43,6 +43,7 @@ abstract class Mage extends AliveCommon
     const STAT_KEY_SPELL_CRAFTED = 'sc';
 
     const DEFAULT_MAX_HEALTH = 20;
+    const DEFAULT_MAX_ARMOR = 20;
     /**
      * @var \Ilfate\Mage
      */
@@ -106,13 +107,18 @@ abstract class Mage extends AliveCommon
             }
         } else {
             // this mage is just created
-            $this->health = static::DEFAULT_MAX_HEALTH;
-            $this->maxHealth = static::DEFAULT_MAX_HEALTH;
-            $this->was['health'] = static::DEFAULT_MAX_HEALTH;
-            $this->was['maxHealth'] = static::DEFAULT_MAX_HEALTH;
+            $this->initMage();
             //let`s give him some Items
 //            $this->addItems([1 => 3, 2 => 3, 3 => 3, 4 => 3, 5 => 3, 1001 => 2]);
         }
+    }
+
+    protected function initMage()
+    {
+        $this->health = static::DEFAULT_MAX_HEALTH;
+        $this->maxHealth = static::DEFAULT_MAX_HEALTH;
+        $this->was['health'] = static::DEFAULT_MAX_HEALTH;
+        $this->was['maxHealth'] = static::DEFAULT_MAX_HEALTH;
     }
 
     public function save()
@@ -583,6 +589,9 @@ abstract class Mage extends AliveCommon
 
     public function armor($value, $animationStage)
     {
+        if ($this->armor + $value > static::DEFAULT_MAX_ARMOR) {
+            $value = static::DEFAULT_MAX_ARMOR - $this->armor;
+        }
         $this->armor += $value;
         if ($value > 0) {
             GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_ADD_ARMOR, $this->exportMageHealth($value), $animationStage);
