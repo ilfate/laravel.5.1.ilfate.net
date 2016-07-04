@@ -47,6 +47,7 @@ abstract class Spell
     const CONFIG_FIELD_PATTERN = 'pattern';
     const CONFIG_FIELD_COOLDOWN = 'cooldown';
     const CONFIG_FIELD_COOLDOWN_MARK = 'cooldownMark';
+    const CONFIG_FIELD_INGREDIENTS = 'ing';
 
     const ENERGY_SOURCE_FIRE = 'fire';
     const ENERGY_SOURCE_WATER = 'water';
@@ -154,7 +155,9 @@ abstract class Spell
         $schoolId = 0;
         $totalValue = 0;
         foreach ($spells as $spell) {
-            $totalValue += $spell['code'];
+            $value = $spell['code'];
+            if ($value == 0) $value = 1;
+            $totalValue += $value;
             if (!$schoolId) {
                 $schoolId = $spell['school'];
             } else {
@@ -164,11 +167,11 @@ abstract class Spell
             }
         }
         if ($totalValue > 3) {
-            $totalValue -= 1;
+//            $totalValue -= 1;
         } else if ($totalValue > 6) {
-            $totalValue -= 3;
+            $totalValue -= 1;
         } else if ($totalValue >= 12) {
-            $totalValue = floor($totalValue / 2);
+            $totalValue = floor($totalValue / 1.5);
         }
         $spellRandomizerConfig = [
             self::KEY_CARRIER_USAGES_FROM => 5,
@@ -665,5 +668,15 @@ abstract class Spell
     public function getDamage()
     {
         return 1;
+    }
+    
+    public function setIngredients($itemsIds)
+    {
+        
+        $this->config[self::CONFIG_FIELD_INGREDIENTS] = $itemsIds;
+        if (count($itemsIds) !== 4) {
+            $this->config[self::CONFIG_FIELD_INGREDIENTS][] = 1000 + $this->schoolId;
+        }
+        GameBuilder::getGame()->getMage()->updateSpell($this);
     }
 }

@@ -397,12 +397,28 @@ MageS.Spellbook = function (game) {
         var temaplate = $('#template-spell-tooltip').html();
         Mustache.parse(temaplate);
 
+        var ingredients = false;
+        if (data.ingredients !== undefined && data.ingredients.length > 0) {
+            ingredients = data.ingredients;
+        }
+
         var rendered = Mustache.render(temaplate, {'id': data.id, 'name': data.viewData.name,
-            'description' : data.viewData.description, 'cooldown': data.config.cooldown
+            'description' : data.viewData.description, 'cooldown': data.config.cooldown, 'ingredients':ingredients
         });
+
         var obj = $(rendered);
         if (data.viewData.noTargetSpell !== undefined) {
             obj.addClass('noTargetSpell');
+        }
+        if (ingredients) {
+            for (var i in ingredients) {
+                var item = ingredients[i];
+                var icon = this.game.getIcon(item.icon);
+                obj.find('.' + item.icon + ' svg').append(icon.clone());
+                if (item.iconColor !== undefined) {
+                    obj.find('.svg.' + item.icon).addClass(item.iconColor);
+                }
+            }
         }
         $('.tooltip-spell-area').append(obj);
         if (this.game.device == 'pc') {

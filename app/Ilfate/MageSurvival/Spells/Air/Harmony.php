@@ -45,7 +45,7 @@ class Harmony extends Air
     protected function spellEffect($data)
     {
         $this->mage->heal(5, Game::ANIMATION_STAGE_MAGE_ACTION_2);
-        $this->mage->addBuff(Spell::ENERGY_SOURCE_AIR, 2, 2);
+        $this->mage->addBuff(Spell::ENERGY_SOURCE_AIR, 3, 2);
         return true;
     }
 }

@@ -211,6 +211,7 @@ abstract class Mage extends AliveCommon
             return [];
         }
         $spellsViewData = \Config::get('mageSpells.list');
+        $itemConfigs = \Config::get('mageItems.list');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
         foreach ($this->spells as $spellId => $spell) {
             $return[$spellId] = [
@@ -218,7 +219,16 @@ abstract class Mage extends AliveCommon
                 'schoolId' => $spell['school'],
                 'config' => $spell['config'],
                 'viewData' => $spellsViewData[$spell['school']][$spell['code']],
+                'ingredients' => [],
             ];
+            if (!empty($spell['config'][Spell::CONFIG_FIELD_INGREDIENTS])) {
+                foreach ($spell['config'][Spell::CONFIG_FIELD_INGREDIENTS] as $item) {
+                    $return[$spellId]['ingredients'][] = [
+                        'icon' => $itemConfigs[$item]['icon'], 
+                        'iconColor' => $itemConfigs[$item]['iconColor']
+                    ];
+                }
+            }
             if (!empty($spell['config']['pattern'])) {
                 $return[$spellId]['pattern'] = $spellsPatterns[$spell['config']['pattern']];
             }
@@ -248,6 +258,7 @@ abstract class Mage extends AliveCommon
         if (empty($this->spellsChanges)) {
             return $return;
         }
+        $itemConfigs = \Config::get('mageItems.list');
         $spellsViewData = \Config::get('mageSpells.list');
         $schoolsViewData = \Config::get('mageSpells.schools');
         $spellsPatterns = \Config::get('mageSpellPatterns.list');
@@ -258,8 +269,17 @@ abstract class Mage extends AliveCommon
                 'config' => $spell['config'],
                 'viewData' => $spellsViewData[$spell['school']][$spell['code']],
                 'status' => $spell['status'],
-                'schoolId' => $spell['school']
+                'schoolId' => $spell['school'],
+                'ingredients' => []
             ];
+            if (!empty($spell['config'][Spell::CONFIG_FIELD_INGREDIENTS])) {
+                foreach ($spell['config'][Spell::CONFIG_FIELD_INGREDIENTS] as $item) {
+                    $return[$spellId]['ingredients'][] = [
+                        'icon' => $itemConfigs[$item]['icon'],
+                        'iconColor' => $itemConfigs[$item]['iconColor']
+                    ];
+                }
+            }
             if ($spell['status'] == 'new') {
                 $return[$spellId]['schoolViewData'] = $schoolsViewData[$spell['school']];
             }
@@ -384,6 +404,7 @@ abstract class Mage extends AliveCommon
             }
             // ok we spend items let`s get the spell
             $result = Spell::craftSpellFromItems($itemIds);
+            $result['spell']->setIngredients($itemIds);
         }
         if (!empty($result['spell'])) {
             $this->addSpell($result['spell']);

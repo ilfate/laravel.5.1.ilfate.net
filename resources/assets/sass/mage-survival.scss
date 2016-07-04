@@ -121,6 +121,17 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
             }
         }
     }
+    .spell-tooltip {
+        .spell-ingredients {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 4.5 * $cell-size + rem;
+            height: 1 * $cell-size + rem;
+        }
+    }
     .tooltip-helper-area  {
         .item-tooltip {
             margin: 2 * $cell-size + rem 0 0 2 * $cell-size + rem;
@@ -332,7 +343,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
             }
         }
         @media (min-width: $screen-sm-min + rem) {
-            height: $mage-inventory-size + rem;
+            height: $mage-inventory-size - 0.2 + rem;
             width: $mage-inventory-size + rem;
         }
     }
@@ -455,7 +466,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         }
         @media (min-width: $screen-sm-min + rem) {
             width: $mage-inventory-size + rem;
-            height: $mage-inventory-size + rem;
+            height: $mage-inventory-size - 0.2 + rem;
         }
     }
 
@@ -578,6 +589,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
             border-right: 1px solid $mage-colors-brown;
             width: $mage-inventory-size + rem;
             display: block;
+            padding: 0.2rem 1rem 0.2rem 0.2rem;
             &:before {
                 content: "Drag me!";
                 display: block;
@@ -585,6 +597,14 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
                 right: -1.4rem;
                 margin-top: 4rem;
                 @include rotate(-90deg);
+            }
+            p {
+                margin-bottom: 0.1rem;
+                font-size: 12px;
+                &.name{
+                    font-size: 14px;
+                    font-weight: bold;
+                }
             }
         }
         &.active {

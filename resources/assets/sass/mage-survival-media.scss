@@ -253,7 +253,7 @@
 
         .spellBook {
             @media (min-width: $screen-sm-min + rem) {
-                height:$mage-mobile-inventory-size + rem;
+                //height:$mage-mobile-inventory-size + rem;
                 .spells {
                     .spell {
 

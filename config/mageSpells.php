@@ -131,7 +131,7 @@ return array(
             1 => [
                 'name' => 'IceCrown',
                 'class' => 'IceCrown',
-                'description' => 'Reduce damage for next 3 enemy`s attacks',
+                'description' => 'Reduce damage for next 5 enemy`s attacks',
                 'iconClass' => 'icon-frozen-orb',
                 'iconColor' => 'color-dark-blue',
                 'noTargetSpell' => true,
@@ -229,7 +229,7 @@ return array(
             0 => [
                 'name' => 'Push',
                 'class' => 'Push',
-                'description' => 'Push your enemies away from you.',
+                'description' => 'Push your enemies away from you and deal 0-1 damage. If they hit a wall inflict additional damage.',
                 'iconColor' => 'color-light-blue',
                 'iconClass' => 'icon-cloud-ring',
             ],
@@ -252,7 +252,7 @@ return array(
             3 => [
                 'name' => 'Hard landing',
                 'class' => 'HardLanding',
-                'description' => 'Launch yourself to a location knocking away everyone around.',
+                'description' => 'Launch yourself to a location knocking away everyone around. Deal 1 damage to all units around landing location.',
                 'iconClass' => 'icon-fire-dash',
                 'iconColor' => 'color-light-blue',
             ],

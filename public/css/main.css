@@ -3011,6 +3011,14 @@ body {
     display: none; }
     .mage-survival .item-tooltip .active .value, .mage-survival .spell-tooltip .active .value, .mage-survival .unit-tooltip .active .value {
       font-weight: bold; }
+.mage-survival .spell-tooltip .spell-ingredients {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 7.2rem;
+  height: 1.6rem; }
 .mage-survival .tooltip-helper-area .item-tooltip {
   margin: 3.2rem 0 0 3.2rem;
   width: 11.2rem;
@@ -3181,7 +3189,7 @@ body {
       opacity: 1; }
   @media (min-width: 38.4rem) {
     .mage-survival .inventory {
-      height: 12.8rem;
+      height: 12.6rem;
       width: 12.8rem; } }
 .mage-survival .items {
   overflow-y: scroll;
@@ -3278,7 +3286,7 @@ body {
   @media (min-width: 38.4rem) {
     .mage-survival .spellBook {
       width: 12.8rem;
-      height: 12.8rem; } }
+      height: 12.6rem; } }
 .mage-survival .actions-container {
   float: left;
   height: 2.4rem;
@@ -3378,7 +3386,8 @@ body {
   .mage-survival #mobile-spell-info-container .spell-tooltip {
     border-right: 1px solid #5E412F;
     width: 12.8rem;
-    display: block; }
+    display: block;
+    padding: 0.2rem 1rem 0.2rem 0.2rem; }
     .mage-survival #mobile-spell-info-container .spell-tooltip:before {
       content: "Drag me!";
       display: block;
@@ -3388,6 +3397,12 @@ body {
       -webkit-transform: rotate(-90deg);
       -moz-transform: rotate(-90deg);
       -o-transform: rotate(-90deg); }
+    .mage-survival #mobile-spell-info-container .spell-tooltip p {
+      margin-bottom: 0.1rem;
+      font-size: 12px; }
+      .mage-survival #mobile-spell-info-container .spell-tooltip p.name {
+        font-size: 14px;
+        font-weight: bold; }
   .mage-survival #mobile-spell-info-container.active .spell-tooltip:before {
     opacity: 0.3; }
   .mage-survival #mobile-spell-info-container .svg.cast-button {
@@ -3950,14 +3965,12 @@ body {
       display: block;
       opacity: 0.7; } }
   @media (min-width: 38.4rem) {
-    .mage-survival .container.main .spellBook {
-      height: 10.2rem; }
-      .mage-survival .container.main .spellBook .spells .spell {
+    .mage-survival .container.main .spellBook .spells .spell {
+      width: 1.7rem;
+      height: 1.7rem; }
+      .mage-survival .container.main .spellBook .spells .spell .svg-icon {
         width: 1.7rem;
-        height: 1.7rem; }
-        .mage-survival .container.main .spellBook .spells .spell .svg-icon {
-          width: 1.7rem;
-          height: 1.7rem; } }
+        height: 1.7rem; } }
   @media (min-width: 38.4rem) {
     .mage-survival .container.main #mobile-spell-info-container {
       height: 12.8rem; }

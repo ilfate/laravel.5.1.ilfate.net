@@ -821,12 +821,9 @@ MageS.Game = function () {
     };
 
     this.configureKeys = function() {
-        $(document).keypress(function (event) {
-            if (!MageS.Game.isGameRuning) {
-                return;
-            }
+        $(document).keydown(function (event) {
             switch (event.keyCode) {
-                case 40: // up
+                case 38: // down
                 case 1094:
                     MageS.Game.action('move-up');
                     break;
@@ -834,7 +831,7 @@ MageS.Game = function () {
                 case 1092:
                     MageS.Game.action('move-left');
                     break;
-                case 38: // down
+                case 40: // up
                 case 1099:
                     MageS.Game.action('move-down');
                     break;
@@ -842,6 +839,29 @@ MageS.Game = function () {
                 case 1074:
                     MageS.Game.action('move-right');
                     break;
+            }
+        });
+        $(document).keypress(function (event) {
+            if (!MageS.Game.isGameRuning) {
+                return;
+            }
+            switch (event.keyCode) {
+                // case 38: // down
+                // case 1094:
+                //     MageS.Game.action('move-up');
+                //     break;
+                // case 37: // left
+                // case 1092:
+                //     MageS.Game.action('move-left');
+                //     break;
+                // case 40: // up
+                // case 1099:
+                //     MageS.Game.action('move-down');
+                //     break;
+                // case 39: // right
+                // case 1074:
+                //     MageS.Game.action('move-right');
+                //     break;
 
                 case 13:  // Enter
                     break;

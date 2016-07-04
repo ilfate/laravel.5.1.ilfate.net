@@ -37,7 +37,7 @@ class IceCrown extends Water
 
     protected function spellEffect($data)
     {
-        Event::create(Event::EVENT_MAGE_BEFORE_GET_DAMAGE, ['times' => 3], 'Water:iceCrown');
+        Event::create(Event::EVENT_MAGE_BEFORE_GET_DAMAGE, ['times' => 5], 'Water:iceCrown');
         return true;
     }
 }

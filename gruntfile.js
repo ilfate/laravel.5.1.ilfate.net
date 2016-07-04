@@ -68,6 +68,7 @@ module.exports = function (grunt) {
                     'resources/assets/js/mageSurvival/map-builder.js',
                 ],
                 dest: 'public/js/main-grunt.js'
+                // dest: 'public/js/main.min.js'
             }
         },
         uglify: {
@@ -84,7 +85,10 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-svgstore');
-    grunt.registerTask('default', ['concat', 'uglify']);
+    //grunt.loadNpmTasks('grunt-svgstore');
+    grunt.registerTask('default', [
+        'concat',
+        'uglify'
+    ]);
 };
 

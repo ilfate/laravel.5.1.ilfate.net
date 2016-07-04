@@ -86,6 +86,7 @@
 {{--<script src="/packages/segment.js"></script> --}}
 {{--<script src="/packages/jquery.svg.package-1.5.0/jquery.svg.min.js"></script>--}}
 {{--<script src="/packages/jquery.svg.package-1.5.0/jquery.svganim.min.js"></script>--}}
+
 @if (!empty($localDevelopment))
 
 

@@ -74,7 +74,7 @@ class Apprentice extends Mage
                  */
                 // 8 is LetFireInYourEyes
                 // 1 is Fire school
-                $spell = new $class(8, 1, ['usages' => 1]);
+                $spell = new $class(8, 1, ['usages' => 4]);
                 $spell->generateCoolDown();
                 $this->addSpell($spell);
                 $this->addStat(Mage::STAT_KEY_SPELL_CRAFTED);
