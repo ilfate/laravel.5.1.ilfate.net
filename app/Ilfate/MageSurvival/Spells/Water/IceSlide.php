@@ -43,6 +43,7 @@ class IceSlide extends Water
             $target->freeze(2, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT);
         }
         Event::create(Event::EVENT_MAGE_AFTER_MOVE, ['times' => 1], 'Water:iceSlide');
+        
         return true;
     }
 }

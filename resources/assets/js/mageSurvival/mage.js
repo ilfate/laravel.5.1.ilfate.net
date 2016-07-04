@@ -9,6 +9,14 @@ MageS.Mage = function (game) {
     this.game = game;
     this.bind = [];
 
+    this.cantMoveTill = false;
+
+    this.moveStarted = false;
+    this.moveLoaded = false;
+    this.moveFinished = false;
+    this.moveStage = false;
+    this.beforeMoveD = false;
+
     this.drawMage = function(mageConf) {
         var temaplate = $('#template-mage').html();
         Mustache.parse(temaplate);
@@ -38,7 +46,7 @@ MageS.Mage = function (game) {
                 this.game.drawCell(data.map[y][x], x, y, newBattleField);
             }
         }
-        MageS.Game.units.allToCell('toDelete');
+
         $('.battle-border').append(newBattleField);
         for(var y in data.objects) {
             for(var x in data.objects[y]) {
@@ -51,44 +59,136 @@ MageS.Mage = function (game) {
                 this.game.units.drawUnit(data.units[y][x], x, y, '.battle-field.new');
             }
         }
-        var newX = data.mage.x;
-        var newY = data.mage.y;
-        var oldX = data.mage.was.x;
-        var oldY = data.mage.was.y;
-        var baseMargin = this.game.fieldRadius * this.game.cellSize;
+        if (data.force !== undefined || data.bigMove !== undefined) {
+            var newX = data.mage.x;
+            var newY = data.mage.y;
+            var oldX = data.mage.was.x;
+            var oldY = data.mage.was.y;
+            var baseMargin = this.game.fieldRadius * this.game.cellSize;
+            var animateTime = this.game.animationTime;
+            var dX = Math.abs(newX - oldX);
+            var dY = Math.abs(newY - oldY);
+            var dSum = dX + dY;
+            if (dSum > 1) { animateTime = animateTime * 2; }
+            newBattleField.css({
+                'margin-left': baseMargin + (newX - oldX) * this.game.cellSize + 'rem',
+                'margin-top': baseMargin + (newY - oldY) * this.game.cellSize + 'rem'
+            });
+            newBattleField.animate({
+                'margin-left': baseMargin + 'rem',
+                'margin-top': baseMargin + 'rem'
+            }, {'duration': animateTime});
+            MageS.Game.mage.moveFinished = false;
+            this.startMove(oldX - newX, oldY - newY);
+        }
+        // if (data.bigMove !== undefined) {
+        //
+        // }
 
-        newBattleField.css({
-            'margin-left': baseMargin + (newX - oldX) * this.game.cellSize + 'rem',
-            'margin-top': baseMargin + (newY - oldY) * this.game.cellSize + 'rem'
-        });
+
+        // newBattleField.css({
+        //     'margin-left': baseMargin + (newX - oldX) * this.game.cellSize + 'rem',
+        //     'margin-top': baseMargin + (newY - oldY) * this.game.cellSize + 'rem'
+        // });
+        // var animateTime = this.game.animationTime;
+        // var dX = Math.abs(newX - oldX);
+        // var dY = Math.abs(newY - oldY);
+        // var dSum = dX + dY;
+        // if (dSum > 1) { animateTime = animateTime * 2; }
+
+        // this.rotateTorso(animateTime, 2);
+        // newBattleField.animate({
+        //     'margin-left': baseMargin + 'rem',
+        //     'margin-top': baseMargin + 'rem'
+        // }, {'duration': animateTime});
+        // var that = this;
+        // $('.battle-field.current').animate({
+        //     'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'rem',
+        //     'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'rem'
+        // }, {duration: animateTime,
+        //     complete:function(){
+        //         $('.battle-field.current').remove();
+        //         $('.battle-field.new').removeClass('new').addClass('current');
+        //         MageS.Game.units.allBackToField();
+        //         MageS.Game.animations.singleAnimationFinished(stage);
+        //     }});
+        this.moveStage = stage;
+        MageS.Game.mage.moveLoaded = true;
+        if (MageS.Game.mage.moveFinished) {
+            MageS.Game.mage.finishMove();
+        }
+
+    };
+
+    this.startMove = function(x, y) {
+        this.moveStarted = true;
+        var baseMargin = this.game.fieldRadius * this.game.cellSize;
+        
         var animateTime = this.game.animationTime;
-        var dX = Math.abs(newX - oldX);
-        var dY = Math.abs(newY - oldY);
+        var dX = Math.abs(x);
+        var dY = Math.abs(y);
         var dSum = dX + dY;
         if (dSum > 1) { animateTime = animateTime * 2; }
+        this.rotateTorso(animateTime, 2);
         if (!this.game.spells.spellAnimationRunning) {
             this.mageMoveHands(animateTime);
         }
-        this.rotateTorso(animateTime, 2);
-        newBattleField.animate({
-            'margin-left': baseMargin + 'rem',
-            'margin-top': baseMargin + 'rem'
-        }, {'duration': animateTime});
-        var that = this;
+        MageS.Game.units.allToCell('toDelete');
         $('.battle-field.current').animate({
-            'margin-left': baseMargin - (newX - oldX) * this.game.cellSize + 'rem',
-            'margin-top': baseMargin - (newY - oldY) * this.game.cellSize + 'rem'
+            'margin-left': baseMargin + x * this.game.cellSize + 'rem',
+            'margin-top': baseMargin + y * this.game.cellSize + 'rem'
         }, {duration: animateTime,
             complete:function(){
-                $('.battle-field.current').remove();
-                $('.battle-field.new').removeClass('new').addClass('current');
-                MageS.Game.units.allBackToField();
-                MageS.Game.animations.singleAnimationFinished(stage);
-            }});    
+                MageS.Game.mage.moveFinished = true;
+                if (MageS.Game.mage.moveLoaded) {
+                    MageS.Game.mage.finishMove();
+                }
+                // $('.battle-field.current').remove();
+                // $('.battle-field.new').removeClass('new').addClass('current');
+                // MageS.Game.units.allBackToField();
+                // MageS.Game.animations.singleAnimationFinished(stage);
+            }});
+    };
+
+    this.finishMove = function() {
+        $('.battle-field.current').remove();
+        $('.battle-field.new').removeClass('new').addClass('current');
+        MageS.Game.units.allBackToField();
+        MageS.Game.animations.singleAnimationFinished(this.moveStage);
+
+        this.moveLoaded = false;
+        this.moveFinished = false;
+        this.moveStage = false;
+        this.moveStarted = false;
+        this.beforeMoveD = false;
+    };
+    
+    this.cancelMove = function() {
+        if (this.beforeMoveD !== false) {
+            var el = $('.battle-border .mage');
+            this.game.animations.rotate(
+                el,
+                {d: this.beforeMoveD, wasD:el.data('d')},
+                false
+            );
+        }
+        var baseMargin = this.game.fieldRadius * this.game.cellSize;
+        $('.battle-field.current').animate({
+            'margin-left': baseMargin + 'rem',
+            'margin-top': baseMargin + 'rem'
+        }, 200);
+        MageS.Game.chat.dialogMessage({'targetX':0, 'targetY':0, 'message':'Wtf I just did? I can`t move there!', time:500});
     };
 
     this.addMageStatus = function(flags) {
         this.game.units.addFlag($('.mage-container .mage'), flags);
+        for(var flag in flags) {
+            switch (flag) {
+                case 'web':
+                    this.cantMoveTill = flags[flag];
+                    break;
+            }
+        }
     };
 
     this.onLoad = function() {

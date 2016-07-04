@@ -73,6 +73,7 @@ MageS.Game = function () {
     this.actionInProcess = false;
     this.gameInited = false;
     this.isGameRuning = true;
+    this.availableDirections = [];
     /* CONFIG */
     this.fieldRadius = 5;
     this.cellSize = 1.6;
@@ -366,6 +367,49 @@ MageS.Game = function () {
             return;
         }
         if (!data) { data = {}; }
+        var moveDirection = false;
+        switch (action) {
+            case 'move-up':
+                moveDirection = 0; break;
+            case 'move-right':
+                moveDirection = 1; break;
+            case 'move-down':
+                moveDirection = 2; break;
+            case 'move-left':
+                moveDirection = 3; break;
+        }
+        if (moveDirection !== false) {
+            if (!MageS.Game.availableDirections[moveDirection]) {
+                MageS.Game.chat.dialogMessage({'targetX':0, 'targetY':0, 'message':'I can`t move there...', time:500});
+                return;
+            }
+            if (this.mage.cantMoveTill > this.turn) {
+                MageS.Game.chat.dialogMessage({'targetX':0, 'targetY':0, 'message':'I can`t move!!', time:700});
+                return;
+            }
+            var mageEl = $('.battle-border .mage');
+            var wasD = mageEl.data('d');
+            var delay = 0;
+            if (moveDirection != wasD) {
+                delay = 100;
+                this.mage.beforeMoveD = wasD;
+                this.animations.rotate(
+                    mageEl,
+                    {d: moveDirection, wasD:wasD},
+                    false
+                );
+            }
+            setTimeout(function() {
+                var x = 0, y = 0;
+                switch (moveDirection) {
+                    case 0: y = 1; break;
+                    case 1: x = -1; break;
+                    case 2: y = -1; break;
+                    case 3: x = 1; break;
+                }
+                MageS.Game.mage.startMove(x, y);
+            }, delay);
+        }
         this.startAction(action);
         this.spellbook.turnOffPatterns();
         this.spellbook.removePermanentTooltip();
@@ -454,6 +498,9 @@ MageS.Game = function () {
                     if (this.spells.spellAnimationRunning) {
                         this.spells.stopAnimation = true;
                     }
+                    if (this.mage.moveStarted) {
+                        this.mage.cancelMove();
+                    }
                     break;
                 case 'reload':
                     if (MageS.Game.admin.isEnabled) {
@@ -534,6 +581,7 @@ MageS.Game = function () {
                 case 'move-1':
                 case 'move-2':
                 case 'move-3':
+                    MageS.Game.availableDirections[actions[i].name] = actions[i].method === 'move-' + actions[i].name;
                     var location = $('#move-control-field .' + actions[i].location);
                     if (location.data('method') == actions[i].method) {
                         continue;

@@ -194,6 +194,11 @@ MageS.Animations = function (game) {
     
     this.mageRotateAnimation = function(data, stage) {
         var el = $('.battle-border .mage');
+        var currentD = el.data('d');
+        if (currentD == data.d) {
+            MageS.Game.animations.singleAnimationFinished(stage);
+            return;
+        }
         this.rotate(el, data, stage);
     };
     this.rotate = function(el, data, stage) {
@@ -209,8 +214,9 @@ MageS.Animations = function (game) {
         el.removeClass('d-' + data.d);
         el.animateRotate(oldD, d, this.game.animationTime / 3, "swing", function(){
             $(this).addClass('d-' + data.d).data('d', data.d);
-
-            MageS.Game.animations.singleAnimationFinished(stage);
+            if (stage) {
+                MageS.Game.animations.singleAnimationFinished(stage);
+            }
         });
     };
     this.unitKillAnimation = function(data, stage) {

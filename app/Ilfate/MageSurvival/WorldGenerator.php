@@ -154,7 +154,7 @@ abstract class WorldGenerator
     {
         $centerX = $mage->getX();
         $centerY = $mage->getY();
-        $radius = $this->config['game']['screen-radius'];
+        $radius = $this->config['game']['screen-radius'] + 1;
         $map = [];
         for ($y = -$radius; $y <= $radius; $y++) {
             for ($x = -$radius; $x <= $radius; $x++) {

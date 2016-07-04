@@ -59,6 +59,8 @@ class Water extends Event
         }
         $actionData['x'] = $x;
         $actionData['y'] = $y;
+        $actionData['isUpdated'] = true;
+        
 
         return $actionData;
     }

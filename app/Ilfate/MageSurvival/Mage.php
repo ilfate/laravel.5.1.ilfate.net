@@ -299,7 +299,7 @@ abstract class Mage extends AliveCommon
                     throw new MessageException('Your are stuck in web for some time and can`t move for now.');
             }
         }
-        $x = $this->getX();
+        $wasX = $x = $this->getX();
         $y = $this->getY();
         switch ($data['d']) {
             case 0: $y -= 1;
@@ -336,12 +336,16 @@ abstract class Mage extends AliveCommon
         $this->y = $eventData['y'];
         $this->update();
         $this->game->setIsMageMoved();
-        $this->game->addAnimationEvent('mage-move', [
+        $data = [
             'mage' => $this->exportMage(),
             'map' => $this->game->getWorldGenerator()->exportMapForView($this),
             'objects' => $this->game->getWorldGenerator()->exportVisibleObjects(),
             'units' => $this->game->getWorldGenerator()->exportVisibleUnits(),
-        ], $stageForMove);
+        ];
+        if (!empty($eventData['isUpdated'])) {
+            $data['bigMove'] = true;
+        }
+        $this->game->addAnimationEvent('mage-move', $data, $stageForMove);
         $this->game->registrationCheck();
     }
 
@@ -352,6 +356,7 @@ abstract class Mage extends AliveCommon
         $this->update();
         $this->game->setIsMageMoved();
         $this->game->addAnimationEvent('mage-move', [
+            'force' => true,
             'mage' => $this->exportMage(),
             'map' => $this->game->getWorldGenerator()->exportMapForView($this),
             'objects' => $this->game->getWorldGenerator()->exportVisibleObjects(),

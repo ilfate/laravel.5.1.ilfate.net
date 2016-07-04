@@ -36,11 +36,12 @@ class Web extends AbstractAttack
     public function trigger()
     {
         $target = $this->target;
-        $target->addFlag(AliveCommon::FLAG_WEB, GameBuilder::getGame()->getTurn() + 3);
+        $turn = GameBuilder::getGame()->getTurn() + 3;
+        $target->addFlag(AliveCommon::FLAG_WEB, $turn);
         
         $this->standartAnimate();
         GameBuilder::animateEvent(Game::EVENT_NAME_MAGE_ADD_STATUS,
-            ['flags' => [AliveCommon::FLAG_WEB => true]],
+            ['flags' => [AliveCommon::FLAG_WEB => $turn]],
             Game::ANIMATION_STAGE_UNIT_ACTION_3);
         Event::create(
             Event::EVENT_MAGE_AFTER_TURN, [
