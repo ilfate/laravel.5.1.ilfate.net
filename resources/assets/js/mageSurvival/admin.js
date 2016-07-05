@@ -55,7 +55,18 @@ MageS.Admin = function (game) {
             setTimeout(function(){ MageS.Game.admin.loadActions();}, MageS.Game.admin.timeToLoadAjax);
             return;
         }
+
         action.data.fake = true;
+        if (action.action == 'move') {
+            var data = JSON.parse(action.data);
+            switch (data.d) {
+                case '0': action.action = 'move-up'; break;
+                case '1': action.action = 'move-right'; break;
+                case '2': action.action = 'move-down'; break;
+                case '3': action.action = 'move-left'; break;
+            }
+        }
+        info(action);
         this.game.action(action.action, action.data);
         switch(action.action) {
             case 'spell':

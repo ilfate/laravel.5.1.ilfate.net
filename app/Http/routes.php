@@ -91,6 +91,7 @@ Route::get('Spellcraft/mapBuilder/edit/{name}', 'MageSurvivalController@editMap'
 
 Route::get('Spellcraft/admin', 'MageSurvivalController@admin');
 Route::get('Spellcraft/admin/page/{userId}/{pageTime}', 'MageSurvivalController@adminPage');
+Route::get('Spellcraft/publicLog/{userId}/{pageTime}', 'MageSurvivalController@publicLog');
 Route::post('Spellcraft/admin/getActions/{userId}/{pageTime}', 'MageSurvivalController@adminGetActions');
 
 

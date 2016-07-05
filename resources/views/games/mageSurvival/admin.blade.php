@@ -29,7 +29,7 @@
                         @foreach($user['pages'] as $page)
                             <tr>
                                 <td>
-                                    <a href="/Spellcraft/admin/page/{{$user['id']}}/{{$page['pageTime']}}">{{$page['time']}}</a>
+                                    <a href="/Spellcraft/publicLog/{{$user['id']}}/{{$page['pageTime']}}">{{$page['time']}}</a>
                                 </td>
                                 <td>{{$page['actions']}}</td>
                                 <td>{{$page['info']['map']}}</td>

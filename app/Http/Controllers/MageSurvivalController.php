@@ -186,13 +186,27 @@ class MageSurvivalController extends BaseController
         return view('games.mageSurvival.admin-battle');
     }
 
+    public function publicLog($userId, $pageTime, Request $request)
+    {
+        $pageLogs = $this->getLoggedPage($userId, $pageTime);
+        if (!$pageLogs) {
+            return redirect('/Spellcraft');
+        }
+
+        view()->share('isAdmin', true);
+        view()->share('viewData', $pageLogs);
+        view()->share('bodyClass', 'mage-survival');
+        view()->share('mobileFriendly', true);
+        return view('games.mageSurvival.admin-battle');
+    }
+
     public function adminGetActions($userId, $pageTime, Request $request)
     {
         $actionId = $request->get('action');
-        $user = User::getUser();
-        if ($user->rights != 2) {
-            return '[]';
-        }
+//        $user = User::getUser();
+//        if ($user->rights != 2) {
+//            return '[]';
+//        }
         $actions = $this->getActions($userId, $pageTime, $actionId);
         if (!$actions) {
             return '[]';
