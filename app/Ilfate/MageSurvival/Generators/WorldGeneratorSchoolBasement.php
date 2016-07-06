@@ -55,7 +55,7 @@ class WorldGeneratorSchoolBasement extends WorldGeneratorSchool
         if ($turn == 2) {
             $this->firstSpawn();
         } else {
-            if ($turn % 20 === 0) {
+            if ($turn % 50 === 0) {
                 $this->level2Spawn();
             }
         }

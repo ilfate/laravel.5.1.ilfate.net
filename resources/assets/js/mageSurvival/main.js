@@ -414,53 +414,64 @@ MageS.Game = function () {
         this.spellbook.turnOffPatterns();
         this.spellbook.removePermanentTooltip();
         $('.spellBook .spell.active').removeClass('active');
+
+        if (data.fake !== undefined || this.admin.isEnabled) {
+            // this is a fake action
+            info('faked action ' + actionName);
+            return;
+        }
+
         var actionName = '';
         var dataString = '';
         switch (action) {
             case 'move-up':
                 actionName = 'move';
                 dataString = '{"d":"0"}';
+                ga('send', 'event', 'GamePlay', 'move', 'Spellcraft', 0);
                 break;
             case 'move-right':
                 actionName = 'move';
                 dataString = '{"d":"1"}';
+                ga('send', 'event', 'GamePlay', 'move', 'Spellcraft', 1);
                 break;
             case 'move-down':
                 actionName = 'move';
                 dataString = '{"d":"2"}';
+                ga('send', 'event', 'GamePlay', 'move', 'Spellcraft', 2);
                 break;
             case 'move-left':
                 actionName = 'move';
                 dataString = '{"d":"3"}';
+                ga('send', 'event', 'GamePlay', 'move', 'Spellcraft', 3);
                 break;
             case 'objectInteract':
                 actionName = 'objectInteract';
                 dataString = data;
+                ga('send', 'event', 'GamePlay', 'object', 'Spellcraft');
                 break;
             case 'craftSpell':
                 actionName = 'craftSpell';
                 dataString = data;
+                ga('send', 'event', 'GamePlay', 'craft', 'Spellcraft');
                 break;
             case 'skipTurn':
                 actionName = 'skipTurn';
                 dataString = data;
+                ga('send', 'event', 'GamePlay', 'skip', 'Spellcraft');
                 break;
             case 'spell':
                 actionName = 'spell';
                 dataString = data;
+                ga('send', 'event', 'GamePlay', 'cast', 'Spellcraft');
                 break;
             case 'register':
                 actionName = 'register';
                 dataString = data;
+                ga('send', 'event', 'GamePlay', 'register', 'Spellcraft');
                 break;
             default:
                 info('action not found');
                 return;
-        }
-        if (data.fake !== undefined || this.admin.isEnabled) {
-            // this is a fake action
-            info('faked action ' + actionName);
-            return;
         }
         Ajax.json('/Spellcraft/action', {
             data: 'action=' + actionName + '&data=' + dataString+ '&turn=' + this.turn,
@@ -872,19 +883,15 @@ MageS.Game = function () {
         $(document).keydown(function (event) {
             switch (event.keyCode) {
                 case 38: // down
-                case 1094:
                     MageS.Game.action('move-up');
                     break;
                 case 37: // left
-                case 1092:
                     MageS.Game.action('move-left');
                     break;
                 case 40: // up
-                case 1099:
                     MageS.Game.action('move-down');
                     break;
                 case 39: // right
-                case 1074:
                     MageS.Game.action('move-right');
                     break;
             }
@@ -893,6 +900,7 @@ MageS.Game = function () {
             if (!MageS.Game.isGameRuning) {
                 return;
             }
+            // info(event.keyCode);
             switch (event.keyCode) {
                 // case 38: // down
                 // case 1094:
@@ -914,15 +922,19 @@ MageS.Game = function () {
                 case 13:  // Enter
                     break;
                 case 119 : // w
+                case 1094:
                     MageS.Game.action('move-up');
                     break;
                 case 97 : // a
+                case 1092:
                     MageS.Game.action('move-left');
                     break;
                 case 115 : // s
+                case 1099:
                     MageS.Game.action('move-down');
                     break;
                 case 100 : // d
+                case 1074:
                     MageS.Game.action('move-right');
                     break;
                 case 32 :  // space

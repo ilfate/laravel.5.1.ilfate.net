@@ -361,6 +361,7 @@ MageS.Units = function (game) {
     };
     
     this.standartDeath = function(unit) {
+        $('.tooltip-unit-area .id-' + unit.data('id')).remove();
         unit.animate({
             'opacity': 0
         }, {

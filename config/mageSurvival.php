@@ -76,15 +76,42 @@ return array(
 
 
             100 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay', 'loot' => [1,2,3,4,5]],
-            101 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay', 'loot' => [3,4,5,6,7,3,4,5,6,7,3,4,5,6,7,1001,1002,1003,1004]],
-            102 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay', 'loot' => [5,6,7,8,9,10,5,6,7,8,9,10,1001,1002,1003,1004], 'quantity' => 2],
-            103 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-green-darkest', 'loot' => [3,4,5,5,6,6,7,7,8,8,9,10,12,13], 'quantity' => 3],
-            104 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-blue', 'loot' => [7,8,9,10,12,13,14,15,16,17,18,19], 'quantity' => 4],
-            110 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay', 'loot' => [1,2,3,4,5,6,7], 'quantity' => 2],
-            111 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-blue', 'loot' => [8,9,10,11,12,13,1001,1002,1003,1004], 'quantity'=>3],
+            101 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay', 'loot' => [
+                3,4,5,6,7,
+                3,4,5,6,7,
+                3,4,5,6,7,
+                8,9,10,11,12,
+                1001,1002,1003,1004
+            ]],
+            102 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-clay', 'loot' => [
+                5,6,7,8,9,10,
+                5,6,7,8,9,10,
+                5,6,7,8,9,10,
+                11,12,13,14,15,
+                1001,1002,1003,1004
+            ], 'quantity' => 3],
+            103 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-green-darkest', 'loot' => [
+                5,5,6,6,7,7,8,8,9,10,12,13,14,15,16,17,18,19], 'quantity' => 3],
+            104 => ['name' => 'Corpse', 'class' => 'Corpse', 'icon' => 'icon-carrion', 'iconColor' => 'color-blue', 'loot' => [12,13,14,15,16,17,18,19,20,21,22,23], 'quantity' => 4],
+            110 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay', 'loot' => [
+                1,2,3,4,5,6,7,
+                1,2,3,4,5,6,7,
+                1,2,3,4,5,6,7,
+                8,9,10,11
+            ], 'quantity' => 3],
+            111 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-blue', 'loot' => [
+                8,9,10,11,12,13,14,15,
+                8,9,10,11,12,13,14,15,
+                8,9,10,11,12,13,14,15,
+                16,17,18,19,
+                1001,1002,1003,1004
+            ], 'quantity'=>3],
             112 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-gold', 'loot' => [13, 14, 15], 'quantity' => 2],
             113 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-clay', 'loot' => [1,2,3,4,5,6,7], 'quantity' => 4],
-            115 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-purple', 'loot' => [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 'quantity' => 7],
+            115 => ['name' => 'Chest', 'class' => 'Chest', 'icon' => 'icon-locked-chest', 'iconColor' => 'color-purple', 'loot' => [10,11,12,13,14,15,16,17,18,19,20,21,22,23], 'quantity' => 7],
+
+
+
             4 => ['name' => 'Bomb', 'class' => 'Bomb', 'icon' => 'icon-fire-bomb', 'iconColor' => 'color-red'],
             5 => ['name' => 'Ice wall', 'class' => 'IceWall', 'icon' => 'icon-cracked-glass', 'iconColor' => 'color-blue-bright'],
             6 => ['name' => 'Stone wall', 'class' => 'StoneWall', 'icon' => 'icon-stoned', 'iconColor' => 'color-grey'],

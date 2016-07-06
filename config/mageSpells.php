@@ -139,7 +139,7 @@ return array(
             2 => [
                 'name' => 'Freeze',
                 'class' => 'Freeze',
-                'description' => 'Freeze one of your enemies in place',
+                'description' => 'Freeze one of your enemies in place for 3 turns',
                 'iconClass' => 'icon-ice-cube',
                 'iconColor' => 'color-dark-blue',
                 'directTargetSpell' => 'enemy',
@@ -222,7 +222,15 @@ return array(
                 'iconClass' => 'icon-rasengan',
                 'iconColor' => 'color-dark-blue',
             ],
-            
+            13 => [
+                'name' => 'Brain freeze',
+                'class' => 'Freeze2',
+                'description' => 'Freeze on enemy for 4 turns and deal 3 damage.',
+                'iconClass' => 'icon-brain-freeze',
+                'iconColor' => 'color-dark-blue',
+                'directTargetSpell' => 'enemy',
+            ],
+
             // Winter is coming
         ],
         3 => [ // air

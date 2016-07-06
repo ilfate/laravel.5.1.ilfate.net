@@ -54,7 +54,8 @@ MageS.Spells = function (game) {
                this.fire.startStandartFire() ; break;
            case 'IceCrown': this.water.startIceCrown() ; break;
            case 'Freeze': 
-           case 'IceSlide': 
+           case 'Freeze2':
+           case 'IceSlide':
            case 'IceWall': 
            case 'IceSpear': 
            case 'IceCone': 
@@ -125,6 +126,7 @@ MageS.Spells = function (game) {
             case 'IceCrown': this.water.iterateIceCrown(); break;
             case 'IceSlide':
             case 'Freeze':
+            case 'Freeze2':
             case 'IceWall':
             case 'IceSpear':
             case 'IceCone':
@@ -190,7 +192,8 @@ MageS.Spells = function (game) {
             
             case 'IceCrown': this.water.finishIceCrown(data); break;
             case 'IceSlide': this.water.finishIceSlide(data); break;
-            case 'Freeze': this.water.finishFreeze(data); break;
+            case 'Freeze':
+            case 'Freeze2': this.water.finishFreeze(data); break;
             case 'IceWall': this.water.finishIceWall(data); break;
             case 'IceSpear': this.water.finishIceSpear(data); break;
             case 'IceCone': this.water.finishIceCone(data); break;
@@ -262,7 +265,7 @@ MageS.Spells = function (game) {
 
     this.createIcon = function(icon, color, rotate) {
         var iconEl = $(this.game.svg).find('#' + icon + ' path');
-        var svg = $('<div class="svg animation"><svg class="svg-icon" viewBox="0 0 512 512"></svg></div>');
+        var svg = $('<div class="svg animation"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icon" viewBox="0 0 512 512"></svg></div>');
         svg.find('svg').append(iconEl.clone());
         if (color) {
             svg.addClass(color);
