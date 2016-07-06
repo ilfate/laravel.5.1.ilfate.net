@@ -165,7 +165,7 @@ MageS.Spellcraft = function (game) {
             return;
         }
         this.craftingIsInProgress = true;
-        $('.craft-demo-zone').addClass('active').animate({'opacity': 1});
+        $('.craft-demo-zone').addClass('active').animate({'opacity': 1},{queue:false,duration:300});
         MageS.Game.spellcraft.showShadow(function() {
             MageS.Game.spellcraft.cancelCrafting();
         });

@@ -41,7 +41,7 @@ class NoMoreAirForYou extends Air
     {
         $target = $this->targets[0];
         $damage = $this->mage->getDamage(2, Spell::ENERGY_SOURCE_AIR);
-        $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_2, Spell::ENERGY_SOURCE_AIR);
+        $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_AIR);
         return true;
     }
 }
