@@ -393,6 +393,7 @@ MageS.Game = function () {
             if (moveDirection != wasD) {
                 delay = 150;
                 this.mage.beforeMoveD = wasD;
+                mageEl.data('d', moveDirection); 
                 this.animations.rotate(
                     mageEl,
                     {d: moveDirection, wasD:wasD},

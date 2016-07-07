@@ -212,6 +212,7 @@ MageS.Animations = function (game) {
         }
 
         el.removeClass('d-' + data.d);
+        el.removeClass('d-' + data.wasD);
         el.animateRotate(oldD, d, 150, "swing", function(){
             $(this).addClass('d-' + data.d).data('d', data.d);
             if (stage) {
