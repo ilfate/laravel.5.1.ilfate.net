@@ -13,6 +13,7 @@
  */
 namespace Ilfate\MageSurvival\Spells\Water;
 
+use Ilfate\Geometry2DCells;
 use Ilfate\MageSurvival\ChanceHelper;
 use Ilfate\MageSurvival\Event;
 use Ilfate\MageSurvival\Game;
@@ -68,6 +69,11 @@ class Blizzard extends Water
             $this->mage->say('I am the sword in the darkness.', Game::ANIMATION_STAGE_MESSAGE_TIME_2);
             $this->mage->say('I am the watcher on the walls.', Game::ANIMATION_STAGE_MESSAGE_TIME_3);
         }
+        $this->changeCellsBySpellSource(
+            Geometry2DCells::getNeighbours($this->mage->getX(), $this->mage->getY()),
+            Spell::ENERGY_SOURCE_WATER,
+            Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2
+        );
 
         return true;
     }

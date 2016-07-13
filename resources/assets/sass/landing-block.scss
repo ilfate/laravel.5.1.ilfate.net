@@ -115,6 +115,28 @@ $bounce-block-height-16: 16rem;
         line-height: $bounce-block-height-16;
     }
 }
+$bounce-block-height-10: 10rem;
+
+@include keyframes(bounce-10) {
+    0% {
+        line-height: $bounce-block-height-10 - 1 rem;
+    }
+    10% {
+        line-height: $bounce-block-height-10 + 0.8rem;
+    }
+    25% {
+        line-height: $bounce-block-height-10 - 0.6rem;
+    }
+    45% {
+        line-height: $bounce-block-height-10 + 0.4rem;
+    }
+    70% {
+        line-height: $bounce-block-height-10 - 0.2rem;
+    }
+    100% {
+        line-height: $bounce-block-height-10;
+    }
+}
 
 
 

@@ -77,6 +77,21 @@ class MageSurvivalController extends BaseController
         return view($viewFileName);
     }
 
+    public function progress(Request $request)
+    {
+        $game = $this->getGame($request);
+        $view = 'games.mageSurvival.mage-progress';
+        $game->setInactiveMages($game->getUser()->mages()->get());
+        $data = $this->getDataForView($view, $game);
+        view()->share('page_title', 'Spellcraft - turn based magic crafting Rogue like RPG game!');
+        view()->share('bodyClass', 'mage-survival');
+        view()->share('mobileFriendly', true);
+        view()->share('viewData', $data);
+
+
+        return view($view);
+    }
+
     /**
      * @param Request $request
      */
@@ -152,6 +167,14 @@ class MageSurvivalController extends BaseController
         return redirect('/Spellcraft');
     }
 
+    public function thanks(Request $request)
+    {
+        view()->share('page_title', 'Spellcraft - about the game');
+        view()->share('bodyClass', 'mage-survival thanks');
+        view()->share('mobileFriendly', true);
+        return view('games.mageSurvival.thanks');
+    }
+
     public function admin(Request $request)
     {
         $user = User::getUser();
@@ -186,9 +209,45 @@ class MageSurvivalController extends BaseController
         return view('games.mageSurvival.admin-battle');
     }
 
+    public function adminPageDownload($userId, $pageTime, Request $request)
+    {
+        $user = User::getUser();
+        if ($user->rights != 2) {
+            return redirect('/Spellcraft');
+        }
+        $pageLogs = $this->getLoggedPage($userId, $pageTime);
+        if (!$pageLogs) {
+            return redirect('/Spellcraft/admin');
+        }
+
+        echo json_encode($pageLogs);
+        die;
+    }
+
     public function publicLog($userId, $pageTime, Request $request)
     {
         $pageLogs = $this->getLoggedPage($userId, $pageTime);
+        if (!$pageLogs) {
+            return redirect('/Spellcraft');
+        }
+
+        view()->share('isAdmin', true);
+        view()->share('viewData', $pageLogs);
+        view()->share('bodyClass', 'mage-survival');
+        view()->share('mobileFriendly', true);
+        return view('games.mageSurvival.admin-battle');
+    }
+
+    public function savedLog(Request $request)
+    {
+        $pageLogs = false;
+        $logName = $request->get('log');
+        $filePath = \App::basePath() . '/resources/saves/' . $logName;
+        if ($logName && file_exists($filePath)) {
+            $pageLogs = [ 'game' => json_decode(file_get_contents($filePath), true)];
+        }
+//        dd($pageLogs);
+
         if (!$pageLogs) {
             return redirect('/Spellcraft');
         }
@@ -287,6 +346,7 @@ class MageSurvivalController extends BaseController
         $data = [];
         switch($view) {
             case 'games.mageSurvival.mage-list':
+            case 'games.mageSurvival.mage-progress':
                 $data['stats'] = $game->getMageUser()->getStats();
                 $data['mages-types'] = $this->getAvailableMagesList($data);
                 $exportMages = [];
@@ -295,6 +355,7 @@ class MageSurvivalController extends BaseController
                     $mageData = json_decode($mage->data, true);
                     $exportMage = [
                         'name' => $mage->name,
+                        'status' => $mage->status,
                         'stats' => empty($mageData[AliveCommon::DATA_STAT_KEY]) ? [] : $mageData[AliveCommon::DATA_STAT_KEY]
                     ];
                     $exportMages[] = $exportMage;
@@ -311,6 +372,7 @@ class MageSurvivalController extends BaseController
                 if ($this->isLogged) {
                     $this->logPageOpen($data, $game);
                 }
+                $data['user'] = $game->getUser();
                 break;
         }
 
@@ -526,7 +588,7 @@ class MageSurvivalController extends BaseController
     public function addAllSpells(Request $request)
     {
         if (env('APP_DEBUG') !== true) {
-//            return redirect('/Spellcraft');
+            return redirect('/Spellcraft');
         }
         $game = $this->getGame($request);
 
@@ -537,7 +599,7 @@ class MageSurvivalController extends BaseController
     public function addAllItems(Request $request)
     {
         if (env('APP_DEBUG') !== true) {
-//            return redirect('/Spellcraft');
+            return redirect('/Spellcraft');
         }
         $game = $this->getGame($request);
 

@@ -164,7 +164,11 @@ MageS.Spellcraft = function (game) {
             this.game.chat.postMessage('You need more than 3 ingredients to create a spell');
             return;
         }
+        if (this.game.admin.isEnabled) {
+            return;
+        }
         this.craftingIsInProgress = true;
+        MageS.Game.hideMenu();
         $('.craft-demo-zone').addClass('active').css({opacity:0}).animate({'opacity': 1},{queue:false,duration:300});
         MageS.Game.spellcraft.showShadow(function() {
             MageS.Game.spellcraft.cancelCrafting();

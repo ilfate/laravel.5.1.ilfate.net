@@ -82,3 +82,22 @@ $mage-portal-animation-size:12;
         }
     }
 }
+
+.mage-survival.thanks {
+    .content {
+        background-color: $mage-colors-clay;
+    }
+    .page-controlls {
+        float:right;
+    }
+    .text-block {
+        padding: 1rem;
+        font-size: 14px;
+    }
+    .table {
+        font-size: 16px;
+        td {
+            border-top: 1px solid $mage-colors-blue;
+        }
+    }
+}

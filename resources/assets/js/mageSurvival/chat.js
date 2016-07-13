@@ -69,6 +69,7 @@ MageS.Chat = function (game) {
     this.showChat = function() {
         var bottomEl = $('.bottom-panel');
         if (!bottomEl.hasClass('mobile-open') && parseInt(bottomEl.height()) > this.baseHeight + this.game.rem) {
+            MageS.Game.hideMenu();
             bottomEl.addClass('mobile-open');
             var size = this.inventorySize;
             bottomEl.animate({

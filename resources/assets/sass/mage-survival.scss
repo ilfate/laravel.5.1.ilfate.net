@@ -470,6 +470,27 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
         }
     }
 
+    .mobile-menu {
+        width: 10rem;
+        height: 4.8rem;
+        background-color: $mage-colors-blue;
+        position: absolute;
+        bottom: 0;
+        right: 15%;
+        display: none;
+        z-index: 70;
+        text-align: center;
+        &.active {
+            display: block;
+        }
+        div {
+            padding: 0.1rem 1rem;
+            a {
+                color: $mage-colors-white;
+            }
+        }
+    }
+
     .actions-container {
         float:left;
         height: 1.5 * $cell-size + rem;
@@ -675,6 +696,7 @@ body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the 
     .color-grey-darkest svg.svg-icon path { fill:$mage-colors-grey-darkest }
     .color-brown svg.svg-icon path { fill:$mage-colors-brown }
     .color-clay svg.svg-icon path { fill:$mage-colors-clay }
+    .color-gold svg.svg-icon path { fill:$mage-colors-gold }
     .color-white svg.svg-icon path { fill:$mage-colors-white }
     .svg.rotate-90 svg { @include rotate(90deg) }
     .svg.rotate-180 svg { @include rotate(180deg) }

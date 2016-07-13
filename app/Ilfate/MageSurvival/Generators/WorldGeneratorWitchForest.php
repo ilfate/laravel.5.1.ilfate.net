@@ -68,6 +68,7 @@ class WorldGeneratorWitchForest extends WorldGenerator
 //    const CELL_FOREST_5 = 'Tf';
 //    const CELL_FOREST_6 = 'T0';
     const CELL_RIVER = 'r1';
+    const CELL_ICE = 'i1';
     const CELL_ROAD_3 = 'r3';
     const CELL_ROAD_4    = 'r4';
     const CELL_CAVE_FLOOR_1 = 'c1';
@@ -165,6 +166,9 @@ class WorldGeneratorWitchForest extends WorldGenerator
             self::CELL_CAVE   => self::CELL_CAVE_FLOOR_2,
             self::CELL_CAVE_2 => self::CELL_CAVE_FLOOR_2,
             self::CELL_CAVE_3 => self::CELL_CAVE_FLOOR_2,
+        ],
+        Spell::ENERGY_SOURCE_WATER => [
+            self::CELL_RIVER   => self::CELL_ICE,
         ],
 
     ];

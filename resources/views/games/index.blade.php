@@ -3,6 +3,12 @@
 @section('content')
 
 <div class="games-page">
+    <div class="landing-block spell-craft">
+        <a href="{{ action('MageSurvivalController@index') }}" class="rounded_block_link" data-target=".main-content-well">
+            <i class="fa fa-film opacity-animation"></i>
+            <span class="text bounce">Spellcraft</span>
+        </a>
+    </div>
     <div class="landing-block guess-series">
         <a href="{{ action('GuessGameController@index') }}" class="rounded_block_link" data-target=".main-content-well">
             <i class="fa fa-film opacity-animation"></i>

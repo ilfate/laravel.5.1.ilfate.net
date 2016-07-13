@@ -71,6 +71,35 @@
             .mobile-actions {
                 display: none;
             }
+            .mobile-menu {
+                display: block;
+                right: 0;
+                top: 0;
+                bottom: auto;
+                width: 15%;
+                div {
+                    padding: 0 0.1rem;
+                    a {
+                        font-size: 10px;
+                        &:hover {
+                            color: $mage-colors-orange;
+
+                        }
+                        &.exit {
+                            display: inline-block;
+                            &:hover {
+                                //transform: skewY(-20deg) scaleX(0.4) translate(1rem, 0px);
+                                //@include transition(all 0.5s linear);
+                                animation:         il-shake 1s linear 0s infinite reverse;
+                                -o-animation:      il-shake 1s linear 0s infinite reverse;
+                                -ms-animation:     il-shake 1s linear 0s infinite reverse;
+                                -moz-animation:    il-shake 1s linear 0s infinite reverse;
+                                -webkit-animation: il-shake 1s linear 0s infinite reverse;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

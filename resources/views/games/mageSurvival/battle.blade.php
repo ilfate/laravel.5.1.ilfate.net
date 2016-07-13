@@ -35,7 +35,8 @@
                 </div>
             </a>
             <a class="toggle-spellbook">
-                <div class="svg svg-replace" data-svg="icon-spell">
+                <div class="svg svg-replace" data-svg="icon-book-aura">
+                {{--<div class="svg svg-replace" data-svg="icon-spell">--}}
                     <svg class="svg-icon" viewBox="0 0 512 512">
                     </svg>
                 </div>
@@ -66,8 +67,25 @@
                     </div>
                 </a>
             </div>
+            <div class="action method-menu key-M" data-method="menu">
+                <a>
+                    <div class="svg svg-replace" data-color="clay" data-svg="icon-auto-repair">
+                        <svg class="svg-icon" viewBox="0 0 512 512">
+                        </svg>
+                    </div>
+                </a>
+            </div>
         </div>
         <div class="row spells-items-row">
+            <div class="mobile-menu">
+                <div><a href="/Spellcraft/thanks">About the game</a></div>
+                <div><a href="/Spellcraft/progress">My progress</a></div>
+                @if(!empty($viewData['user']) && $viewData['user']->is_guest)
+                    <div><a href="/login?page=/Spellcraft">Login</a></div>
+                @else
+                    <div><a class="exit" href="/logout?page=/Spellcraft">Logout</a></div>
+                @endif
+            </div>
             <div class="col-md-6 items-col">
                 @include('games.mageSurvival.items')
             </div>

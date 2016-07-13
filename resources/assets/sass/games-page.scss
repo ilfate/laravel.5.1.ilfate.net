@@ -35,7 +35,7 @@ $game-page-size: 1011px;
     }
 }
 
-$game-page-row-height: 16rem;
+$game-page-row-height: 10;
 
 body.games-page {
     background-color: $color-brawn;
@@ -43,7 +43,7 @@ body.games-page {
         padding-top: 3rem;
 
         .landing-block {
-            height: $game-page-row-height;
+            height: $game-page-row-height + rem;
 
             &:hover .text {
                 color: $color-brawn;
@@ -51,27 +51,33 @@ body.games-page {
 
             &:hover .bounce {
                 -webkit-animation-duration: 0.5s;
-                -webkit-animation-name: bounce-16;
+                -webkit-animation-name: bounce-10;
             }
 
-            &.guess-series {
+            &.spell-craft {
                 background-color: $color-blue;
             }
-            &.math-effect {
+            &.guess-series {
                 background-color: $color-clay;
+            }
+            &.math-effect {
+                background-color: $color-gold;
 
                 i {
                     padding-left:1.5rem;
-                    margin-top: -1.1rem;
+                    margin-top: 0.5rem;
                 }
             }
 
             i {
-                margin-top: -2.5rem;
+                width: $game-page-row-height + 2 + rem;
+                height: $game-page-row-height + rem;
+                font-size: $game-page-row-height + rem;
+                margin-top: -0.25rem;
             }
             .text {
-                height: $game-page-row-height;
-                line-height: $game-page-row-height;
+                height: $game-page-row-height + rem;
+                line-height: $game-page-row-height + rem;
 
                 @media (max-width: 1280px) {
                     font-size: 8rem;

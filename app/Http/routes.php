@@ -83,6 +83,8 @@ Route::post('Spellcraft/action', 'MageSurvivalController@action');
 Route::get('Spellcraft/world/{name}', 'MageSurvivalController@world');
 Route::get('Spellcraft/addSpells', 'MageSurvivalController@addAllSpells');
 Route::get('Spellcraft/addItems', 'MageSurvivalController@addAllItems');
+Route::get('Spellcraft/thanks', 'MageSurvivalController@thanks');
+Route::get('Spellcraft/progress', 'MageSurvivalController@progress');
 
 Route::get('Spellcraft/mapBuilder/{name}', 'MageSurvivalController@mapBuilder');
 Route::post('Spellcraft/mapBuilder/save', 'MageSurvivalController@saveMapName');
@@ -91,7 +93,9 @@ Route::get('Spellcraft/mapBuilder/edit/{name}', 'MageSurvivalController@editMap'
 
 Route::get('Spellcraft/admin', 'MageSurvivalController@admin');
 Route::get('Spellcraft/admin/page/{userId}/{pageTime}', 'MageSurvivalController@adminPage');
+Route::get('Spellcraft/admin/pageDownload/{userId}/{pageTime}', 'MageSurvivalController@adminPageDownload');
 Route::get('Spellcraft/publicLog/{userId}/{pageTime}', 'MageSurvivalController@publicLog');
+Route::get('Spellcraft/savedLog', 'MageSurvivalController@savedLog');
 Route::post('Spellcraft/admin/getActions/{userId}/{pageTime}', 'MageSurvivalController@adminGetActions');
 
 

@@ -32,6 +32,7 @@ class GamesController extends \Ilfate\Http\Controllers\BaseController
 
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Games');
         view()->share('bodyClass', 'games-page');
+        view()->share('mobileFriendly', true);
         return view('games.index');
     }
 

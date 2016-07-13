@@ -139,7 +139,7 @@
 
             }
             @media (min-width: $screen-md-min + rem) {
-                width: $screen-md-min - $battlefield-size - 0.75 + rem;
+                width: $screen-md-min - $battlefield-size  + rem;//- 0.75
                 padding-left: 0.75rem;
                 .interface-switch-panel {
                     display: none;

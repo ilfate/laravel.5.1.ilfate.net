@@ -51,7 +51,11 @@ class IceCone extends Water
             $damage = $this->mage->getDamage($damage, Spell::ENERGY_SOURCE_WATER);
             $target->damage($damage, Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT, Spell::ENERGY_SOURCE_WATER);
         }
-        
+        $this->changeCellsBySpellSource(
+            $this->affectedCells,
+            Spell::ENERGY_SOURCE_WATER,
+            Game::ANIMATION_STAGE_MAGE_ACTION_EFFECT_2
+        );
         
         return true;
     }

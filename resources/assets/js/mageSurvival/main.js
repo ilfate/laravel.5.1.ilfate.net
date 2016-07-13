@@ -239,6 +239,7 @@ MageS.Game = function () {
     this.deviceInit = function () {
         if (this.device == 'pc') {
             $('.interface-switch-panel').remove();
+            
         } else {
             $('.toggle-inventory').on('click', function() {
                 MageS.Game.inventory.toggleInventory();
@@ -625,6 +626,9 @@ MageS.Game = function () {
             $('.method-skip-turn').on('click', function () {
                 MageS.Game.action('skipTurn', '{"method":"skip-turn"}');
             });
+            $('.method-menu').on('click', function () {
+                MageS.Game.toggleMenu();
+            });
             $('.method-test-spell').on('click', function () {
                 MageS.Game.spells.isSecondPartWaiting = true;
                 // MageS.Game.spells.currentSpellData = {'data  ': [
@@ -675,6 +679,42 @@ MageS.Game = function () {
         obj.on('click', function () {
             MageS.Game.action(actionName, '{"method":"' + $(this).data('method') + '"}')
         });
+    };
+    this.toggleMenu = function() {
+        switch (this.device) {
+            case 'mobile':
+                if ($('.mobile-menu').hasClass('active')) {
+                    this.hideMenu();
+                } else {
+                    this.showMenu();
+                }
+                break;
+            case 'pc':
+
+                break;
+        }
+    };
+    this.showMenu = function() {
+        switch (this.device) {
+            case 'mobile':
+                $('.mobile-actions .method-menu svg path').css({'fill':MageS.Game.color.blue});
+                $('.mobile-menu').addClass('active');
+                break;
+            case 'pc':
+
+                break;
+        }
+    };
+    this.hideMenu = function() {
+        switch (this.device) {
+            case 'mobile':
+                $('.mobile-actions .method-menu svg path').css({'fill':MageS.Game.color.clay});
+                $('.mobile-menu').removeClass('active');
+                break;
+            case 'pc':
+
+                break;
+        }
     };
 
     this.keyPressed = function(key) {
@@ -813,6 +853,7 @@ MageS.Game = function () {
         } else if (this.device == 'pc') {
             $('.actions-container .default-actions').fadeIn();
         }
+        MageS.Game.hideMenu();
         this.admin.actionEnded();
     };
     
