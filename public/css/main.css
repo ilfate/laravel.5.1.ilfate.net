@@ -2165,6 +2165,8 @@ body.games-page {
         -webkit-animation-name: bounce-10; }
       body.games-page .games-page .landing-block.spell-craft {
         background-color: #78C0A8; }
+        body.games-page .games-page .landing-block.spell-craft i {
+          margin-top: 0.5rem; }
       body.games-page .games-page .landing-block.guess-series {
         background-color: #FCEBB6; }
       body.games-page .games-page .landing-block.math-effect {

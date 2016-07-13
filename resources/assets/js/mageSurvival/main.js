@@ -179,7 +179,6 @@ MageS.Game = function () {
                 break;
             case 'admin-battle':
                 this.deviceInit();
-                info( this.device);
 
                 this.initSVG(function() {
                     // Get the SVG tag, ignore the rest
@@ -199,7 +198,6 @@ MageS.Game = function () {
 
                     MageS.Game.admin.isEnabled = true;
                     setTimeout(function(){
-                        info('ADMIN SHOW START');
                         MageS.Game.admin.start();
                     }, 600);
                 });

@@ -66,7 +66,6 @@ MageS.Admin = function (game) {
                 case '3': action.action = 'move-left'; break;
             }
         }
-        info(action);
         this.game.action(action.action, action.data);
         switch(action.action) {
             case 'spell':
@@ -109,6 +108,9 @@ MageS.Admin = function (game) {
             this.failedActions = 0;
             this.performAction();
         } else {
+            if (this.game.rawData['public'] !== undefined) {
+                window.location = '/Spellcraft';
+            }
             if (data.thisWasLast !== undefined) {
                 MageS.Game.chat.dialogMessage({'targetX':0, 'targetY':0, 'message':'This was last action on this page'});
                 return;

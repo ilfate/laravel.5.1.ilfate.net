@@ -251,7 +251,7 @@ class MageSurvivalController extends BaseController
         if (!$pageLogs) {
             return redirect('/Spellcraft');
         }
-
+        $pageLogs['game']['public'] = true;
         view()->share('isAdmin', true);
         view()->share('viewData', $pageLogs);
         view()->share('bodyClass', 'mage-survival');

@@ -56,6 +56,9 @@ body.games-page {
 
             &.spell-craft {
                 background-color: $color-blue;
+                i {
+                    margin-top: 0.5rem;
+                }
             }
             &.guess-series {
                 background-color: $color-clay;
