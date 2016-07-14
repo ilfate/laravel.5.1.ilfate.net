@@ -417,7 +417,6 @@ MageS.Game = function () {
 
         if (data.fake !== undefined || this.admin.isEnabled) {
             // this is a fake action
-            info('faked action ' + actionName);
             return;
         }
 
@@ -522,7 +521,6 @@ MageS.Game = function () {
                     break;
             }
         }
-        info(data);
         if (data.game.actions !== undefined) {
             this.updateActions(data.game.actions, false);
         }

@@ -132,12 +132,6 @@ MageS.Units = function (game) {
         var unit = $('.battle-border .unit-field .unit.id-' + data.id);
         if (unit.length < 1) {
             info('unit with ID = ' + data.id + ' was not on the map');
-            info(data);
-            var unit2 =  $('.unit.id-' + data.id);
-            if (unit2.length) {
-                info('Animation unit is there... but not at right place...');
-                info(unit2);
-            }
             // ok we don't have that unit at all.
             var unit = this.drawUnit(data.data, data.oldX, data.oldY);
         }

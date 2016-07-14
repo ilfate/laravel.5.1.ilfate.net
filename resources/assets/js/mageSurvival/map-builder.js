@@ -60,7 +60,6 @@ Map.Game = function () {
         }
         this.xStart += this.offsetX;
         this.yStart += this.offsetY;
-        info('y start = ' + this.yStart);
 
         for(var y = this.yStart; y < this.yStart + this.perCol - 1; y++) {
             for(var x = this.xStart; x < this.xStart + this.perRow - 2; x++) {
@@ -104,7 +103,6 @@ Map.Game = function () {
 
     this.submit = function(el) {
         var text = el.find('input').val();
-        info('TEXT= ' + text);
         var cell = el.parent('.cell');
         var oldValue = cell.data('value');
         if (oldValue) {
@@ -157,7 +155,6 @@ Map.Game = function () {
     };
 
     this.callback = function(data) {
-        info(data);
         window.location = '/Spellcraft/mapBuilder/show/' + $('#map-name').val();
     }
     this.move = function(d) {

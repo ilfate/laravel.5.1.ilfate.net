@@ -51,6 +51,10 @@ MageS.Admin = function (game) {
     this.performAction = function() {
         var action = this.getNextAction();
         if (!action) {
+            if (this.game.rawData['public'] !== undefined) {
+                window.location = '/Spellcraft';
+                return;
+            }
             info ('Preloaded actions are finished');
             setTimeout(function(){ MageS.Game.admin.loadActions();}, MageS.Game.admin.timeToLoadAjax);
             return;

@@ -18,7 +18,6 @@ MageS.Attacks = function (game) {
         var attackId = Math.random() * 10000;
         if (this.attacks[attackId] !== undefined) {
             this.attack(data, stage);
-            info('Restart attack');
             return;
         }
         var container = $('<div></div>').addClass('id-' + attackId);
@@ -47,7 +46,7 @@ MageS.Attacks = function (game) {
                 this.bow(attackId, stage);
                 break;
             default:
-                info('there is no attack animation for ' + data.attack.animation);
+                //info('there is no attack animation for ' + data.attack.animation);
                 MageS.Game.attacks.finishAttack(attackId, stage);
                 break;
         }

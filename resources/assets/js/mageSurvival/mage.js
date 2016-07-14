@@ -23,7 +23,6 @@ MageS.Mage = function (game) {
         var rendered = Mustache.render(temaplate, {'d': mageConf.d});
         var obj = $(rendered);
         var icons = this.game.getIcon('icon-mage-1');
-        info(icons);
         obj.find('svg').append(icons.clone());
         // $(this.game.svg).find('#icon-mage-1 path').each(function() {
         //     obj.find('svg').append($(this).clone());

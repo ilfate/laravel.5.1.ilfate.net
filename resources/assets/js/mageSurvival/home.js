@@ -9,7 +9,6 @@ MageS.Home = function (game) {
     this.createMageSubmitFormAction = function(){
         var name = $('#create-mage-pop-up .last-step .mage-name').val();
         var type = MageS.Game.home.mageType;
-        info(name);
         if (!name || !type) {
             //display error
             return false;

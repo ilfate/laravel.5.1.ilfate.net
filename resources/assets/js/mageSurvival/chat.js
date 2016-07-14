@@ -139,7 +139,6 @@ MageS.Chat = function (game) {
         }
     };
     this.postMessage = function (message, type, data) {
-        info(message);
         if (type === undefined) {
             type = 'chat';
         }
@@ -161,7 +160,6 @@ MageS.Chat = function (game) {
             $('.chat-container').animate({scrollTop: height});
 
         } else if (type == 'dialog') {
-            info('DIALOG MESSAGE =' + message);
             if (data.x && data.y) {
 
             }

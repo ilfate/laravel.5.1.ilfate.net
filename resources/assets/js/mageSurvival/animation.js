@@ -148,7 +148,6 @@ MageS.Animations = function (game) {
                 this.game.spellcraft.endSpellCraftAnimations(data.data, stage);
                 break;
             case 'unit-damage':
-                info('Unit got ' + data.data.value + ' damage');
                 //$('.health-value').html(data.data.health);
                 this.showDamageAnimation(data.data, 'damage', true, stage);
                 break;
@@ -239,11 +238,6 @@ MageS.Animations = function (game) {
         if (unit.length > 0) {
             this.rotate(unit, data, stage);
         } else {
-            info('unit for rotate with id = ' + data.id + ' was not found');
-            var unit2 = $('.unit-field .unit.id-' + data.id + ' .rotate-div');
-            if (unit2.length > 0) {
-                info('ANIMATION ORDER IS FUCKED UP!!!!!!')
-            }
             MageS.Game.animations.singleAnimationFinished(stage);
         }
     };
@@ -300,40 +294,18 @@ MageS.Animations = function (game) {
         this.game.spells.cast(data, stage);
     };
     this.mageDamageAnimation = function(data, stage) {
-        info('Some one dealed ' + data.value + ' damage to you');
-        //$('.health-value').html(data.health);
         this.game.updateHealth(data);
-        //$('.health-bar .progress-bar-success').css('width', data.health + '%');
         this.showDamageAnimation(data, 'damage', false, stage);
     };
     this.mageHealAnimation = function(data, stage) {
-        info('Healing for ' + data.value);
-        //$('.health-value').html(data.health);
         this.game.updateHealth(data);
-        //$('.health-bar .progress-bar-success').css('width', data.health + '%');
         this.showDamageAnimation(data, 'heal', false, stage);
     };
     this.mageAddArmorAnimation = function(data, stage) {
-        info('Adding armor ' + data.value);
-        //$('.health-value').html(data.health);
         this.game.updateHealth(data);
-        //$('.health-bar .progress-bar-success').css('width', data.health + '%');
         this.showDamageAnimation(data, 'armor', false, stage);
     };
     this.mageUsePortalAnimation = function(data, stage) {
-        info('PORTAL');
-        //$('.battle-field.current .cell').css('position', 'fixed').each(function() {
-        //    //var thisTop = parseInt($(this).offset().top);
-        //    //var thisLeft = parseInt($(this).offset().left);
-        //    //info(thisTop);
-        //    //$(this).css({'top' : thisTop, 'left': thisLeft})
-        //    $(this).animate({
-        //        'margin-top': Math.random() * 500
-        //    }, {'easing': 'easeOutBack'});
-        //    $(this).animate({
-        //        'margin-left': Math.random() * 500
-        //    }, {'easing': 'easeInBack'})
-        //});
         this.game.monimations.rotateWithScale($('body'), 0, 540, 1, -1, 1500);
         setTimeout(function(){
             if (MageS.Game.admin.isEnabled) {
@@ -456,7 +428,6 @@ MageS.Animations = function (game) {
 
     this.addUnitAnimation = function(data, stage)
     {
-        info(data.unit);
         var newUnit = this.game.units.drawUnit(data.unit, data.targetX, data.targetY);
         MageS.Game.animations.singleAnimationFinished(stage);
     };

@@ -41,7 +41,6 @@ MageS.Objects = function (game) {
             case 'icon-water-huracane':
                 switch(morf) {
                     case 'lightBlue':
-                        info(obj);
                         obj.find('svg .blue-wave').css('fill', MageS.Game.color.lightBlue);
                         // obj.find('svg .head').css('fill', '#bab');
                         break;
@@ -71,7 +70,6 @@ MageS.Objects = function (game) {
         }
     };
     this.spinObject = function(id, selector) {
-        info('spinning object');
         var object = $('.battle-border .object.id-' + id);
         if (object.length == 0) return;
         var duration = 1000;

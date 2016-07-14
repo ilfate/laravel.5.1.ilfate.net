@@ -250,7 +250,6 @@ MageS.Spellbook = function (game) {
     };
 
     this.removeCooldown = function(spellEl) {
-        info('removing cooldown');
         spellEl.removeClass('cooldown');
         var id = spellEl.data('id');
         $('.spell-tooltip.id-' + id + ' .cooldown .active').hide();
@@ -303,7 +302,6 @@ MageS.Spellbook = function (game) {
 
     this.showPattern = function (spell, pattern) {
         if (this.game.actionInProcess == true) {
-            info('Can`t show pattern while action is in process');
             return;
         }
         if (!this.checkForActiveSpells(spell)) {

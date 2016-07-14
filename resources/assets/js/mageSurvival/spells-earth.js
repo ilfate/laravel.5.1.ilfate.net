@@ -210,7 +210,6 @@ MageS.Spells.Earth = function (game, spells) {
         $('.animation-field').append(spear);
 
         var calculations = this.spells.getDistanceBetweenTwoDots(0, 0, target[0], target[1]);
-        info(calculations);
         spear.find('svg')[0].style.transform = 'rotate(' + (calculations[1] - 45) + 'deg)';
 
         var margins = this.spells.transformDegAndDistanceToMargin(calculations[1], calculations[0]);
