@@ -40,11 +40,12 @@ MageS.Spellcraft = function (game) {
 
         this.spellCraftProcess = {};
 
-        $('.craft-demo-zone').removeClass('active').animate({
-            'opacity':0
-        }, {duration:1000, complete:function() {
-            $(this);
-        }});
+        $('.craft-demo-zone').removeClass('active');
+        //     .animate({
+        //     'opacity':0
+        // }, {duration:1000, complete:function() {
+        //     $(this);
+        // }});
         this.game.spellbook.showSpellbook();
         //if (this.game.device == 'mobile') {
             //var destinationEl = $('.interface-switch-panel .toggle-spellbook');
@@ -169,7 +170,7 @@ MageS.Spellcraft = function (game) {
         }
         this.craftingIsInProgress = true;
         MageS.Game.hideMenu();
-        $('.craft-demo-zone').addClass('active').css({opacity:0}).animate({'opacity': 1},{queue:false,duration:300});
+        $('.craft-demo-zone').addClass('active');//.css({opacity:0}).animate({'opacity': 1},{queue:false,duration:300});
         MageS.Game.spellcraft.showShadow(function() {
             MageS.Game.spellcraft.cancelCrafting();
         });

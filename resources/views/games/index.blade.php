@@ -4,6 +4,10 @@
 
 <div class="games-page">
     <div class="landing-block spell-craft">
+        <div class="demo-link">
+            <a href="/Spellcraft/savedLog?log=battle-with-witch">Demo1</a>
+            <a href="/Spellcraft/savedLog?log=battle-with-spiders">Demo2</a>
+        </div>
         <a href="{{ action('MageSurvivalController@index') }}" class="rounded_block_link" data-target=".main-content-well">
             <i class="fa fa-magic opacity-animation"></i>
             <span class="text bounce">Spellcraft</span>

@@ -59,6 +59,11 @@ body.games-page {
                 i {
                     margin-top: 0.5rem;
                 }
+                .demo-link {
+                    font-size: 12px;
+                    position: absolute;
+                    right:10%;
+                }
             }
             &.guess-series {
                 background-color: $color-clay;
