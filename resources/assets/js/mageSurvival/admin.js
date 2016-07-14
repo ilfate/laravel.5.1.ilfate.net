@@ -102,7 +102,6 @@ MageS.Admin = function (game) {
     };
 
     this.callback = function(data) {
-        info(data);
         if (data && data.actions !== undefined && data.actions.length > 0) {
             this.actions = data;
             this.failedActions = 0;
@@ -110,6 +109,7 @@ MageS.Admin = function (game) {
         } else {
             if (this.game.rawData['public'] !== undefined) {
                 window.location = '/Spellcraft';
+                return;
             }
             if (data.thisWasLast !== undefined) {
                 MageS.Game.chat.dialogMessage({'targetX':0, 'targetY':0, 'message':'This was last action on this page'});
