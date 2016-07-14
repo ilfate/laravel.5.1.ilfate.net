@@ -560,7 +560,7 @@ class MageSurvivalController extends BaseController
         if ($index && $index['currentPage'] != $pageTime) {
             $return['thisWasLast'] = true;
         }
-        if (!$index || $index['actions'][$pageTime] == $actionId) {
+        if (!$index || empty($index['actions'][$pageTime]) || $index['actions'][$pageTime] == $actionId) {
             return $return;
         }
         $actions = [];
