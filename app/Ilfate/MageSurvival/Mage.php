@@ -883,6 +883,9 @@ abstract class Mage extends AliveCommon
 
     public function getAllStats()
     {
-        return $this->data[self::DATA_STAT_KEY];
+        if (!empty($this->data[self::DATA_STAT_KEY])) {
+            return $this->data[self::DATA_STAT_KEY];
+        }
+        return [];
     }
 }
