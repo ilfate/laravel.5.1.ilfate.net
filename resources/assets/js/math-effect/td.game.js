@@ -24,7 +24,9 @@ function TD () {
 TD = new TD();
 
 $(document).ready(function() {
-
+    if (!$('body.math-effect').length) {
+        return;
+    }
     $('#modalHowUnitMoveButton').bind('click', function(){
         //var src = 'http://www.youtube.com/v/OlJ9VdY9dig&amp;autoplay=1';
         $("#modalHowUnitMove").modal({                    // wire up the actual modal functionality and show the dialog
