@@ -1,0 +1,52 @@
+/* COLOR PALLETE */
+
+$guess-colors-green:#069E2D;
+$guess-colors-light-blue:#ABCDEF;
+$guess-colors-blue:#529BCA;
+$guess-colors-dark-blue:#428BBA;
+$guess-colors-red:#FF8360;
+$guess-colors-white:#ffffff;
+$guess-colors-black:#584D3D;
+$guess-colors-yellow:#FFD416;
+
+$color-laser-0: $color-orange;
+$color-laser-1: #069E2D;
+$color-laser-2: #0000ed;
+
+body.td {
+
+    #td-start {
+        background-color: $color-clay;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        position: absolute;
+    }
+    .menu {
+        width:546px;
+        margin: 0 auto;
+        .button-section {
+            float:left;
+        }
+    }
+    .td-button {
+        border-radius: 0px;
+        background-color: $mage-colors-clay;
+        border: solid 3px $mage-colors-blue;
+        color: $mage-colors-brown;
+        &:hover {
+            color: $mage-colors-orange;
+            border: solid 3px $mage-colors-gold;
+        }
+    }
+    .animation {
+        overflow: visible;
+        opacity: 1;
+        position: absolute;
+        z-index: 90;
+        .circle {
+            overflow: visible;
+        }
+    }
+}
+

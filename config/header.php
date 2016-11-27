@@ -50,6 +50,14 @@ return array(
 				'og:site_name', 'og:title', 'og:url', 'og:image', 'og:description', 'og:type'
 			]
 		],
+		'td' => [
+			'content' => [
+				'keywords', 'description'
+			],
+			'property' => [
+				'og:site_name', 'og:title', 'og:url', 'og:image', 'og:description', 'og:type'
+			]
+		],
 	],
     'metaTags' => [
 		'landing' => [
@@ -99,6 +107,16 @@ return array(
 			'og:type'        => 'game',
 		],
 		'mageSurvival' => [
+			'keywords'       => 'Spellcraft game RPG magic spells battle',
+			'description'    => 'Spellcraft - turn based magic crafting Rogue like RPG game!',
+			'og:site_name'   => 'Spellcraft',
+			'og:title'       => 'Spellcraft - turn based magic crafting Rogue like RPG game!',
+			'og:url'         => 'http://ilfate.net/Spellcraft',
+			'og:image'       => 'http://ilfate.net/images/game/GuessSeries.jpg',
+			'og:description' => 'Play a game where you Have to craft magic spell to fight monsters and travel through the worlds',
+			'og:type'        => 'game',
+		],
+		'td' => [
 			'keywords'       => 'Spellcraft game RPG magic spells battle',
 			'description'    => 'Spellcraft - turn based magic crafting Rogue like RPG game!',
 			'og:site_name'   => 'Spellcraft',

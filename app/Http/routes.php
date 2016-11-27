@@ -73,6 +73,10 @@ Route::get('hex', 'HexController@index');
 Route::get('hex/reset', 'HexController@reset');
 Route::post('hex/action', 'HexController@action');
 
+
+Route::get('td', 'TdController@index');
+Route::post('td/load/wave', 'TdController@loadWave');
+
 Route::get('Cosmos', 'CosmosController@index');
 
 Route::get('MageSurvival', 'MageSurvivalController@redirect');

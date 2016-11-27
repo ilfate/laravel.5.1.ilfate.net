@@ -24,7 +24,7 @@
                 </p>
                 <p class="result-text">
                     <span class="label label-warning">
-                    Try my new game - <a href="http://ilfate.net/GuessSeries">Guess Series</a>
+                    <a href="http://ilfate.net/games" style="color:#FFFFFF">Try my other games</a>
                     </span>
                 </p>
                 @if (empty($userName))

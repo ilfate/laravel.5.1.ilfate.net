@@ -7067,6 +7067,34 @@ i.rpg-icon-small.misc_cannon_nature {
 i.rpg-icon-large.misc_cannon_nature {
   background-position: -442px -986px; }
 
+/* COLOR PALLETE */
+body.td #td-start {
+  background-color: #FCEBB6;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  position: absolute; }
+body.td .menu {
+  width: 546px;
+  margin: 0 auto; }
+  body.td .menu .button-section {
+    float: left; }
+body.td .td-button {
+  border-radius: 0px;
+  background-color: #FCEBB6;
+  border: solid 3px #529BCA;
+  color: #5E412F; }
+  body.td .td-button:hover {
+    color: #F07818;
+    border: solid 3px #F0A830; }
+body.td .animation {
+  overflow: visible;
+  opacity: 1;
+  position: absolute;
+  z-index: 90; }
+  body.td .animation .circle {
+    overflow: visible; }
+
 .loginPage {
   background: #529BCA;
   padding: 10px;
