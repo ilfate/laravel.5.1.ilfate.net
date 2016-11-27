@@ -7079,6 +7079,14 @@ body.td .menu {
   margin: 0 auto; }
   body.td .menu .button-section {
     float: left; }
+  body.td .menu .wave-indicator {
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 10px;
+    border: solid 3px #FCEBB6;
+    float: right;
+    color: #F0A830; }
 body.td .td-button {
   border-radius: 0px;
   background-color: #FCEBB6;
@@ -7094,6 +7102,43 @@ body.td .animation {
   z-index: 90; }
   body.td .animation .circle {
     overflow: visible; }
+body.td .selection-zone {
+  width: 546px;
+  border: solid 3px #726056;
+  margin: 5px auto 0 auto;
+  left: 0;
+  right: 0;
+  position: absolute; }
+  body.td .selection-zone .tower-description {
+    float: left;
+    border: solid 2px #428BBA; }
+  body.td .selection-zone .price {
+    width: 30px;
+    background-color: #FCEBB6;
+    float: left;
+    text-align: center; }
+  body.td .selection-zone .attack-map-container {
+    background-color: #FCEBB6;
+    float: left; }
+  body.td .selection-zone .attack-map {
+    position: relative; }
+  body.td .selection-zone .description-cell {
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    position: absolute;
+    background-color: #FF8360;
+    text-align: center; }
+  body.td .selection-zone .description-cell-empty {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    background-color: #5E412F; }
+  body.td .selection-zone .description-cell-center {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    background-color: #F0A830; }
 
 .loginPage {
   background: #529BCA;

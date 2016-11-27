@@ -78,15 +78,31 @@ class TdController extends BaseController
      */
     public function loadWave(Request $request)
     {
-        $number = $request->get('number');
-        $config = \Config::get('td.waves.' . $number);
-        if (!$config) {
+        $number           = $request->get('number');
+        $additionalToLoad = 1;//rand(0, 3);
+        $waves = [];
+        $monsters = [];
+        $towers = [];
+        for ($i = $number; $i <= $number + $additionalToLoad; $i++) {
+            $wave = \Config::get('td.waves.' . $number);
+            if (!$wave) { break; }
+            foreach ($wave['types'] as $type) {
+                $monsters[$type] = \Config::get('td.monsters.' . $type);
+            }
+            if (!empty($wave['newTower'])) {
+                $towers[$wave['newTower']] =  \Config::get('td.towers.' . $wave['newTower']);
+            }
+            $waves[$i] = $wave;
+
+        }
+        if (!$waves) {
             $result = ['error' => 'no wave',
             ];
         } else {
-            $result = ['waves' => [
-                $number => $config
-            ]];
+            $result = ['waves' => $waves, 'monsters' => $monsters];
+            if ($towers) {
+                $result['towers'] = $towers;
+            }
         }
 
 

@@ -31,9 +31,9 @@
     "scripts": {
         "post-install-cmd": [
             "php5 artisan clear-compiled",
-            "php5 artisan optimize",
-            "php artisan config:cache",
-            "php artisan route:cache"
+            "php5 artisan optimize"
+//            "php artisan config:cache",
+//            "php artisan route:cache"
         ],
         "pre-update-cmd": [
             "php5 artisan clear-compiled"

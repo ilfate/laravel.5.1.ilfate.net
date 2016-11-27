@@ -15,20 +15,27 @@ $(document).ready(function() {
         this.moneyE = {};
         this.textMargin = 0;
         this.color = {
-            'brown': '#5E412F',
-            'grey':  '#777777',
-            'clay':  '#FCEBB6',
-            'red':   '#FF8360',
-            'green': '#069E2D',
+            'brown' : '#5E412F',
+            'grey' :  '#777777',
+            'clay' :  '#FCEBB6',
+            'red' :   '#FF8360',
+            'green' : '#069E2D',
             'yellow': '#F0A830',
-            'white': '#ffffff',
+            'white' : '#ffffff',
+            'purple': '#c700d6',
+            'gold'  : '#F0A830',
         };
         this.towersConfig = {
-            'basic' : {'price': 10, 'damage':1, 'attackPattern':[[-1,0], [0,-1], [1,0], [0,1]]}
+            'basic' : {'color':this.color.green, 'price': 10, 'damage':1, 'attackPattern':[[-1,0], [0,-1], [1,0], [0,1]]},
+            // 'basic2' : {'color':this.color.green, 'price': 40, 'damage':1, 'attackPattern':[[-4,0], [3,-1]]},
+            // 'basic3' : {'color':this.color.green, 'price': 40, 'damage':3, 'attackPattern':[[-2,4], [3,-2]]},
         };
+        this.descriptionCellSize = this.map.cellSize / 2;
+        this.descriptionCellMargin = 1;
         this.monsterConfig = {
-            'r1' : {'health': 1, 'moneyAward': 2},
-            'b1' : {'health': 3, 'moneyAward': 10},
+            'r1' : {'health': 1, 'moneyAward': 2, 'color':this.color.red},
+            'b1' : {'health': 3, 'moneyAward': 10, 'color':this.color.purple},
+
         };
         this.selectedTowerType = 'basic';
         this.turnPause = 400;
@@ -40,8 +47,8 @@ $(document).ready(function() {
         this.waveTurn = 0;
         this.turnsToSkip = 0;
         this.waveConfig = {
-            1: {'min': 2, 'max':2, 'types':['r1'], 'turns':2, 'skipTurns': 0},
-            2: {'min': 2, 'max':2, 'types':['r1'], 'turns':3, 'skipTurns': 7},
+            1: {'name': '1HP', 'min': 2, 'max':2, 'types':['r1'], 'turns':5, 'skipTurns': 8},
+            2: {'name': 'Boss 3HP', 'min': 1, 'max':1, 'types':['b1'], 'turns':1, 'skipTurns': 8},
         };
 
 
@@ -75,6 +82,7 @@ $(document).ready(function() {
                     y: this.textMargin
                 });
             this.setMoney();
+            this.displayTowersList();
         };
 
         this.action = function() {
@@ -166,8 +174,21 @@ $(document).ready(function() {
 
         this.newWave = function() {
             this.waveTurn = 0;
-            this.wave++; info('wave ' + this.wave);
-            this.loadNextWave();
+            this.wave++;
+            var config = this.waveConfig[this.wave];
+            $('.wave-indicator').html('Wave '+ this.wave + ' (' + config.name + ')')
+                .css({color:this.color.red, 'font-size':22, 'border-color':this.color.white})
+                .animate({
+                    color:this.color.gold, 'font-size':14,
+                    'border-color':this.color.clay
+                }, 600);
+            if (config.newTower !== undefined) {
+                this.towersConfig[config.newTower].disabled = false;
+                this.displayTowersList();
+            }
+            if (this.waveConfig[this.wave + 1] === undefined) {
+                this.loadNextWave();
+            }
         };
         this.loadNextWave = function() {
             var game = this;
@@ -185,6 +206,21 @@ $(document).ready(function() {
             if (data.waves !== undefined) {
                 for(var num in data.waves) {
                     this.waveConfig[num] = data.waves[num];
+                }
+            }
+            if (data.monsters !== undefined) {
+                for(var num in data.monsters) {
+                    if (this.monsterConfig[num] === undefined) {
+                        this.monsterConfig[num] = data.monsters[num];
+                    }
+                }
+            }
+            if (data.towers !== undefined) {
+                for(var num in data.towers) {
+                    if (this.towersConfig[num] === undefined) {
+                        this.towersConfig[num] = data.towers[num];
+                        this.towersConfig[num].disabled = true;
+                    }
                 }
             }
         };
@@ -303,80 +339,66 @@ $(document).ready(function() {
             }
             return this.monsters[y][x];
         };
+        this.displayTowersList = function() {
+            var template = $('#template-tower-description').html();
+            var container = $('.towers-list');
+            container.html('');
+            Mustache.parse(template);
+            for(var i in this.towersConfig) {
+                var config = this.towersConfig[i];
+                if (config.disabled !== undefined && config.disabled) {
+                    continue;
+                }
+                var rendered = Mustache.render(template, {
+                    'price': config.price, 
+                    'pattern': config.attackPattern, 
+                    'damage': config.damage,
+                    'name':i
+                });
+                var obj = $(rendered);
+                var map = obj.find('.attack-map');
+                var minX = 0;
+                var minY = 0;
+                var maxX = 0;
+                var maxY = 0;
+                var grid = {0:{}};
+                for(var n in config.attackPattern) {
+                    var cell = config.attackPattern[n];
+                    var x = cell[0] * (this.descriptionCellSize + this.descriptionCellMargin);
+                    var y = cell[1] * (this.descriptionCellSize + this.descriptionCellMargin);
+                    if (cell[0] < minX) minX = cell[0];
+                    if (cell[0] > maxX) maxX = cell[0];
+                    if (cell[1] < minY) minY = cell[1];
+                    if (cell[1] > maxY) maxY = cell[1];
+                    if (!grid[cell[1]]) grid[cell[1]] = [];
+                    grid[cell[1]][cell[0]] = true;
+                    map.append($('<div class="description-cell" style="margin: '+ y + 'px 0 0 ' + x + 'px ">' + config.damage + '</div>'))
+                }
+                grid[0][0] = true;
+                map.append($('<div class="description-cell-center" style="background-color:' + config.color +'"></div>'))
+                map.css({
+                    'margin':Math.abs(minY) * (this.descriptionCellSize + this.descriptionCellMargin) + 'px 0 0 ' + Math.abs(minX) * (this.descriptionCellSize + this.descriptionCellMargin) + 'px',
+                    'width':(maxX + 1) * (this.descriptionCellSize + this.descriptionCellMargin),
+                    'height':(maxY + 1) * (this.descriptionCellSize + this.descriptionCellMargin),
+                });
+                var height = Math.max((maxY + Math.abs(minY) + 1), 3) * (this.descriptionCellSize + this.descriptionCellMargin);
+                obj.find('.price').css({'height':height, 'line-height': height+'px'});
+                for(var y = minY; y <= maxY; y ++) {
+                    for(var x = minX; x <= maxX; x ++) {
+                        if (!grid[y]) grid[y] = [];
+                        if (!grid[y][x]) {
+                            var cellX = x * (this.descriptionCellSize + this.descriptionCellMargin);
+                            var cellY = y * (this.descriptionCellSize + this.descriptionCellMargin);
+                            map.append($('<div class="description-cell-empty" style="margin: '+ cellY + 'px 0 0 ' + cellX + 'px "></div>'));
+                        }
+                    }
+                }
+                container.append(obj);
+            }
+        }
         
     };
     var game = new Houston.Game();
     game.init();
-    // game.createMonster(4,1);
-    // game.createMonster(4,2);
-    // game.createMonster(14,10);
-    // game.createMonster(15,10);
-    // game.createMonster(13,10);
-    // game.createMonster(10,15);
-    // game.createMonster(10,14);
-    // game.createMonster(11,14);
-    // game.createMonster(5,12);
-    // game.createMonster(10,13);
-    // game.createMonster(9,13);
-    // game.createMonster(8,13);
-    // game.createMonster(7,13);
-    // game.createMonster(6,13);
-    // game.createMonster(5,13);
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createMonster();
-    // game.createTower(5, 5);
-    // game.createTower(6, 5);
-    // game.createTower(7, 5);
-    // game.createTower(8, 5);
-    // game.createTower(9, 5);
-    // game.createTower(10, 5);
-    // game.createTower(10, 6);
-    // game.createTower(10, 7);
-    // game.createTower(10, 8);
-    // game.createTower(10, 9);
-    // game.createTower(5, 6);
-    // game.createTower(5, 7);
-    // game.createTower(5, 8);
-    // game.createTower(5, 9);
-    // game.createTower(5, 10);
-    // game.createTower(6, 10);
-    // game.createTower(7, 10);
-    // game.createTower(8, 10);
-    // game.createTower(10, 10);
-    // game.createTower(10, 11);
-    // game.createTower(10, 12);
-    // game.createTower(9, 12);
-    // game.createTower(8, 12);
-    // game.createTower(7, 12);
-    // game.createTower(6, 12);
     game.action();
-
-    // Crafty.e('2D, DOM, Color, Fourway').attr({x: 0, y: 0, w: 100, h: 100}).color('#F00').fourway(200);
-    //
-    // Crafty.e('2D, Canvas, Color, Twoway, Gravity')
-    //     .attr({x: 0, y: 0, w: 50, h: 50})
-    //     .color('#F00')
-    //     .twoway(200)
-    //     .gravity('Floor');
-    //
-    // Crafty.e('Floor, 2D, Canvas, Color')
-    //     .attr({x: 0, y: 250, w: 250, h: 10})
-    //     .color('green');
-    // var sq1 = Crafty.e("2D, Canvas, Color")
-    //     .attr({x:10, y:10, w:30, h:30})
-    //     .color("red");
-    //
-    // sq1.bind('EnterFrame', function(){
-    //     this.rotation = this.rotation + 1;
-    // });
 });

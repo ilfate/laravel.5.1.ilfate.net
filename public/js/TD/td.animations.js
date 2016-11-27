@@ -101,7 +101,6 @@ $(document).ready(function() {
             var particles = [];
 
             for(var i = 0; i < number; i++) {
-                info('Particle');
                 var x = rand(options.fromX1, options.fromX2);
                 var y = rand(options.fromY1, options.fromY2);
                 var particle = Crafty.e('2D, DOM, Tween, Color, Particle')

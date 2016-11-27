@@ -40,6 +40,9 @@ $(document).ready(function() {
             if (this.config.moneyAward !== undefined) {
                 this.moneyAward = this.config.moneyAward;
             }
+            if (this.config.color !== undefined) {
+                this.color = this.config.color;
+            }
         };
 
         this.draw = function() {
@@ -48,7 +51,7 @@ $(document).ready(function() {
                     y: this.y * this.margin + this.diff,
                     w: this.monsterSize,
                     h: this.monsterSize})
-                .color(this.game.color.red);
+                .color(this.color);
         };
 
         this.calculateMovement = function() {

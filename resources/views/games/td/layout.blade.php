@@ -27,7 +27,7 @@
 
 {{--</div>--}}
 
-{{--    @include('games.mageSurvival.templates')--}}
+    @include('games.td.templates')
 
 @stop
 

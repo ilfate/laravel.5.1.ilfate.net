@@ -27,6 +27,6 @@
 
 {{--</div>--}}
     @include('games.mageSurvival.templates')
-
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-583b71222ebab34d"></script>
 @stop
 

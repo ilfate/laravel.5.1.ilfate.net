@@ -13,6 +13,8 @@ $color-laser-0: $color-orange;
 $color-laser-1: #069E2D;
 $color-laser-2: #0000ed;
 
+$description-cells-size:16px;
+
 body.td {
 
     #td-start {
@@ -27,6 +29,15 @@ body.td {
         margin: 0 auto;
         .button-section {
             float:left;
+        }
+        .wave-indicator {
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 20px;
+            margin-left:10px;
+            border: solid 3px $mage-colors-clay;
+            float:right;
+            color:$mage-colors-gold;
         }
     }
     .td-button {
@@ -46,6 +57,52 @@ body.td {
         z-index: 90;
         .circle {
             overflow: visible;
+        }
+    }
+    .selection-zone {
+        width:546px;
+        //background-color: $color-clay;
+        border: solid 3px $mage-colors-brown-bright;
+        margin: 5px auto 0 auto;
+        left: 0;
+        right: 0;
+        position: absolute;
+        .tower-description {
+            float: left;
+            border: solid 2px $mage-colors-dark-blue;
+        }
+        .price{
+            width:30px;
+            background-color: $mage-colors-clay;
+            float: left;
+            text-align: center;
+        }
+        .attack-map-container {
+            background-color: $mage-colors-clay;
+            float: left;
+        }
+        .attack-map {
+            position: relative;
+        }
+        .description-cell {
+            width: $description-cells-size;
+            height: $description-cells-size;
+            font-size: 12px;
+            position: absolute;
+            background-color: $mage-colors-red;
+            text-align: center;
+        }
+        .description-cell-empty {
+            width: $description-cells-size;
+            height: $description-cells-size;
+            position: absolute;
+            background-color: $mage-colors-brown;
+        }
+        .description-cell-center {
+            width: $description-cells-size;
+            height: $description-cells-size;
+            position: absolute;
+            background-color: $mage-colors-gold;
         }
     }
 }
