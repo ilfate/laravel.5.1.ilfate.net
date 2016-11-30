@@ -97,41 +97,44 @@
 {{--<script src="/packages/jquery.svg.package-1.5.0/jquery.svganim.min.js"></script>--}}
 
 @if (!empty($localDevelopment))
+    @if (!empty($loadLocalScriptsMS))
 
 
-<script src="/js/mageSurvival/main.js"></script>
-<script src="/js/mageSurvival/inventory.js"></script>
-<script src="/js/mageSurvival/animation.js"></script>
-<script src="/js/mageSurvival/attacks.js"></script>
-<script src="/js/mageSurvival/spellbook.js"></script>
-<script src="/js/mageSurvival/spells.js"></script>
-<script src="/js/mageSurvival/spells-fire.js"></script>
-<script src="/js/mageSurvival/spells-water.js"></script>
-<script src="/js/mageSurvival/spells-air.js"></script>
-<script src="/js/mageSurvival/spells-earth.js"></script>
-<script src="/js/mageSurvival/spells-arcane.js"></script>
-<script src="/js/mageSurvival/worlds.js"></script>
-<script src="/js/mageSurvival/objects.js"></script>
-<script src="/js/mageSurvival/units.js"></script>
-<script src="/js/mageSurvival/mage.js"></script>
-<script src="/js/mageSurvival/admin.js"></script>
-<script src="/js/mageSurvival/chat.js"></script>
-<script src="/js/mageSurvival/home.js"></script>
-<script src="/js/mageSurvival/spellcraft.js"></script>
-<script src="/js/mageSurvival/monimations.js"></script>
-<script src="/js/mageSurvival/map-builder.js"></script>
+        <script src="/js/mageSurvival/main.js"></script>
+        <script src="/js/mageSurvival/inventory.js"></script>
+        <script src="/js/mageSurvival/animation.js"></script>
+        <script src="/js/mageSurvival/attacks.js"></script>
+        <script src="/js/mageSurvival/spellbook.js"></script>
+        <script src="/js/mageSurvival/spells.js"></script>
+        <script src="/js/mageSurvival/spells-fire.js"></script>
+        <script src="/js/mageSurvival/spells-water.js"></script>
+        <script src="/js/mageSurvival/spells-air.js"></script>
+        <script src="/js/mageSurvival/spells-earth.js"></script>
+        <script src="/js/mageSurvival/spells-arcane.js"></script>
+        <script src="/js/mageSurvival/worlds.js"></script>
+        <script src="/js/mageSurvival/objects.js"></script>
+        <script src="/js/mageSurvival/units.js"></script>
+        <script src="/js/mageSurvival/mage.js"></script>
+        <script src="/js/mageSurvival/admin.js"></script>
+        <script src="/js/mageSurvival/chat.js"></script>
+        <script src="/js/mageSurvival/home.js"></script>
+        <script src="/js/mageSurvival/spellcraft.js"></script>
+        <script src="/js/mageSurvival/monimations.js"></script>
+        <script src="/js/mageSurvival/map-builder.js"></script>
+    @endif
+    <input type="hidden" id="isLocalDevelopment" value="1">
+@else
+ {{-- !!!!!!!!!!!!!!! only live envinment is tracked !!!!!!!!!! --}}
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'UA-55905052-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+
 @endif
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-55905052-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
 
 </body>
 

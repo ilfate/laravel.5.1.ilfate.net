@@ -30,6 +30,23 @@ $(document).ready(function() {
                 heuristic: PF.Heuristic.octile
             })
         ];
+        this.findersDiagonal = [
+            new PF.AStarFinder({
+                allowDiagonal: true
+            }),
+            new PF.AStarFinder({
+                allowDiagonal: true,
+                heuristic: PF.Heuristic.chebyshev
+            }),
+            new PF.AStarFinder({
+                allowDiagonal: true,
+                heuristic: PF.Heuristic.euclidean
+            }),
+            new PF.AStarFinder({
+                allowDiagonal: true,
+                heuristic: PF.Heuristic.octile
+            })
+        ];
         this.inavailableCenters = {};
 
         this.init = function() {
@@ -65,11 +82,15 @@ $(document).ready(function() {
             var finder = array_rand(this.finders);
             return finder.findPath(x1, y1, x2, y2, this.grid.clone());
         };
+        this.getPathDiagonal = function(x1, y1, x2, y2) {
+            var finder = array_rand(this.findersDiagonal);
+            return finder.findPath(x1, y1, x2, y2, this.grid.clone());
+        };
         this.getPathWithoutTowers = function(x1, y1, x2, y2) {
             return this.finders[0].findPath(x1, y1, x2, y2, this.gridNoTowers.clone());
         };
         this.drawCell = function(x,y,color) {
-            var e = Crafty.e('2D, DOM, Color, Mouse')
+            var e = Crafty.e('2D, DOM, Color, Mouse, MapCell')
                 .attr({x: x,
                     y: y,
                     w: this.cellSize,

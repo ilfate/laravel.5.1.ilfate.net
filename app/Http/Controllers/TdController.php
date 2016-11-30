@@ -60,7 +60,7 @@ class TdController extends BaseController
         view()->share('bodyClass', 'td');
         view()->share('mobileFriendly', false);
         if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', false);
+            view()->share('localDevelopment', true);
         }
         
 
@@ -84,7 +84,7 @@ class TdController extends BaseController
         $monsters = [];
         $towers = [];
         for ($i = $number; $i <= $number + $additionalToLoad; $i++) {
-            $wave = \Config::get('td.waves.' . $number);
+            $wave = \Config::get('td.waves.' . $i);
             if (!$wave) { break; }
             foreach ($wave['types'] as $type) {
                 $monsters[$type] = \Config::get('td.monsters.' . $type);

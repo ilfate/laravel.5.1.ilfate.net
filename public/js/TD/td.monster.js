@@ -17,6 +17,10 @@ $(document).ready(function() {
         this.path = [];
         this.e = {};
         //this.cell = this.game.map.field[y][x];
+        this.diagonal = false;
+        this.flying = false;
+        this.fast = false;
+        this.resurecting = false;
         this.health = 5;
         this.maxHealth = 5;
         this.moneyAward = 1;
@@ -43,6 +47,9 @@ $(document).ready(function() {
             if (this.config.color !== undefined) {
                 this.color = this.config.color;
             }
+            if (this.config.diagonal !== undefined) {
+                this.diagonal = this.config.diagonal;
+            }
         };
 
         this.draw = function() {
@@ -57,7 +64,11 @@ $(document).ready(function() {
         this.calculateMovement = function() {
             this.readyToKill = false;
             this.center = this.game.map.getClosestCenter(this.x, this.y);
-            this.path = this.game.map.getPath(this.x, this.y, this.center[0], this.center[1]);
+            if (!this.diagonal) {
+                this.path = this.game.map.getPath(this.x, this.y, this.center[0], this.center[1]);
+            } else {
+                this.path = this.game.map.getPathDiagonal(this.x, this.y, this.center[0], this.center[1]);
+            }
             if (typeof this.path[1] === 'undefined') {
                 this.path = this.game.map.getPathWithoutTowers(this.x, this.y, this.center[0], this.center[1]);
                 this.readyToKill = true;
@@ -97,11 +108,6 @@ $(document).ready(function() {
         };
         
         this.activate = function() {
-
-            if (Math.abs(this.x - this.path[1][0]) + Math.abs(this.y - this.path[1][1]) > 1) {
-                console.log(this.x, this.y, center[0], center[1]);
-            }
-            // info(this.path);
             this.move(this.nextX, this.nextY);
             if (this.x == this.center[0] && this.y == this.center[1]) {
                 return this.attackBase();
@@ -180,6 +186,37 @@ $(document).ready(function() {
 
             this.game.nextMoves[this.y][this.x] = false;
             this.death();
-        }
+        };
+        
+        this.export = function() {
+            return {
+                x: this.x,
+                y: this.y,
+                type: this.type,
+                health: this.health,
+                maxHealth: this.maxHealth,
+                moneyAward: this.moneyAward,
+                color: this.color,
+                diagonal: this.diagonal,
+                flying: this.flying,
+                fast: this.fast,
+                resurecting: this.resurecting,
+            };
+        };
+
+        this.import = function(data) {
+            this.x = data.x;
+            this.y = data.y;
+            this.type = data.type;
+            this.health = data.health;
+            this.maxHealth = data.maxHealth;
+            this.moneyAward = data.moneyAward;
+            this.color = data.color;
+            this.diagonal = data.diagonal;
+            this.flying = data.flying;
+            this.fast = data.fast;
+            this.resurecting = data.resurecting;
+            this.config = this.game.monsterConfig[type];
+        };
     };
 });

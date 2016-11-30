@@ -24,17 +24,40 @@ body.td {
         right: 0;
         position: absolute;
     }
+    .start-overlay {
+        position: absolute;
+        width:546px;
+        height:546px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        z-index: 100;
+        .button-container {
+            left: 0;
+            right: 0;
+            margin: 10px auto;
+            button {
+                border: 4px solid $mage-colors-blue;
+                color: $mage-colors-blue;
+                background-color: $mage-colors-clay;
+                padding:17px 23px;
+            }
+        }
+    }
     .menu {
         width:546px;
         margin: 0 auto;
         .button-section {
             float:left;
+            button {
+                padding: 6px 8px;
+            }
         }
         .wave-indicator {
-            padding: 6px 12px;
+            padding: 6px 8px;
             font-size: 14px;
             line-height: 20px;
-            margin-left:10px;
             border: solid 3px $mage-colors-clay;
             float:right;
             color:$mage-colors-gold;
@@ -67,22 +90,62 @@ body.td {
         left: 0;
         right: 0;
         position: absolute;
+        .upgrade-container {
+            display:none;
+            padding: 2px 0 0 0;
+            border-bottom: 2px dotted $mage-colors-clay;
+            color:$mage-colors-gold;
+            text-align: center;
+        }
         .tower-description {
             float: left;
             border: solid 2px $mage-colors-dark-blue;
+            &.selected {
+                border: solid 2px $mage-colors-gold;
+                .price{
+                    color: $mage-colors-orange;
+                    background-color: $mage-colors-clay;
+                }
+            }
+            &:hover {
+                .price {
+                    color: $mage-colors-blue;
+                    background-color: $mage-colors-gold;
+                }
+            }
+        }
+        .towers-list.upgrade {
+            .tower-description {
+                &.selected {
+                    border: solid 2px $mage-colors-dark-blue;
+                    .price {
+                        color: $mage-colors-clay;
+                        background-color: $mage-colors-brown;
+                    }
+                }
+                &:hover {
+                    .price {
+                        color: $mage-colors-blue;
+                        background-color: $mage-colors-gold;
+                    }
+                }
+            }
         }
         .price{
             width:30px;
-            background-color: $mage-colors-clay;
+            background-color: $mage-colors-brown;
             float: left;
             text-align: center;
+            color: $mage-colors-clay;
         }
         .attack-map-container {
+            padding: 1px 0 0 1px;
             background-color: $mage-colors-clay;
             float: left;
         }
         .attack-map {
             position: relative;
+
         }
         .description-cell {
             width: $description-cells-size;

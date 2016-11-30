@@ -62,7 +62,8 @@ class MageSurvivalController extends BaseController
         view()->share('bodyClass', 'mage-survival');
         view()->share('mobileFriendly', true);
         if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', false);
+            view()->share('localDevelopment', true);
+            view()->share('loadLocalScriptsMS', false);
         }
         $game = $this->getGame($request);
         

@@ -18,12 +18,13 @@ $(document).ready(function() {
         this.setUp = function() {
             var that = this;
             this.e.bind('Click', function () {
-                that.click();
+                that.click($(this));
             });
         };
 
-        this.click = function() {
+        this.click = function(el) {
             if (this.getTower()) {
+                this.getTower().click(el, this);
                 return;
             }
             if (this.isBuildable) {

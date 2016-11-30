@@ -7074,16 +7074,35 @@ body.td #td-start {
   left: 0;
   right: 0;
   position: absolute; }
+body.td .start-overlay {
+  position: absolute;
+  width: 546px;
+  height: 546px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 100; }
+  body.td .start-overlay .button-container {
+    left: 0;
+    right: 0;
+    margin: 10px auto; }
+    body.td .start-overlay .button-container button {
+      border: 4px solid #529BCA;
+      color: #529BCA;
+      background-color: #FCEBB6;
+      padding: 17px 23px; }
 body.td .menu {
   width: 546px;
   margin: 0 auto; }
   body.td .menu .button-section {
     float: left; }
+    body.td .menu .button-section button {
+      padding: 6px 8px; }
   body.td .menu .wave-indicator {
-    padding: 6px 12px;
+    padding: 6px 8px;
     font-size: 14px;
     line-height: 20px;
-    margin-left: 10px;
     border: solid 3px #FCEBB6;
     float: right;
     color: #F0A830; }
@@ -7109,15 +7128,39 @@ body.td .selection-zone {
   left: 0;
   right: 0;
   position: absolute; }
+  body.td .selection-zone .upgrade-container {
+    display: none;
+    padding: 2px 0 0 0;
+    border-bottom: 2px dotted #FCEBB6;
+    color: #F0A830;
+    text-align: center; }
   body.td .selection-zone .tower-description {
     float: left;
     border: solid 2px #428BBA; }
+    body.td .selection-zone .tower-description.selected {
+      border: solid 2px #F0A830; }
+      body.td .selection-zone .tower-description.selected .price {
+        color: #F07818;
+        background-color: #FCEBB6; }
+    body.td .selection-zone .tower-description:hover .price {
+      color: #529BCA;
+      background-color: #F0A830; }
+  body.td .selection-zone .towers-list.upgrade .tower-description.selected {
+    border: solid 2px #428BBA; }
+    body.td .selection-zone .towers-list.upgrade .tower-description.selected .price {
+      color: #FCEBB6;
+      background-color: #5E412F; }
+  body.td .selection-zone .towers-list.upgrade .tower-description:hover .price {
+    color: #529BCA;
+    background-color: #F0A830; }
   body.td .selection-zone .price {
     width: 30px;
-    background-color: #FCEBB6;
+    background-color: #5E412F;
     float: left;
-    text-align: center; }
+    text-align: center;
+    color: #FCEBB6; }
   body.td .selection-zone .attack-map-container {
+    padding: 1px 0 0 1px;
     background-color: #FCEBB6;
     float: left; }
   body.td .selection-zone .attack-map {
