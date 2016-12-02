@@ -20,6 +20,7 @@ $(document).ready(function() {
         ];
         this.cooldown = 0;
         this.cooldownTurnLeft = 0;
+        this.targets = 0;
         this.damage = 1;
         this.e = {};
         this.margin = this.game.map.cellSize + this.game.map.cellMargin;
@@ -29,11 +30,18 @@ $(document).ready(function() {
         
         this.init = function() {
             this.game.money -= this.price;
-            this.game.setMoney();
+            this.game.interface.setMoney();
         };
         
         this.activate = function() {
+            if (this.game.gameEnded) {
+                return;
+            }
             var monster = {};
+            var targets = 999;
+            if (this.targets) {
+                targets = this.targets;
+            }
             for(var n in this.attackPattern) {
                 var coord = this.attackPattern[n];
 
@@ -49,7 +57,9 @@ $(document).ready(function() {
                         'yesIWantToHaveBlinkBug': true,
                         'color': this.game.color.white});
                     monster.damage(this.damage);
+                    targets--;
                 }
+                if (!targets) break;
             }
         };
 
@@ -94,18 +104,18 @@ $(document).ready(function() {
         this.click = function(cellEl, cell) {
             var towerList = $('.towers-list');
             if (cell.e.has('ActiveCell') && towerList.hasClass('upgrade')) {
-                this.game.hideTowerUpgrade();
+                this.game.interface.hideTowerUpgrade();
                 this.deselectTower();
             } else if (!towerList.hasClass('upgrade')) {
-                this.game.showTowerUpgrade();
+                this.game.interface.showTowerUpgrade();
                 cell.e.color(this.game.color.orange);
                 cell.e.addComponent('ActiveCell');
-                this.game.activeCell = cell;
+                this.game.interface.activeCell = cell;
             } else if (towerList.hasClass('upgrade') && !cell.e.has('ActiveCell')) {
                 Crafty('ActiveCell').removeComponent('ActiveCell').color(this.game.color.brown);
                 cell.e.color(this.game.color.orange);
                 cell.e.addComponent("ActiveCell");
-                this.game.activeCell = cell;
+                this.game.interface.activeCell = cell;
             }
             
         };
@@ -114,7 +124,7 @@ $(document).ready(function() {
             var cell = this.game.map.field[this.y][this.x];
             cell.e.color(this.game.color.brown);
             cell.e.removeComponent('ActiveCell');
-            this.game.activeCell = false;
+            this.game.interface.activeCell = false;
             return this;
         };
         
@@ -134,6 +144,9 @@ $(document).ready(function() {
             if (config.color !== undefined) {
                 this.color = config.color;
             }
+            if (config.targets !== undefined) {
+                this.targets = config.targets;
+            }
         };
 
         this.update = function(config, type) {
@@ -146,6 +159,7 @@ $(document).ready(function() {
         this.destroy = function() {
             this.game.map.setTower(this.x, this.y, true);
             this.game.towers[this.y][this.x] = false;
+            this.e.destroy();
         };
 
         this.export = function() {
@@ -159,6 +173,7 @@ $(document).ready(function() {
                 color: this.color,
                 cooldownTurnLeft: this.cooldownTurnLeft,
                 cooldown: this.cooldown,
+                targets: this.targets,
             };
         };
 
@@ -172,6 +187,7 @@ $(document).ready(function() {
             this.color = data.color;
             this.cooldownTurnLeft = data.cooldownTurnLeft;
             this.cooldown = data.cooldown;
+            this.targets = data.targets;
         };
     };
 });

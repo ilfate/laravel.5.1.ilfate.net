@@ -85,7 +85,10 @@ class TdController extends BaseController
         $towers = [];
         for ($i = $number; $i <= $number + $additionalToLoad; $i++) {
             $wave = \Config::get('td.waves.' . $i);
-            if (!$wave) { break; }
+            if (!$wave) {
+                $this->generateWave($i, $waves, $monsters, $towers);
+                continue;
+            }
             foreach ($wave['types'] as $type) {
                 $monsters[$type] = \Config::get('td.monsters.' . $type);
             }
@@ -109,7 +112,63 @@ class TdController extends BaseController
         return json_encode($result);
     }
 
+    protected function generateWave($number, &$waves, &$monsters, &$towers)
+    {
+        $skipTurns = 12;
+        $fast = false;
+        $HP = ($number * $number / 4) - 30;
+        $reward = ceil($number / 2);
+        $color = '#069E2D';
+        $min = 3;
+        $max = 3;
+        $turns = 3;
+        if (rand(1, 4) == 4) {
+            $HP = ceil(1.6 * $HP);
+            $color = '#711F1F';
+            $reward *= 6;
+            $min = 1;
+            $max = 1;
+            $turns = 1;
+            $name = 'Boss ' . $HP . 'HP';
+        } else if (rand(1, 3) == 3) {
+            $fast = true;
+            $name = 'Fast ' . $HP . 'HP';
+        } else if (rand(1, 2) == 2) {
+            $diagonal = true;
+            $name = 'Diagonal ' . $HP . 'HP';
+        } else {
+            $name = $HP . 'HP';
+            $min = 4;
+            $max = 5;
+            $turns = 5;
+            $skipTurns = 25;
+        }
 
+        $wave = [
+            'name' => $name,
+            'min' => $min,
+            'max' => $max,
+            'types' => ['g' . $number],
+            'turns' => $turns,
+            'skipTurns' => $skipTurns
+        ];
+        $monster = [
+            'health'=> $HP,
+            'moneyAward'=> $reward,
+            'color'=> $color,
+        ];
+        if (!empty($newTower)) {
+            $wave['newTower'] = $newTower;
+        }
+        if (!empty($fast)) {
+            $monster['fast'] = true;
+        }
+        if (!empty($diagonal)) {
+            $monster['diagonal'] = true;
+        }
+        $waves[$number] = $wave;
+        $monsters['g' . $number] = $monster;
+    }
 
     
 

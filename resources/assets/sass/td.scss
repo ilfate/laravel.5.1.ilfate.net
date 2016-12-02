@@ -23,6 +23,12 @@ body.td {
         left: 0;
         right: 0;
         position: absolute;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
     .start-overlay {
         position: absolute;
@@ -33,6 +39,12 @@ body.td {
         right: 0;
         text-align: center;
         z-index: 100;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
         .button-container {
             left: 0;
             right: 0;
@@ -42,8 +54,13 @@ body.td {
                 color: $mage-colors-blue;
                 background-color: $mage-colors-clay;
                 padding:17px 23px;
+                &:hover {
+                    color: $mage-colors-orange;
+                    border: solid 4px $mage-colors-gold;
+                }
             }
         }
+
     }
     .menu {
         width:546px;
@@ -61,6 +78,26 @@ body.td {
             border: solid 3px $mage-colors-clay;
             float:right;
             color:$mage-colors-gold;
+        }
+        .hambuger-button {
+            position: absolute;
+            margin-left: -40px;
+            padding: 3px 5px 0px 5px;
+            border: solid 3px $mage-colors-blue;
+            cursor: pointer;
+            i {
+                color:$mage-colors-clay;
+                font-size: 24px;
+            }
+        }
+        .hidden-menu {
+            position: absolute;
+            margin-left: -109px;
+            margin-top: 40px;
+            display: none;
+            .button-section {
+                float: right;
+            }
         }
     }
     .td-button {
@@ -90,6 +127,12 @@ body.td {
         left: 0;
         right: 0;
         position: absolute;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
         .upgrade-container {
             display:none;
             padding: 2px 0 0 0;
@@ -166,6 +209,25 @@ body.td {
             height: $description-cells-size;
             position: absolute;
             background-color: $mage-colors-gold;
+        }
+        .tower-legend {
+            .row {
+                margin: 10px 0 0 10px;
+            }
+            .description-cell-center {
+                margin:8px 0 0 0;
+                &.blue {
+                    background-color: $mage-colors-blue;
+                }
+                &.green {
+                    background-color: $mage-colors-green;
+                }
+            }
+            .text {
+                margin-left:20px;
+                font-size: 14px;
+                color: $mage-colors-clay;
+            }
         }
     }
 }

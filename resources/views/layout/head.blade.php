@@ -88,6 +88,7 @@
 <script src="/js/TD/td.monster.js"></script>
 <script src="/js/TD/td.tower.js"></script>
 <script src="/js/TD/td.animations.js"></script>
+<script src="/js/TD/td.interface.js"></script>
 <script src="/js/TD/td.game.js"></script>
 {{--<script src="/js/cosmos/main.js"></script>--}}
 {{--<script src="/js/hex/main.js"></script>--}}

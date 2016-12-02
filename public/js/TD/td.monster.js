@@ -50,6 +50,15 @@ $(document).ready(function() {
             if (this.config.diagonal !== undefined) {
                 this.diagonal = this.config.diagonal;
             }
+            if (this.config.fast !== undefined) {
+                this.fast = this.config.fast;
+            }
+            if (this.config.flying !== undefined) {
+                this.flying = this.config.flying;
+            }
+            if (this.config.resurecting !== undefined) {
+                this.resurecting = this.config.resurecting;
+            }
         };
 
         this.draw = function() {
@@ -62,6 +71,9 @@ $(document).ready(function() {
         };
 
         this.calculateMovement = function() {
+            if (this.game.gameEnded) {
+                return;
+            }
             this.readyToKill = false;
             this.center = this.game.map.getClosestCenter(this.x, this.y);
             if (!this.diagonal) {
@@ -108,6 +120,9 @@ $(document).ready(function() {
         };
         
         this.activate = function() {
+            if (this.game.gameEnded) {
+                return;
+            }
             this.move(this.nextX, this.nextY);
             if (this.x == this.center[0] && this.y == this.center[1]) {
                 return this.attackBase();
@@ -131,6 +146,8 @@ $(document).ready(function() {
             }
             this.x = x;
             this.y = y;
+            this.nextX = null;
+            this.nextY = null;
             this.e.tween({x: this.x * this.margin + this.diff,
                 y: this.y * this.margin + this.diff}, this.game.moveTime, "smoothStep");
         };
@@ -174,7 +191,7 @@ $(document).ready(function() {
 
         this.award = function() {
             this.game.money += this.moneyAward;
-            this.game.setMoney();
+            this.game.interface.setMoney();
         };
 
         this.getDamageIndicatorSize = function() {
@@ -184,8 +201,9 @@ $(document).ready(function() {
 
         this.attackBase = function() {
 
-            this.game.nextMoves[this.y][this.x] = false;
-            this.death();
+            // this.game.nextMoves[this.y][this.x] = false;
+            // this.death();
+            this.game.stopGame();
         };
         
         this.export = function() {

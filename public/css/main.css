@@ -7073,7 +7073,13 @@ body.td #td-start {
   margin: 0 auto;
   left: 0;
   right: 0;
-  position: absolute; }
+  position: absolute;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
 body.td .start-overlay {
   position: absolute;
   width: 546px;
@@ -7082,7 +7088,13 @@ body.td .start-overlay {
   left: 0;
   right: 0;
   text-align: center;
-  z-index: 100; }
+  z-index: 100;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
   body.td .start-overlay .button-container {
     left: 0;
     right: 0;
@@ -7092,6 +7104,9 @@ body.td .start-overlay {
       color: #529BCA;
       background-color: #FCEBB6;
       padding: 17px 23px; }
+      body.td .start-overlay .button-container button:hover {
+        color: #F07818;
+        border: solid 4px #F0A830; }
 body.td .menu {
   width: 546px;
   margin: 0 auto; }
@@ -7106,6 +7121,22 @@ body.td .menu {
     border: solid 3px #FCEBB6;
     float: right;
     color: #F0A830; }
+  body.td .menu .hambuger-button {
+    position: absolute;
+    margin-left: -40px;
+    padding: 3px 5px 0px 5px;
+    border: solid 3px #529BCA;
+    cursor: pointer; }
+    body.td .menu .hambuger-button i {
+      color: #FCEBB6;
+      font-size: 24px; }
+  body.td .menu .hidden-menu {
+    position: absolute;
+    margin-left: -109px;
+    margin-top: 40px;
+    display: none; }
+    body.td .menu .hidden-menu .button-section {
+      float: right; }
 body.td .td-button {
   border-radius: 0px;
   background-color: #FCEBB6;
@@ -7127,7 +7158,13 @@ body.td .selection-zone {
   margin: 5px auto 0 auto;
   left: 0;
   right: 0;
-  position: absolute; }
+  position: absolute;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
   body.td .selection-zone .upgrade-container {
     display: none;
     padding: 2px 0 0 0;
@@ -7182,6 +7219,18 @@ body.td .selection-zone {
     height: 16px;
     position: absolute;
     background-color: #F0A830; }
+  body.td .selection-zone .tower-legend .row {
+    margin: 10px 0 0 10px; }
+  body.td .selection-zone .tower-legend .description-cell-center {
+    margin: 8px 0 0 0; }
+    body.td .selection-zone .tower-legend .description-cell-center.blue {
+      background-color: #529BCA; }
+    body.td .selection-zone .tower-legend .description-cell-center.green {
+      background-color: #069E2D; }
+  body.td .selection-zone .tower-legend .text {
+    margin-left: 20px;
+    font-size: 14px;
+    color: #FCEBB6; }
 
 .loginPage {
   background: #529BCA;

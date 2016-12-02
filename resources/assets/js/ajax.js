@@ -7,6 +7,7 @@
 Ajax = function() {
   
   this.callBack = [];
+  this.ajaxFailed = false;
   
   /**
    * ajax request that will return json data
@@ -122,9 +123,12 @@ Ajax = function() {
   
   this.fail = function(jqXHR, textStatus)
   {
-    Ajax.json('/jsLog', {
-      data: 'data=' + textStatus + '&jqXHR=' + jqXHR
-    });
+    if (!this.ajaxFailed) {
+      this.ajaxFailed = true;
+      Ajax.json('/jsLog', {
+        data: 'data=' + textStatus + '&jqXHR=' + jqXHR
+      });
+    }
     alert('Something vent wrong. Try to reload the page. If this happens again plz inform administrator.');
     setTimeout(function(){
       window.location.reload();

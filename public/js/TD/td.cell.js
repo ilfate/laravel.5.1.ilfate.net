@@ -28,7 +28,7 @@ $(document).ready(function() {
                 return;
             }
             if (this.isBuildable) {
-                this.map.game.createTower(this.x, this.y, this.map.game.selectedTowerType);
+                this.map.game.createTower(this.x, this.y, this.map.game.interface.selectedTowerType);
             }
         };
 

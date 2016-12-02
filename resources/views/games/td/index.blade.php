@@ -3,6 +3,18 @@
 @section('content')
 
     <div class="menu">
+        <div class="hidden-menu">
+            <div class="button-section">
+                <button class="btn td-button restart-button" >Restart game</button>
+            </div>
+            <div class="clearfix"></div>
+            <div class="button-section">
+                <button class="btn td-button save-game-button" >Save game</button>
+            </div>
+        </div>
+        <div class="hambuger-button">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </div>
         <div class="button-section">
             <button class="btn td-button back-to-games-list-button" >Back to games list</button>
         </div>
@@ -39,6 +51,15 @@
     </div>
     <div class="towers-list">
 
+    </div>
+    <div class="clearfix"></div>
+    <div class="tower-legend">
+        <div class="row">
+            <div class="description-cell-center green"></div><span class="text"> - attack all targets</span>
+        </div>
+        <div class="row">
+            <div class="description-cell-center blue"></div><span class="text"> - attacks just one target in reach</span>
+        </div>
     </div>
 </div>
 
