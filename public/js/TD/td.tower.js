@@ -21,6 +21,8 @@ $(document).ready(function() {
         this.cooldown = 0;
         this.cooldownTurnLeft = 0;
         this.targets = 0;
+        this.rotate = 0;
+        this.image = false;
         this.damage = 1;
         this.e = {};
         this.margin = this.game.map.cellSize + this.game.map.cellMargin;
@@ -79,24 +81,23 @@ $(document).ready(function() {
             });
             var tower = this;
             setTimeout(function() {
-                tower.e = Crafty.e('2D, DOM, Color, Tween, Image, ' + tower.type)
+                var angle = 90 * tower.rotate;
+                tower.e = Crafty.e('2D, DOM, Color, Tween, Image, ' + (tower.image ? tower.image : tower.type))
                     .attr({
                         x: tower.x * tower.margin + tower.game.map.cellSize / 2,
                         y: tower.y * tower.margin + tower.game.map.cellSize / 2,
                         w: 0,
                         h: 0,
                         //rotation:-90
-                    }).origin("center")
-                    .color(tower.color);
-                if (tower.image) {
-                    tower.e.image(tower.image);
-                }
+                    }).color(tower.color);
+                tower.e.origin(tower.towerSize / 2, tower.towerSize / 2);
+
                 tower.e.tween({
                     x: tower.x * tower.margin + tower.diff,
                     y: tower.y * tower.margin + tower.diff,
                     w: tower.towerSize,
                     h: tower.towerSize,
-                    rotation:0
+                    rotation:angle
                 }, 150);
             }, 250);
         };
@@ -146,13 +147,26 @@ $(document).ready(function() {
             }
             if (config.targets !== undefined) {
                 this.targets = config.targets;
+            } else {
+                this.targets = 0;
+            }
+            if (config.rotate !== undefined) {
+                this.rotate = config.rotate;
+            } else {
+                this.rotate = 0;
+            }
+            if (config.image !== undefined) {
+                this.image = config.image;
+            } else {
+                this.image = false;
             }
         };
 
         this.update = function(config, type) {
             this.setConfig(config, type);
             this.init();
-            this.e.color(this.color);
+            this.e.destroy();
+            this.draw();
             return this;
         };
         
@@ -174,6 +188,8 @@ $(document).ready(function() {
                 cooldownTurnLeft: this.cooldownTurnLeft,
                 cooldown: this.cooldown,
                 targets: this.targets,
+                rotate: this.rotate,
+                image: this.image,
             };
         };
 
@@ -188,6 +204,8 @@ $(document).ready(function() {
             this.cooldownTurnLeft = data.cooldownTurnLeft;
             this.cooldown = data.cooldown;
             this.targets = data.targets;
+            this.rotate = data.rotate;
+            this.image = data.image;
         };
     };
 });

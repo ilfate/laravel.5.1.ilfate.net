@@ -11,6 +11,10 @@
             <div class="button-section">
                 <button class="btn td-button save-game-button" >Save game</button>
             </div>
+            <div class="clearfix"></div>
+            <div class="button-section">
+                <button class="btn td-button speed-up-button" >Speed up</button>
+            </div>
         </div>
         <div class="hambuger-button">
             <i class="fa fa-bars" aria-hidden="true"></i>

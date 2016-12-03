@@ -93,7 +93,13 @@ class TdController extends BaseController
                 $monsters[$type] = \Config::get('td.monsters.' . $type);
             }
             if (!empty($wave['newTower'])) {
-                $towers[$wave['newTower']] =  \Config::get('td.towers.' . $wave['newTower']);
+                if (is_array($wave['newTower'])) {
+                    $towerName = $wave['newTower'][array_rand($wave['newTower'])];
+                    $wave['newTower'] = $towerName;
+                } else {
+                    $towerName = $wave['newTower'];
+                }
+                $towers[$towerName] = \Config::get('td.towers.' . $towerName);
             }
             $waves[$i] = $wave;
 
@@ -116,9 +122,10 @@ class TdController extends BaseController
     {
         $skipTurns = 12;
         $fast = false;
-        $HP = ($number * $number / 4) - 30;
+        $HP = ceil(($number * $number / 5) - 30);
+        $HP = max($HP, 6);
         $reward = ceil($number / 2);
-        $color = '#069E2D';
+        $color = '#FF8360';
         $min = 3;
         $max = 3;
         $turns = 3;
@@ -142,6 +149,8 @@ class TdController extends BaseController
             $max = 5;
             $turns = 5;
             $skipTurns = 25;
+            $HP = ceil(1.1 * $HP);
+            $reward = ceil($reward / 2);
         }
 
         $wave = [

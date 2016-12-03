@@ -33,6 +33,9 @@ $(document).ready(function() {
             $('.save-game-button').on('click', function () {
                 that.game.saveGame();
             });
+            $('.speed-up-button').on('click', function () {
+                that.speedUp();
+            });
             this.textMargin = (this.game.map.fieldSize + this.game.map.outerLines) 
                 / 2 * (this.game.map.cellSize + this.game.map.cellMargin);
             this.moneyE = Crafty.e('2D, DOM, Text')
@@ -221,6 +224,11 @@ $(document).ready(function() {
         this.openMenu = function() {
             $('.hidden-menu').toggle();
         };
+
+        this.speedUp = function () {
+            this.game.turnPause = 250;
+            this.game.moveTime = 125;
+        }
         
     };
     // game.action();

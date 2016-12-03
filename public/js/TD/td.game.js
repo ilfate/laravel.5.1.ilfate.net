@@ -29,7 +29,9 @@ $(document).ready(function() {
             'orange': '#F07818',
         };
         this.towersConfig = {
-            'Tbasic' : {'color':this.color.green, 'price': 10, 'damage':1, 'attackPattern':[[-1,0], [0,-1], [1,0], [0,1]]},
+            'Tbasic' : {'image':'Tbasic', 'color':this.color.green, 'price': 10, 'damage':1, 'attackPattern':[[-1,0], [0,-1], [1,0], [0,1]]},
+            // 'TSniper1' : {'image':'TSniper', 'rotate': 1, 'color':this.color.green, 'price': 1, 'damage':1, 'attackPattern':[[1,-1],[1,0],[1,1]]},
+            // 'TSniper2' : {'image':'TSniper', 'rotate': 2, 'color':this.color.green, 'price': 1, 'damage':1, 'attackPattern':[[1,-1],[1,0],[1,1]]},
             // 'basic3' : {'color':this.color.green, 'price': 40, 'damage':3, 'attackPattern':[[-2,4], [3,-2]]},
         };
         this.monsterConfig = {
@@ -71,7 +73,8 @@ $(document).ready(function() {
             // );
             this.isLocalDevelopment = $('#isLocalDevelopment').length > 0;
             Crafty.sprite(24, "images/game/td/towers.png", {
-                Tbasic:[0,0], Tdiagonal:[1,0], Tarrow:[2,0], Tfork:[3,0], Thorse:[4,0],
+                Tbasic:[0,0], Tdiagonal:[1,0], TSniper:[2,0], Tfork:[3,0], Thorse:[4,0],
+                TBaseBlue:[3,1], TBlueBolder:[4,1], TBlueCanon:[5,1],
             });
             this.animations.initSVG();
             Crafty.init(546,546, document.getElementById('td-start'));
