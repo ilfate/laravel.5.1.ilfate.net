@@ -5,7 +5,9 @@
 
 {{--<div class="game-body">--}}
     {{--<div class="container main">--}}
+<div class="content-container">
         @yield('content')
+</div>
     {{--</div>--}}
 {{--</div>--}}
 

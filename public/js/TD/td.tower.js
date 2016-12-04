@@ -39,6 +39,11 @@ $(document).ready(function() {
             if (this.game.gameEnded) {
                 return;
             }
+            if (this.cooldownTurnLeft) {
+                this.cooldownTurnLeft--;
+                return;
+            }
+            var damageDone = false;
             var monster = {};
             var targets = 999;
             if (this.targets) {
@@ -60,8 +65,12 @@ $(document).ready(function() {
                         'color': this.game.color.white});
                     monster.damage(this.damage);
                     targets--;
+                    damageDone = true;
                 }
                 if (!targets) break;
+            }
+            if (this.cooldown && damageDone) {
+                this.cooldownTurnLeft = this.cooldown;
             }
         };
 
@@ -159,6 +168,11 @@ $(document).ready(function() {
                 this.image = config.image;
             } else {
                 this.image = false;
+            }
+            if (config.cooldown !== undefined) {
+                this.cooldown = config.cooldown;
+            } else {
+                this.cooldown = 0;
             }
         };
 

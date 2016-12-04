@@ -98,8 +98,8 @@
 {{--<script src="/packages/jquery.svg.package-1.5.0/jquery.svganim.min.js"></script>--}}
 
 @if (!empty($localDevelopment))
+    <input type="hidden" id="isLocalDevelopment" value="1">
     @if (!empty($loadLocalScriptsMS))
-
 
         <script src="/js/mageSurvival/main.js"></script>
         <script src="/js/mageSurvival/inventory.js"></script>
@@ -123,7 +123,6 @@
         <script src="/js/mageSurvival/monimations.js"></script>
         <script src="/js/mageSurvival/map-builder.js"></script>
     @endif
-    <input type="hidden" id="isLocalDevelopment" value="1">
 @else
  {{-- !!!!!!!!!!!!!!! only live envinment is tracked !!!!!!!!!! --}}
     <script>

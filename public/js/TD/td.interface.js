@@ -13,6 +13,7 @@ $(document).ready(function() {
         this.descriptionCellMargin = 1;
         this.selectedTowerType = 'Tbasic';
         this.moneyE = {};
+        this.gamePausedByHowToPlay = false;
 
 
         this.init = function() {
@@ -36,6 +37,13 @@ $(document).ready(function() {
             $('.speed-up-button').on('click', function () {
                 that.speedUp();
             });
+            $('.how-to-play-button').on('click', function () {
+                that.howToPlay();
+            });
+            $('.test-button').on('click', function () {
+                that.game.wave = 6;
+                that.game.stopGame();
+            });
             this.textMargin = (this.game.map.fieldSize + this.game.map.outerLines) 
                 / 2 * (this.game.map.cellSize + this.game.map.cellMargin);
             this.moneyE = Crafty.e('2D, DOM, Text')
@@ -45,15 +53,16 @@ $(document).ready(function() {
                 });
             this.setMoney();
             this.displayTowersList();
+            if (localStorage.getItem("immediateStart") === 'true') {
+                localStorage.removeItem("immediateStart");
+                this.game.startGame(1);
+                return;
+            } else {
+                $('.start-overlay .start').show();
+            }
             if (this.game.loadedGame) {
                 // we have saved game here...
                 $('.button-container.load').show();
-            } else {
-                if (localStorage.getItem("immediateStart") === 'true') {
-                    localStorage.removeItem("immediateStart");
-                    this.game.startGame(1);
-                    return;
-                }
             }
             this.displayStartOverlay();
         };
@@ -223,6 +232,49 @@ $(document).ready(function() {
         
         this.openMenu = function() {
             $('.hidden-menu').toggle();
+        };
+        
+        this.howToPlay = function() {
+            if (this.game.gameStarted && this.game.gameRun) {
+                this.pauseToggle();
+                this.gamePausedByHowToPlay = true;
+            }
+            if ($('.how-to-play-overlay').length > 0) {
+                $('.how-to-play-overlay').slideDown();
+                return;
+            }
+            var template = $('#how-to-play-overlay').html();
+            Mustache.parse(template);
+            var rendered = Mustache.render(template, {});
+            var obj = $(rendered);
+            $('.content-container').prepend(obj);
+            var that = this;
+            $('.how-to-play-overlay .close-button').on('click', function() {
+                that.closeHowToPlay();
+            });
+        };
+
+        this.closeHowToPlay = function() {
+            if (this.game.gameStarted && this.gamePausedByHowToPlay) {
+                this.gamePausedByHowToPlay = false;
+                this.pauseToggle();
+            }
+            $('.how-to-play-overlay').slideUp();
+        };
+        
+        this.showEndScreen = function() {
+            var time = 800;
+            var overlay = $('.start-overlay');
+            overlay.css({'background-color':this.game.color.blue});
+            overlay.find('.end').show();
+            if (this.game.wave < 5) {
+                overlay.find('.good').hide();
+                overlay.find('.bad').show();
+            } else {
+                $('.start-overlay .waves-survived-number').html(this.game.wave);
+            }
+            overlay.slideDown(time);
+            $('.wave-status, #td-start, .selection-zone, .pause-button').animate({opacity:0}, time);
         };
 
         this.speedUp = function () {

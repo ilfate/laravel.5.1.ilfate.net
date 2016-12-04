@@ -32,7 +32,7 @@ $(document).ready(function() {
             'Tbasic' : {'image':'Tbasic', 'color':this.color.green, 'price': 10, 'damage':1, 'attackPattern':[[-1,0], [0,-1], [1,0], [0,1]]},
             // 'TSniper1' : {'image':'TSniper', 'rotate': 1, 'color':this.color.green, 'price': 1, 'damage':1, 'attackPattern':[[1,-1],[1,0],[1,1]]},
             // 'TSniper2' : {'image':'TSniper', 'rotate': 2, 'color':this.color.green, 'price': 1, 'damage':1, 'attackPattern':[[1,-1],[1,0],[1,1]]},
-            // 'basic3' : {'color':this.color.green, 'price': 40, 'damage':3, 'attackPattern':[[-2,4], [3,-2]]},
+            'TDSniper1' : {'image' : 'TDSniper','color' : this.color.green, 'price': 1, 'damage' : 13, 'cooldown' : 1, 'attackPattern':[[1,-1]]},
         };
         this.monsterConfig = {
             'r1' : {'health': 1, 'moneyAward': 2, 'color':this.color.red},
@@ -44,6 +44,7 @@ $(document).ready(function() {
         this.moveTime = 200;
         this.gameRun = true;
         this.running = true;
+        this.gameStarted = false;
         this.isLocalDevelopment = false;
         this.loadedGame = false;
         this.gameEnded = false;
@@ -73,8 +74,8 @@ $(document).ready(function() {
             // );
             this.isLocalDevelopment = $('#isLocalDevelopment').length > 0;
             Crafty.sprite(24, "images/game/td/towers.png", {
-                Tbasic:[0,0], Tdiagonal:[1,0], TSniper:[2,0], Tfork:[3,0], Thorse:[4,0],
-                TBaseBlue:[3,1], TBlueBolder:[4,1], TBlueCanon:[5,1],
+                Tbasic:[0,0], Tdiagonal:[1,0], TSniper:[2,0], Tfork:[3,0], Thorse:[4,0], Tbasic3:[5,0], TDSniper:[6,0],
+                TBaseBlue:[3,1], TBlueBolder:[4,1], TBlueCanon:[5,1], TBasic2:[7,1],
             });
             this.animations.initSVG();
             Crafty.init(546,546, document.getElementById('td-start'));
@@ -86,8 +87,11 @@ $(document).ready(function() {
 
 
         this.startGame = function(time) {
+            this.gameStarted = true;
             if (!time) time = 800;
-            $('.start-overlay').slideUp(time);
+            $('.start-overlay').slideUp(time, function() {
+                $('.start-overlay .start').hide();
+            });
             $('.wave-status, #td-start, .selection-zone, .pause-button').animate({opacity:1}, time);
             var game = this;
             setTimeout(function() {
@@ -371,6 +375,7 @@ $(document).ready(function() {
             }
             var data = {
                 'towers':towersExport,
+                'towersConfig':this.towersConfig,
                 'monsters':monsterExport,
                 'money':this.money,
                 'wave':this.wave,
@@ -396,6 +401,7 @@ $(document).ready(function() {
                 this.wave = this.loadedGame.wave;
                 this.waveTurn = this.loadedGame.waveTurn;
                 this.turnsToSkip = this.loadedGame.turnsToSkip;
+                this.towersConfig = this.loadedGame.towersConfig;
                 for (var i in this.loadedGame.towers) {
                     var tower = this.loadedGame.towers[i];
                     var x = tower.x;
@@ -426,6 +432,11 @@ $(document).ready(function() {
 
         this.stopGame = function() {
             this.gameEnded = true;
+            Ajax.json('/td/saveStats', {
+                    data: 'wave=' + this.wave + '&check=' + (((this.wave + 77) * 3) - 22) ,
+                // callBack : function(data){ }
+            });
+            this.interface.showEndScreen();
         };
 
         this.deleteSavedGame = function() {
@@ -435,7 +446,7 @@ $(document).ready(function() {
         this.restartGame = function() {
             this.deleteSavedGame();
             localStorage.setItem("immediateStart", 'true');
-            window.location.reload();
+            window.location = '/td?restart=true';
         };
         
     };

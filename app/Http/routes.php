@@ -76,6 +76,7 @@ Route::post('hex/action', 'HexController@action');
 
 Route::get('td', 'TdController@index');
 Route::post('td/load/wave', 'TdController@loadWave');
+Route::post('td/saveStats', 'TdController@saveStats');
 
 Route::get('Cosmos', 'CosmosController@index');
 

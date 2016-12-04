@@ -15,6 +15,10 @@
             <div class="button-section">
                 <button class="btn td-button speed-up-button" >Speed up</button>
             </div>
+            <div class="clearfix"></div>
+            <div class="button-section">
+                <button class="btn td-button how-to-play-button" >How to play</button>
+            </div>
         </div>
         <div class="hambuger-button">
             <i class="fa fa-bars" aria-hidden="true"></i>
@@ -37,14 +41,36 @@
     </div>
     <div class="clearfix"></div>
 <div class="start-overlay">
-    <div class="button-container">
-        <button class="start-game-button">Start game</button>
+
+    <div class="start" @if($restart) style="display: none" @endif>
+        <div class="button-container">
+            <button class="start-game-button">Start game</button>
+        </div>
+        <div class="button-container load" style="display: none;">
+            <button class="load-game-button">Load last game</button>
+        </div>
+        <div class="button-container">
+            <button class="how-to-play-button">How to play</button>
+        </div>
+        <div class="button-container">
+            <button class="test-button">Test</button>
+        </div>
     </div>
-    <div class="button-container load" style="display: none;">
-        <button class="load-game-button">Load last game</button>
-    </div>
-    <div class="button-container">
-        <button class="about-the-game-button">About the game</button>
+    <div class="end" style="display: none">
+        <div class="good">
+            <div class="page-header">
+                <h1>You survived <span class="waves-survived-number"></span> waves!<small> Want to improve?</small></h1>
+            </div>
+        </div>
+        <div class="bad">
+            <div class="page-header">
+                <h1>You did good. <small>But you can do better!</small></h1>
+            </div>
+            <p>Want to learn how to play? <a class="how-to-play-button">Click here</a></p>
+        </div>
+        <p>
+            Click <a class="restart-button">HERE</a> to try again!
+        </p>
     </div>
 </div>
 <div style="opacity: 0;" id="td-start"></div>
@@ -59,10 +85,13 @@
     <div class="clearfix"></div>
     <div class="tower-legend">
         <div class="row">
-            <div class="description-cell-center green"></div><span class="text"> - attack all targets</span>
+            <div class="description-cell-center green"></div><span class="text"> - attacks all targets</span>
         </div>
         <div class="row">
             <div class="description-cell-center blue"></div><span class="text"> - attacks just one target in reach</span>
+        </div>
+        <div class="row">
+            <div class="description-cell-center gold"></div><span class="text"> - attacks once in two turns</span>
         </div>
     </div>
 </div>

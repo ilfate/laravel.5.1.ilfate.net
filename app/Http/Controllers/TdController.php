@@ -9,6 +9,7 @@ use Ilfate\MageSurvival\Game;
 use Ilfate\MageSurvival\GameBuilder;
 use Ilfate\MageSurvival\MessageException;
 use Ilfate\MageSurvival\Generators\LocationsForest;
+use Ilfate\TdStats;
 use Ilfate\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -56,6 +57,7 @@ class TdController extends BaseController
         $name = $request->session()->get('userName', null);
         
         view()->share('page_title', 'TD');
+        view()->share('restart', $request->get('restart', false));
         //view()->share('facebookEnabled', true);
         view()->share('bodyClass', 'td');
         view()->share('mobileFriendly', false);
@@ -63,10 +65,41 @@ class TdController extends BaseController
             view()->share('localDevelopment', true);
         }
         
-
 //        view()->share('viewData', $data);
 
         return view('games.td.index');
+    }
+    
+    /**
+     * js game template
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function saveStats(Request $request)
+    {
+        if (!$request->ajax()) {
+            Log::warning('TD save is not Ajax.');
+            abort(404);
+        }
+        $name     = $request->session()->get('userName', null);
+
+        $check = $request->get('check');
+        $waves = $request->get('wave');
+        if (((($waves + 77) * 3) - 22) != $check) {
+            Log::warning('TD save Check not passed.');
+            return '{}';
+        }
+
+        $tdStatistics                  = new TdStats();
+        $tdStatistics->waves           = $waves;
+        $tdStatistics->ip              = $_SERVER['REMOTE_ADDR'];
+        $tdStatistics->laravel_session = md5($request->cookie('laravel_session'));
+        $tdStatistics->name            = $name;
+
+        $tdStatistics->save();
+        return '{}';
     }
     
     /**
@@ -120,9 +153,13 @@ class TdController extends BaseController
 
     protected function generateWave($number, &$waves, &$monsters, &$towers)
     {
+        $newTowerName = \Config::get('td.towersAccess' . $number);
+        if ($newTowerName) {
+            $towers[$newTowerName] = \Config::get('td.towers.' . $newTowerName);
+        }
         $skipTurns = 12;
         $fast = false;
-        $HP = ceil(($number * $number / 5) - 30);
+        $HP = ceil(($number * $number / 10) - $number);
         $HP = max($HP, 6);
         $reward = ceil($number / 2);
         $color = '#FF8360';
