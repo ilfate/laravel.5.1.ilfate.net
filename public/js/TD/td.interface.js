@@ -40,8 +40,12 @@ $(document).ready(function() {
             $('.how-to-play-button').on('click', function () {
                 that.howToPlay();
             });
+            $('.open-stats-button').on('click', function () {
+                that.openStats();
+            });
             $('.test-button').on('click', function () {
-                that.game.wave = 6;
+                that.game.wave = 13;
+                $('.start-overlay .start').hide();
                 that.game.stopGame();
             });
             this.textMargin = (this.game.map.fieldSize + this.game.map.outerLines) 
@@ -275,6 +279,30 @@ $(document).ready(function() {
             }
             overlay.slideDown(time);
             $('.wave-status, #td-start, .selection-zone, .pause-button').animate({opacity:0}, time);
+        };
+        
+        this.openStats = function () {
+            var that = this;
+            Ajax.json('/td/getStats', {
+                callBack : function(data){ that.addStatsToOverlay(data); }
+            });
+                        
+        };
+
+        this.addStatsToOverlay = function (data) {
+            var that = this;
+            var template = $('#stats-overlay').html();
+            Mustache.parse(template);
+            var rendered = Mustache.render(template, {stats:data.stats});
+            var obj = $(rendered);
+            $('.content-container').prepend(obj);
+            $('.stats-overlay .close-button').on('click', function() {
+                that.closeStats();
+            });
+        };
+
+        this.closeStats = function () {
+            $('.stats-overlay').slideUp(function(){$('.stats-overlay').remove();})
         };
 
         this.speedUp = function () {

@@ -28,9 +28,9 @@ class TdStats extends Model
 	 */
 	public function getTopLogs()
 	{
-		$topLogs = DB::table('td_statistic')
-			->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
-			->orderBy('turnsSurvived', 'desc')
+		$topLogs = DB::table('td_stats')
+			->select(DB::raw('name, ip, waves'))
+			->orderBy('waves', 'desc')
 			->limit(10)
 			->get();
 		return $topLogs;
@@ -41,7 +41,7 @@ class TdStats extends Model
 	 */
 	public function getTotalGames()
 	{
-		$totalGames = DB::table('td_statistic')
+		$totalGames = DB::table('td_stats')
 			->count();
 		return $totalGames;
 	}
@@ -49,10 +49,10 @@ class TdStats extends Model
 	/**
 	 * @return mixed
 	 */
-	public function getAverageTurns()
+	public function getAverageWaves()
 	{
-		$avrTurns = DB::table('td_statistic')
-			->avg('turnsSurvived');
+		$avrTurns = DB::table('td_stats')
+			->avg('waves');
 		return $avrTurns;
 	}
 
@@ -61,7 +61,7 @@ class TdStats extends Model
 	 */
 	public function getPlayersNumber()
 	{
-		$users = DB::table('td_statistic')
+		$users = DB::table('td_stats')
 			->select(DB::raw('count(DISTINCT CONCAT(COALESCE(name,\'empty\'),ip)) as count'))
 			->pluck('count');
 		return $users;
@@ -74,9 +74,9 @@ class TdStats extends Model
 	{
 		$from = Carbon::now()->addHours(-24)->format('Y-m-d H:i:s');
 		$to = Carbon::now()->addHours(2)->format('Y-m-d H:i:s');
-		$todayLogs = DB::table('td_statistic')
-			->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
-			->orderBy('turnsSurvived', 'desc')
+		$todayLogs = DB::table('td_stats')
+			->select(DB::raw('name, ip, waves'))
+			->orderBy('waves', 'desc')
 			->limit(10)
 			->whereBetween('created_at', [$from, $to])
 			->get();
@@ -90,14 +90,24 @@ class TdStats extends Model
 	 */
 	public function getUserStatsByName($name)
 	{
-		$userLogs = DB::table('td_statistic')
-			->select(DB::raw('name, ip, turnsSurvived, pointsEarned, unitsKilled'))
+		$userLogs = DB::table('td_stats')
+			->select(DB::raw('name, ip, waves'))
 			->where('name', '=', $name)
-			->orderBy('turnsSurvived', 'desc')
+			->orderBy('waves', 'desc')
 			->limit(10)
 			->get();
 		return $userLogs;
 	}
 
+	public static function getMyStandingForToday($waves)
+	{
+		$from = Carbon::now()->addHours(-24)->format('Y-m-d H:i:s');
+		$number = DB::table('td_stats')
+			->select(DB::raw('count(1) as num'))
+			->where('created_at', '>', $from)
+			->where('waves', '>', $waves)
+			->value('num');
+		return $number;
+	}
 
 }

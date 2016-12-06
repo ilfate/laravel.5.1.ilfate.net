@@ -19,6 +19,10 @@
             <div class="button-section">
                 <button class="btn td-button how-to-play-button" >How to play</button>
             </div>
+            <div class="clearfix"></div>
+            <div class="button-section">
+                <button class="btn td-button open-stats-button" >Leaderboards</button>
+            </div>
         </div>
         <div class="hambuger-button">
             <i class="fa fa-bars" aria-hidden="true"></i>
@@ -52,25 +56,45 @@
         <div class="button-container">
             <button class="how-to-play-button">How to play</button>
         </div>
-        <div class="button-container">
-            <button class="test-button">Test</button>
-        </div>
+        {{--<div class="button-container">--}}
+            {{--<button class="test-button">Test</button>--}}
+        {{--</div>--}}
     </div>
     <div class="end" style="display: none">
         <div class="good">
             <div class="page-header">
-                <h1>You survived <span class="waves-survived-number"></span> waves!<small> Want to improve?</small></h1>
+                <h1>You survived <span class="waves-survived-number"></span> waves!<small> try better?</small></h1>
             </div>
         </div>
-        <div class="bad">
+        <div class="bad" style="display: none;">
             <div class="page-header">
                 <h1>You did good. <small>But you can do better!</small></h1>
             </div>
             <p>Want to learn how to play? <a class="how-to-play-button">Click here</a></p>
         </div>
+        <br>
+        <div class="good stats" style="display:none;">
+            <p>That places you are on the <span class="your-standing-number"></span> position today!
+                <br><a class="open-stats-button">See more stats</a></p>
+        </div>
+        @if(empty($userName))
+            <form id="TDNameForm" class="ajax result-text" method="post" action="{{ action('TdController@saveName') }}">
+                <input type="text" name="name" />
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <input type="hidden" name="checkKey" id="checkKey" value="{{ str_random(10) }}" />
+
+                <button class="btn btn-primary" type="submit">Save my name</button>
+            </form>
+        @endif
+        <br>
         <p>
-            Click <a class="restart-button">HERE</a> to try again!
+            Click <a class="restart-button">HERE</a> to try again! Or try my other <a href="/games">GAMES</a>
         </p>
+
+        <div class="bottom-button-container">
+            <button style="float:left;" class="btn btn-warning back-to-games-list-button">Other games</button>
+            <button style="float:right;" class="btn btn-success restart-button">Restart</button>
+        </div>
     </div>
 </div>
 <div style="opacity: 0;" id="td-start"></div>
@@ -95,5 +119,7 @@
         </div>
     </div>
 </div>
+
+    <input type="hidden" id="userName" value="{{$userName}}" />
 
 @stop

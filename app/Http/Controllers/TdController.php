@@ -21,6 +21,8 @@ class TdController extends BaseController
 {
     const PAGE_NAME = 'td';
 
+    const CACHE_KEY_STATS_TOTAL = 'TD_stats';
+
     const SOME_STRING = 'dfgdfgwkef';
     const SOME_STRING2 = 'sdfwe23f';
 
@@ -31,15 +33,17 @@ class TdController extends BaseController
     const CACHE_SAVED_MINUTES = 540;
 
     protected $isLogged = false;
-
-
+    /**
+     * @var TdStats
+     */
+    protected $tdStats;
 
     /**
-     * @param Mage $mageModel
+     * @param TdStats $tdStats
      */
-    public function __construct(Mage $mageModel)
+    public function __construct(TdStats $tdStats)
     {
-        $this->mageModel = $mageModel;
+        $this->tdStats = $tdStats;
     }
 
     /**
@@ -56,6 +60,7 @@ class TdController extends BaseController
 
         $name = $request->session()->get('userName', null);
         
+        view()->share('userName', $name);
         view()->share('page_title', 'TD');
         view()->share('restart', $request->get('restart', false));
         //view()->share('facebookEnabled', true);
@@ -99,7 +104,67 @@ class TdController extends BaseController
         $tdStatistics->name            = $name;
 
         $tdStatistics->save();
-        return '{}';
+
+        $stats = TdStats::getMyStandingForToday($waves);
+        
+        return json_encode(['stats' => $stats + 1]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function saveName(Request $request)
+    {
+        $name            = $request->get('name');
+        $laravel_session = md5($request->cookie('laravel_session'));
+
+        $request->session()->put('userName', $name);
+
+
+        $stats = TdStats::where('laravel_session', '=', $laravel_session)->orderBy('created_at', 'desc')->firstOrFail();
+        if (!$stats) {
+            Log::warning('No user found to update name. (name=' . $name . ')');
+            abort(404);
+        }
+        $stats->name = $name;
+        $stats->save();
+        return '{"actions": ["$(\'#TDNameForm\').html(\'Your name is saved\')"]}';
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function getStats(Request $request)
+    {
+        $name            = $request->get('name');
+        $laravel_session = md5($request->cookie('laravel_session'));
+
+        $cachedStats = Cache::get(self::CACHE_KEY_STATS_TOTAL, null);
+
+        if (!$cachedStats) {
+            $topLogs    = $this->tdStats->getTopLogs();
+            $totalGames = $this->tdStats->getTotalGames();
+            $avrTurns   = $this->tdStats->getAverageWaves();
+            $users      = $this->tdStats->getPlayersNumber();
+            $todayLogs  = $this->tdStats->getTodayLogs();
+            $expiresAt  = Carbon::now()->addMinutes(4);
+            $cachedStats = [
+                'topLogs'    => $topLogs,
+                'totalGames' => $totalGames,
+                'avrTurns'   => $avrTurns,
+                'users'      => $users,
+                'todayLogs'  => $todayLogs
+            ];
+            Cache::put(self::CACHE_KEY_STATS_TOTAL, $cachedStats, $expiresAt);
+        }
+
+        return json_encode([
+            'stats' => $cachedStats
+        ]);
     }
     
     /**
@@ -153,8 +218,9 @@ class TdController extends BaseController
 
     protected function generateWave($number, &$waves, &$monsters, &$towers)
     {
-        $newTowerName = \Config::get('td.towersAccess' . $number);
-        if ($newTowerName) {
+        $newTowerArray = \Config::get('td.towersAccess' . $number);
+        if ($newTowerArray) {
+            $newTowerName = $newTowerArray[array_rand($newTowerArray)];
             $towers[$newTowerName] = \Config::get('td.towers.' . $newTowerName);
         }
         $skipTurns = 12;
@@ -166,28 +232,33 @@ class TdController extends BaseController
         $min = 3;
         $max = 3;
         $turns = 3;
-        if (rand(1, 4) == 4) {
-            $HP = ceil(1.6 * $HP);
-            $color = '#711F1F';
-            $reward *= 6;
-            $min = 1;
-            $max = 1;
-            $turns = 1;
-            $name = 'Boss ' . $HP . 'HP';
-        } else if (rand(1, 3) == 3) {
-            $fast = true;
-            $name = 'Fast ' . $HP . 'HP';
-        } else if (rand(1, 2) == 2) {
-            $diagonal = true;
-            $name = 'Diagonal ' . $HP . 'HP';
-        } else {
-            $name = $HP . 'HP';
-            $min = 4;
-            $max = 5;
-            $turns = 5;
-            $skipTurns = 25;
-            $HP = ceil(1.1 * $HP);
-            $reward = ceil($reward / 2);
+        switch($number % 4) {
+            case 0:
+                $name = $HP . 'HP';
+                $min = 4;
+                $max = 5;
+                $turns = 5;
+                $skipTurns = 25;
+                $HP = ceil(1.1 * $HP);
+                $reward = ceil($reward / 2);
+                break;
+            case 1:
+                $diagonal = true;
+                $name = 'Diagonal ' . $HP . 'HP';
+                break;
+            case 2:
+                $fast = true;
+                $name = 'Fast ' . $HP . 'HP';
+                break;
+            case 3:
+                $HP = ceil(1.6 * $HP);
+                $color = '#711F1F';
+                $reward *= 6;
+                $min = 1;
+                $max = 1;
+                $turns = 1;
+                $name = 'Boss ' . $HP . 'HP';
+                break;
         }
 
         $wave = [

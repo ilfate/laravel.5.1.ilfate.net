@@ -42,6 +42,7 @@ return array(
     'towersAccess' => [
         15 => ['Tbasic2'],
         18 => ['Tbasic3'],
+        20 => ['TDSniper1', 'TDSniper2', 'TDSniper3', 'TDSniper4'],
     ],
     'towers' => [
         'TBaseBlue' => ['color' => $color['blue'], 'price'=> 12, 'damage' => 1, 'targets'=> 1,

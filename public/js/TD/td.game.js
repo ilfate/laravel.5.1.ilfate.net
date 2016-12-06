@@ -30,12 +30,14 @@ $(document).ready(function() {
         };
         this.towersConfig = {
             'Tbasic' : {'image':'Tbasic', 'color':this.color.green, 'price': 10, 'damage':1, 'attackPattern':[[-1,0], [0,-1], [1,0], [0,1]]},
+            // 'Tbasic2' : {'image':'TBaseBlue', 'color':this.color.blue, 'price': 10, 'damage':1, 'attackPattern':[[-1,1],[-1,-1],[1,1],[1,-1],[-1,0], [0,-1], [1,0], [0,1]]},
             // 'TSniper1' : {'image':'TSniper', 'rotate': 1, 'color':this.color.green, 'price': 1, 'damage':1, 'attackPattern':[[1,-1],[1,0],[1,1]]},
             // 'TSniper2' : {'image':'TSniper', 'rotate': 2, 'color':this.color.green, 'price': 1, 'damage':1, 'attackPattern':[[1,-1],[1,0],[1,1]]},
-            'TDSniper1' : {'image' : 'TDSniper','color' : this.color.green, 'price': 1, 'damage' : 13, 'cooldown' : 1, 'attackPattern':[[1,-1]]},
+            // 'TDSniper1' : {'image' : 'TDSniper','color' : this.color.green, 'price': 1, 'damage' : 13, 'cooldown' : 1, 'attackPattern':[[1,-1]]},
         };
         this.monsterConfig = {
             'r1' : {'health': 1, 'moneyAward': 2, 'color':this.color.red},
+            'r2' : {'health': 4, 'moneyAward': 2, 'color':this.color.red},
             'b1' : {'health': 3, 'moneyAward': 10, 'color':this.color.purple},
 
         };
@@ -53,7 +55,10 @@ $(document).ready(function() {
         this.turnsToSkip = 0;
         this.waveConfig = {
             1: {'name': '1HP', 'min': 2, 'max':2, 'types':['r1'], 'turns':5, 'skipTurns': 8},
-            2: {'name': 'Boss 3HP', 'min': 1, 'max':1, 'types':['b1'], 'turns':1, 'skipTurns': 8},
+            // 1: {'name': '1HP', 'min': 1, 'max':1, 'types':['r1'], 'turns':1, 'skipTurns': 8},
+            // 2: {'name': '1HP', 'min': 2, 'max':2, 'types':['r2'], 'turns':5, 'skipTurns': 12},
+            // 3: {'name': '1HP', 'min': 2, 'max':2, 'types':['r1'], 'turns':5, 'skipTurns': 8},
+            // 2: {'name': 'Boss 3HP', 'min': 1, 'max':1, 'types':['b1'], 'turns':1, 'skipTurns': 8},
         };
         
         this.init = function() {
@@ -285,6 +290,8 @@ $(document).ready(function() {
                     x = rand(0, this.map.lastCell);
                 }
             // }
+            // x = 14;
+            // y = 7;
             if (this.monsters[y] === undefined) {
                 this.monsters[y] = {};
             }
@@ -353,6 +360,9 @@ $(document).ready(function() {
         };
 
         this.saveGame = function() {
+            if (!this.gameStarted) {
+                return;
+            }
             var wasRunning = this.gameRun;
             this.gameRun = false;
 
@@ -434,7 +444,7 @@ $(document).ready(function() {
             this.gameEnded = true;
             Ajax.json('/td/saveStats', {
                     data: 'wave=' + this.wave + '&check=' + (((this.wave + 77) * 3) - 22) ,
-                // callBack : function(data){ }
+                callBack : function(data){ $('.your-standing-number').html(data.stats); $('.end .good.stats').fadeIn(); }
             });
             this.interface.showEndScreen();
         };

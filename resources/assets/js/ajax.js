@@ -103,8 +103,9 @@ Ajax = function() {
           var args = [];
         }
         var handler = eval("(" + data.actions[key] + ")");
-          info(handler);
-        handler.call(this, args);
+        if (handler.call) {
+          handler.call(this, args);
+        }
       }
     }
     if(n_cb >= 0)

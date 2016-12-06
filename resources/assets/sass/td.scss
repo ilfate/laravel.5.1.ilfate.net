@@ -32,7 +32,7 @@ body.td {
         -ms-user-select: none;
         user-select: none;
     }
-    .start-overlay, .how-to-play-overlay {
+    .start-overlay, .how-to-play-overlay, .stats-overlay {
         position: absolute;
         width:546px;
         height:546px;
@@ -64,13 +64,30 @@ body.td {
         }
         .end {
             color:$mage-colors-clay;
+            .good.stats {
+                min-height: 28px;
+            }
+            input {
+                color:$mage-colors-brown;
+            }
+            a:hover {
+                color: $mage-colors-red-bright;
+            }
+            .bottom-button-container {
+                position: absolute;
+                bottom: 5%;
+                width: 90%;
+                margin-left:5%;
+            }
         }
     }
-    .how-to-play-overlay {
+    .how-to-play-overlay, .stats-overlay {
         z-index: 80;
         margin-top: 38px;
         background-color: $mage-colors-clay;
         color:$mage-colors-blue;
+        height:auto;
+        min-height: 546px;
         .close-button {
             float: right;
             margin: 5px 15px 0 0;
@@ -80,6 +97,25 @@ body.td {
             }
         }
     }
+    .stats-overlay {
+        font-size: 14px;
+        .panel-default>.panel-heading, .panel {
+            background-color: $mage-colors-blue;
+            color:$mage-colors-clay;
+            .panel-heading {
+                font-weight: bold;
+                font-size: 18px;
+            }
+        }
+        table, .panel-footer {
+            background-color: $mage-colors-grey;
+            color:$mage-colors-clay;
+            th {
+                text-align: center;
+            }
+        }
+    }
+
 
     .menu {
         width:546px;
