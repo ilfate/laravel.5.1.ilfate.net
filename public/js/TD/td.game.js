@@ -55,10 +55,10 @@ $(document).ready(function() {
         this.turnsToSkip = 0;
         this.waveConfig = {
             1: {'name': '1HP', 'min': 2, 'max':2, 'types':['r1'], 'turns':5, 'skipTurns': 8},
+            2: {'name': 'Boss 3HP', 'min': 1, 'max':1, 'types':['b1'], 'turns':1, 'skipTurns': 8},
             // 1: {'name': '1HP', 'min': 1, 'max':1, 'types':['r1'], 'turns':1, 'skipTurns': 8},
             // 2: {'name': '1HP', 'min': 2, 'max':2, 'types':['r2'], 'turns':5, 'skipTurns': 12},
             // 3: {'name': '1HP', 'min': 2, 'max':2, 'types':['r1'], 'turns':5, 'skipTurns': 8},
-            // 2: {'name': 'Boss 3HP', 'min': 1, 'max':1, 'types':['b1'], 'turns':1, 'skipTurns': 8},
         };
         
         this.init = function() {
