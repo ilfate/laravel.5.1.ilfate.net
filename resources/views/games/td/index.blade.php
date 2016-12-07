@@ -56,9 +56,9 @@
         <div class="button-container">
             <button class="how-to-play-button">How to play</button>
         </div>
-        {{--<div class="button-container">--}}
-            {{--<button class="test-button">Test</button>--}}
-        {{--</div>--}}
+        <div class="button-container">
+            <button class="test-button">Test</button>
+        </div>
     </div>
     <div class="end" style="display: none">
         <div class="good">

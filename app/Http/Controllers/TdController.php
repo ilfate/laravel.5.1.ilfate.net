@@ -218,14 +218,14 @@ class TdController extends BaseController
 
     protected function generateWave($number, &$waves, &$monsters, &$towers)
     {
-        $newTowerArray = \Config::get('td.towersAccess' . $number);
+        $newTowerArray = \Config::get('td.towersAccess.' . $number);
         if ($newTowerArray) {
             $newTowerName = $newTowerArray[array_rand($newTowerArray)];
             $towers[$newTowerName] = \Config::get('td.towers.' . $newTowerName);
         }
         $skipTurns = 12;
         $fast = false;
-        $HP = ceil(($number * $number / 10) - $number);
+        $HP = ceil(($number * $number / 4) - ($number * 3) + 12);
         $HP = max($HP, 6);
         $reward = ceil($number / 2);
         $color = '#FF8360';
@@ -269,6 +269,9 @@ class TdController extends BaseController
             'turns' => $turns,
             'skipTurns' => $skipTurns
         ];
+        if (!empty($newTowerName)) {
+            $wave['newTower'] = $newTowerName;
+        }
         $monster = [
             'health'=> $HP,
             'moneyAward'=> $reward,

@@ -100,7 +100,11 @@ $(document).ready(function() {
                         //rotation:-90
                     }).color(tower.color);
                 tower.e.origin(tower.game.towerSize / 2, tower.game.towerSize / 2);
-
+                $(tower.e._element).on('click', function () {
+                    var y = tower.y;
+                    var x = tower.x;
+                   tower.click(tower.game.map.field[y][x]);
+                });
                 tower.e.tween({
                     x: tower.x * tower.margin + tower.diff,
                     y: tower.y * tower.margin + tower.diff,
@@ -111,7 +115,7 @@ $(document).ready(function() {
             }, 250);
         };
 
-        this.click = function(cellEl, cell) {
+        this.click = function(cell) {
             var towerList = $('.towers-list');
             if (cell.e.has('ActiveCell') && towerList.hasClass('upgrade')) {
                 this.game.interface.hideTowerUpgrade();

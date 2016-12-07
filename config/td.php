@@ -20,29 +20,31 @@ return array(
         3 => ['name' => '2HP', 'min' => 2, 'max' => 2, 'types' => ['r2'], 'turns' => 5, 'skipTurns' => 5, 'newTower' => 'TBaseBlue'],
         4 => ['name' => '2HP', 'min' => 2, 'max' => 2, 'types' => ['r2'], 'turns' => 5, 'skipTurns' => 8],
         5 => ['name' => 'Diagonal 2HP', 'min' => 2, 'max' => 2, 'types' => ['d1'], 'turns' => 2, 'skipTurns' => 5],
-        6 => ['name' => 'Fast 1HP', 'min' => 2, 'max' => 2, 'types' => ['f1'], 'turns' => 4, 'skipTurns' => 4],
-        7 => ['name' => 'Boss 6HP', 'min' => 1, 'max' => 1, 'types' => ['b2'], 'turns' => 1, 'skipTurns' => 10],
-        8 => ['name' => '4HP', 'min' => 3, 'max' => 4, 'types' => ['r3'], 'turns' => 5, 'skipTurns' => 15,
+        6 => ['name' => 'Fast 2HP', 'min' => 2, 'max' => 2, 'types' => ['f1'], 'turns' => 4, 'skipTurns' => 4],
+        7 => ['name' => 'Boss 10HP', 'min' => 1, 'max' => 1, 'types' => ['b2'], 'turns' => 1, 'skipTurns' => 10],
+        8 => ['name' => '5HP', 'min' => 3, 'max' => 4, 'types' => ['r3'], 'turns' => 5, 'skipTurns' => 15,
               'newTower' => ['TSniper1', 'TSniper2', 'TSniper3', 'TSniper4', 'TSniper5', 'TSniper6', 'TSniper7', 'TSniper8']],
-        9 => ['name' => 'Diagonal 5HP', 'min' => 3, 'max' => 3, 'types' => ['d2'], 'turns' => 3, 'skipTurns' => 10],
-        10 => ['name' => 'Fast 5HP', 'min' => 4, 'max' => 4, 'types' => ['f2'], 'turns' => 3, 'skipTurns' => 10, 'newTower' => 'TBlueBolder'],
-        11 => ['name' => 'Boss 12HP', 'min' => 1, 'max' => 1, 'types' => ['b3'], 'turns' => 1, 'skipTurns' => 16, 'newTower' => 'TBlueCanon'],
+        9 => ['name' => 'Diagonal 6HP', 'min' => 3, 'max' => 3, 'types' => ['d2'], 'turns' => 3, 'skipTurns' => 10],
+        10 => ['name' => 'Fast 7HP', 'min' => 4, 'max' => 4, 'types' => ['f2'], 'turns' => 3, 'skipTurns' => 10, 'newTower' => 'TBlueBolder'],
+        11 => ['name' => 'Boss 25HP', 'min' => 1, 'max' => 1, 'types' => ['b3'], 'turns' => 1, 'skipTurns' => 16, 'newTower' => 'TBlueCanon'],
     ],
     'monsters' => [
         'b1' => ['health'=> 3, 'moneyAward'=> 10, 'color'=> $color['purple']],
-        'b2' => ['health'=> 6, 'moneyAward'=> 15, 'color'=> $color['purple']],
-        'b3' => ['health'=> 12, 'moneyAward'=> 25, 'color'=> $color['purple']],
+        'b2' => ['health'=> 10, 'moneyAward'=> 15, 'color'=> $color['purple']],
+        'b3' => ['health'=> 25, 'moneyAward'=> 30, 'color'=> $color['purple']],
         'r2' => ['health'=> 2, 'moneyAward'=> 2, 'color'=> $color['red']],
-        'r3' => ['health'=> 4, 'moneyAward'=> 2, 'color'=> $color['red']],
+        'r3' => ['health'=> 5, 'moneyAward'=> 2, 'color'=> $color['red']],
         'd1' => ['health'=> 2, 'moneyAward'=> 3, 'color'=> $color['bordo'], 'diagonal' => true],
-        'd2' => ['health'=> 5, 'moneyAward'=> 5, 'color'=> $color['bordo'], 'diagonal' => true],
-        'f1' => ['health'=> 1, 'moneyAward'=> 2, 'color'=> $color['purple'], 'fast' => true],
-        'f2' => ['health'=> 5, 'moneyAward'=> 6, 'color'=> $color['purple'], 'fast' => true],
+        'd2' => ['health'=> 6, 'moneyAward'=> 5, 'color'=> $color['bordo'], 'diagonal' => true],
+        'f1' => ['health'=> 2, 'moneyAward'=> 2, 'color'=> $color['purple'], 'fast' => true],
+        'f2' => ['health'=> 7, 'moneyAward'=> 6, 'color'=> $color['purple'], 'fast' => true],
     ],
     'towersAccess' => [
         15 => ['Tbasic2'],
         18 => ['Tbasic3'],
         20 => ['TDSniper1', 'TDSniper2', 'TDSniper3', 'TDSniper4'],
+        23 => ['TRound'],
+        27 => ['TTor1','TTor2','TTor3','TTor4'],
     ],
     'towers' => [
         'TBaseBlue' => ['color' => $color['blue'], 'price'=> 12, 'damage' => 1, 'targets'=> 1,
@@ -65,6 +67,15 @@ return array(
 
         'Tdiagonal' => ['color' => $color['green'], 'price'=> 10, 'damage' => 1, 'attackPattern'=>[
             [-1,1], [-1,-1], [1,1], [1,-1]
+        ]],
+
+        'TTor1' => ['image' => 'TTor','color' => $color['green'], 'price'=> 200, 'damage' => 18, 'attackPattern'=>[[-1,-1], [0,-1], [1,0]]],
+        'TTor2' => ['image' => 'TTor','color' => $color['green'], 'price'=> 200, 'damage' => 18, 'attackPattern'=>[[1,-1],[1,0],[1,1]], 'rotate' => 1],
+        'TTor3' => ['image' => 'TTor','color' => $color['green'], 'price'=> 200, 'damage' => 18, 'attackPattern'=>[[1,1],[0,1],[-1,1]], 'rotate' => 2],
+        'TTor4' => ['image' => 'TTor','color' => $color['green'], 'price'=> 200, 'damage' => 18, 'attackPattern'=>[[-1,1],[-1,0],[-1,-1]], 'rotate' => 3],
+
+        'TRound' => ['color' => $color['green'], 'price'=> 120, 'damage' => 3, 'attackPattern'=>[
+            [-1,1], [-1,-1], [1,1], [1,-1], [-1, 0], [0, -1], [1, 0], [0, 1], [-2,0], [0,-2], [2,0], [0,2]
         ]],
         'Tbasic2' => ['color' => $color['green'], 'price'=> 40, 'damage' => 3, 'attackPattern'=>[
             [-1,0], [0,-1], [0,1], [1,0]

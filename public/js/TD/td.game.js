@@ -25,6 +25,7 @@ $(document).ready(function() {
             'yellow': '#F0A830',
             'white' : '#ffffff',
             'purple': '#c700d6',
+            'bordo': '#711F1F',
             'gold'  : '#F0A830',
             'orange': '#F07818',
         };
@@ -37,7 +38,7 @@ $(document).ready(function() {
         };
         this.monsterConfig = {
             'r1' : {'health': 1, 'moneyAward': 2, 'color':this.color.red},
-            'r2' : {'health': 4, 'moneyAward': 2, 'color':this.color.red},
+            // 'r2' : {'health': 4, 'moneyAward': 2, 'color':this.color.red},
             'b1' : {'health': 3, 'moneyAward': 10, 'color':this.color.purple},
 
         };
@@ -83,7 +84,7 @@ $(document).ready(function() {
             this.isLocalDevelopment = $('#isLocalDevelopment').length > 0;
             Crafty.sprite(24, "images/game/td/towers.png", {
                 Tbasic:[0,0], Tdiagonal:[1,0], TSniper:[2,0], Tfork:[3,0], Thorse:[4,0], Tbasic3:[5,0], TDSniper:[6,0],
-                TBaseBlue:[3,1], TBlueBolder:[4,1], TBlueCanon:[5,1], TBasic2:[7,1],
+                TRound:[0,1], TTor:[1,1], TBaseBlue:[3,1], TBlueBolder:[4,1], TBlueCanon:[5,1], TBasic2:[7,1],
             });
             this.animations.initSVG();
             var maxGameSize = 546;
@@ -359,6 +360,9 @@ $(document).ready(function() {
             var tower = this.towers[y][x];
             tower.destroy();
             activeCell.e.color(this.color.brown);
+            activeCell.e.removeComponent('ActiveCell');
+            this.interface.activeCell = false;
+            this.interface.hideTowerUpgrade();
         };
         this.setMonster = function(monster, x, y) {
             if (this.monsters[y] === undefined) {

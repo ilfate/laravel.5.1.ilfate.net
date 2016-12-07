@@ -48,9 +48,9 @@ $(document).ready(function() {
                 that.game.destroyTower();
             });
             $('.test-button').on('click', function () {
-                that.game.wave = 13;
-                $('.start-overlay .start').hide();
-                that.game.stopGame();
+                that.game.wave = 14;
+                that.game.startGame();
+                that.game.loadNextWave();
             });
             this.textMargin = (this.game.map.fieldSize + this.game.map.outerLines) 
                 / 2 * (this.game.map.cellSize + this.game.map.cellMargin);

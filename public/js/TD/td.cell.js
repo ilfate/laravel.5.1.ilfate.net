@@ -17,14 +17,14 @@ $(document).ready(function() {
 
         this.setUp = function() {
             var that = this;
-            this.e.bind('Click', function () {
+            $(this.e._element).on('click', function() {
                 that.click($(this));
-            });
+            })
         };
 
         this.click = function(el) {
             if (this.getTower()) {
-                this.getTower().click(el, this);
+                this.getTower().click(this);
                 return;
             }
             if (this.isBuildable) {
