@@ -65,7 +65,7 @@ class TdController extends BaseController
         view()->share('restart', $request->get('restart', false));
         //view()->share('facebookEnabled', true);
         view()->share('bodyClass', 'td');
-        view()->share('mobileFriendly', false);
+        view()->share('mobileFriendly', true);
         if (env('APP_DEBUG') === true) {
             view()->share('localDevelopment', true);
         }
@@ -251,7 +251,7 @@ class TdController extends BaseController
                 $name = 'Fast ' . $HP . 'HP';
                 break;
             case 3:
-                $HP = ceil(1.6 * $HP);
+                $HP = ceil(1.8 * $HP);
                 $color = '#711F1F';
                 $reward *= 6;
                 $min = 1;

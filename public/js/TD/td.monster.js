@@ -24,14 +24,13 @@ $(document).ready(function() {
         this.health = 5;
         this.maxHealth = 5;
         this.moneyAward = 1;
-        this.monsterSize = 24;
         
         this.center = [];
         this.debug=false;
         this.damageIndicator = false;
 
         this.margin = this.game.map.cellSize + this.game.map.cellMargin;
-        this.diff = (this.game.map.cellSize - this.monsterSize) / 2 + this.game.map.cellMargin;
+        this.diff = (this.game.map.cellSize - this.game.monsterSize) / 2 + this.game.map.cellMargin;
 
         //this.cell.setPassible(false);
         //this.game.map.setMonster(this.x, this.y, false);
@@ -65,8 +64,8 @@ $(document).ready(function() {
             this.e = Crafty.e('2D, DOM, Color, Tween')
                 .attr({x: this.x * this.margin + this.diff,
                     y: this.y * this.margin + this.diff,
-                    w: this.monsterSize,
-                    h: this.monsterSize})
+                    w: this.game.monsterSize,
+                    h: this.game.monsterSize})
                 .color(this.color);
         };
 
@@ -168,7 +167,7 @@ $(document).ready(function() {
                 this.death();
             } else if (!this.damageIndicator) {
                 var size = this.getDamageIndicatorSize();
-                var diff = (this.monsterSize - size) / 2;
+                var diff = (this.game.monsterSize - size) / 2;
                 this.damageIndicator = Crafty.e('2D, DOM, Color, Tween, DamageIndicator')
                     .attr({
                         x: this.x * this.margin + this.diff + diff,
@@ -179,7 +178,7 @@ $(document).ready(function() {
                 this.e.attach(this.damageIndicator);
             } else {
                 var size = this.getDamageIndicatorSize();
-                var diff = (this.monsterSize - size) / 2;
+                var diff = (this.game.monsterSize - size) / 2;
                 this.damageIndicator.tween({
                     x: this.x * this.margin + this.diff + diff,
                     y: this.y * this.margin + this.diff + diff,
@@ -196,7 +195,7 @@ $(document).ready(function() {
 
         this.getDamageIndicatorSize = function() {
             var persent = 1 - (this.health / this.maxHealth);
-            return Math.floor(this.monsterSize * persent);
+            return Math.floor(this.game.monsterSize * persent);
         };
 
         this.attackBase = function() {

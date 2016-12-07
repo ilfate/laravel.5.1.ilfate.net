@@ -14,6 +14,7 @@ $(document).ready(function() {
         this.selectedTowerType = 'Tbasic';
         this.moneyE = {};
         this.gamePausedByHowToPlay = false;
+        this.moneyAnimationRuning = false;
 
 
         this.init = function() {
@@ -42,6 +43,9 @@ $(document).ready(function() {
             });
             $('.open-stats-button').on('click', function () {
                 that.openStats();
+            });
+            $('.destroy-tower-button').on('click', function () {
+                that.game.destroyTower();
             });
             $('.test-button').on('click', function () {
                 that.game.wave = 13;
@@ -123,6 +127,23 @@ $(document).ready(function() {
                 weight: 'bold',
                 'lineHeight': this.game.map.cellSize * 2 + 'px'
             });
+        };
+
+        this.moneyBlink = function() {
+            if (this.moneyAnimationRuning) return;
+            this.moneyAnimationRuning = true;
+            var el = $(this.moneyE._element);
+            var that = this;
+            el.animate({
+                color: this.game.color.red
+            }, {duration:100, complete:function () {
+                el.animate({
+                    color: that.game.color.brown
+                }, {duration:450, complete:function () {
+                    that.moneyAnimationRuning = false;
+                }});
+            }});
+
         };
         
 

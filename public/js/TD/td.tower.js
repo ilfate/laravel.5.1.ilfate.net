@@ -12,7 +12,7 @@ $(document).ready(function() {
         this.type = '';
         this.x = x;
         this.y = y;
-        this.towerSize = 24;
+        
         this.price = 10;
         this.color = this.game.color.green;
         this.attackPattern = [
@@ -26,7 +26,7 @@ $(document).ready(function() {
         this.damage = 1;
         this.e = {};
         this.margin = this.game.map.cellSize + this.game.map.cellMargin;
-        this.diff = (this.game.map.cellSize - this.towerSize) / 2 + this.game.map.cellMargin;
+        this.diff = (this.game.map.cellSize - this.game.towerSize) / 2 + this.game.map.cellMargin;
 
         this.game.map.setTower(this.x, this.y, false);
         
@@ -99,13 +99,13 @@ $(document).ready(function() {
                         h: 0,
                         //rotation:-90
                     }).color(tower.color);
-                tower.e.origin(tower.towerSize / 2, tower.towerSize / 2);
+                tower.e.origin(tower.game.towerSize / 2, tower.game.towerSize / 2);
 
                 tower.e.tween({
                     x: tower.x * tower.margin + tower.diff,
                     y: tower.y * tower.margin + tower.diff,
-                    w: tower.towerSize,
-                    h: tower.towerSize,
+                    w: tower.game.towerSize,
+                    h: tower.game.towerSize,
                     rotation:angle
                 }, 150);
             }, 250);

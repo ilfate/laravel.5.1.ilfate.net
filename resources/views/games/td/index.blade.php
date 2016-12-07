@@ -100,8 +100,8 @@
 <div style="opacity: 0;" id="td-start"></div>
 <div class="selection-zone" style="opacity: 0;">
     <div class="upgrade-container">
+        <button class="badge destroy-tower-button">destroy</button>
         <span>Upgrade selected tower</span>
-        <button></button>
     </div>
     <div class="towers-list">
 

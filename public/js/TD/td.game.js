@@ -30,7 +30,7 @@ $(document).ready(function() {
         };
         this.towersConfig = {
             'Tbasic' : {'image':'Tbasic', 'color':this.color.green, 'price': 10, 'damage':1, 'attackPattern':[[-1,0], [0,-1], [1,0], [0,1]]},
-            // 'Tbasic2' : {'image':'TBaseBlue', 'color':this.color.blue, 'price': 10, 'damage':1, 'attackPattern':[[-1,1],[-1,-1],[1,1],[1,-1],[-1,0], [0,-1], [1,0], [0,1]]},
+            // 'Tbasic2' : {'image':'TBaseBlue', 'color':this.color.blue, 'price': 100, 'damage':1, 'attackPattern':[[-1,1],[-1,-1],[1,1],[1,-1],[-1,0], [0,-1], [1,0], [0,1]]},
             // 'TSniper1' : {'image':'TSniper', 'rotate': 1, 'color':this.color.green, 'price': 1, 'damage':1, 'attackPattern':[[1,-1],[1,0],[1,1]]},
             // 'TSniper2' : {'image':'TSniper', 'rotate': 2, 'color':this.color.green, 'price': 1, 'damage':1, 'attackPattern':[[1,-1],[1,0],[1,1]]},
             // 'TDSniper1' : {'image' : 'TDSniper','color' : this.color.green, 'price': 1, 'damage' : 13, 'cooldown' : 1, 'attackPattern':[[1,-1]]},
@@ -44,12 +44,15 @@ $(document).ready(function() {
         this.turnPause = 500;
         this.towerAttackPause = 250;
         this.moveTime = 200;
+        this.towerSize = 24;
+        this.monsterSize = 24;
         this.gameRun = true;
         this.running = true;
         this.gameStarted = false;
         this.isLocalDevelopment = false;
         this.loadedGame = false;
         this.gameEnded = false;
+        this.isMobile = false;
         this.wave = 1;
         this.waveTurn = 0;
         this.turnsToSkip = 0;
@@ -83,7 +86,16 @@ $(document).ready(function() {
                 TBaseBlue:[3,1], TBlueBolder:[4,1], TBlueCanon:[5,1], TBasic2:[7,1],
             });
             this.animations.initSVG();
-            Crafty.init(546,546, document.getElementById('td-start'));
+            var maxGameSize = 546;
+            var width = $(window).width();
+            if (width < maxGameSize) {
+                // oh this is a mobile... we are fucked
+                maxGameSize = width;
+                this.isMobile = true;
+                this.map.cellSize = Math.floor((maxGameSize / 16) - 2);
+                this.monsterSize = this.towerSize = Math.floor(this.map.cellSize / 4 * 3);
+            }
+            Crafty.init(maxGameSize,maxGameSize, document.getElementById('td-start'));
             this.map.init();
             this.loadGame();
             this.interface.init();
@@ -322,7 +334,8 @@ $(document).ready(function() {
             }
             var config = this.towersConfig[type];
             if (config.price > this.money) {
-                info('Not enough money');return false;
+                this.interface.moneyBlink();
+                return false;
             }
             if (this.monsters[y] === undefined) {
                 this.monsters[y] = {};
@@ -334,6 +347,18 @@ $(document).ready(function() {
                 return false;
             }
             return true;
+        };
+        this.destroyTower = function () {
+            var towerList = $('.towers-list');
+            if (!towerList.hasClass('upgrade')) {
+                return;
+            }
+            var activeCell = this.interface.activeCell;
+            var x = activeCell.x;
+            var y = activeCell.y;
+            var tower = this.towers[y][x];
+            tower.destroy();
+            activeCell.e.color(this.color.brown);
         };
         this.setMonster = function(monster, x, y) {
             if (this.monsters[y] === undefined) {
@@ -442,11 +467,17 @@ $(document).ready(function() {
 
         this.stopGame = function() {
             this.gameEnded = true;
-            Ajax.json('/td/saveStats', {
-                    data: 'wave=' + this.wave + '&check=' + (((this.wave + 77) * 3) - 22) ,
-                callBack : function(data){ $('.your-standing-number').html(data.stats); $('.end .good.stats').fadeIn(); }
-            });
-            this.interface.showEndScreen();
+            var that = this;
+            setTimeout(function () {
+                Ajax.json('/td/saveStats', {
+                    data: 'wave=' + that.wave + '&check=' + (((that.wave + 77) * 3) - 22) ,
+                    callBack : function(data) {
+                        $('.your-standing-number').html(data.stats);
+                        that.interface.showEndScreen();
+                        $('.end .good.stats').fadeIn();
+                    }
+                });
+            }, 1000);
         };
 
         this.deleteSavedGame = function() {
