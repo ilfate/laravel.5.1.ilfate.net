@@ -225,7 +225,7 @@ class TdController extends BaseController
         }
         $skipTurns = 12;
         $fast = false;
-        $HP = ceil(($number * $number / 4) - ($number * 3) + 12);
+        $HP = ceil(($number * $number / 6) - ($number * 2) + 14);
         $HP = max($HP, 6);
         $reward = ceil($number / 2);
         $color = '#FF8360';

@@ -127,37 +127,41 @@ body.td {
         max-width:546px;
         margin: 0 auto;
         .button-section {
+            line-height: 0.8rem;
             float:left;
             button {
-                padding: 0.3rem 0.4rem;
+                padding: 0.15rem 0.2rem;
+                font-size: 0.4rem;
             }
         }
         .wave-indicator {
-            padding: 0.3rem 0.4rem;
-            font-size: 0.7rem;
-            line-height: 1rem;
+            padding: 0.15rem 0.2rem;
+            font-size: 0.4rem;
+            line-height: 0.575rem;
             border: solid 0.15rem $mage-colors-clay;
+            display: block;
             float:right;
             color:$mage-colors-gold;
         }
         .hambuger-button {
-            position: absolute;
-            margin-left: -2rem;
-            padding: 0.15rem 0.25rem 0px 0.25rem;
+            line-height: 0rem;
+            float: left;
+            display: inline-block;
+            padding: 0.05rem 0.125rem 0.1rem 0.125rem;
             border: solid 0.15rem $mage-colors-blue;
             cursor: pointer;
             i {
                 color:$mage-colors-clay;
-                font-size: 1.2rem;
+                font-size: 0.7rem;
             }
         }
         .hidden-menu {
+            z-index: 90;
             position: absolute;
-            margin-left: -109px;
-            margin-top: 40px;
+            margin-top: 30px;
             display: none;
             .button-section {
-                float: right;
+                float: left;
             }
         }
     }
@@ -295,6 +299,42 @@ body.td {
                 margin-left:1rem;
                 font-size: 0.7rem;
                 color: $mage-colors-clay;
+            }
+        }
+    }
+    @media (min-width: $screen-md-min + rem) {
+        .menu {
+            .button-section {
+                button {
+                    padding: 0.3rem 0.4rem;
+                    font-size: 0.7rem;
+                }
+            }
+            .wave-indicator {
+                padding: 0.3rem 0.4rem;
+                font-size: 0.7rem;
+                line-height: 1rem;
+                float: right;
+            }
+            .hambuger-button {
+                line-height: 1.45rem;
+                float: none;
+                display: block;
+                position: absolute;
+                margin-left: -2rem;
+                padding: 0.15rem 0.25rem 0px 0.25rem;
+                border: solid 0.15rem $mage-colors-blue;
+                i {
+                    font-size: 1.2rem;
+                }
+            }
+            .hidden-menu {
+                margin-left: -109px;
+                margin-top: 40px;
+                display: none;
+                .button-section {
+                    float: right;
+                }
             }
         }
     }

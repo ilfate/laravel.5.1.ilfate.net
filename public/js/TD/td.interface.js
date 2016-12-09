@@ -193,6 +193,9 @@ $(document).ready(function() {
                 var height = Math.max((maxY + Math.abs(minY) + 1), 3) 
                     * (this.descriptionCellSize + this.descriptionCellMargin) + this.descriptionCellMargin;
                 obj.find('.price').css({'height':height, 'line-height': height+'px'});
+                if (config.price > 99) {
+                    obj.find('.price').css({'width':'2rem'});
+                }
                 for(var y = minY; y <= maxY; y ++) {
                     for(var x = minX; x <= maxX; x ++) {
                         if (!grid[y]) grid[y] = [];
@@ -327,8 +330,15 @@ $(document).ready(function() {
         };
 
         this.speedUp = function () {
-            this.game.turnPause = 250;
-            this.game.moveTime = 125;
+            if (this.game.turnPause == 500) {
+                this.game.turnPause = 250;
+                this.game.moveTime = 125;
+                $('.speed-up-button').html('Slow down');
+            } else {
+                this.game.turnPause = 500;
+                this.game.moveTime = 200;
+                $('.speed-up-button').html('Speed up');
+            }
         }
         
     };

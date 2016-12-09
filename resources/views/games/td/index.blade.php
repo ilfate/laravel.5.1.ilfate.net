@@ -34,14 +34,13 @@
             <button style="opacity: 0;" class="btn td-button pause-button" >Pause</button>
         </div>
 
-        <div class="wave-status" style="opacity: 0;">
-            <div class="wave-indicator next">
-                Next:<span class="next-description">Boss 3HP</span>
-            </div>
-            <div class="wave-indicator current">
-                Wave 1 (1HP)
-            </div>
+        <div style="opacity: 0;" class="wave-status wave-indicator next">
+            Next:<span class="next-description">Boss 3HP</span>
         </div>
+        <div style="opacity: 0;" class="wave-status wave-indicator current">
+            Wave 1 (1HP)
+        </div>
+
     </div>
     <div class="clearfix"></div>
 <div class="start-overlay">
@@ -56,9 +55,9 @@
         <div class="button-container">
             <button class="how-to-play-button">How to play</button>
         </div>
-        <div class="button-container">
-            <button class="test-button">Test</button>
-        </div>
+        {{--<div class="button-container">--}}
+            {{--<button class="test-button">Test</button>--}}
+        {{--</div>--}}
     </div>
     <div class="end" style="display: none">
         <div class="good">
