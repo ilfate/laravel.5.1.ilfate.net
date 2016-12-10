@@ -2172,10 +2172,12 @@ body.games-page {
           position: absolute;
           z-index: 50;
           right: 10%; }
-      body.games-page .games-page .landing-block.guess-series {
+      body.games-page .games-page .landing-block.td {
         background-color: #FCEBB6; }
-      body.games-page .games-page .landing-block.math-effect {
+      body.games-page .games-page .landing-block.guess-series {
         background-color: #F0A830; }
+      body.games-page .games-page .landing-block.math-effect {
+        background-color: #FCEBB6; }
         body.games-page .games-page .landing-block.math-effect i {
           padding-left: 1.5rem;
           margin-top: 0.5rem; }
@@ -7138,7 +7140,7 @@ body.td .how-to-play-overlay, body.td .stats-overlay {
     body.td .how-to-play-overlay .close-button:hover span, body.td .stats-overlay .close-button:hover span {
       color: #F07818; }
 body.td .how-to-play-overlay {
-  min-height: 1050px; }
+  min-height: 1100px; }
 body.td .stats-overlay {
   font-size: 0.7rem; }
   body.td .stats-overlay .panel-default > .panel-heading, body.td .stats-overlay .panel {

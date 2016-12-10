@@ -3,6 +3,12 @@
 @section('content')
 
 <div class="games-page">
+    <div class="landing-block td">
+        <a href="{{ action('TdController@index') }}" class="rounded_block_link" data-target=".main-content-well">
+            <i class="fa fa-th opacity-animation"></i>
+            <span class="text bounce">TD</span>
+        </a>
+    </div>
     <div class="landing-block spell-craft">
         <div class="demo-link">
             <a href="/Spellcraft/savedLog?log=battle-with-witch">Demo1</a>

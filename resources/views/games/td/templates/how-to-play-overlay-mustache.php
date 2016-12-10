@@ -7,9 +7,9 @@
           <h1>Some tips to play <small>and win the game</small></h1>
         </div>
         <p>
-            How to create towers: <br>
+            <strong>How to create towers:</strong> <br>
             <image src="images/game/td/createTower.gif" /><br>
-            How to change towers: <br>
+            <strong>How to change towers:</strong> <br>
             <image src="images/game/td/updateTower.gif" />
         </p>
     </div>
