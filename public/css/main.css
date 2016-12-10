@@ -7115,6 +7115,10 @@ body.td .start-overlay, body.td .how-to-play-overlay, body.td .stats-overlay {
         border: solid 0.2rem #F0A830; }
   body.td .start-overlay .end, body.td .how-to-play-overlay .end, body.td .stats-overlay .end {
     color: #FCEBB6; }
+    body.td .start-overlay .end .page-header, body.td .how-to-play-overlay .end .page-header, body.td .stats-overlay .end .page-header {
+      margin-top: 0.24rem; }
+    body.td .start-overlay .end p, body.td .how-to-play-overlay .end p, body.td .stats-overlay .end p {
+      font-size: 0.7rem; }
     body.td .start-overlay .end .good.stats, body.td .how-to-play-overlay .end .good.stats, body.td .stats-overlay .end .good.stats {
       min-height: 1.4rem; }
     body.td .start-overlay .end input, body.td .how-to-play-overlay .end input, body.td .stats-overlay .end input {
@@ -7312,7 +7316,11 @@ body.td .selection-zone {
     margin-top: 40px;
     display: none; }
     body.td .menu .hidden-menu .button-section {
-      float: right; } }
+      float: right; }
+  body.td .start-overlay .end .page-header {
+    margin-top: 2rem; }
+  body.td .start-overlay .end p {
+    font-size: 1rem; } }
 
 .loginPage {
   background: #529BCA;

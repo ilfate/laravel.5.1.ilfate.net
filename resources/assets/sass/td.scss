@@ -66,6 +66,12 @@ body.td {
         }
         .end {
             color:$mage-colors-clay;
+            .page-header {
+                margin-top: 0.24rem;
+            }
+            p {
+                font-size: 0.7rem;
+            }
             .good.stats {
                 min-height: 1.4rem;
             }
@@ -334,6 +340,16 @@ body.td {
                 display: none;
                 .button-section {
                     float: right;
+                }
+            }
+        }
+        .start-overlay {
+            .end {
+                .page-header {
+                    margin-top: 2rem;
+                }
+                p {
+                    font-size: 1rem;
                 }
             }
         }

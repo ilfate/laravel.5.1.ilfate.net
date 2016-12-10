@@ -89,6 +89,9 @@
         <p>
             Click <a class="restart-button">HERE</a> to try again! Or try my other <a href="/games">GAMES</a>
         </p>
+        <p>
+            <div class="addthis_inline_share_toolbox"></div>
+        </p>
 
         <div class="bottom-button-container">
             <button style="float:left;" class="btn btn-warning back-to-games-list-button">Other games</button>
