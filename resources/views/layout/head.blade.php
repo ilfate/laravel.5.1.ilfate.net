@@ -80,16 +80,7 @@
 @yield('layout')
 
 <script src="/js/main.min.js"></script>
-<script src="/packages/crafty-min.js"></script>
-<script src="/packages/pathfinding-bower-0.4.18/pathfinding-browser.min.js"></script>
-<script src="/js/TD/houston.js"></script>
-<script src="/js/TD/td.cell.js"></script>
-<script src="/js/TD/td.map.js"></script>
-<script src="/js/TD/td.monster.js"></script>
-<script src="/js/TD/td.tower.js"></script>
-<script src="/js/TD/td.animations.js"></script>
-<script src="/js/TD/td.interface.js"></script>
-<script src="/js/TD/td.game.js"></script>
+
 {{--<script src="/js/cosmos/main.js"></script>--}}
 {{--<script src="/js/hex/main.js"></script>--}}
 {{--<script src="/packages/mo.min.js"></script>  --}}

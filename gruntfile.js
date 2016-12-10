@@ -23,6 +23,8 @@ module.exports = function (grunt) {
                     'resources/assets/js/vendor/dropzone.js',
                     'resources/assets/js/vendor/mo.min.js',
                     'resources/assets/js/vendor/segment.js',
+                    'resources/assets/js/vendor/crafty-min.js',
+                    'resources/assets/js/vendor/pathfinding-browser.min.js',
                     'resources/assets/js/vendor/jquery/jquery.svg.min.js',
                     'resources/assets/js/vendor/jquery/jquery.svganim.min.js',
                     'resources/assets/js/ajax.js',
@@ -66,6 +68,11 @@ module.exports = function (grunt) {
                     'resources/assets/js/mageSurvival/spellcraft.js',
                     'resources/assets/js/mageSurvival/monimations.js',
                     'resources/assets/js/mageSurvival/map-builder.js',
+                    'resources/assets/js/TD/houston.js',
+                    'resources/assets/js/TD/td.map.js',
+                    'resources/assets/js/TD/td.tower.js',
+                    'resources/assets/js/TD/td.interface.js',
+                    'resources/assets/js/TD/td.game.js',
                 ],
                 dest: 'public/js/main-grunt.js'
                 // dest: 'public/js/main.min.js'
