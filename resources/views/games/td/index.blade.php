@@ -55,6 +55,9 @@
         <div class="button-container">
             <button class="how-to-play-button">How to play</button>
         </div>
+        <div class="button-container">
+            <button class="open-stats-button">Leaderboards</button>
+        </div>
         {{--<div class="button-container">--}}
             {{--<button class="test-button">Test</button>--}}
         {{--</div>--}}
@@ -73,7 +76,7 @@
         </div>
         <br>
         <div class="good stats" style="display:none;">
-            <p>That places you are on the <span class="your-standing-number"></span> position today!
+            <p>You are on the <span class="your-standing-number"></span> position today!
                 <br><a class="open-stats-button">See more stats</a></p>
         </div>
         @if(empty($userName))

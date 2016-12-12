@@ -85,6 +85,7 @@ $(document).ready(function() {
             Crafty.sprite(24, "images/game/td/towers.png", {
                 Tbasic:[0,0], Tdiagonal:[1,0], TSniper:[2,0], Tfork:[3,0], Thorse:[4,0], TBasic3:[5,0], TDSniper:[6,0], TBiPlank:[7,0],
                 TRound:[0,1], TTor:[1,1], TBaseBlue:[3,1], TBlueBolder:[4,1], TBlueCanon:[5,1], TBasic2:[7,1],
+                TSpace:[0,2],
             });
             this.animations.initSVG();
             var maxGameSize = 546;

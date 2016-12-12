@@ -110,6 +110,10 @@ return array(
         'Thorse4' => ['image' => 'Thorse', 'color' => $color['blue'], 'price'=> 300, 'damage' => 66, 'targets' => 1, 'attackPattern'=>[
             [0,-1],[0,-2],[0,-3],[0,-4],[0,-5],[0,-6]
         ], 'rotate' => 3],
+
+        'TSpace' => ['image' => 'TSpace', 'color' => $color['blue'], 'price'=> 500, 'damage' => 150, 'targets' => 1, 'attackPattern'=>[
+            [-2,-2],[2,-2],[2,2],[-2,2]
+        ]],
     ],
     'item-types' => [
         ['name' => 'catalyst', 'icon' => 'icon-round-struck', 'class' => 'color-red'],

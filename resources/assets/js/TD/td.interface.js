@@ -321,7 +321,11 @@ $(document).ready(function() {
                     if (cell[1] > maxY) maxY = cell[1];
                     if (!grid[cell[1]]) grid[cell[1]] = [];
                     grid[cell[1]][cell[0]] = true;
-                    map.append($('<div class="description-cell" style="margin: '+ y + 'px 0 0 ' + x + 'px ">' + config.damage + '</div>'))
+                    var damageEl = $('<div class="description-cell" style="margin: '+ y + 'px 0 0 ' + x + 'px ">' + config.damage + '</div>');
+                    if (config.damage > 99) {
+                        damageEl.css({'font-size':'0.5rem'});
+                    }
+                    map.append(damageEl);
                 }
                 grid[0][0] = true;
                 map.append($('<div class="description-cell-center" style="background-color:' + config.color +'"></div>'))
