@@ -46,6 +46,7 @@ return array(
         23 => ['TRound'],
         27 => ['TTor1','TTor2','TTor3','TTor4'],
         30 => ['TBiPlank1','TBiPlank2'],
+        38 => ['TSpace'],
     ],
     'towers' => [
         'TBaseBlue' => ['color' => $color['blue'], 'price'=> 12, 'damage' => 1, 'targets'=> 1,
