@@ -46,7 +46,10 @@ return array(
         23 => ['TRound'],
         27 => ['TTor1','TTor2','TTor3','TTor4'],
         30 => ['TBiPlank1','TBiPlank2'],
-        38 => ['TSpace'],
+        38 => ['Thorse1','Thorse2','Thorse3','Thorse4'],
+        50 => ['TSpace'],
+        64 => ['TCore'],
+        78 => ['TRadic1' ,'TRadic2' ,'TRadic3' ,'TRadic4'],
     ],
     'towers' => [
         'TBaseBlue' => ['color' => $color['blue'], 'price'=> 12, 'damage' => 1, 'targets'=> 1,
@@ -87,10 +90,10 @@ return array(
             [-1,1], [-1,-1], [1,1], [1,-1], [-1, 0], [0, -1], [1, 0], [0, 1], [-2,0], [0,-2], [2,0], [0,2]
         ]],
 
-        'TTor1' => ['image' => 'TTor','color' => $color['green'], 'price'=> 180, 'damage' => 15, 'attackPattern'=>[[-1,-1], [0,-1], [1,0]]],
-        'TTor2' => ['image' => 'TTor','color' => $color['green'], 'price'=> 180, 'damage' => 15, 'attackPattern'=>[[1,-1],[1,0],[0,1]], 'rotate' => 1],
-        'TTor3' => ['image' => 'TTor','color' => $color['green'], 'price'=> 180, 'damage' => 15, 'attackPattern'=>[[1,1],[0,1],[-1,0]], 'rotate' => 2],
-        'TTor4' => ['image' => 'TTor','color' => $color['green'], 'price'=> 180, 'damage' => 15, 'attackPattern'=>[[-1,1],[-1,0],[0,-1]], 'rotate' => 3],
+        'TTor1' => ['image' => 'TTor','color' => $color['green'], 'price'=> 180, 'damage' => 14, 'attackPattern'=>[[-1,-1], [0,-1], [1,0]]],
+        'TTor2' => ['image' => 'TTor','color' => $color['green'], 'price'=> 180, 'damage' => 14, 'attackPattern'=>[[1,-1],[1,0],[0,1]], 'rotate' => 1],
+        'TTor3' => ['image' => 'TTor','color' => $color['green'], 'price'=> 180, 'damage' => 14, 'attackPattern'=>[[1,1],[0,1],[-1,0]], 'rotate' => 2],
+        'TTor4' => ['image' => 'TTor','color' => $color['green'], 'price'=> 180, 'damage' => 14, 'attackPattern'=>[[-1,1],[-1,0],[0,-1]], 'rotate' => 3],
 
         'TBiPlank1' => ['image' => 'TBiPlank', 'color' => $color['green'], 'price'=> 222, 'damage' => 11, 'attackPattern'=>[
             [-1,-2],[-1,-1],[-1,0],[-1,1],[-1,2],[1,-2],[1,-1],[1,0],[1,1],[1,2]
@@ -112,9 +115,26 @@ return array(
             [0,-1],[0,-2],[0,-3],[0,-4],[0,-5],[0,-6]
         ], 'rotate' => 3],
 
-        'TSpace' => ['image' => 'TSpace', 'color' => $color['blue'], 'price'=> 500, 'damage' => 150, 'targets' => 1, 'attackPattern'=>[
+        'TSpace' => ['image' => 'TSpace', 'color' => $color['blue'], 'price'=> 500, 'damage' => 120, 'targets' => 1, 'attackPattern'=>[
             [-2,-2],[2,-2],[2,2],[-2,2]
         ]],
+
+        'TCore' => ['image' => 'TCore', 'color' => $color['gold'], 'price'=> 700, 'damage' => 185, 'targets' => 1, 'cooldown' => 1, 'attackPattern'=>[
+            [0,-2],[2,0],[0,2],[-2,0]
+        ]],
+
+        'TRadic1' => ['image' => 'TRadic', 'color' => $color['green'], 'price'=> 1000, 'damage' => 50, 'attackPattern'=>[
+            [-1,-1],[0,-2],[1,-3],[2,-4]
+        ]],
+        'TRadic2' => ['image' => 'TRadic', 'color' => $color['green'], 'price'=> 1000, 'damage' => 50, 'attackPattern'=>[
+            [1,-1],[2,0],[3,1],[4,2]
+        ], 'rotate' => 1],
+        'TRadic3' => ['image' => 'TRadic', 'color' => $color['green'], 'price'=> 1000, 'damage' => 50, 'attackPattern'=>[
+            [1,1],[0,2],[-1,3],[-2,4]
+        ], 'rotate' => 2],
+        'TRadic4' => ['image' => 'TRadic', 'color' => $color['green'], 'price'=> 1000, 'damage' => 50, 'attackPattern'=>[
+            [-1,1],[-2,0],[-3,-1],[-4,-2]
+        ], 'rotate' => 3],
     ],
     'item-types' => [
         ['name' => 'catalyst', 'icon' => 'icon-round-struck', 'class' => 'color-red'],
