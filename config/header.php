@@ -58,6 +58,14 @@ return array(
 				'og:site_name', 'og:title', 'og:url', 'og:image', 'og:description', 'og:type'
 			]
 		],
+		'WhiteHorde' => [
+			'content' => [
+				'keywords', 'description'
+			],
+			'property' => [
+				'og:site_name', 'og:title', 'og:url', 'og:image', 'og:description', 'og:type'
+			]
+		],
 	],
     'metaTags' => [
 		'landing' => [
@@ -122,6 +130,16 @@ return array(
 			'og:site_name'   => 'TD',
 			'og:title'       => 'TD - TowerDefence game. Build towers. Survive as long as you can!',
 			'og:url'         => 'http://ilfate.net/td',
+			'og:image'       => 'http://ilfate.net/images/game/td/cover.png',
+			'og:description' => 'TowerDefence game. Build towers. Survive as long as you can!',
+			'og:type'        => 'game',
+		],
+		'WhiteHorde' => [
+			'keywords'       => 'White Horde WhiteHorde survival RPG game snow winter',
+			'description'    => 'White Horde',
+			'og:site_name'   => 'TD',
+			'og:title'       => 'TD - TowerDefence game. Build towers. Survive as long as you can!',
+			'og:url'         => 'http://ilfate.net/WhiteHorde',
 			'og:image'       => 'http://ilfate.net/images/game/td/cover.png',
 			'og:description' => 'TowerDefence game. Build towers. Survive as long as you can!',
 			'og:type'        => 'game',

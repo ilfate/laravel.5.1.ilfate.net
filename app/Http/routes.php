@@ -62,6 +62,12 @@ Route::any('GuessSeries/admin/series/{id}', 'GuessGameAdminController@seriesInfo
 Route::any('GuessSeries/admin/series/toggle/{id}', 'GuessGameAdminController@toggleActive');
 Route::any('GuessSeries/admin/deleteImage/{id}', 'GuessGameAdminController@deleteImage');
 
+Route::get('td', 'TdController@index');
+Route::post('td/load/wave', 'TdController@loadWave');
+Route::post('td/saveStats', 'TdController@saveStats');
+Route::post('td/getStats', 'TdController@getStats');
+Route::post('td/saveName', array('before' => 'csrf', 'uses' => 'TdController@saveName'));
+
 Route::get('test', 'TestController@index');
 
 Route::get('Vortex', 'VortexController@index');
@@ -73,12 +79,9 @@ Route::get('hex', 'HexController@index');
 Route::get('hex/reset', 'HexController@reset');
 Route::post('hex/action', 'HexController@action');
 
+Route::get('whiteHorde/demo', 'WhiteHordeController@demo');
+Route::get('WhiteHorde/demo', 'WhiteHordeController@demo');
 
-Route::get('td', 'TdController@index');
-Route::post('td/load/wave', 'TdController@loadWave');
-Route::post('td/saveStats', 'TdController@saveStats');
-Route::post('td/getStats', 'TdController@getStats');
-Route::post('td/saveName', array('before' => 'csrf', 'uses' => 'TdController@saveName'));
 
 Route::get('Cosmos', 'CosmosController@index');
 

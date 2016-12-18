@@ -7322,6 +7322,24 @@ body.td .selection-zone {
   body.td .start-overlay .end p {
     font-size: 1rem; } }
 
+body.WhiteHorde {
+  background-color: #FFFFFF;
+  background-image: linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 100%); }
+  body.WhiteHorde a {
+    cursor: pointer; }
+  body.WhiteHorde .no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  body.WhiteHorde .demo-screen canvas {
+    margin: 0 auto;
+    position: absolute;
+    left: 0;
+    right: 0; }
+
 .loginPage {
   background: #529BCA;
   padding: 10px;

@@ -66,7 +66,7 @@
 {{-- MathEffect --}}
 {{--<script type="text/javascript" src="/js/td/compiled.js"></script>--}}
 
-{{--<script type="text/javascript" src="/js/td/td.game.js"></script>--}}
+{{--<script type="text/javascript" src="/js/td/game.js"></script>--}}
 {{--<script type="text/javascript" src="/js/td/td.facet.js"></script>--}}
 {{--<script type="text/javascript" src="/js/td/td.map.js"></script>--}}
 {{--<script type="text/javascript" src="/js/td/td.map.config.js"></script>--}}
@@ -80,6 +80,11 @@
 @yield('layout')
 
 <script src="/js/main.min.js"></script>
+<script src="/packages/pixi.min.js"></script>
+<script src="/js/whiteHorde/WhiteHorde.js"></script>
+<script src="/js/whiteHorde/interface.js"></script>
+<script src="/js/whiteHorde/demo.js"></script>
+<script src="/js/whiteHorde/game.js"></script>
 
 {{--<script src="/js/cosmos/main.js"></script>--}}
 {{--<script src="/js/hex/main.js"></script>--}}
