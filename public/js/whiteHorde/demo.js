@@ -19,7 +19,7 @@ $(document).ready(function() {
                     size1: 2,
                     size2: 10,
                     reverseSuperRand:true,
-                    sizeAlpha: 0.3,
+                    sizeAlpha: 0.45,
                     xs1:0,
                     xs2:this.game.screenWidth,
                     ys1:0,
