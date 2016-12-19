@@ -49,18 +49,18 @@ $(document).ready(function() {
 
             this.game.animations.animate(manSprite, {alpha:options.alpha}, options.time);
             var that = this;
-            setTimeout(function () {
-                if (options.narrowBorder !== undefined) {
-                    that.game.animations.animate(that.game.animations.border, options.narrowBorder, options.time, function () {
-                        that.game.animations.resetBorder(1500);
-                    });
-                }
-                that.game.animations.animate(manSprite, {alpha:0}, options.time);
-            }, options.time);
+            if (options.noHiding === undefined) {
+                setTimeout(function () {
+                    if (options.narrowBorder !== undefined) {
+                        that.game.animations.animate(that.game.animations.border, options.narrowBorder, options.time, function () {
+                            that.game.animations.resetBorder(1500);
+                        });
+                    }
+                    that.game.animations.animate(manSprite, {alpha: 0}, options.time);
+                }, options.time);
+            }
             // this.stage.addChild(man0Sprite);
             this.game.layer1.addChild(manSprite);
-
-
         };
 
         this.addText = function (text, position, options) {
@@ -92,6 +92,37 @@ $(document).ready(function() {
                 }
                 that.game.animations.animate(message, {alpha:0}, options.time1);
             }, options.time1);
+        };
+
+        this.addEyes = function (position, options) {
+
+            var shadow = new PIXI.Sprite(PIXI.loader.resources[this.game.images.shadow2].texture);
+            shadow.width = options.width;
+            shadow.height = options.height;
+            shadow.alpha = 0;
+            this.game.animations.animate(shadow, {alpha:0.7}, options.time1);
+            var eyes = new PIXI.Sprite(PIXI.loader.resources[this.game.images.eyes].texture);
+            eyes.width = options.width / 2;
+            eyes.height = options.width / 14;
+            eyes.alpha = 0;
+            this.game.animations.animate(eyes, {alpha:1}, options.time1);
+
+            shadow.position.set(position[0], position[1]);
+            eyes.position.set(position[0] + options.width / 4, position[1] + options.width / 4);
+            this.game.layer1.addChild(shadow);
+            this.game.layer1.addChild(eyes);
+            var that = this;
+            if (options.time2 !== undefined) {
+                setTimeout(function () {
+                    if (options.narrowBorder !== undefined) {
+                        that.game.animations.animate(that.game.animations.border, options.narrowBorder, options.time1, function () {
+                            that.game.animations.resetBorder(1500);
+                        });
+                    }
+                    that.game.animations.animate(shadow, {alpha: 0}, options.time1);
+                    that.game.animations.animate(eyes, {alpha: 0}, options.time1);
+                }, options.time1 + options.time2);
+            }
         };
 
         this.borders = function (x1,y1,x2,y2) {

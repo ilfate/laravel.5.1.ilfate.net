@@ -42,6 +42,9 @@ $(document).ready(function() {
         this.images = {
             'man':"/images/game/WhiteHorde/path3338-3.png",
             'snow':"/images/game/WhiteHorde/snow.png",
+            'shadow1':"/images/game/WhiteHorde/shadow1.png",
+            'shadow2':"/images/game/WhiteHorde/shadow2.png",
+            'eyes':"/images/game/WhiteHorde/eyes.png",
             'man2':"/images/game/tank1.jpg",
         };
 
@@ -53,8 +56,8 @@ $(document).ready(function() {
                 fontWeight:900, fontSize: 60, time1:3000,
                 narrowBorder:{x1:that.rem * 5.5, y1 : that.rem * 9.5, x2 : that.rem * 45, y2 : that.rem * 15}
             })},
-            15:function() {that.demo.addText('A land where snow never melts', [that.rem * 5.5, that.rem * 10], {
-                fontWeight:900, fontSize: 72, time1:3000,
+            15:function() {that.demo.addText('A land where it never melts', [that.rem * 4.5, that.rem * 10], {
+                fontWeight:900, fontSize: 70, time1:3000,
                 narrowBorder:{x1:that.rem * 5, y1 : that.rem * 9, x2 : that.rem * 45, y2 : that.rem * 18}
             })},
             30:function() {that.demo.addText('A land of cold despair and sharp ice', [that.rem * 5.5, that.rem * 10], {
@@ -79,6 +82,36 @@ $(document).ready(function() {
                 fontWeight:900, fontSize: 50, time1:3000,
                 narrowBorder:{x1:that.rem * 4, y1 : that.rem * 9, x2 : that.rem * 47, y2 : that.rem * 16}
             })},
+            120:function() {that.demo.addEyes([that.rem * 18, that.rem * 10], {
+                width:that.rem*16, height:that.rem*10, time1:3000, time2:1500,
+                // narrowBorder:{x1:that.rem * 5.5, y1 : that.rem * 9, x2 : that.rem * 45, y2 : that.rem * 14.5}
+            })},
+            135:function() {that.demo.addText('It`s the true masters of this land', [that.rem * 5.5, that.rem * 10], {
+                fontWeight:900, fontSize: 64, time1:3000,
+                narrowBorder:{x1:that.rem * 5, y1 : that.rem * 9, x2 : that.rem * 45, y2 : that.rem * 18}
+            })},
+            150:function() {that.demo.addEyes([that.rem * 5, that.rem * 3], {
+                width:that.rem*8, height:that.rem*5, time1:3000,
+                // narrowBorder:{x1:that.rem * 5.5, y1 : that.rem * 9, x2 : that.rem * 45, y2 : that.rem * 14.5}
+            })},
+            152:function() {that.demo.addEyes([that.rem * 2, that.rem * 14], {
+                width:that.rem*8, height:that.rem*5, time1:3000,
+                // narrowBorder:{x1:that.rem * 5.5, y1 : that.rem * 9, x2 : that.rem * 45, y2 : that.rem * 14.5}
+            })},
+            154:function() {that.demo.addEyes([that.rem * 34, that.rem * 5], {
+                width:that.rem*8, height:that.rem*5, time1:3000,
+                // narrowBorder:{x1:that.rem * 5.5, y1 : that.rem * 9, x2 : that.rem * 45, y2 : that.rem * 14.5}
+            })},
+            156:function() {that.demo.addEyes([that.rem * 38, that.rem * 16], {
+                width:that.rem*8, height:that.rem*5, time1:3000,
+                // narrowBorder:{x1:that.rem * 5.5, y1 : that.rem * 9, x2 : that.rem * 45, y2 : that.rem * 14.5}
+            })},
+            162:function() {that.demo.addText('It`s the White Horde', [that.rem * 6, that.rem * 10], {
+                fontWeight:900, fontSize: 65, time1:3000,
+                //narrowBorder:{x1:that.rem * 5.5, y1 : that.rem * 9, x2 : that.rem * 45, y2 : that.rem * 14.5}
+            })},
+            178:function() {that.demo.addMan({width:that.rem * 18, height:that.rem * 18, x:that.rem*15, y : that.rem * 3,
+                alpha:0.8, time:2500, noHiding:true})},
             // 4:function() {that.demo.borders(200, 200, 600, 400)},
             // 6:function() {that.demo.snow(500)},
             // 10:function() {that.demo.snow(50)},
