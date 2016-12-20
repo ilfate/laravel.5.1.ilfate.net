@@ -166,7 +166,9 @@ $(document).ready(function() {
                         if (this.monsters[y][x] && (onlyFast && this.monsters[y][x].fast || !onlyFast)) {
                             this.monsters[y][x].calculateMovement();
                         } else if (this.monsters[y][x] && onlyFast) {
-                            this.addNextMove(x, y, this.monsters[y][x]);
+                            if (!this.addNextMove(x, y, this.monsters[y][x])) {
+                                this.nextMoves[y][x].cancelMove(this.monsters[y][x], x, y);
+                            }
                         }
                     }
                 }
@@ -176,7 +178,9 @@ $(document).ready(function() {
                         if (this.monsters[y] && this.monsters[y][x] && (onlyFast && this.monsters[y][x].fast || !onlyFast)) {
                             this.monsters[y][x].calculateMovement();
                         } else if (this.monsters[y] && this.monsters[y][x] && onlyFast) {
-                            this.addNextMove(x, y, this.monsters[y][x]);
+                            if (!this.addNextMove(x, y, this.monsters[y][x])) {
+                                this.nextMoves[y][x].cancelMove(this.monsters[y][x], x, y);
+                            }
                         }
                     }
                 }
