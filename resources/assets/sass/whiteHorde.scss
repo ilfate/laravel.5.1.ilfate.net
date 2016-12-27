@@ -1,6 +1,9 @@
 
 $description-cells-size:16px;
 
+$wh-game-height: 20rem;
+$wh-settlement-height: 17.5rem;
+
 body.WhiteHorde {
     background-color: $color-white;
     background-image: linear-gradient(to bottom, $color-white 0%, $color-white 100%);
@@ -21,6 +24,122 @@ body.WhiteHorde {
         position: absolute;
         left:0;
         right:0;
+    }
+
+    .game-screen {
+        color: $color-black;
+        font-size: 0.6rem;
+        line-height: 0.6rem;
+        width: 49rem;
+
+        margin: 0.2rem auto 0 auto;
+        left:0;
+        right:0;
+
+
+        #game-app {
+            text-align: center;
+        }
+        .nav-tabs {
+            padding-left: 42%;
+            //width:auto;
+            //display:inline-block;
+        }
+        .nav {
+            margin-bottom: -1px;
+
+            >li>a {
+                padding: 0.2rem 0.3rem;
+                //line-height: 0.5rem;
+            }
+        }
+        .tab-pane {
+            //background-color: #eeeeee;
+            min-height: $wh-game-height;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            padding-top: 0.5rem;
+            position: relative;
+        }
+        .buildings-container {
+            width: 100%;
+            height: $wh-settlement-height;
+            border-bottom: 1px solid $color-grey2;
+            .building {
+                width: 5rem;
+                height: 3rem;
+                border: 1px solid $color-grey2;
+                float: left;
+            }
+        }
+        .inventory {
+            width:50%;
+            min-height: $wh-settlement-height;
+            border: 1px solid $color-clay;
+            position: absolute;
+            right:0;
+            .close {
+                width:1rem;
+                text-align: center;
+                height: $wh-settlement-height;
+                line-height: $wh-settlement-height;
+                position: absolute;
+                left: 0;
+                vertical-align: middle;
+            }
+        }
+        .character-info {
+            width:50%;
+            min-height: $wh-settlement-height;
+            border: 1px solid $color-clay;
+            position: absolute;
+            left:0;
+            .close {
+                width:1rem;
+                text-align: center;
+                height: $wh-settlement-height;
+                line-height: $wh-settlement-height;
+                position: absolute;
+                right: 0;
+                vertical-align: middle;
+            }
+        }
+        .characters-container {
+            padding: 0.2rem 0 0 0.2rem;
+            .character {
+                float: left;
+                width: 3.2rem;
+                margin: 0 0 0.2rem 0.2rem;
+                border: 1px solid $color-grey2;
+                &:hover {
+                    border: 1px solid $color-grey;
+                }
+                .image {
+                    width: 3.2rem;
+                    height: 3.2rem;
+                }
+            }
+        }
+
+
+    }
+
+
+
+
+    .slide-fade-enter-active, .slide-left-fade-enter-active {
+        transition: all .3s ease;
+    }
+    .slide-fade-leave-active, .slide-left-fade-leave-active {
+        transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-active {
+        transform: translateX(5rem);
+        opacity: 0;
+    }
+    .slide-left-fade-enter, .slide-left-fade-leave-active {
+        transform: translateX(-5rem);
+        opacity: 0;
     }
 }
 

@@ -8,6 +8,113 @@ $(document).ready(function() {
 
     WhiteHorde.Demo = function(game) {
         this.game = game;
+        this.demoStep = 0;
+        var that = this;
+        this.demoConfig = {
+            0:function() {that.initSnow(); that.addSnow({width:that.game.screenWidth, height:that.game.rem * 10, x:0, y : that.game.rem * 20})},
+            // 15:function() {)},
+            1:function() {that.addText('Imagine a land of snow', [that.game.rem * 5.5, that.game.rem * 10], {
+                fontWeight:900, fontSize: 60, time1:3000,
+                narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9.5, x2 : that.game.rem * 45, y2 : that.game.rem * 15}
+            })},
+            15:function() {that.addText('A land where it never melts', [that.game.rem * 4.5, that.game.rem * 10], {
+                fontWeight:900, fontSize: 70, time1:3000,
+                narrowBorder:{x1:that.game.rem * 5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 18}
+            })},
+            30:function() {that.addText('A land of cold despair and sharp ice', [that.game.rem * 5.5, that.game.rem * 10], {
+                fontWeight:900, fontSize: 64, time1:3000,
+                narrowBorder:{x1:that.game.rem * 5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 18}
+            })},
+            45:function() {that.addMan({width:that.game.rem * 11, height:that.game.rem * 11, x:that.game.rem*5, y : that.game.rem * 11,
+                alpha:0.5, time:2500, narrowBorder:{x1:that.game.rem*4, y1 : that.game.rem*10.5, x2 : that.game.rem*20, y2 : that.game.rem * 22}})},
+            55:function() {that.addText('Man lives in this land', [that.game.rem * 6, that.game.rem * 10], {
+                fontWeight:900, fontSize: 65, time1:3000,
+                narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 14.5}
+            })},
+            70:function() {that.addMan({width:that.game.rem * 14, height:that.game.rem * 14, x:that.game.rem*11, y : that.game.rem * 8,
+                alpha:0.65, time:2500, narrowBorder:{x1:that.game.rem*8, y1 : that.game.rem*7, x2 : that.game.rem*28, y2 : that.game.rem * 22}})},
+            80:function() {that.addText('They survive', [that.game.rem * 10, that.game.rem * 10], {
+                fontWeight:900, fontSize: 85, time1:3000,
+                narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 14.5}
+            })},
+            95:function() {that.addMan({width:that.game.rem * 18, height:that.game.rem * 18, x:that.game.rem*15, y : that.game.rem * 3,
+                alpha:0.8, time:2500, narrowBorder:{x1:that.game.rem*13, y1 : that.game.rem*2, x2 : that.game.rem*35, y2 : that.game.rem * 22}})},
+            105:function() {that.addText('But is not the cold that makes live here a living hell', [that.game.rem * 4.5, that.game.rem * 10], {
+                fontWeight:900, fontSize: 50, time1:3000,
+                narrowBorder:{x1:that.game.rem * 4, y1 : that.game.rem * 9, x2 : that.game.rem * 47, y2 : that.game.rem * 16}
+            })},
+            120:function() {that.addEyes([that.game.rem * 18, that.game.rem * 10], {
+                width:that.game.rem*16, height:that.game.rem*10, time1:3000, time2:1500,
+                // narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 14.5}
+            })},
+            135:function() {that.addText('It`s the true masters of this land', [that.game.rem * 5.5, that.game.rem * 10], {
+                fontWeight:900, fontSize: 64, time1:3000,
+                narrowBorder:{x1:that.game.rem * 5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 18}
+            })},
+            150:function() {that.addEyes([that.game.rem * 5, that.game.rem * 3], {
+                width:that.game.rem*8, height:that.game.rem*5, time1:3000,
+                // narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 14.5}
+            })},
+            152:function() {that.addEyes([that.game.rem * 2, that.game.rem * 14], {
+                width:that.game.rem*8, height:that.game.rem*5, time1:3000,
+                // narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 14.5}
+            })},
+            154:function() {that.addEyes([that.game.rem * 34, that.game.rem * 5], {
+                width:that.game.rem*8, height:that.game.rem*5, time1:3000,
+                // narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 14.5}
+            })},
+            156:function() {that.addEyes([that.game.rem * 38, that.game.rem * 16], {
+                width:that.game.rem*8, height:that.game.rem*5, time1:3000,
+                // narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 14.5}
+            })},
+            162:function() {that.addText('It`s the White Horde', [that.game.rem * 6, that.game.rem * 10], {
+                fontWeight:900, fontSize: 65, time1:3000,
+                //narrowBorder:{x1:that.game.rem * 5.5, y1 : that.game.rem * 9, x2 : that.game.rem * 45, y2 : that.game.rem * 14.5}
+            })},
+            178:function() {that.addMan({width:that.game.rem * 18, height:that.game.rem * 18, x:that.game.rem*15, y : that.game.rem * 3,
+                alpha:0.8, time:2500, noHiding:true})},
+            // 4:function() {that.borders(200, 200, 600, 400)},
+            // 6:function() {that.snow(500)},
+            // 10:function() {that.snow(50)},
+        };
+        
+        this.init = function () {
+            var imagesToLoad = [];
+            for (var i in this.game.images) {
+                imagesToLoad.push(this.game.images[i]);
+            }
+            var that = this;
+            PIXI.loader
+                .add(imagesToLoad)
+                .load(function() {
+                    that.game.runDemo();
+                    that.game.state = that.game.game;
+                    setTimeout(function () {
+
+                        that.game.gameLoop();
+                    }, 300);
+                });
+
+            this.game.renderer = PIXI.autoDetectRenderer(this.game.screenWidth, this.game.screenHeight);
+            this.game.renderer.backgroundColor = 0xffffff;
+            // this.renderer.backgroundColor = 0xdddddd;
+            $('.demo-screen').append(this.game.renderer.view);
+            // document.body.appendChild(this.renderer.view);
+            this.game.stage = new PIXI.Container();
+            this.game.layer1 = new PIXI.Container();
+            this.game.layer2 = new PIXI.Container();
+            this.game.stage.addChild(this.game.layer1);
+            this.game.stage.addChild(this.game.layer2);
+            this.game.stage.addChild(this.game.animations.particlesContainer);
+            this.game.renderer.render(this.game.stage);
+            // this.animations.initSVG();
+            var maxGameSize = 546;
+            var width = $(window).width();
+            if (width < maxGameSize) {
+                this.game.isMobile = true;
+            }
+        };
+        
         this.initSnow = function() {
             var vx = -15;
             var vy = 8;

@@ -7339,6 +7339,87 @@ body.WhiteHorde {
     position: absolute;
     left: 0;
     right: 0; }
+  body.WhiteHorde .game-screen {
+    color: #000000;
+    font-size: 0.6rem;
+    line-height: 0.6rem;
+    width: 49rem;
+    margin: 0.2rem auto 0 auto;
+    left: 0;
+    right: 0; }
+    body.WhiteHorde .game-screen #game-app {
+      text-align: center; }
+    body.WhiteHorde .game-screen .nav-tabs {
+      padding-left: 42%; }
+    body.WhiteHorde .game-screen .nav {
+      margin-bottom: -1px; }
+      body.WhiteHorde .game-screen .nav > li > a {
+        padding: 0.2rem 0.3rem; }
+    body.WhiteHorde .game-screen .tab-pane {
+      min-height: 20rem;
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      padding-top: 0.5rem;
+      position: relative; }
+    body.WhiteHorde .game-screen .buildings-container {
+      width: 100%;
+      height: 17.5rem;
+      border-bottom: 1px solid #ddd; }
+      body.WhiteHorde .game-screen .buildings-container .building {
+        width: 5rem;
+        height: 3rem;
+        border: 1px solid #ddd;
+        float: left; }
+    body.WhiteHorde .game-screen .inventory {
+      width: 50%;
+      min-height: 17.5rem;
+      border: 1px solid #FCEBB6;
+      position: absolute;
+      right: 0; }
+      body.WhiteHorde .game-screen .inventory .close {
+        width: 1rem;
+        text-align: center;
+        height: 17.5rem;
+        line-height: 17.5rem;
+        position: absolute;
+        left: 0;
+        vertical-align: middle; }
+    body.WhiteHorde .game-screen .character-info {
+      width: 50%;
+      min-height: 17.5rem;
+      border: 1px solid #FCEBB6;
+      position: absolute;
+      left: 0; }
+      body.WhiteHorde .game-screen .character-info .close {
+        width: 1rem;
+        text-align: center;
+        height: 17.5rem;
+        line-height: 17.5rem;
+        position: absolute;
+        right: 0;
+        vertical-align: middle; }
+    body.WhiteHorde .game-screen .characters-container {
+      padding: 0.2rem 0 0 0.2rem; }
+      body.WhiteHorde .game-screen .characters-container .character {
+        float: left;
+        width: 3.2rem;
+        margin: 0 0 0.2rem 0.2rem;
+        border: 1px solid #ddd; }
+        body.WhiteHorde .game-screen .characters-container .character:hover {
+          border: 1px solid #aaaaaa; }
+        body.WhiteHorde .game-screen .characters-container .character .image {
+          width: 3.2rem;
+          height: 3.2rem; }
+  body.WhiteHorde .slide-fade-enter-active, body.WhiteHorde .slide-left-fade-enter-active {
+    transition: all .3s ease; }
+  body.WhiteHorde .slide-fade-leave-active, body.WhiteHorde .slide-left-fade-leave-active {
+    transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1); }
+  body.WhiteHorde .slide-fade-enter, body.WhiteHorde .slide-fade-leave-active {
+    transform: translateX(5rem);
+    opacity: 0; }
+  body.WhiteHorde .slide-left-fade-enter, body.WhiteHorde .slide-left-fade-leave-active {
+    transform: translateX(-5rem);
+    opacity: 0; }
 
 .loginPage {
   background: #529BCA;

@@ -80,9 +80,12 @@
 @yield('layout')
 
 <script src="/js/main.min.js"></script>
+<script src="/packages/vue.js"></script>
 <script src="/packages/pixi.min.js"></script>
 <script src="/js/whiteHorde/WhiteHorde.js"></script>
 <script src="/js/whiteHorde/interface.js"></script>
+<script src="/js/whiteHorde/settlement.js"></script>
+<script src="/js/whiteHorde/inventory.js"></script>
 <script src="/js/whiteHorde/demo.js"></script>
 <script src="/js/whiteHorde/game.js"></script>
 

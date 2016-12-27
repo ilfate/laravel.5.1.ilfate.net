@@ -81,6 +81,10 @@ Route::post('hex/action', 'HexController@action');
 
 Route::get('whiteHorde/demo', 'WhiteHordeController@demo');
 Route::get('WhiteHorde/demo', 'WhiteHordeController@demo');
+Route::get('WhiteHorde/test', 'WhiteHordeController@test');
+Route::get('WhiteHorde/fake', 'WhiteHordeController@fake');
+Route::get('WhiteHorde', 'WhiteHordeController@index');
+Route::get('whiteHorde', 'WhiteHordeController@index');
 
 
 Route::get('Cosmos', 'CosmosController@index');

@@ -165,4 +165,9 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasOne('Ilfate\MageUser', 'user_id', 'id');
     }
 
+    public function settlement()
+    {
+        return $this->hasOne('Ilfate\WhiteHorde\Settlement', 'user_id', 'id');
+    }
+
 }
