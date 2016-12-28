@@ -68,7 +68,7 @@ abstract class WH
 
     public static function getCharacter($id)
     {
-        if (self::$characters[$id]) return self::$characters[$id];
+        if (!empty(self::$characters[$id])) return self::$characters[$id];
         self::$characters[$id] = WHCharacter::findOrFail($id);
         self::$characters[$id]->init();
         return self::$characters[$id];
@@ -76,7 +76,7 @@ abstract class WH
 
     public static function getBuilding($id)
     {
-        if (self::$buildings[$id]) return self::$buildings[$id];
+        if (!empty(self::$buildings[$id])) return self::$buildings[$id];
         self::$buildings[$id] = WHBuilding::findOrFail($id);
         return self::$buildings[$id];
     }
@@ -146,6 +146,7 @@ abstract class WH
         $character = new WHCharacter();
         $character->settlement_id = self::getOrCreateSettlement()->id;
         $character->location = WHCharacter::LOCATION_SETTLEMENT;
+        $character->birth();
         $character->save();
 //        $character->wasUpdated();
         self::$characters[$character->id] = $character;

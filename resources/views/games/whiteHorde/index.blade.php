@@ -52,8 +52,11 @@
                 </div>
             </div>
         </div>
+        <div class="clearfix"></div>
         <div id="chat-app">
-
+            <div v-for="message in messages" class="message">
+                @{{message.text}}
+            </div>
         </div>
     </div>
 </div>

@@ -14,6 +14,7 @@ use Ilfate\TdStats;
 use Ilfate\User;
 use Ilfate\WhiteHorde\WH;
 use Ilfate\WhiteHorde\WHBuilding;
+use Ilfate\WhiteHorde\WHTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
@@ -101,10 +102,23 @@ class WhiteHordeController extends BaseController
 
 //        WH::addBuilding(WHBuilding::TYPE_WARHOUSE);
         
-//        WH::addCharacter()->initRandomAdult();
-//        WH::endExecution();
-        
-        
+        WH::addCharacter()->initRandomAdult();
+//        $characters = WH::getAllCharacters();
+//        $character = WH::getCharacter(3);
+//        $character->addTrait(WHTrait::getRandomFromType(WHTrait::TYPE_NEGATIVE));
+
+//        foreach ($characters as $character) {
+//            $character->addTrait(WHTrait::getRandomFromType(WHTrait::TYPE_NEGATIVE));
+//        }
+
+//        $s = WH::getOrCreateSettlement();
+//        $items = \Config::get('whiteHorde.items.list');
+//        foreach ($items as $name => $item) {
+//
+//            $s->addItem($name, 5);
+//        }
+        WH::endExecution();
+
         return redirect('/WhiteHorde');
     }
 }

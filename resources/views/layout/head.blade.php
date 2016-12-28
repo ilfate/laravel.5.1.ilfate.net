@@ -86,6 +86,7 @@
 <script src="/js/whiteHorde/interface.js"></script>
 <script src="/js/whiteHorde/settlement.js"></script>
 <script src="/js/whiteHorde/inventory.js"></script>
+<script src="/js/whiteHorde/characterHelper.js"></script>
 <script src="/js/whiteHorde/demo.js"></script>
 <script src="/js/whiteHorde/game.js"></script>
 

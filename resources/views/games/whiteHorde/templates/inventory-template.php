@@ -5,9 +5,8 @@
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </div>
         <div>
-            <div class="item" v-for="item in items">
-                {{item}}
-            </div>
+            <item v-for="item in items" v-bind:item="item">
+            </item>
         </div>
     </div>
 </script>

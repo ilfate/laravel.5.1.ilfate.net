@@ -9,25 +9,23 @@ $(document).ready(function() {
     WhiteHorde.Settlement = function(game) {
         this.game = game;
         this.buildings = [];
-        this.items = ['sword', 'axe'];
+        this.items = [];
         this.resources = [];
         this.characters = [];
 
         this.init = function () {
             var that = this;
             this.buildings = this.game.whiteHordeData.buildings;
-            this.items     = this.game.whiteHordeData.settlement.inventory;
             this.resources = this.game.whiteHordeData.settlement.resources;
             var allCharacters = this.game.whiteHordeData.characters;
             for (var i in allCharacters) {
                 if (allCharacters[i].location == 0) {
-                    allCharacters[i].click = function() {
-                        that.game.interface.vue.characterInfo = this;
-                        that.game.interface.vue.showCharacterInfo = true;
-                    };
-                    this.characters.push(allCharacters[i]);
+                    // this.characters.push(allCharacters[i]);
+                    this.characters.push(this.game.characterHelper.initCharacter(allCharacters[i]));
                 }
             }
+            this.items = this.game.whiteHordeData.settlement.inventory;
+                
             // setTimeout(function () {
             //     info('UPDATED');
             //     that.buildings.push(that.buildings[0]);

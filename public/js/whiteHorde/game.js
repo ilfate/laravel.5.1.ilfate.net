@@ -13,6 +13,7 @@ $(document).ready(function() {
         this.animations = new WhiteHorde.Animations(this);
         this.demo = new WhiteHorde.Demo(this);
         this.interface = new WhiteHorde.Interface(this);
+        this.characterHelper = new WhiteHorde.CharacterHelper(this);
         this.settlement = new WhiteHorde.Settlement(this);
         this.inventory = new WhiteHorde.Inventory(this);
         // this.interface = new Houston.Interface(this);

@@ -32,7 +32,7 @@ class Settlement extends WhiteHorde
 	{
 		$data = [
 			'name' => $this->name,
-			'inventory' => $this->getInventory(),
+			'inventory' => $this->exportInventory(),
 			'resources' => $this->getResources(),
 		];
 		return $data;
@@ -84,5 +84,35 @@ class Settlement extends WhiteHorde
 		if (is_array($this->resources)) {
 			$this->resources = json_encode($this->resources);
 		}
+	}
+
+	protected function exportInventory()
+	{
+		$inventory = $this->getInventory();
+		if (!$inventory) return [];
+		$itemsConfig = \Config::get('whiteHorde.items.list');
+		$return = [];
+		foreach ($inventory as $itemName => $quantity) {
+			if (empty($itemsConfig[$itemName])) {
+				throw new \Exception('Item ' . $itemName . ' has no definition');
+			}
+			$item = $itemsConfig[$itemName];
+			$item['code'] = $itemName;
+			$item['q'] = $quantity;
+			$return[] = $item;
+		}
+		return $return;
+	}
+
+	public function addItem($itemName, $quantity = 1)
+	{
+		$inventory = $this->getInventory();
+		if (!empty($this->inventory[$itemName])) {
+			$inventory[$itemName] += $quantity;
+		} else {
+			$inventory[$itemName] = $quantity;
+		}
+		$this->inventory = $inventory;
+		$this->wasUpdated();
 	}
 }

@@ -7340,6 +7340,7 @@ body.WhiteHorde {
     left: 0;
     right: 0; }
   body.WhiteHorde .game-screen {
+    overflow: hidden;
     color: #000000;
     font-size: 0.6rem;
     line-height: 0.6rem;
@@ -7371,6 +7372,7 @@ body.WhiteHorde {
         border: 1px solid #ddd;
         float: left; }
     body.WhiteHorde .game-screen .inventory {
+      background-color: #FFFFFF;
       width: 50%;
       min-height: 17.5rem;
       border: 1px solid #FCEBB6;
@@ -7384,7 +7386,19 @@ body.WhiteHorde {
         position: absolute;
         left: 0;
         vertical-align: middle; }
+      body.WhiteHorde .game-screen .inventory .item {
+        width: 1.7rem;
+        height: 1.7rem;
+        padding: 0.1rem;
+        float: left;
+        position: relative; }
+        body.WhiteHorde .game-screen .inventory .item .quantity {
+          position: absolute;
+          color: #aaaaaa;
+          right: 0;
+          bottom: 0; }
     body.WhiteHorde .game-screen .character-info {
+      background-color: #FFFFFF;
       width: 50%;
       min-height: 17.5rem;
       border: 1px solid #FCEBB6;
@@ -7398,6 +7412,51 @@ body.WhiteHorde {
         position: absolute;
         right: 0;
         vertical-align: middle; }
+      body.WhiteHorde .game-screen .character-info .top-part {
+        border-bottom: 1px solid #ddd;
+        height: 10.05rem; }
+        body.WhiteHorde .game-screen .character-info .top-part .left-part {
+          float: left;
+          width: 11.5rem;
+          position: relative;
+          margin-top: -1rem; }
+          body.WhiteHorde .game-screen .character-info .top-part .left-part .nav-container {
+            width: 1.4rem;
+            height: 11rem;
+            position: absolute;
+            right: 0; }
+            body.WhiteHorde .game-screen .character-info .top-part .left-part .nav-container .nav-tabs {
+              width: 11rem;
+              margin-left: 1.4rem;
+              display: block;
+              transform: rotate(90deg);
+              transform-origin: left top 0; }
+          body.WhiteHorde .game-screen .character-info .top-part .left-part .tab-content {
+            width: 10rem; }
+            body.WhiteHorde .game-screen .character-info .top-part .left-part .tab-content .tab-pane {
+              min-height: 0;
+              height: 10rem;
+              border-left: none;
+              border-right: none;
+              padding: 0;
+              margin: 0;
+              position: relative; }
+              body.WhiteHorde .game-screen .character-info .top-part .left-part .tab-content .tab-pane .item-slot {
+                width: 1.7rem;
+                height: 1.7rem;
+                border: 1px solid #ddd;
+                padding: 0.1rem; }
+        body.WhiteHorde .game-screen .character-info .top-part .character-image {
+          width: 10rem;
+          height: 10rem; }
+        body.WhiteHorde .game-screen .character-info .top-part .attribute {
+          float: left;
+          padding: 0.2rem 0.4rem;
+          width: 28%; }
+      body.WhiteHorde .game-screen .character-info .trait {
+        float: left;
+        padding: 0.2rem 0.4rem;
+        width: 32%; }
     body.WhiteHorde .game-screen .characters-container {
       padding: 0.2rem 0 0 0.2rem; }
       body.WhiteHorde .game-screen .characters-container .character {

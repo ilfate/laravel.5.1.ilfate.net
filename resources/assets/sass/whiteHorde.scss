@@ -27,6 +27,7 @@ body.WhiteHorde {
     }
 
     .game-screen {
+        overflow: hidden;
         color: $color-black;
         font-size: 0.6rem;
         line-height: 0.6rem;
@@ -73,6 +74,7 @@ body.WhiteHorde {
             }
         }
         .inventory {
+            background-color: $color-white;
             width:50%;
             min-height: $wh-settlement-height;
             border: 1px solid $color-clay;
@@ -87,8 +89,22 @@ body.WhiteHorde {
                 left: 0;
                 vertical-align: middle;
             }
+            .item {
+                width: 1.7rem;
+                height: 1.7rem;
+                padding: 0.1rem;
+                float: left;
+                position: relative;
+                .quantity {
+                    position: absolute;
+                    color: $color-grey;
+                    right:0;
+                    bottom:0;
+                }
+            }
         }
         .character-info {
+            background-color: $color-white;
             width:50%;
             min-height: $wh-settlement-height;
             border: 1px solid $color-clay;
@@ -102,6 +118,75 @@ body.WhiteHorde {
                 position: absolute;
                 right: 0;
                 vertical-align: middle;
+            }
+            .top-part {
+                border-bottom: 1px solid $color-grey2;
+                height: 10.05rem;
+                .left-part {
+                    float: left;
+                    width: 11.5rem;
+                    position: relative;
+                    margin-top: -1rem;
+                    .nav-container {
+                        width: 1.4rem;
+                        height: 11rem;
+                        position: absolute;
+                        right:0;
+                        .nav-tabs {
+                            width: 11rem;
+                            margin-left: 1.4rem;
+                            display: block;
+                            transform: rotate(90deg);
+                            transform-origin: left top 0;
+                        }
+                    }
+
+                    .tab-content {
+                        width: 10rem;
+                        .tab-pane {
+                            min-height: 0;
+                            height: 10rem;
+                            border-left: none;
+                            border-right: none;
+                            padding: 0;
+                            margin: 0;
+                            position: relative;
+                            .item-slot {
+                                width: 1.7rem;
+                                height: 1.7rem;
+                                border: 1px solid $color-grey2;
+                                padding: 0.1rem;
+                            }
+                        }
+                    }
+                }
+                .character-image {
+                //    float: left;
+                    width: 10rem;
+                    height: 10rem;
+                //    margin-top: -0.5rem;
+                }
+                //.items-switch {
+                //    float: left;
+                //    height: 10rem;
+                //    width: 1rem;
+                //    a {
+                //        transform: rotate(90deg);
+                //        transform-origin: left top 0;
+                //        display: inline-block;
+                //        height: 3.5rem;
+                //    }
+                //}
+                .attribute {
+                    float: left;
+                    padding: 0.2rem 0.4rem;
+                    width: 28%;
+                }
+            }
+            .trait {
+                float: left;
+                padding: 0.2rem 0.4rem;
+                width: 32%;
             }
         }
         .characters-container {

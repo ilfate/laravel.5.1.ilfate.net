@@ -219,6 +219,8 @@ $(document).ready(function() {
         this.game = game;
 
         this.vue = {};
+        this.chatVue = {};
+        this.messages = [{text:'fffrfrfrf'}, {text:'awdasdasd'}];
 
         this.init = function() {
 
@@ -227,17 +229,53 @@ $(document).ready(function() {
 
             Vue.component('inventory', {
                 props: ['items'],
-                template: '#template-inventory'
+                template: '#template-inventory',
+            });
+            Vue.component('item-slot', {
+                props: ['character', 'type'],
+                template: '#template-item-slot',
+                methods: {
+                    allowDrop: function (event) { event.preventDefault(); },
+                    addItem : function(ev, character) {
+                        ev.preventDefault();
+                        var type = ev.dataTransfer.getData("text");
+                        var item = false;
+                        for (var i in that.game.settlement.items) {
+                            if (that.game.settlement.items[i].name == type) {
+                                item = that.game.settlement.items[i];
+                                break;
+                            }
+                        }
+                        if (!item) return;
+                        item.q -= 1;
+                        character.inventory[item.location] = item;
+                    }
+                },
+            });
+            Vue.component('item', {
+                props: {'item': {}, 'showQuantity': {default:true}},
+                template: '#template-item',
+                // data: function() { return {showQuantity: true}; },
+                methods: {
+                    drag : function(event, i) { event.dataTransfer.setData("text", i.name); },
+                },
             });
             Vue.component('character-info', {
                 props: ['character'],
-                template: '#template-character-info'
+                template: '#template-character-info',
+
             });
             Vue.component('characters-container', {
                 props: ['characters'],
                 template: '#template-characters-container'
             });
 
+            this.chatVue = new Vue({
+                el: '#chat-app',
+                data: {
+                    messages: this.messages
+                }
+            });
             this.vue = new Vue({
                 el: '#game-app',
                 data: {
