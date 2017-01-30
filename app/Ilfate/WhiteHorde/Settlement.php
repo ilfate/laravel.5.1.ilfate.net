@@ -6,6 +6,17 @@ use Ilfate\WhiteHorde;
 
 class Settlement extends WhiteHorde
 {
+	const RESOURCE_STEEL   = 'steel';
+	const RESOURCE_WOOD    = 'wood';
+	const RESOURCE_GOLD    = 'gold';
+	const RESOURCE_STONE   = 'stone';
+	const RESOURCE_FOOD    = 'food';
+	const RESOURCE_BONES   = 'bones';
+	const RESOURCE_TUSKS   = 'tusks';
+	const RESOURCE_LEATHER = 'leather';
+
+	use ItemsStorageTrait;
+	
 	/**
 	 * The database table used by the model.
 	 *
@@ -20,6 +31,8 @@ class Settlement extends WhiteHorde
 		'threatLevel',
 	];
 
+	protected $resourcesChanged = [];
+
 	/**
 	 * Get user.
 	 */
@@ -33,7 +46,7 @@ class Settlement extends WhiteHorde
 		$data = [
 			'name' => $this->name,
 			'inventory' => $this->exportInventory(),
-			'resources' => $this->getResources(),
+			'resources' => $this->exportResources(),
 		];
 		return $data;
 	}
@@ -50,16 +63,7 @@ class Settlement extends WhiteHorde
 		$this->compressResources();
 	}
 
-	public function getInventory()
-	{
-		if (is_array($this->inventory)) {
-			return $this->inventory;
-		}
-		if ($this->inventory) {
-			$this->inventory = json_decode($this->inventory, true);
-		}
-		return $this->inventory;
-	}
+	
 
 	protected function compressInventory()
 	{
@@ -76,6 +80,8 @@ class Settlement extends WhiteHorde
 		if ($this->resources) {
 			$this->resources = json_decode($this->resources, true);
 		}
+		if (!$this->resources) return [];
+
 		return $this->resources;
 	}
 
@@ -86,6 +92,49 @@ class Settlement extends WhiteHorde
 		}
 	}
 
+	protected function exportResources($onlyChanged = false)
+	{
+		$return = [];
+		$resources = $this->getResources();
+		foreach ($resources as $name => $resource) {
+			if ($onlyChanged && !in_array($name, $this->resourcesChanged)) continue;
+			$return[] = ['name' => $name, 'value' => $resource[0], 'income' => $resource[1]];
+		}
+		return $return;
+	}
+
+	public function resource($name, $value)
+	{
+		$resources = $this->getResources();
+		if (!empty($resources[$name])) {
+			$resources[$name][0] += $value;
+		} else {
+			$resources[$name] = [$value, 0];
+		}
+		$this->resources = $resources;
+		if (!in_array($name, $this->resourcesChanged)) $this->resourcesChanged[] = $name;
+		$this->wasUpdated();
+	}
+
+	public function income($name, $value)
+	{
+		$resources = $this->getResources();
+		if (!empty($resources[$name])) {
+			$resources[$name][1] += $value;
+		} else {
+			$resources[$name] = [0, $value];
+		}
+		$this->resources = $resources;
+		if (!in_array($name, $this->resourcesChanged)) $this->resourcesChanged[] = $name;
+		$this->wasUpdated();
+	}
+
+	public function exportChangedResources()
+	{
+		if (!$this->resourcesChanged) return false;
+		return $this->exportResources(true);
+	}
+
 	protected function exportInventory()
 	{
 		$inventory = $this->getInventory();
@@ -94,7 +143,7 @@ class Settlement extends WhiteHorde
 		$return = [];
 		foreach ($inventory as $itemName => $quantity) {
 			if (empty($itemsConfig[$itemName])) {
-				throw new \Exception('Item ' . $itemName . ' has no definition');
+				throw new WHErrorException('Item ' . $itemName . ' has no definition');
 			}
 			$item = $itemsConfig[$itemName];
 			$item['code'] = $itemName;
@@ -104,15 +153,5 @@ class Settlement extends WhiteHorde
 		return $return;
 	}
 
-	public function addItem($itemName, $quantity = 1)
-	{
-		$inventory = $this->getInventory();
-		if (!empty($this->inventory[$itemName])) {
-			$inventory[$itemName] += $quantity;
-		} else {
-			$inventory[$itemName] = $quantity;
-		}
-		$this->inventory = $inventory;
-		$this->wasUpdated();
-	}
+	
 }

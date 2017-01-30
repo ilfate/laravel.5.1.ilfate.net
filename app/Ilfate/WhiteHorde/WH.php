@@ -44,8 +44,9 @@ abstract class WH
      */
     protected static $buildings = [];
     protected static $allBuildingsLoaded = false;
-    
 
+    protected static $actions = [];
+    
     
     /**
      * @return Settlement
@@ -66,18 +67,31 @@ abstract class WH
         return self::$settlement;
     }
 
-    public static function getCharacter($id)
+    public static function getCharacter($id, $isCheckCharacter = true)
     {
         if (!empty(self::$characters[$id])) return self::$characters[$id];
         self::$characters[$id] = WHCharacter::findOrFail($id);
         self::$characters[$id]->init();
+        if ($isCheckCharacter) {
+            $settlement = WH::getOrCreateSettlement();
+            if (!self::$characters[$id] || !$settlement || self::$characters[$id]->settlement_id !== $settlement->id) {
+                throw new WHErrorException('Character with ID=' . $id . ' not found');
+            }
+        }
         return self::$characters[$id];
     }
 
-    public static function getBuilding($id)
+    public static function getBuilding($id, $isCheckBuilding = true)
     {
         if (!empty(self::$buildings[$id])) return self::$buildings[$id];
-        self::$buildings[$id] = WHBuilding::findOrFail($id);
+        $tempBuilding = WHBuilding::findOrFail($id);
+        if ($isCheckBuilding) {
+            $settlement = WH::getOrCreateSettlement();
+            if (!$settlement || $tempBuilding->settlement_id !== $settlement->id) {
+                throw new WHErrorException('Building with ID=' . $id . ' not found');
+            }
+        }
+        self::$buildings[$id] = $tempBuilding->make();
         return self::$buildings[$id];
     }
 
@@ -88,9 +102,8 @@ abstract class WH
         }
         $id = self::getOrCreateSettlement()->id;
         $buildings = WHBuilding::where('settlement_id', $id)->get();
-        foreach ($buildings as $building) {
-            $building->init();
-            self::$buildings[$building->id] = $building;
+        foreach ($buildings as $tempBuilding) {
+            self::$buildings[$tempBuilding->id] = $tempBuilding->make();
         }
         self::$allBuildingsLoaded = true;
         return self::$buildings;
@@ -168,5 +181,15 @@ abstract class WH
         if (self::$settlement->isUpdated()) {
             self::$settlement->save();
         }
+    }
+
+    public static function addAction($action, $arguments = [])
+    {
+        self::$actions[] = ['action' => $action, 'arguments' => $arguments];
+    }
+
+    public static function getActions()
+    {
+        return self::$actions;
     }
 }

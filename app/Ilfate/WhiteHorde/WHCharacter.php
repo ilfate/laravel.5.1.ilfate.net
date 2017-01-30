@@ -13,6 +13,7 @@ class WHCharacter extends WhiteHorde
 	const ATTRIBUTE_AGE = 'age';
 	const ATTRIBUTE_GENDER = 'gender';
 	const ATTRIBUTE_NAME = 'name';
+	const ATTRIBUTE_BUILDING_SLOT = 'buildingSlot';
 	const ATTRIBUTE_TRAIT_EXPIRE = 'traitsExpire';
 	const ATTRIBUTE_FATHER_ID = 'fatherId';
 	const ATTRIBUTE_MOTHER_ID = 'motherId';
@@ -41,6 +42,7 @@ class WHCharacter extends WhiteHorde
 		self::ATTRIBUTE_AGE,
 		self::ATTRIBUTE_GENDER,
 		self::ATTRIBUTE_NAME,
+		self::ATTRIBUTE_BUILDING_SLOT,
 		self::ATTRIBUTE_TRAIT_EXPIRE,
 		self::ATTRIBUTE_FATHER_ID,
 		self::ATTRIBUTE_MOTHER_ID,
@@ -53,6 +55,8 @@ class WHCharacter extends WhiteHorde
 		self::ATTRIBUTE_NAME => 'get',
 		'id' => 'get',
 		'location' => 'get',
+		'building_id' => 'getBuildingId',
+		self::ATTRIBUTE_BUILDING_SLOT => 'get'
 	];
 
 	protected static $itemLocationsList = [
@@ -80,7 +84,7 @@ class WHCharacter extends WhiteHorde
 	public function export()
 	{
 		$data = [
-			'inventory' => $this->getItems(),
+			'inventory' => $this->exportItems(),
 			'traits' => $this->exportTraits(),
 		];
 
@@ -137,9 +141,22 @@ class WHCharacter extends WhiteHorde
 
 	public function removeTrait($name)
 	{
-		$key = $this->getTraits()->search($name);
-		$this->getTraits()->pull($key);
+		$this->getTraits()->remove($name);
 		$this->wasUpdated();
+	}
+
+	public function hasTrait($trait)
+	{
+		return $this->getTraits()->contains($trait);
+	}
+
+	public function hasOneOfTraits($traits)
+	{
+		$characterTraits = $this->getTraits();
+		foreach ($traits as $trait) {
+			if ($characterTraits->contains($trait)) return true;
+		}
+		return false;
 	}
 
 	public function set($attribute, $value)
@@ -157,7 +174,7 @@ class WHCharacter extends WhiteHorde
 		$this->compressAttributes();
 		$this->compressItems();
 		if ($this->traits instanceof TraitCollection) {
-			$this->traits = json_encode($this->traits->toArray());
+			$this->traits = json_encode($this->getTraits()->export());
 		}
 	}
 
@@ -176,6 +193,40 @@ class WHCharacter extends WhiteHorde
 		$this->wasUpdated();
 	}
 
+	public static function equipItemAction($data)
+	{
+		if (empty($data['character']) || empty($data['item']) || empty($data['location'])) {
+			throw new WHErrorException('equipItem data is missing');
+		}
+		$character = WH::getCharacter($data['character']);
+		$itemName = $data['item'];
+		$character->addItemFromCurrentLocation($itemName, $data['location']);
+	}
+
+	public static function unequipItemAction($data)
+	{
+		if (empty($data['character']) || empty($data['item']) || empty($data['location'])) {
+			throw new WHErrorException('unequipItem data is missing');
+		}
+		$character = WH::getCharacter($data['character']);
+		$itemName = $data['item'];
+		$character->giveItemToCurrentLocation($itemName, $data['location']);
+	}
+
+	public function unassignFromBuilding()
+	{
+		$this->building_id = null;	
+		$this->{self::ATTRIBUTE_BUILDING_SLOT} = false;
+		$this->wasUpdated();
+	}
+
+	public function assignToBuilding(WHBuilding $building, $slotName)
+	{
+		$this->building_id = $building->id;
+		$this->{self::ATTRIBUTE_BUILDING_SLOT} = $slotName;
+		$this->wasUpdated();
+	}
+
 	public function getItems()
 	{
 		if (is_array($this->items)) {
@@ -185,32 +236,80 @@ class WHCharacter extends WhiteHorde
 			$this->items = json_decode($this->items, true);
 		}
 		if (!$this->items) {
-			return [];
+			$this->items = [];
 		}
 		return $this->items;
 	}
 
-	public function addItem()
+	protected function exportItems()
 	{
-//		$export = [];
-//		$items = $this->getItems();
-//		if (!$items) return [];
-//		$itemsConfig = \Config::get('whiteHorde.items.list');
-//		foreach ($items as $item) {
-//			$itemConfig = $itemsConfig[$item];
-//			$itemConfig['q'] = 1;
-//			$itemConfig['code'] = $item;
-//			if (empty($export[$itemConfig['location']])) {
-//				$export[$itemConfig['location']] = $itemConfig;
-//			} else {
-//				if ($itemConfig['location'] == self::ITEM_LOCATION_HAND
-//					&& !empty($itemConfig['offLocation']) && $itemConfig['offLocation'] == self::ITEM_LOCATION_OFF_HAND
-//					&& empty($export[self::ITEM_LOCATION_OFF_HAND])) {
-//					$export[self::ITEM_LOCATION_OFF_HAND] = $itemConfig;
-//				}
-//			}
-//		}
-//		return $export;
+		$items = $this->getItems();
+		if (!$items) return [];
+		$itemsConfig = \Config::get('whiteHorde.items.list');
+		foreach ($items as $location => $itemCode) {
+			if (!$itemCode) continue;
+			if (empty($itemsConfig[$itemCode])) {
+				throw new WHErrorException('Item ' . $itemCode . ' has no definition');
+			}
+			$item = $itemsConfig[$itemCode];
+			$item['code'] = $itemCode;
+			$item['q'] = 1;
+			$items[$location] = $item;
+		}
+		return $items;
+	}
+
+	public function addItemFromCurrentLocation($itemName, $slotLocation)
+	{
+		$storage = '';
+		switch ($this->location) {
+			case self::LOCATION_SETTLEMENT:
+				$settlement = WH::getOrCreateSettlement();
+				if (!$settlement->hasItem($itemName)) {
+					throw new WHErrorException('There is no item ' . $itemName . ' in settlement inventory');
+				}
+				$storage = $settlement;
+				break;
+		}
+		$itemConfig = \Config::get('whiteHorde.items.list.' . $itemName);
+		if (!$itemConfig) {
+			throw new WHErrorException('There is no item ' . $itemName . ' found');
+		}
+		$items = $this->getItems();
+		if (!empty($items[$slotLocation])) {
+			throw new WHErrorException('Character id=' . $this->id . ' don\'t have a free slot for Item ' . $itemName);
+		} else {
+			$items[$slotLocation] = $itemName;
+		}
+		 $this->items = $items;
+		
+		$storage->removeItem($itemName);
+		$this->wasUpdated();
+	}
+
+	public function giveItemToCurrentLocation($itemName, $slotLocation)
+	{
+		$storage = '';
+		switch ($this->location) {
+			case self::LOCATION_SETTLEMENT:
+				$settlement = WH::getOrCreateSettlement();
+				$storage = $settlement;
+				break;
+		}
+		$itemConfig = \Config::get('whiteHorde.items.list.' . $itemName);
+		if (!$itemConfig) {
+			throw new WHErrorException('There is no item ' . $itemName . ' found');
+		}
+		$items = $this->getItems();
+		if (empty($items[$slotLocation])) {
+			throw new WHErrorException('Character id=' . $this->id . ' don\'t have this item in slot ' . $itemName);
+		} else {
+			$items[$slotLocation] = false;
+		}
+		 $this->items = $items;
+
+		$storage->addItem($itemName);
+		$this->wasUpdated();
 	}
 
 	protected function getTranslatedGender($gender) {
@@ -221,6 +320,12 @@ class WHCharacter extends WhiteHorde
 				return 'Female';
 			default: return '';
 		}
+	}
+
+	public function getBuildingId()
+	{
+		if ($this->building_id) return $this->building_id;
+		return false;
 	}
 
 }

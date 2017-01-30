@@ -221,6 +221,7 @@ $(document).ready(function() {
         this.vue = {};
         this.chatVue = {};
         this.messages = [{text:'fffrfrfrf'}, {text:'awdasdasd'}];
+        this.dragObjectType = '';
 
         this.init = function() {
 
@@ -228,36 +229,89 @@ $(document).ready(function() {
             info(this.game.whiteHordeData);
 
             Vue.component('inventory', {
-                props: ['items'],
+                props: ['items', 'resources'],
                 template: '#template-inventory',
+                methods: {
+                    allowDrop: function (ev) {
+                        if (that.dragObjectType == "item") {
+                            ev.preventDefault();
+                        }
+                    },
+                    storeItem : function(ev) {
+                        ev.preventDefault();
+                        var type = ev.dataTransfer.getData("text");
+                        var characterId = ev.dataTransfer.getData("character");
+                        var slotType = ev.dataTransfer.getData("location");
+                        if (!characterId) return;
+                        var character = that.game.settlement.findCharacter(characterId);
+                        if (!character.inventory[slotType]) return;
+                        var item = character.inventory[slotType];
+
+                        var itemInStore = that.game.settlement.findItem(type);
+                        if (itemInStore) {
+                            itemInStore.q += 1;
+                        } else {
+                            item.character = false;
+                            item.currentLocation = false;
+                            that.game.settlement.items.push(item);
+                        }
+                        character.inventory[slotType] = false;
+                        that.game.action('unequipItem', {character:character.id, item:type, location:slotType});
+                    }
+                },
             });
             Vue.component('item-slot', {
                 props: ['character', 'type'],
                 template: '#template-item-slot',
                 methods: {
-                    allowDrop: function (event) { event.preventDefault(); },
+                    allowDrop: function (ev) {
+                        if (that.dragObjectType == "item") {
+                            ev.preventDefault();
+                        }
+                    },
                     addItem : function(ev, character) {
                         ev.preventDefault();
                         var type = ev.dataTransfer.getData("text");
-                        var item = false;
-                        for (var i in that.game.settlement.items) {
-                            if (that.game.settlement.items[i].name == type) {
-                                item = that.game.settlement.items[i];
-                                break;
+                        var item = that.game.settlement.findItem(type);
+                        if (!item) return;
+                        var slotType = ev.target.getAttribute("data-type");
+                        if (item.location != slotType) {
+                            if (item.location2 === undefined || item.location2 !== slotType) {
+                                // wrong slot
+                                return;
                             }
                         }
-                        if (!item) return;
                         item.q -= 1;
-                        character.inventory[item.location] = item;
+                        var newItem = jQuery.extend(true, {}, item);
+                        newItem.q = 1;
+                        character.inventory[slotType] = newItem;
+                        newItem.currentLocation = slotType;
+                        newItem.character = character;
+                        if (item.q == 0) {
+                            that.game.settlement.items.splice(i, 1);
+                        }
+                        that.game.action('equipItem', {character:character.id, item:type, location:slotType})
                     }
                 },
             });
             Vue.component('item', {
-                props: {'item': {}, 'showQuantity': {default:true}},
+                props: {
+                    'item': {},
+                    'showQuantity': {default:true}
+                },
                 template: '#template-item',
                 // data: function() { return {showQuantity: true}; },
                 methods: {
-                    drag : function(event, i) { event.dataTransfer.setData("text", i.name); },
+                    drag : function(event, item) {
+                        // var item = that.game.settlement.findItem(item.name);
+                        var characterId = item.character ? item.character.id : false;
+                        if (characterId) {
+                            event.dataTransfer.setData("character", characterId);
+                            event.dataTransfer.setData("location", item.currentLocation);
+                        }
+                        event.dataTransfer.setData("text", item.code);
+                        that.dragObjectType = 'item';
+                    },
                 },
             });
             Vue.component('character-info', {
@@ -265,9 +319,81 @@ $(document).ready(function() {
                 template: '#template-character-info',
 
             });
-            Vue.component('characters-container', {
-                props: ['characters'],
-                template: '#template-characters-container'
+            Vue.component('building', {
+                data: function() { return {show:false} },
+                props: ['building'],
+                template: '#template-building',
+                watch: {
+                    show:function(show) {
+                        if (!show && !this.building.show) {
+                            this.building.show = this.show = true;
+                        }
+                        if (show) { that.game.settlement.hideBuildings() }
+                        this.building.show = show;
+                    }
+                },
+            });
+            Vue.component('building-window', {
+                props: ['building'],
+                template: '#template-building-window',
+                methods: {
+                },
+            });
+            Vue.component('building-slot', {
+                props: ['slotVar', 'building'],
+                template: '#template-building-slot',
+                methods: {
+                    allowDrop: function (ev) {
+                        if (that.dragObjectType == "character") {
+                            ev.preventDefault();
+                        }
+                    },
+                    addCharacter : function(ev) {
+                        ev.preventDefault();
+                        var characterId = ev.dataTransfer.getData("character");
+                        var character = that.game.settlement.findCharacter(characterId);
+                        if (character.building_id) {
+                            var oldBuilding = that.game.settlement.findBuilding(character.building_id);
+                            oldBuilding.characters[character.buildingSlot] = false;
+                        }
+                        if (this.building.characters[this.slotVar.name]) {
+                            var oldCharacter = this.building.characters[this.slotVar.name];
+                            oldCharacter.building_id = false;
+                            oldCharacter.buildingSlot = false;
+                        }
+                        this.building.characters[this.slotVar.name] = character;
+                        character.building_id = this.building.id;
+                        character.buildingSlot = this.slotVar.name;
+
+                        that.game.action('assignCharacter', {
+                            character:character.id,
+                            building:this.building.id,
+                            slot:this.slotVar.name
+                        })
+                    }
+                },
+            });
+            Vue.component('character', {
+                props: ['character'],
+                template: '#template-character',
+                methods: {
+                    showCharacter:function(character) {
+                        if (that.vue.characterInfo === character) {
+                            that.vue.characterInfo = false;
+                        } else {
+                            that.vue.characterInfo = character;
+                        }
+                    },
+                    drag : function(event, character) {
+                        that.dragObjectType = 'character';
+                        // var characterId = item.character ? item.character.id : false;
+                        // if (characterId) {
+                        //     event.dataTransfer.setData("character", characterId);
+                        //     event.dataTransfer.setData("location", item.currentLocation);
+                        // }
+                        event.dataTransfer.setData("character", character.id);
+                    },
+                }
             });
 
             this.chatVue = new Vue({
@@ -276,16 +402,17 @@ $(document).ready(function() {
                     messages: this.messages
                 }
             });
+            Vue.use(VueMaterial);
             this.vue = new Vue({
                 el: '#game-app',
                 data: {
+                    settlement:this.game.settlement,
                     buildings:this.game.settlement.buildings,
-                    settlementItems:this.game.settlement.items,
-                    settlementResources:this.game.settlement.resources,
                     settlementCharacters:this.game.settlement.characters,
-                    characterInfo: {},
+                    characterInfo: false,
                     showSettlementInventory : false,
                     showCharacterInfo : false,
+                    alert: {content:"empty",ok:'ok'}
                 },
                 // watch : {
                 //     buildings: {
@@ -296,12 +423,35 @@ $(document).ready(function() {
                 //     },
                 // },
                 methods: {
-                    buildingClick : function (building) {
-                        that.buildingClick(building);
-                    }
+                    unassignCharacter:function(ev){
+                        ev.preventDefault();
+                        var characterId = ev.dataTransfer.getData("character");
+                        var character = that.game.settlement.findCharacter(characterId);
+                        if (!character.building_id) {
+                            return;
+                        }
+                        var oldBuilding = that.game.settlement.findBuilding(character.building_id);
+                        oldBuilding.characters[character.buildingSlot] = false;
+                        character.building_id = false;
+                        character.buildingSlot = false;
+
+                        that.game.action('unassignCharacter', {
+                            character:character.id
+                        });
+                    },
+                    allowDropCharacter:function(ev) {
+                        if (that.dragObjectType == "character") {
+                            ev.preventDefault();
+                        }
+                    },
+                    openDialog:function(ref) {
+                        this.$refs[ref].open();
+                    },
+                    closeDialog:function(ref) {
+                        this.$refs[ref].close();
+                    },
                 }
             });
-
 
             // $('.pause-button').on('click', function () {
             //     that.pauseToggle();
@@ -315,6 +465,16 @@ $(document).ready(function() {
                     this.vue.showSettlementInventory = true;
                     break;
             }   
+        };
+
+        this.emptyBuildingSlot = function(data)
+        {
+            var building = this.game.settlement.findBuilding(data.buildingId);
+            var slot = data.slot;
+            var character = building.characters[slot];
+            character.building_id = false;
+            character.buildingSlot = false;
+            building.characters[slot] = false;
         };
 
         

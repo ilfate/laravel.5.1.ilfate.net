@@ -73,7 +73,7 @@ body.WhiteHorde {
                 float: left;
             }
         }
-        .inventory {
+        .building-window {
             background-color: $color-white;
             width:50%;
             min-height: $wh-settlement-height;
@@ -89,17 +89,31 @@ body.WhiteHorde {
                 left: 0;
                 vertical-align: middle;
             }
-            .item {
-                width: 1.7rem;
-                height: 1.7rem;
-                padding: 0.1rem;
-                float: left;
-                position: relative;
-                .quantity {
-                    position: absolute;
-                    color: $color-grey;
-                    right:0;
-                    bottom:0;
+            .inventory {
+                width:100%;
+                height: $wh-settlement-height / 2;
+                .item {
+                    width: 1.7rem;
+                    height: 1.7rem;
+                    padding: 0.1rem;
+                    float: left;
+                    position: relative;
+                    .quantity {
+                        position: absolute;
+                        color: $color-grey;
+                        right:0;
+                        bottom:0;
+                    }
+                }
+            }
+            .slots {
+                .building-slot {
+                    width: 4rem;
+                    height: 4.5rem;
+                    border: 1px solid $color-grey2;
+                    .character {
+                        margin:0;
+                    }
                 }
             }
         }
@@ -152,8 +166,8 @@ body.WhiteHorde {
                             margin: 0;
                             position: relative;
                             .item-slot {
-                                width: 1.7rem;
-                                height: 1.7rem;
+                                width: 1.9rem;
+                                height: 1.9rem;
                                 border: 1px solid $color-grey2;
                                 padding: 0.1rem;
                             }
@@ -191,18 +205,21 @@ body.WhiteHorde {
         }
         .characters-container {
             padding: 0.2rem 0 0 0.2rem;
-            .character {
-                float: left;
+
+        }
+        .character {
+            float: left;
+            width: 4rem;
+            height: 4.5rem;
+            margin: 0 0 0.2rem 0.2rem;
+            border: 1px solid $color-grey2;
+            &:hover {
+                border: 1px solid $color-grey;
+            }
+            .image {
+                margin-left: 0.4rem;
                 width: 3.2rem;
-                margin: 0 0 0.2rem 0.2rem;
-                border: 1px solid $color-grey2;
-                &:hover {
-                    border: 1px solid $color-grey;
-                }
-                .image {
-                    width: 3.2rem;
-                    height: 3.2rem;
-                }
+                height: 3.2rem;
             }
         }
 
@@ -213,10 +230,10 @@ body.WhiteHorde {
 
 
     .slide-fade-enter-active, .slide-left-fade-enter-active {
-        transition: all .3s ease;
+        transition: all .15s ease;
     }
     .slide-fade-leave-active, .slide-left-fade-leave-active {
-        transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
     .slide-fade-enter, .slide-fade-leave-active {
         transform: translateX(5rem);

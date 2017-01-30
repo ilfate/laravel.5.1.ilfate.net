@@ -54,7 +54,7 @@
         </div>
             <p>
                 <div class="trait" v-for="trait in character.traits">
-                    {{trait}}
+                    {{trait[0]}}
                 </div>
             </p>
         

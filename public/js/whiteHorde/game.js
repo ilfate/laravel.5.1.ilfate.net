@@ -68,6 +68,38 @@ $(document).ready(function() {
             
             // this.interface.init();
         };
+        
+        this.action = function(actionName, data) {
+            var dataString = JSON.stringify(data);
+            var that = this;
+            Ajax.json('/WhiteHorde/action', {
+                data: 'action=' + actionName + '&data=' + dataString,
+                callBack : function(data){ that.callback(data) }
+            });    
+        };
+        this.callback = function (data) {
+            info (data);
+            if (data.resources !== undefined) {
+                this.settlement.updateResources(data.resources);
+            }
+            if (data.game !== undefined) {
+                if (data.game.error !== undefined) {
+                    this.interface.vue.openDialog('alert-ref');
+                }
+                if (data.game.message !== undefined) {
+                    this.interface.vue.alert.content = data.game.message;
+                    this.interface.vue.openDialog('alert-ref');
+                }
+
+                if (data.game.actions !== undefined && data.game.actions.length > 0) {
+                    for (var i in data.game.actions) {
+                        var actionName = data.game.actions[i].action;
+                        var arguments = data.game.actions[i].arguments;
+                        executeFunctionByName(actionName, this, [arguments]);
+                    }
+                }
+            }
+        };
 
         this.runDemo = function () {
             // info('Demo step = '+ this.demoStep);

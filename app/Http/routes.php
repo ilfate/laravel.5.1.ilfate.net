@@ -85,6 +85,7 @@ Route::get('WhiteHorde/test', 'WhiteHordeController@test');
 Route::get('WhiteHorde/fake', 'WhiteHordeController@fake');
 Route::get('WhiteHorde', 'WhiteHordeController@index');
 Route::get('whiteHorde', 'WhiteHordeController@index');
+Route::post('WhiteHorde/action', 'WhiteHordeController@action');
 
 
 Route::get('Cosmos', 'CosmosController@index');

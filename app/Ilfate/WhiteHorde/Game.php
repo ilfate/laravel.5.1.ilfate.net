@@ -12,9 +12,8 @@
  * @link      http://www.watchmaster.de
  */
 namespace Ilfate\WhiteHorde;
-use Ilfate\Settlement;
+
 use Ilfate\User;
-use Ilfate\WHCharacter;
 
 /**
  * TODO: Short description.
@@ -39,5 +38,29 @@ class Game
         $data['buildings'] = WH::exportAllBuildings();
 
         return $data;
+    }
+
+    public static function action($name, $data)
+    {
+        $return = [];
+        $settlement = WH::getOrCreateSettlement();
+        switch ($name) {
+            case 'equipItem':
+                WHCharacter::equipItemAction($data);
+                break;
+            case 'unequipItem':
+                WHCharacter::unequipItemAction($data);
+                break;
+            case 'assignCharacter':
+                WHBuilding::assignCharacter($data);
+                break;
+            case 'unassignCharacter':
+                WHBuilding::unassignCharacter($data);
+                break;
+        }
+        if ($changedResources = $settlement->exportChangedResources()) {
+            $return['resources'] = $changedResources;
+        }
+        return $return;
     }
 }

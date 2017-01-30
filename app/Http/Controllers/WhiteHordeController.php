@@ -14,6 +14,8 @@ use Ilfate\TdStats;
 use Ilfate\User;
 use Ilfate\WhiteHorde\WH;
 use Ilfate\WhiteHorde\WHBuilding;
+use Ilfate\WhiteHorde\WHErrorException;
+use Ilfate\WhiteHorde\WHMessageException;
 use Ilfate\WhiteHorde\WHTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -79,6 +81,54 @@ class WhiteHordeController extends BaseController
 
         return view('games.whiteHorde.demo');
     }
+
+    public function action(Request $request)
+    {
+        
+
+        $action = $request->get('action');
+        $data = $request->get('data');
+        
+        try {
+            $game = new \Ilfate\WhiteHorde\Game();
+            $result = $game->action($action, json_decode($data, true));
+//            $result = WH::action($action, json_decode($data, true));
+            WH::endExecution();
+        } catch (WHErrorException $e) {
+            $result = ['action' => 'error-message',
+                       'game' => [
+                           'error' => $e->getMessage()
+                       ]
+            ];
+        } catch (WHMessageException $e) {
+            $result = ['action' => 'error-message',
+                       'game' => [
+                           'message' => $e->getMessage()
+                       ]
+            ];
+        } catch (\Exception $e) {
+            \Log::critical('Error in White Horde. message:' . $e->getMessage());
+            $result = ['action' => 'error-message',
+                       'game' => [
+                           'error' => 'internal error'
+                       ]
+            ];
+        } catch (\Throwable $e) {
+            \Log::critical('Error in White Horde. message:' . $e->getMessage());
+            $result = ['action' => 'error-message',
+                       'game' => [
+                           'error' => 'internal error'
+                       ]
+            ];
+        }
+        if($actions = WH::getActions()) {
+            $result['game']['actions'] = $actions;
+        }
+//        if ($this->isLoggingEnabled($game->getUser())) {
+//            $this->logAction(['result' => $result, 'action' => $action, 'data' => $data], $game->getUser());
+//        }
+        return json_encode($result);
+    }
     
 
     public function test()
@@ -100,11 +150,11 @@ class WhiteHordeController extends BaseController
 
 
 
-//        WH::addBuilding(WHBuilding::TYPE_WARHOUSE);
+        WH::addBuilding(WHBuilding::TYPE_SMITHY);
         
-        WH::addCharacter()->initRandomAdult();
+        //WH::addCharacter()->initRandomAdult();
 //        $characters = WH::getAllCharacters();
-//        $character = WH::getCharacter(3);
+//        $character = WH::getCharacter(10);
 //        $character->addTrait(WHTrait::getRandomFromType(WHTrait::TYPE_NEGATIVE));
 
 //        foreach ($characters as $character) {
