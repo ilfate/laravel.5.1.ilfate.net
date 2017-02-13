@@ -13,8 +13,14 @@ $color-laser-0: $color-orange;
 $color-laser-1: #069E2D;
 $color-laser-2: #0000ed;
 
-$hexagon-side: 3em;
+$hexagon-side: 1rem;
 $hexagon-width: sqrt(3) * $hexagon-side;
+//$half-hex-width: (round($hexagon-width / 2) * 100) / 100;
+$half-hex-width: $hexagon-width / 2;
+$half-hex-side: ($hexagon-side / 2);// + 0.01;
+
+
+
 div.hex {
     margin:0 auto;
     display:block;

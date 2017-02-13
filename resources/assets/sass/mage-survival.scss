@@ -45,7 +45,10 @@ $battlefield-size: ($map-radius * 2 + 1) * $cell-size;
 $mage-inventory-size: 7 * $item-size + 0.9;
 $mage-mobile-inventory-size: 6 * $item-size;
 
-body { /* for safari's tint */ background-color: $mage-colors-brown; /* for the document's body background color */ background-image: linear-gradient(to bottom, $mage-colors-brown 0%, $mage-colors-brown 100%); }
+body.mage-survival {
+     background-color: $mage-colors-brown;
+     background-image: linear-gradient(to bottom, $mage-colors-brown 0%, $mage-colors-brown 100%);
+}
 
 .mage-survival {
     .container.main{

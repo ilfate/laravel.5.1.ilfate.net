@@ -79,6 +79,12 @@ Route::get('hex', 'HexController@index');
 Route::get('hex/reset', 'HexController@reset');
 Route::post('hex/action', 'HexController@action');
 
+Route::get('shipAi', 'ShipAiController@index');
+Route::get('shipAi/galaxy', 'ShipAiController@galaxy');
+Route::get('shipAi/hex/{id}', 'ShipAiController@hex');
+Route::get('shipAi/star/{id}', 'ShipAiController@star');
+
+
 Route::get('whiteHorde/demo', 'WhiteHordeController@demo');
 Route::get('WhiteHorde/demo', 'WhiteHordeController@demo');
 Route::get('WhiteHorde/test', 'WhiteHordeController@test');

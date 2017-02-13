@@ -83,13 +83,19 @@
 <script src="/packages/vue.js"></script>
 <script src="/packages/pixi.min.js"></script>
 <script src="/packages/vue-material-master/vue-material-0.6.3.js"></script>
-<script src="/js/whiteHorde/WhiteHorde.js"></script>
-<script src="/js/whiteHorde/interface.js"></script>
-<script src="/js/whiteHorde/settlement.js"></script>
-<script src="/js/whiteHorde/inventory.js"></script>
-<script src="/js/whiteHorde/characterHelper.js"></script>
+{{--<script src="/js/whiteHorde/WhiteHorde.js"></script>--}}
+{{--<script src="/js/whiteHorde/interface.js"></script>--}}
+{{--<script src="/js/whiteHorde/settlement.js"></script>--}}
+{{--<script src="/js/whiteHorde/inventory.js"></script>--}}
+{{--<script src="/js/whiteHorde/characterHelper.js"></script>--}}
 <script src="/js/whiteHorde/demo.js"></script>
 <script src="/js/whiteHorde/game.js"></script>
+
+<script src="/js/shipAi/general.js"></script>
+<script src="/js/shipAi/galaxyApp.js"></script>
+<script src="/js/shipAi/hexApp.js"></script>
+<script src="/js/shipAi/starApp.js"></script>
+<script src="/js/shipAi/app.js"></script>
 
 {{--<script src="/js/cosmos/main.js"></script>--}}
 {{--<script src="/js/hex/main.js"></script>--}}

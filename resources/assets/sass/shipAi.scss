@@ -1,0 +1,115 @@
+
+$description-cells-size:16px;
+
+$wh-game-height: 20rem;
+$wh-settlement-height: 17.5rem;
+
+body.shipAi {
+    font-size: 20px;
+    background-color: $color-black;
+
+    a {
+        cursor: pointer;
+    }
+    .no-select {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    #galaxy-app {
+        .hexagon-container {
+            cursor: pointer;
+        }
+    }
+
+    #hex-app {
+        $page-hex-side: 17.5rem;
+        $page-hex-width: sqrt(3) * $page-hex-side;
+        $page-half-hex-width: $page-hex-width / 2;
+        $page-half-hex-side: $page-hex-side / 2;
+        margin: 350px 0 0 50%;
+        //display: flex;
+        align-items: center;
+        position: absolute;
+        .menu {
+            z-index: 20;
+            position: absolute;
+            margin-top: -$page-hex-side;
+            margin-left: -$page-half-hex-width;
+        }
+        .star-container {
+            position: absolute;
+            width:3px;
+            height:3px;
+            .point {
+                width:1px;
+                height:1px;
+                margin: 1px 0 0  1px;
+                background-color: $color-white;
+            }
+            .description {
+                min-width: 10rem;
+                font-size: 12px;
+                display: none;
+                padding: 0.25rem;
+                background-color: #101135;
+                color: $color-clay;
+            }
+            &:hover .description {
+                display: block;
+            }
+        }
+
+
+        .hex-for-page {
+
+            position: absolute;
+            margin: -$page-hex-side 0 0 (-$page-half-hex-width);
+
+            width:$page-hex-width;
+            height:$page-hex-side * 2;
+            padding-top: $page-hex-side / 2;
+            .hexagon {
+                width: $page-hex-width;
+                height: $page-hex-side;
+                background: $color-clay;
+                position: relative;
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: -$page-half-hex-side + 0.01;
+                    left: 0;
+                    width: 0;
+                    height: 0;
+                    border-left: $page-half-hex-width + 0.02 solid transparent;
+                    border-right: $page-half-hex-width solid transparent;
+                    border-bottom: $page-half-hex-side solid $color-clay;
+                }
+                &:after {
+                    content: "";
+                    position: absolute;
+                    bottom: -$page-half-hex-side;
+                    left: 0;
+                    width: 0;
+                    height: 0;
+                    border-left: $page-half-hex-width + 0.02 solid transparent;
+                    border-right: $page-half-hex-width solid transparent;
+                    border-top: $page-half-hex-side solid $color-clay;
+                }
+                &.black {
+                    background: $color-black;
+                    &:before {
+                        border-bottom: $page-hex-side / 2 solid $color-black;
+                    }
+                    &:after {
+                        border-top: $page-hex-side / 2 solid $color-black;
+                    }
+                }
+            }
+        }
+    }
+}
+
