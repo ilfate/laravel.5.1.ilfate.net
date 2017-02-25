@@ -78,6 +78,11 @@ class ShipAiController extends BaseController
             view()->share('localDevelopment', true);
         }
         $hexMap = Hex::getHexMap(1);
+
+        if ($hexMap->count() < 1) {
+            Generator::createGalaxy('mw');
+            $hexMap = Hex::getHexMap(1);
+        }
         view()->share('hexMap', $hexMap);
         return view('games.shipAi.galaxy');
     }
@@ -108,7 +113,7 @@ class ShipAiController extends BaseController
         if (env('APP_DEBUG') === true) {
             view()->share('localDevelopment', true);
         }
-        $star = Star::findOrFail($id);
+        $star = Star::loadFull($id);
 //        $hex = Hex::loadFull($id);
         view()->share('star', $star);
 //        view()->share('width', $hex->getHexWidth(Hex::SIDE_SIZE_LIGHT_YEARS));
@@ -163,46 +168,5 @@ class ShipAiController extends BaseController
 //        }
         return json_encode($result);
     }
-    
 
-    public function test()
-    {
-//        $settlement = new Settlement();
-//        $settlement->age = 3;
-//        $settlement->compressAttributes();
-//        $settlement->save();
-//        $settlement = Settlement::findOrFail(1);
-//        $settlement->extractAttributes();
-        $settlement = WH::getOrCreateSettlement();
-//        dd($settlement);
-
-        echo "\n END";
-    }
-
-    public function fake()
-    {
-
-
-
-        WH::addBuilding(WHBuilding::TYPE_SMITHY);
-        
-        //WH::addCharacter()->initRandomAdult();
-//        $characters = WH::getAllCharacters();
-//        $character = WH::getCharacter(10);
-//        $character->addTrait(WHTrait::getRandomFromType(WHTrait::TYPE_NEGATIVE));
-
-//        foreach ($characters as $character) {
-//            $character->addTrait(WHTrait::getRandomFromType(WHTrait::TYPE_NEGATIVE));
-//        }
-
-//        $s = WH::getOrCreateSettlement();
-//        $items = \Config::get('whiteHorde.items.list');
-//        foreach ($items as $name => $item) {
-//
-//            $s->addItem($name, 5);
-//        }
-        WH::endExecution();
-
-        return redirect('/WhiteHorde');
-    }
 }

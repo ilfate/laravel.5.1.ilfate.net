@@ -82,7 +82,7 @@
 <script src="/js/main.min.js"></script>
 <script src="/packages/vue.js"></script>
 <script src="/packages/pixi.min.js"></script>
-<script src="/packages/vue-material-master/vue-material-0.6.3.js"></script>
+<script src="/packages/vue-material.js"></script>
 {{--<script src="/js/whiteHorde/WhiteHorde.js"></script>--}}
 {{--<script src="/js/whiteHorde/interface.js"></script>--}}
 {{--<script src="/js/whiteHorde/settlement.js"></script>--}}

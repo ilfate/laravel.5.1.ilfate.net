@@ -22,7 +22,7 @@
                     >
                         <div class="point"></div>
                         <div class="description">
-                            Star name and info<br>
+                            {{$star->name ? ($star->name . ' ') : ''}}[{{$star->number}}]<br>
                             Star coordinate ({{$star->x}}, {{$star->y}})
                         </div>
                     </div>

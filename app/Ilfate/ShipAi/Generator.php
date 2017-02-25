@@ -12,6 +12,7 @@
  * @link      http://www.watchmaster.de
  */
 namespace Ilfate\ShipAi;
+use Ilfate\MageSurvival\ChanceHelper;
 
 
 /**
@@ -28,6 +29,8 @@ namespace Ilfate\ShipAi;
 abstract class Generator
 {
     const DEFAULT_GALAXY_RADIUS = 9;
+
+
 
     public static function createGalaxy($name)
     {
@@ -129,6 +132,9 @@ abstract class Generator
         $star->y = $center[1];
         $star->hex_id = $hex->id;
         $star->galaxy_id = $hex->galaxy_id;
+        $star->type = Star::getRandomType();
+        $star->number = NameGenerator::starNumber($star);
+        $star->name = NameGenerator::starName($star);
         $star->save();
 
         $cube = Hex::hex_to_cube($hex);
@@ -164,6 +170,9 @@ abstract class Generator
             $star->y = $y;
             $star->hex_id = $hex->id;
             $star->galaxy_id = $hex->galaxy_id;
+            $star->type = Star::getRandomType();
+            $star->number = NameGenerator::starNumber($star);
+            $star->name = NameGenerator::starName($star);
             $star->save();
             $stars[] = $star;
         }
@@ -172,4 +181,43 @@ abstract class Generator
 //        3737 5080
         return $stars;
     }
+
+    public static function createStarSystem(Star $star)
+    {
+        $objects = [];
+
+        $orbitsChases = [1,2,2,3,3,3,4,4,4,4,5,5,5,5,6,6,6,7,7,7,8,8,9,10];
+        $numberOfOrbits = ChanceHelper::oneFromArray($orbitsChases);
+
+        $averedgeDistance = 100 / $numberOfOrbits;
+        $orbits = [];
+        $names = [];
+        for ($i = 0; $i < $numberOfOrbits; $i++) {
+            $orbit = [];
+            $r = ($i * $averedgeDistance + $averedgeDistance / 2);
+            $orbit['r'] = $r + $r * (rand(-10, 10) / 100);
+            $orbit['name'] = NameGenerator::starName($names);
+            $names[] = $orbit['name'];
+            $orbit['type'] = Location::randomOrbitType();
+            $orbits[$i + 1] = $orbit;
+        }
+
+        $locationsChances = [0,0,1,1,1,2,2,2,2,3,3,3,4,4,5];
+        $numberOfLocations = ChanceHelper::oneFromArray($locationsChances);
+        $locations = [];
+        if ($numberOfLocations > $numberOfOrbits) {
+            if ($numberOfLocations > $numberOfOrbits + 1) {
+                $numberOfLocations = $numberOfOrbits + 1;
+            }
+            $location = new Location();
+            $location->type = '';
+        }
+
+
+        $star->objects = $objects;
+        $star->save();
+    }
+
+
+
 }

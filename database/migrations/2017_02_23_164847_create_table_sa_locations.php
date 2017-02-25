@@ -12,22 +12,24 @@ class CreateTableSaStars extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('sa_stars');
-        Schema::create('sa_stars', function($table)
+        Schema::dropIfExists('sa_locations');
+        Schema::create('sa_locations', function($table)
         {
             $table->engine = 'InnoDB';
 
             $table->increments('id');
-            $table->string('type', 20)->default('yellow dwarf');
-            $table->string('number', 12);
+            $table->string('type', 20)->default('planet');
             $table->string('name', 30)->nullabble();
             $table->integer('galaxy_id')->unsigned();
             $table->integer('hex_id')->unsigned();
-            $table->integer('empire_id')->nullable();
-            $table->integer('x');
-            $table->integer('y'); 
+            $table->integer('star_id')->unsigned();
+            $table->integer('r');
+            $table->integer('v');
+            $table->boolean('is_landable')->default(false);
+            $table->boolean('is_habitable')->default(false);
             $table->boolean('is_hidden')->default(false);
-            $table->text('objects');
+            $table->text('resources');
+            $table->text('conditions');
 
             $table->timestamps();
 
@@ -41,6 +43,6 @@ class CreateTableSaStars extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sa_stars');
+        Schema::dropIfExists('sa_locations');
     }
 }
