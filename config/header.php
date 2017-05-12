@@ -81,7 +81,7 @@ return array(
         	'description'  => 'Rubinchik Ilya`s personal site',
 			'og:site_name' => 'Ilfate',
 			'og:title'     => 'Ilfate - Rubinchik Ilya. Personal Site.',
-			'og:image'     => '/images/me/Ilya-Rubinchik.jpg',
+			'og:image'     => '/images/me/Ilya-Rubinchik-s.jpg',
 		],
 		'guess' => [
         	'keywords'       => 'guess series, game, series, quiz, quiz series, guess series game',
