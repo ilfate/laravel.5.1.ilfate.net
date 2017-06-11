@@ -70,7 +70,7 @@ class WitchSpiders extends AbstractAttack
         if (count($possibleCells) <= 4) { $addCells = 4; }
         if (count($possibleCells) <= 2) { $addCells = 6; }
 
-        if ($addCells) {
+        if ($addCells && $possibleCells) {
             for($i = 0; $i < $addCells; $i++) {
                 $aCell = ChanceHelper::oneFromArray($possibleCells);
                 for($in = 0; $in < 8; $in++) {
@@ -113,6 +113,10 @@ class WitchSpiders extends AbstractAttack
             }
         }
 
+        if (!$possibleCells) {
+            return;
+        }
+
         $cell1 = ChanceHelper::extractOne($possibleCells);
         $cell2 = ChanceHelper::extractOne($possibleCells);
         $cell3 = ChanceHelper::extractOne($possibleCells);
@@ -126,7 +130,6 @@ class WitchSpiders extends AbstractAttack
         $mX = $mage->getX();
         $mY = $mage->getY();
         GameBuilder::animateEvent(Game::EVENT_NAME_UNIT_ATTACK, [
-
             'attack'  => $this->config,
             'targets' => [
                 [$cell1[0] - $mX, $cell1[1] - $mY],

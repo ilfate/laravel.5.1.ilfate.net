@@ -114,8 +114,10 @@ class ShipAiController extends BaseController
             view()->share('localDevelopment', true);
         }
         $star = Star::loadFull($id);
+
 //        $hex = Hex::loadFull($id);
         view()->share('star', $star);
+
 //        view()->share('width', $hex->getHexWidth(Hex::SIDE_SIZE_LIGHT_YEARS));
         return view('games.shipAi.star');
     }

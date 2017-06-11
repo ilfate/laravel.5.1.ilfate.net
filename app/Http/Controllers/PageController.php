@@ -54,6 +54,7 @@ class PageController extends BaseController
     {
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . 'cv'), 'CV');
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Skills');
+        view()->share('bodyClass', 'cv');
         return view('pages.skills');
     }
 
