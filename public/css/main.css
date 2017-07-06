@@ -6010,6 +6010,8 @@ body.cv {
   body.cv span.text-info {
     color: #5E412F;
     text-decoration: underline; }
+  body.cv .work-experience h3 {
+    margin-top: 5px; }
   body.cv .company-name {
     font-weight: bold;
     font-size: 1.2rem; }
@@ -6034,53 +6036,47 @@ body.cv {
         Purpose of the stylesheet follows.
 */
 /**** label-stars ****/
-.label-stars {
-  min-width: 72px;
-  text-align: center;
-  font-size: 100%;
-  display: inline-block;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  background-color: #78C0A8; }
-
-.before-stars {
-  display: none;
-  position: absolute;
-  min-width: 72px;
-  padding-top: 0.3rem;
-  padding-bottom: 0.15rem;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  background-color: #78C0A8; }
-
-.container-stars:hover .before-stars {
-  display: inline-block; }
-
 .container-stars {
   display: inline-block; }
-
-.star {
-  float: left;
-  width: 12.5%;
-  padding-left: 12.5%;
-  height: 16px;
-  margin: -1px 0 0 0;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box; }
-
-.under-star {
-  background-color: #F89406;
-  width: 18px;
-  height: inherit;
-  position: absolute;
-  margin: 0 0 0 -9px; }
-
-.img-star {
-  background-image: url("../images/star_blue.png");
-  width: 18px;
-  height: inherit;
-  position: absolute;
-  margin: 0 0 0 -9px; }
+  .container-stars .label-stars {
+    min-width: 72px;
+    text-align: center;
+    font-size: 100%;
+    display: inline-block;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    background-color: #78C0A8; }
+  .container-stars .before-stars {
+    display: none;
+    position: absolute;
+    min-width: 72px;
+    padding-top: 0.3rem;
+    padding-bottom: 0.15rem;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    background-color: #78C0A8; }
+  .container-stars:hover .before-stars {
+    display: inline-block; }
+  .container-stars .star {
+    float: left;
+    width: 12.5%;
+    padding-left: 12.5%;
+    height: 16px;
+    margin: -1px 0 0 0;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box; }
+  .container-stars .under-star {
+    background-color: #F89406;
+    width: 18px;
+    height: inherit;
+    position: absolute;
+    margin: 0 0 0 -9px; }
+  .container-stars .img-star {
+    background-image: url("../images/star_blue.png");
+    width: 18px;
+    height: inherit;
+    position: absolute;
+    margin: 0 0 0 -9px; }
 
 /*
     Document   : games-page
@@ -11808,10 +11804,10 @@ body.shipAi {
         margin: 1px 0 0  1px;
         background-color: #FFFFFF; }
       body.shipAi #hex-app .star-container .description {
-        min-width: 5rem;
+        min-width: 10rem;
         font-size: 12px;
         display: none;
-        padding: 0.25rem;
+        padding: 0.4rem 0.25rem 0.25rem 0.5rem;
         background-color: #101135;
         color: #FCEBB6; }
       body.shipAi #hex-app .star-container:hover .description {
@@ -11853,6 +11849,13 @@ body.shipAi {
             border-bottom: 8.75rem solid #000000; }
           body.shipAi #hex-app .hex-for-page .hexagon.black:after {
             border-top: 8.75rem solid #000000; }
+  body.shipAi #star-canvas-container {
+    position: absolute;
+    margin-top: 3rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    width: 100%; }
 
 .loginPage {
   background: #529BCA;

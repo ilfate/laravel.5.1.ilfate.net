@@ -167,3 +167,20 @@
     }
 }
 
+
+
+//@mixin mix1($a, $b, $c : 20px) {
+//    width: $a;
+//    height: $b;
+//    font-size: $c;
+//}
+//
+//
+//$all:(
+//    a:20px,
+//    b:30px,
+//    c:60px
+//);
+//@include mix1($all...);
+//@include mix1(20px, 30px, 60px);
+
