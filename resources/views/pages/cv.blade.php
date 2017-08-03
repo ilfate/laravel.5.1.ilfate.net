@@ -107,7 +107,7 @@
                 <br><br>
                 <a target="_blank" class="company-name" href="http://www.nu3.de">Nu3.de</a> - “Your Nutrition Experts: Nutrients & Supplements at nu3”<br>
                 <h3>Senior PHP Developer</h3>
-                <b>January 2015 - February 2016</b>. Berlin.<br>
+                <b>August 2014 - February 2016</b>. Berlin.<br>
                 In a scrum team I worked on further development and maintenance of PHP based e-commerce project. Optimization and standardization of system’s architecture. Building separate financial application for Navision integration. Improving mailing.<br>
                 <span class="text-info">PHP + Mysql + Apache + Solr</span>
                 <br><br>
