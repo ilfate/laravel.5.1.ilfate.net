@@ -13,28 +13,30 @@
             ilfate@gmail.com<br>
             Skype: illidanfate<br>
             Phone: +49 176 72166321<br>
-            <a target="_blank" href="/Rubinchik_Ilya-12.08.17.pdf">Download CV</a>
+            <a target="_blank" href="/Rubinchik_Ilya-11.08.17.pdf">Download CV</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
             <div>
-                <h1>About my work</h1>
+                <h1>What I do</h1>
                 Architect, Develop and Maintain backend applications in form of Monolith app as well as Microservices with REST APIs.<br>
                 Using SOLID, KISS, DRY<br>
                 Optimizing code for best performance and speed for PHP and JS. Optimizing website for best performance with Mysql, Postgres, Redis, Solr.<br>
                 Working with front end apps with JS, Jquery, AngularJS, React-Redux.<br>
                 Playing role of an a Scrum Master to help team work with Scrum and improve overall team performance.<br>
-                Analyzing, planing, estimating and distributing tasks in a Kanban teams.<br>
+                Analyzing, planning, estimating and distributing tasks in a Kanban teams.<br>
                 Teaching and helping new developers to a adapt in the team.<br>
                 Working closely with PMs to help them create tasks based on needed features for business.<br>
                 Doing code reviews and pair programming with other developers.<br>
+                Maintaining my impeccable sense of humor.<br>
             </div>
             <div>
                 <h1>Languages</h1>
-                Russian (fluent)<br>
-                English (upper-intermediate)
+                Russian (Mother tongue)<br>
+                English (fluent)<br>
+                German (basic)
             </div>
             <div>
                 <h1>Education</h1>
@@ -71,6 +73,7 @@
                 Game development<br>
                 <a target="_blank" href="http://www.youtube.com/watch?v=xk2_qX_oU3U">Snowboarding</a><br>
                 Climbing<br>
+                Boardgames<br>
                 Reading<br>
                 Traveling<br>
                 Bicycling<br>
@@ -94,26 +97,30 @@
                 A simple JS game I made in 2 weeks. Math Effect is a turn-based strategic game. In total game was played by 43k players.<br>
                 Game: <a href="{{ action('MathEffectController@index') }}" >Math effect</a>
                 <h3>Robot Rock</h3>
-                Novemder 2010 - June 2011.<br>
+                November 2010 - June 2011.<br>
                 My first Php + Canvas game. Main purpose of creating this game was to learn HTML5-Canvas and increase my PHP skills<br>
                 You can find animation demo and information at the page below <a href="{{ action('CodeController@robotRock') }}" >http://ilfate.net/RobotRock</a>
                 <h3>Ilfate framework</h3>
                 October 2012 - January 2013.<br>
-                My PHP micro-framework. ilfate.net is created with this framework<br>
+                My PHP microframework. ilfate.net was created with using this framework (migrated to laravel after couple years). The framework was mostly done for fun and to improve skills.<br>
                 Github project: <a target="_blank" href="https://github.com/ilfate/ilfate_php_engine" >http://github.com/ilfate/ilfate_php_engine</a>
             </div>
         </div>
         <div class="col-md-6">
             <div class="work-experience">
                 <h1>Work experience</h1>
-                <a target="_blank" class="company-name" href="http://www.watchmaster.com">Watchmaster</a> - “Globally buys and sells luxury watches of all brands”<br>
+                <a target="_blank" class="company-name" href="http://www.watchmaster.com">Watchmaster</a> - E-commerce start-up for luxury watches.<br>
                 <h3>Team Lead</h3>
                 <b>June 2016 - now</b>. Berlin.<br>
-                After I was promoted to be a team lead of the main shop application team, I also got responsibilities to check, review, merge and deploy every release that we do for our shop. As well as distribute tasks in my team, plan future releases, interview new developers and keep the team spirit!
+                After I was promoted to be a team lead of the main shop application team, I also got responsibilities to check,
+                review, merge and deploy every release that we do for our shop. As well as distribute tasks in my team, plan future releases,
+                interview new developers and keep the team spirit!
 
                 <h3>Senior PHP Developer</h3><br>
                 <b>February 2016 - June 2016</b>. Berlin.<br>
-                At Watchmaster my responsibilities started with creating an API layer for Solr and implementing the full solr feature (Loading products from solr, searching, faceting and etc.) For the most time I was the only one responsible for working with solr. My tasks also included development and maintaning payment methods integration such as <a href="http://www.loviit.com/" >FineTrade(Loviit)</a>, <a href="http://www.loviit.com/">V12</a>, <a href="https://www.affirm.com/">Affirm</a>. I also was in charge of website speed optimization and achieved 4 times speed improvement.<br>
+                At Watchmaster my responsibilities started with creating an API layer for Solr and implementing the full solr feature
+                (Loading products from solr, searching, faceting and etc.) For the most time I was the only one responsible for working with solr.
+                My tasks also included development and maintaining payment methods integration such as <a href="http://www.loviit.com/" >FineTrade(Loviit)</a>, <a href="http://www.loviit.com/">V12</a>, <a href="https://www.affirm.com/">Affirm</a>. I also was in charge of website speed optimization and achieved 4 times speed improvement.<br>
                 <span class="text-info">PHP(Laravel) + Solr + Postgres + Angular</span>
                 <br><br>
                 <a target="_blank" class="company-name" href="http://www.nu3.de">Nu3.de</a> - “Your Nutrition Experts: Nutrients & Supplements at nu3”<br>
