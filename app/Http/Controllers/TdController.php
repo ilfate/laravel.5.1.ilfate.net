@@ -66,9 +66,6 @@ class TdController extends BaseController
         //view()->share('facebookEnabled', true);
         view()->share('bodyClass', 'td');
         view()->share('mobileFriendly', true);
-        if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', true);
-        }
         
 //        view()->share('viewData', $data);
 

@@ -46,9 +46,6 @@ class WhiteHordeController extends BaseController
         view()->share('page_title', 'White Horde');
         view()->share('bodyClass', 'WhiteHorde');
         view()->share('mobileFriendly', true);
-        if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', true);
-        }
         $game = new \Ilfate\WhiteHorde\Game();
         $data = $game->loadMainScreen();
 
@@ -75,9 +72,6 @@ class WhiteHordeController extends BaseController
         view()->share('page_title', 'White Horde');
         view()->share('bodyClass', 'WhiteHorde demo');
         view()->share('mobileFriendly', true);
-        if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', true);
-        }
 
         return view('games.whiteHorde.demo');
     }

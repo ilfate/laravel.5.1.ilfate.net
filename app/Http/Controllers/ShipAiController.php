@@ -49,9 +49,6 @@ class ShipAiController extends BaseController
         view()->share('page_title', 'ShipAi');
         view()->share('bodyClass', 'shipAi');
         view()->share('mobileFriendly', true);
-        if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', true);
-        }
 //        $game = new \Ilfate\WhiteHorde\Game();
 //        $data = $game->loadMainScreen();
 //
@@ -74,9 +71,6 @@ class ShipAiController extends BaseController
         view()->share('page_title', 'Galaxy view');
         view()->share('bodyClass', 'shipAi galaxy');
         view()->share('mobileFriendly', true);
-        if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', true);
-        }
         $hexMap = Hex::getHexMap(1);
 
         if ($hexMap->count() < 1) {
@@ -94,9 +88,6 @@ class ShipAiController extends BaseController
         view()->share('page_title', 'Hex view');
         view()->share('bodyClass', 'shipAi hex');
         view()->share('mobileFriendly', true);
-        if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', true);
-        }
         $hex = Hex::loadFull($id);
         view()->share('hex', $hex);
         view()->share('width', $hex->getHexWidth(Hex::SIDE_SIZE_LIGHT_YEARS));
@@ -110,9 +101,6 @@ class ShipAiController extends BaseController
         view()->share('page_title', 'Star view');
         view()->share('bodyClass', 'shipAi star');
         view()->share('mobileFriendly', true);
-        if (env('APP_DEBUG') === true) {
-            view()->share('localDevelopment', true);
-        }
         $star = Star::loadFull($id);
 
 //        $hex = Hex::loadFull($id);

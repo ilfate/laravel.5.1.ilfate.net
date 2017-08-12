@@ -17,12 +17,14 @@
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
 
     {{--Check config at config/header.php--}}
-    @foreach(config('header.lists.' . MetaTagsHelper::getPageName() . '.content') as $metaName)
-        <meta content="{{ MetaTagsHelper::getTag($metaName) }}" name="{{ $metaName }}">
-    @endforeach
-    @foreach(config('header.lists.' . MetaTagsHelper::getPageName() . '.property') as $propertyName)
-        <meta property="{{ $propertyName }}" content="{{ MetaTagsHelper::getTag($propertyName) }}">
-    @endforeach
+    @if (config('header.lists.' . MetaTagsHelper::getPageName()))
+        @foreach(config('header.lists.' . MetaTagsHelper::getPageName() . '.content') as $metaName)
+            <meta content="{{ MetaTagsHelper::getTag($metaName) }}" name="{{ $metaName }}">
+        @endforeach
+        @foreach(config('header.lists.' . MetaTagsHelper::getPageName() . '.property') as $propertyName)
+            <meta property="{{ $propertyName }}" content="{{ MetaTagsHelper::getTag($propertyName) }}">
+        @endforeach
+    @endif
 
 </head>
 <body
@@ -80,22 +82,22 @@
 @yield('layout')
 
 <script src="/js/main.min.js"></script>
-<script src="/packages/vue.js"></script>
-<script src="/packages/pixi.min.js"></script>
-<script src="/packages/vue-material.js"></script>
+{{--<script src="/packages/vue.js"></script>--}}
+{{--<script src="/packages/pixi.min.js"></script>--}}
+{{--<script src="/packages/vue-material.js"></script>--}}
 {{--<script src="/js/whiteHorde/WhiteHorde.js"></script>--}}
 {{--<script src="/js/whiteHorde/interface.js"></script>--}}
 {{--<script src="/js/whiteHorde/settlement.js"></script>--}}
 {{--<script src="/js/whiteHorde/inventory.js"></script>--}}
 {{--<script src="/js/whiteHorde/characterHelper.js"></script>--}}
-<script src="/js/whiteHorde/demo.js"></script>
-<script src="/js/whiteHorde/game.js"></script>
 
-<script src="/js/shipAi/general.js"></script>
-<script src="/js/shipAi/galaxyApp.js"></script>
-<script src="/js/shipAi/hexApp.js"></script>
-<script src="/js/shipAi/starApp.js"></script>
-<script src="/js/shipAi/app.js"></script>
+
+
+{{--<script src="/js/shipAi/general.js"></script>--}}
+{{--<script src="/js/shipAi/galaxyApp.js"></script>--}}
+{{--<script src="/js/shipAi/hexApp.js"></script>--}}
+{{--<script src="/js/shipAi/starApp.js"></script>--}}
+{{--<script src="/js/shipAi/app.js"></script>--}}
 
 {{--<script src="/js/cosmos/main.js"></script>--}}
 {{--<script src="/js/hex/main.js"></script>--}}
@@ -129,7 +131,12 @@
         <script src="/js/mageSurvival/spellcraft.js"></script>
         <script src="/js/mageSurvival/monimations.js"></script>
         <script src="/js/mageSurvival/map-builder.js"></script>
+
     @endif
+
+    <script src="/js/whiteHorde/demo.js"></script>
+    <script src="/js/whiteHorde/game.js"></script>
+
 @else
  {{-- !!!!!!!!!!!!!!! only live envinment is tracked !!!!!!!!!! --}}
     <script>
@@ -141,7 +148,9 @@
 
 @endif
 
+@section('additional-js')
 
+@show
 
 </body>
 

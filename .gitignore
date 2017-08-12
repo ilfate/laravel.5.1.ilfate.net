@@ -9,6 +9,8 @@ Homestead.json
 .sass-cache
 .vagrant
 /public/phpMyAdmin
+/FinTrack
+/node_modules
 /public/svg/*
 /public/images/game/mage/assets/*
 /public/images/game/mage/icons_htmlcode/*

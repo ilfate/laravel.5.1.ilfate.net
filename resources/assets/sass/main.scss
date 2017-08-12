@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 
     plz run to make it:
-        sass --compass --watch resources/assets/sass/main.scss:public/css/main.css
+        npm run sass
 */
 
 @import "base";
@@ -15,6 +15,7 @@
 @import "vendor/vue-material";
 
 @import "mixins";
+@import "functions";
 @import "landingPage";
 @import "cv";
 @import "label-stars";

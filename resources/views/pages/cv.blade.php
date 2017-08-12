@@ -4,22 +4,33 @@
 
 <div class="CVpage">
     <div class="row">
-        <div class="hero-unit col-md-7">
+        <div class="hero-unit col-md-6">
             <h1>Rubinchik Ilya - CV</h1>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <img class="me" src="/images/me/Ilya-Rubinchik-s.jpg" />
             <a href="http://ilfate.net">http://ilfate.net</a><br>
             ilfate@gmail.com<br>
             Skype: illidanfate<br>
             Phone: +49 176 72166321<br>
-            Phone: +7 905 7136748<br>
-            <a target="_blank" href="/Rubinchik_Ilya.pdf">Download CV</a>
+            <a target="_blank" href="/Rubinchik_Ilya-12.08.17.pdf">Download CV</a>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
+            <div>
+                <h1>About my work</h1>
+                Architect, Develop and Maintain backend applications in form of Monolith app as well as Microservices with REST APIs.<br>
+                Using SOLID, KISS, DRY<br>
+                Optimizing code for best performance and speed for PHP and JS. Optimizing website for best performance with Mysql, Postgres, Redis, Solr.<br>
+                Working with front end apps with JS, Jquery, AngularJS, React-Redux.<br>
+                Playing role of an a Scrum Master to help team work with Scrum and improve overall team performance.<br>
+                Analyzing, planing, estimating and distributing tasks in a Kanban teams.<br>
+                Teaching and helping new developers to a adapt in the team.<br>
+                Working closely with PMs to help them create tasks based on needed features for business.<br>
+                Doing code reviews and pair programming with other developers.<br>
+            </div>
             <div>
                 <h1>Languages</h1>
                 Russian (fluent)<br>
@@ -92,7 +103,7 @@
                 Github project: <a target="_blank" href="https://github.com/ilfate/ilfate_php_engine" >http://github.com/ilfate/ilfate_php_engine</a>
             </div>
         </div>
-        <div class="col-md-5 col-md-offset-2">
+        <div class="col-md-6">
             <div class="work-experience">
                 <h1>Work experience</h1>
                 <a target="_blank" class="company-name" href="http://www.watchmaster.com">Watchmaster</a> - “Globally buys and sells luxury watches of all brands”<br>
@@ -100,7 +111,7 @@
                 <b>June 2016 - now</b>. Berlin.<br>
                 After I was promoted to be a team lead of the main shop application team, I also got responsibilities to check, review, merge and deploy every release that we do for our shop. As well as distribute tasks in my team, plan future releases, interview new developers and keep the team spirit!
 
-                <h3>Senior PHP Developer</h3>
+                <h3>Senior PHP Developer</h3><br>
                 <b>February 2016 - June 2016</b>. Berlin.<br>
                 At Watchmaster my responsibilities started with creating an API layer for Solr and implementing the full solr feature (Loading products from solr, searching, faceting and etc.) For the most time I was the only one responsible for working with solr. My tasks also included development and maintaning payment methods integration such as <a href="http://www.loviit.com/" >FineTrade(Loviit)</a>, <a href="http://www.loviit.com/">V12</a>, <a href="https://www.affirm.com/">Affirm</a>. I also was in charge of website speed optimization and achieved 4 times speed improvement.<br>
                 <span class="text-info">PHP(Laravel) + Solr + Postgres + Angular</span>
