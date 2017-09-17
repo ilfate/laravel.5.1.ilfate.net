@@ -5,8 +5,8 @@ $wh-game-height: 20rem;
 $wh-settlement-height: 17.5rem;
 
 body.WhiteHorde {
-    background-color: $color-white;
-    background-image: linear-gradient(to bottom, $color-white 0%, $color-white 100%);
+    background-color: $color-white-pure;
+    background-image: linear-gradient(to bottom, $color-white-pure 0%, $color-white-pure 100%);
     a {
         cursor: pointer;
     }
@@ -28,7 +28,7 @@ body.WhiteHorde {
 
     .game-screen {
         overflow: hidden;
-        color: $color-black;
+        color: $color-black-pure;
         font-size: 0.6rem;
         line-height: 0.6rem;
         width: 49rem;
@@ -74,7 +74,7 @@ body.WhiteHorde {
             }
         }
         .building-window {
-            background-color: $color-white;
+            background-color: $color-white-pure;
             width:50%;
             min-height: $wh-settlement-height;
             border: 1px solid $color-clay;
@@ -118,7 +118,7 @@ body.WhiteHorde {
             }
         }
         .character-info {
-            background-color: $color-white;
+            background-color: $color-white-pure;
             width:50%;
             min-height: $wh-settlement-height;
             border: 1px solid $color-clay;

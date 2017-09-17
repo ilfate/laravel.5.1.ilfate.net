@@ -7,7 +7,7 @@
         Purpose of the stylesheet follows.
 
     plz run to make it:
-        sass --compass --watch resources/assets/sass/main.scss:public/css/main.css
+        npm run sass
 */
 /*
     Document   : main
@@ -6656,7 +6656,38 @@ body.games-page {
     width: 600px; }
 
 body.math-effect {
-  background-color: #5E412F; }
+  background-color: #FFFFFF; }
+  body.math-effect #math-effect .field .cell {
+    float: left;
+    border-radius: 4px; }
+  body.math-effect #math-effect .enemies, body.math-effect #math-effect .units {
+    position: absolute;
+    z-index: 10; }
+  body.math-effect #math-effect .units .unit {
+    position: absolute; }
+    body.math-effect #math-effect .units .unit .buttons {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: none; }
+      body.math-effect #math-effect .units .unit .buttons div {
+        position: absolute; }
+      body.math-effect #math-effect .units .unit .buttons .top {
+        margin-left: 50%; }
+      body.math-effect #math-effect .units .unit .buttons .bottom {
+        margin-left: 50%;
+        margin-top: 100%; }
+      body.math-effect #math-effect .units .unit .buttons .right {
+        margin-left: 100%;
+        margin-top: 50%; }
+      body.math-effect #math-effect .units .unit .buttons .left {
+        margin-top: 50%; }
+    body.math-effect #math-effect .units .unit:hover .buttons {
+      display: block; }
+  body.math-effect #math-effect .enemies .enemy {
+    position: absolute; }
+  body.math-effect .old {
+    display: none; }
   body.math-effect .math-effect-container {
     /*  DIALOG */ }
     body.math-effect .math-effect-container #tdMap {

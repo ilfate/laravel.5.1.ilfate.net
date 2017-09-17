@@ -1,0 +1,66 @@
+import React from 'react';
+import Unit from '../components/Unit';
+
+
+class UnitsContainer extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            unitsCreated:0
+        };
+        this.addUnit = this.addUnit.bind(this);
+        this.handleSetDirection = this.handleSetDirection.bind(this);
+    }
+
+    componentWillMount() {
+        this.addUnit(1);
+    }
+
+    addUnit(power) {
+        let newUnit = {
+            id: this.state.unitsCreated,
+            x: 0,
+            y: 0,
+            d: -1,
+            power: power ? power : 0,
+            turnsInactive: 0,
+            decayTurnLimit : 4,
+            deleted: false
+        };
+        this.props.addUnit(newUnit);
+        this.setState({unitsCreated: this.state.unitsCreated + 1});
+    }
+
+    handleSetDirection(unit, direction) {
+        if (unit.d === direction) return false;
+        unit.d = direction;
+        if (unit.x === 0 && unit.y === 0) {
+            this.addUnit();
+        }
+        this.props.updateUnit(unit);
+    }
+
+    render() {
+        const {radius, cellSize, margin, id} = this.props;
+        const cellRealSize = cellSize + (margin * 2);
+        const style = {
+            width: cellRealSize * radius,
+            height: cellRealSize * radius,
+            marginTop: cellRealSize * (radius - 1),
+            marginLeft: cellRealSize * (radius - 1),
+        };
+        const unitList = this.props.units.map(unit => !unit.deleted && <Unit key={ unit.id }
+                                                            unitConfig={ unit }
+                                                            size={ cellSize } margin={ margin }
+                                                            onSetDirection={ this.handleSetDirection } />)
+        return (
+            <div style={ style } className="units">
+                { unitList }
+            </div>
+        );
+    }
+
+};
+
+export default UnitsContainer

@@ -6,7 +6,7 @@ $wh-settlement-height: 17.5rem;
 
 body.shipAi {
     font-size: 20px;
-    background-color: $color-black;
+    background-color: $color-black-pure;
 
     a {
         cursor: pointer;
@@ -48,7 +48,7 @@ body.shipAi {
                 width:1px;
                 height:1px;
                 margin: 1px 0 0  1px;
-                background-color: $color-white;
+                background-color: $color-white-pure;
             }
             .description {
                 min-width: 10rem;
@@ -100,16 +100,24 @@ body.shipAi {
                     border-top: $page-half-hex-side solid $color-clay;
                 }
                 &.black {
-                    background: $color-black;
+                    background: $color-black-pure;
                     &:before {
-                        border-bottom: $page-hex-side / 2 solid $color-black;
+                        border-bottom: $page-hex-side / 2 solid $color-black-pure;
                     }
                     &:after {
-                        border-top: $page-hex-side / 2 solid $color-black;
+                        border-top: $page-hex-side / 2 solid $color-black-pure;
                     }
                 }
             }
         }
+    }
+    #star-canvas-container {
+        position:absolute;
+        margin-top: 3rem;
+        display:flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        width: 100%;
     }
 }
 

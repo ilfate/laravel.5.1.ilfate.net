@@ -1,9 +1,65 @@
-$me-color-red: #C21348;
-$me-color-yellow: #bcd42a;
-$me-color-black: #000000;
+
+
 
 body.math-effect {
-    background-color: $color-brawn;
+    background-color: $color-white-pure;
+
+    #math-effect {
+        .field {
+            .row {
+
+            }
+            .cell {
+                float: left;
+                border-radius: 4px;
+            }
+        }
+        .enemies, .units {
+            position:absolute;
+            z-index: 10;
+        }
+        .units {
+            .unit {
+                position: absolute;
+                .buttons {
+                    width: 100%;
+                    height: 100%;
+                    position:absolute;
+                    display:none;
+                    div {
+                        position:absolute;
+                    }
+                    .top {
+                        margin-left: 50%;
+                    }
+                    .bottom {
+                        margin-left: 50%;
+                        margin-top: 100%;
+                    }
+                    .right {
+                        margin-left: 100%;
+                        margin-top: 50%;
+                    }
+                    .left {
+                        margin-top: 50%;
+                    }
+                }
+                &:hover .buttons {
+                    display: block;
+                }
+            }
+        }
+        .enemies {
+            .enemy {
+                position: absolute;
+            }
+        }
+    }
+
+
+    .old {
+        display: none;
+    }
 
     .math-effect-container {
 
@@ -72,12 +128,12 @@ body.math-effect {
         }
 
         .tdUnit.boss {
-            background-color: $me-color-red;
+            background-color: $color-red;
         }
 
         .tdUnit.playerUnit {
             border: 0px;
-            color: $color-white;
+            color: $color-white-pure;
         }
 
         .tdUnit.playerUnit.power-1, .tdUnit.playerUnit.power-1 .moveArrow, .tdUnit.playerUnit.power-1 .moveBlock {
@@ -128,7 +184,7 @@ body.math-effect {
             position: absolute;
             width: 15px;
             height: 15px;
-            color: $me-color-black;
+            color: $color-black-pure;
             z-index: 6;
         }
 
@@ -170,7 +226,7 @@ body.math-effect {
         .bonus {
             width: 30px;
             height: 30px;
-            background-color: $me-color-yellow;
+            background-color: $color-yellow;
             position: absolute;
             border-radius: 30px;
             line-height: 30px;
@@ -266,7 +322,7 @@ body.math-effect {
         }
 
         .btn-primary {
-            color: $color-white;
+            color: $color-white-pure;
             background-color: $color-blue;
             border-color: $color-blue-lighter;
         }

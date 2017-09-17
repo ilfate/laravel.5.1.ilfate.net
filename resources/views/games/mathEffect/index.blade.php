@@ -1,12 +1,22 @@
-@extends('games.mathEffect.layout')
+@extends('layout.empty')
+
+@section('additional-js')
+    <script src="/js/bundle.js"></script>
+@endsection
+
+
 
 @section('content')
 
-<div class="hero-unit">
+    <div id="react-app">
+        <h1>Math Effect</h1>
+    </div>
+
+<div class="old hero-unit">
     <h1>MathEffect <small>Defend your base as long as you can!</small></h1>
 </div>
 
-<div id="tdMap"></div>
+<div id="tdMap old"></div>
 
 <div id="myModal" class="modal fade">
     <div class="modal-dialog">

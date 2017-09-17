@@ -47,8 +47,8 @@
                 <h1 class="pull-left">Skills</h1>
                 <strong><a class="pull-left like-h1" href="{{ action('PageController@skills') }}">learn more</a></strong>
                 <div class="clearfix"></div>
-                Languages: <b>PHP</b>, <b>JavaScript</b>, Ruby, Java<br>
-                Web development: <b>CSS</b>, HTML/XHTML, Jquery, Vue.js, Bootstrap, Angular, Grunt, Scss, Compas<br>
+                Languages: <b>PHP</b>, <b>JavaScript</b><br>
+                Web development: <b>CSS</b>, HTML/XHTML, React-Redux, Jquery, Vue.js, npm, Bootstrap, Angular, Grunt, Scss<br>
                 DB: <b>MySql</b>, Solr, Postgres, <span class="tip" rel="tooltip" title="Module for MySql to work with it like noSql database" >HandlerSocket</span>, Sphinx, Oracle, Redis, Memcached<br>
                 VCS: <b>Git</b>, Svn<br>
                 Frameworks: Laravel, ZendFramework<br>
