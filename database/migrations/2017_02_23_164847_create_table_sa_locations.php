@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableSaStars extends Migration
+class CreateTableSaLocations extends Migration
 {
     /**
      * Run the migrations.
@@ -23,8 +23,7 @@ class CreateTableSaStars extends Migration
             $table->integer('galaxy_id')->unsigned();
             $table->integer('hex_id')->unsigned();
             $table->integer('star_id')->unsigned();
-            $table->integer('r');
-            $table->integer('v');
+            $table->integer('orbit_id')->unsigned();
             $table->boolean('is_landable')->default(false);
             $table->boolean('is_habitable')->default(false);
             $table->boolean('is_hidden')->default(false);

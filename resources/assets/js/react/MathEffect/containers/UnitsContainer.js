@@ -22,6 +22,7 @@ class UnitsContainer extends React.Component {
             id: this.state.unitsCreated,
             x: 0,
             y: 0,
+            was: {x: 0, y: 0},
             d: -1,
             power: power ? power : 0,
             turnsInactive: 0,
@@ -35,7 +36,9 @@ class UnitsContainer extends React.Component {
     handleSetDirection(unit, direction) {
         if (unit.d === direction) return false;
         unit.d = direction;
-        if (unit.x === 0 && unit.y === 0) {
+        if ((unit.x === 0 && unit.y === 0) || this.props.units.filter(
+                unit => {return unit.x === 0 && unit.y === 0 && unit.d === -1}
+            ).length === 0) {
             this.addUnit();
         }
         this.props.updateUnit(unit);
@@ -45,8 +48,6 @@ class UnitsContainer extends React.Component {
         const {radius, cellSize, margin, id} = this.props;
         const cellRealSize = cellSize + (margin * 2);
         const style = {
-            width: cellRealSize * radius,
-            height: cellRealSize * radius,
             marginTop: cellRealSize * (radius - 1),
             marginLeft: cellRealSize * (radius - 1),
         };

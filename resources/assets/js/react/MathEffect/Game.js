@@ -3,8 +3,9 @@ import Field from './containers/Field';
 import EnemiesContainer from './containers/EnemiesContainer';
 import UnitsContainer from './containers/UnitsContainer';
 import { moveEveryUnit, resolveUnitCollisions, updateUnitsPower, resolveCollisionsWithEnemies,
-    clearDead } from './services/unit';
-import { moveEveryEnemy, updateEnemiesPower, generateNewEnemyLocation, getEnemyStartDirection } from './services/enemy';
+    clearDead, buffCenterUnit } from './services/unit';
+import { moveEveryEnemy, updateEnemiesPower, generateNewEnemyLocation, getEnemyStartDirection,
+    tryUpgradeToBoss } from './services/enemy';
 
 export const DIRECTION_TOP = 0;
 export const DIRECTION_RIGHT = 1;
@@ -14,15 +15,36 @@ export const DIRECTION_LEFT = 3;
 const FIELD_RADIUS = 5;
 const TURNS_TO_SPAWN_ENEMIES = 1;
 
+const CELL_SIZE = 60;
+const MARGIN = 2;
+
+const situationEnemies = [
+    {id: 999,
+        x: 1,
+        y: 0,
+        was: {x: 1, y: -1},
+        d: 3,
+        power: 1,
+        deleted: false},
+    // {id: 998,
+    //     x: 1,
+    //     y: 1,
+    //     was: {x: 1, y: 2},
+    //     d: 0,
+    //     power: 3,
+    //     deleted: false},
+];
+
 class Game extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            enemies: [],
+            enemies: situationEnemies,
             units: [],
             turnsEnemyWasCreated: 0,
-            enemiesCreated: 0
+            enemiesCreated: 0,
+            turnNumber: 0
         };
         this.handleAddUnit = this.handleAddUnit.bind(this);
         this.addEnemy = this.addEnemy.bind(this);
@@ -39,7 +61,7 @@ class Game extends React.Component {
         this.setState({units});
     }
 
-    addEnemy() {
+    addEnemy() {return;
         if (this.state.turnsEnemyWasCreated !== 0) {
             this.setState({turnsEnemyWasCreated: this.state.turnsEnemyWasCreated - 1});
             return;
@@ -49,11 +71,14 @@ class Game extends React.Component {
             id: this.state.enemiesCreated,
             x: location.x,
             y: location.y,
+            was: {x: location.x, y: location.y},
             d: -1,
             power: 1,
-            deleted: false
+            deleted: false,
+            isBoss: false
         };
         enemy.d = getEnemyStartDirection(enemy, FIELD_RADIUS);
+        tryUpgradeToBoss(enemy, this.state.turnNumber);
         let { enemies } = this.state;
         enemies.push(enemy);
         this.setState({ enemies, turnsEnemyWasCreated: TURNS_TO_SPAWN_ENEMIES,
@@ -72,32 +97,31 @@ class Game extends React.Component {
     }
 
     makeTurn() {
-        let units = moveEveryUnit(this.state.units.slice(), FIELD_RADIUS);
+        let units = buffCenterUnit(this.state.units.slice());
+        units = moveEveryUnit(units, FIELD_RADIUS);
         let enemies = moveEveryEnemy(this.state.enemies.slice(), FIELD_RADIUS);
         units = resolveUnitCollisions(units);
         enemies = resolveUnitCollisions(enemies);
+        units = updateUnitsPower(units);
+        enemies = updateEnemiesPower(enemies);
         let { newUnits, newEnemies } = resolveCollisionsWithEnemies(units, enemies);
         newUnits = clearDead(newUnits);
         newEnemies = clearDead(newEnemies);
-        newUnits = updateUnitsPower(newUnits);
-        newEnemies = updateEnemiesPower(newEnemies);
-        this.setState({units: newUnits, enemies: newEnemies});
+        this.setState({units: newUnits, enemies: newEnemies, turnNumber: this.state.turnNumber + 1});
         this.addEnemy();
     }
 
 
     render() {
-        const cellSize = 60;
-        const margin = 2;
         return (
-            <div>
-                <EnemiesContainer radius={ FIELD_RADIUS } cellSize={ cellSize } margin={ margin }
+            <div className="game">
+                <EnemiesContainer radius={ FIELD_RADIUS } cellSize={ CELL_SIZE } margin={ MARGIN }
                                   enemies={ this.state.enemies } addEnemy={ this.handleAddEnemy }
                                   getNewEnemyLocation={ this.getNewEnemyLocation } />
-                <UnitsContainer radius={ FIELD_RADIUS } cellSize={ cellSize } margin={ margin }
+                <UnitsContainer radius={ FIELD_RADIUS } cellSize={ CELL_SIZE } margin={ MARGIN }
                                 units={ this.state.units } addUnit={ this.handleAddUnit }
                                 updateUnit={ this.handleUpdateUnit }/>
-                <Field radius={ FIELD_RADIUS } cellSize={ cellSize } margin={ margin } />
+                <Field radius={ FIELD_RADIUS } cellSize={ CELL_SIZE } margin={ MARGIN } />
             </div>
         );
     }
