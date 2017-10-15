@@ -39,6 +39,7 @@ Route::get('games', 'GamesController@index');
 Route::get('Games', 'GamesController@index');
 
 Route::get('MathEffect', 'MathEffectController@index');
+Route::get('MathEffect2', 'MathEffectController@index2');
 Route::post('MathEffect/save', array('before' => 'csrf', 'uses' => 'MathEffectController@save'));
 Route::post('MathEffect/saveName', array('before' => 'csrf', 'uses' => 'MathEffectController@saveName'));
 Route::get('MathEffect/stats', 'MathEffectController@statistic');
@@ -72,6 +73,8 @@ Route::get('test', 'TestController@index');
 
 Route::get('Vortex', 'VortexController@index');
 Route::post('Vortex/action', 'VortexController@action');
+
+Route::get('clicker', 'ClickerController@index');
 
 Route::get('test', 'TestController@index');
 

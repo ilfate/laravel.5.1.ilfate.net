@@ -59,6 +59,31 @@ class MathEffectController extends BaseController
     }
 
     /**
+     * Display a listing of the games.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index2(Request $request)
+    {
+        \MetaTagsHelper::setPageName(self::PAGE_NAME);
+        $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
+        $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Math Effect');
+
+        $name = $request->session()->get('userName', null);
+
+        $MEcheckKey = md5(rand(0,99999) . time());
+        $request->session()->put('MEcheckKey', $MEcheckKey);
+
+        view()->share('page_title', 'Math Effect - logic game.');
+        view()->share('facebookEnabled', true);
+        view()->share('bodyClass', 'math-effect');
+
+        return view('games.mathEffect.index2', array('userName' => $name, 'checkKey' => $MEcheckKey));
+    }
+
+    /**
      * js game template
      *
      * @param Request $request

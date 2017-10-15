@@ -1,7 +1,7 @@
 import { rand } from '../../Math';
 import { array_rand } from '../../Array';
 
-export const moveEveryEnemy = function moveEnemies (enemies, radius) {
+export const moveEveryEnemy = function moveEnemies (enemies) {
     return enemies.map(enemy => {
 
         switch(enemy.d) {
@@ -10,7 +10,7 @@ export const moveEveryEnemy = function moveEnemies (enemies, radius) {
             case 2: enemy.was.x = enemy.x; enemy.was.y = enemy.y++; break;
             case 3: enemy.was.y = enemy.y; enemy.was.x = enemy.x--; break;
         }
-        const [step] = calculateEnemyPath(radius, enemy, 1);
+        const [step] = calculateEnemyPath(enemy, 1);
         enemy.d = step.d;
         return enemy;
     });
@@ -26,8 +26,8 @@ export const updateEnemiesPower = function updateEnemiesPower (enemies) {
 export const generateNewEnemyLocation = function generateLocation (radius, enemies, units) {
     // ok we need a random cell, which is empty
     // let`s get all empty cells
-    const min = -(radius - 1);
-    const max = radius - 1;
+    const min = -radius ;
+    const max = radius;
     let possibleCells = [];
     for (let y = min; y <= max; y++) {
         for (let x = min; x <= max; x++) {
@@ -75,8 +75,8 @@ const getDirectionOnSideRoad = function(x, y) {
 
 export const getEnemyStartDirection = function getStartDirection(enemy, radius) {
     let possibleDirections = [];
-    const min = - (radius - 1);
-    const max = radius - 1;
+    const min = - radius;
+    const max = radius;
     if (enemy.x === min) {
         possibleDirections.push(1);
     } else if (enemy.x === max) {
@@ -96,7 +96,7 @@ export const getEnemyStartDirection = function getStartDirection(enemy, radius) 
 
 
 
-export const calculateEnemyPath = function calculatePath (radius, enemy, limit) {
+export const calculateEnemyPath = function calculatePath (enemy, limit) {
     let path = [];
     if (enemy.x === 0 && enemy.y === 0) return [{d: -1, x: 0, y: 0}];
     let wasLocation = {x: enemy.was.x, y: enemy.was.y};
@@ -158,4 +158,8 @@ export const tryUpgradeToBoss = function tryUpgradeToBoss (enemy, turnNumber) {
     enemy.power = rand(minBossPower,maxBossPower);
     enemy.isBoss = true;
 }
+
+export const checkLooseConditions = function checkLooseConditions (enemies) {
+    return enemies.filter(e => {return e.x === 0 && e.y === 0 && !e.deleted && e.power > 0;}).length > 0;
+};
 

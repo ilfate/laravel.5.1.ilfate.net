@@ -14,17 +14,20 @@ const Enemy = props => {
     };
     const powerStyle = {
         lineHeight: size + 'px'
-
     };
+    let opacity = enemyConfig.deleted ? 0 : 1;
     return (
-        <Motion defaultStyle={{x: enemyConfig.was.x, y: enemyConfig.was.y}} style={{x: spring(x), y: spring(y)}}>
+        <Motion defaultStyle={{ x: enemyConfig.was.x, y: enemyConfig.was.y, v: 1 }} style={{ x: spring(x), y: spring(y), v: spring(opacity) }}>
             {value =>
                 <div
                     onMouseEnter={ () => props.onMouseEnter(enemyConfig) }
                     onMouseLeave={ props.onMouseLeave }
                     className={ 'enemy' }
-                    style={ Object.assign({}, mainStyle,
-                        {marginTop: value.y * (size + (margin * 2)), marginLeft: value.x * (size + (margin * 2))}
+                    style={ Object.assign({}, mainStyle, {
+                            marginTop: value.y * (size + (margin * 2)) + margin,
+                            marginLeft: value.x * (size + (margin * 2)) + margin
+                    },
+                        {opacity: value.v}
                     ) }
                 >
                     <BlockWithArrow d={ enemyConfig.d } size={ size } color={ color } />

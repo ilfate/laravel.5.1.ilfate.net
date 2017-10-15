@@ -1,20 +1,35 @@
 import React from 'react';
 
-const Cell = props => {
+class Cell extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            justCreated: true
+        };
+    }
 
-    const {x, y, size, margin} = props;
-    const style = {
-        width: size,
-        height: size,
-        margin
-    };
-    return (
-        <div
-            className={'cell ' + 'x-' + x + ' y-' + y + ' emptyCell'}
-            style={ style }
-            ></div>
-    );
+    render() {
+        const { x, y, size, margin, collision } = this.props;
+        const style = {
+            width: size,
+            height: size,
+            margin
+        };
+        const innerStyle = {
+            width: size - 2,
+            height: size - 2,
+            margin: 1
+        };
+        return (
+            <div onMouseEnter={ () => { this.setState({ justCreated: false }); } }
+                 className={ `cell x-${ x } y-${ y } ${ collision } emptyCell ${ (x === 0 || y === 0) && `center-line` } ${ (Math.abs(x) === 1 || Math.abs(y) === 1) && `side-line` } ${ this.state.justCreated && !collision && `justCreated` }` }
+                 style={ style }
+            >
+                <div className="inner-cell" style={ innerStyle }></div>
+            </div>
+        );
+    }
 
 };
 

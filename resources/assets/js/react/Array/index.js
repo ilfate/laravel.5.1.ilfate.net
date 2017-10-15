@@ -18,3 +18,14 @@ export const createMap = (array) => {
     });
     return map;
 };
+
+
+export const uniqueArray = (arrArg) => {
+    return arrArg.filter((elem, pos, arr) => {
+        if (typeof pos == "object" && typeof arr.indexOf(elem) === "object") {
+            return JSON.stringify(pos) === JSON.stringify(arr.indexOf(elem));
+        } else {
+            return arr.indexOf(elem) == pos;
+        }
+    });
+};

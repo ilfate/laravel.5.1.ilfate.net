@@ -5,46 +5,50 @@ import UnitsContainer from './containers/UnitsContainer';
 import { moveEveryUnit, resolveUnitCollisions, updateUnitsPower, resolveCollisionsWithEnemies,
     clearDead, buffCenterUnit } from './services/unit';
 import { moveEveryEnemy, updateEnemiesPower, generateNewEnemyLocation, getEnemyStartDirection,
-    tryUpgradeToBoss } from './services/enemy';
+    tryUpgradeToBoss, checkLooseConditions } from './services/enemy';
+import { allCombatSituationUnits, allCombatSituationEnemies } from './test/situations';
 
 export const DIRECTION_TOP = 0;
 export const DIRECTION_RIGHT = 1;
 export const DIRECTION_DOWN = 2;
 export const DIRECTION_LEFT = 3;
 
-const FIELD_RADIUS = 5;
+const FIELD_RADIUS = 4;
 const TURNS_TO_SPAWN_ENEMIES = 1;
 
 const CELL_SIZE = 60;
 const MARGIN = 2;
+const TEST = false;
 
 const situationEnemies = [
-    {id: 999,
-        x: 1,
-        y: 0,
-        was: {x: 1, y: -1},
-        d: 3,
-        power: 1,
-        deleted: false},
-    // {id: 998,
-    //     x: 1,
-    //     y: 1,
-    //     was: {x: 1, y: 2},
-    //     d: 0,
-    //     power: 3,
-    //     deleted: false},
 ];
+
+const situationUnits = [
+];
+const situationBonuses = [];
 
 class Game extends React.Component {
 
     constructor(props) {
         super(props);
+
+        let cellSize = CELL_SIZE;
+        if (window.innerWidth < (CELL_SIZE + MARGIN) * (FIELD_RADIUS * 2 + 1)) {
+            cellSize = 50;
+        }
+        console.log(window.innerWidth , (CELL_SIZE + MARGIN) * (FIELD_RADIUS * 2 + 1));
+
         this.state = {
-            enemies: situationEnemies,
-            units: [],
+            enemies: TEST ? allCombatSituationEnemies : situationEnemies,
+            units: TEST ? allCombatSituationUnits : situationUnits,
+            bonuses: situationBonuses,
             turnsEnemyWasCreated: 0,
             enemiesCreated: 0,
-            turnNumber: 0
+            turnNumber: 0,
+            gameRunning: true,
+            collisionLocations: [],
+            cellSize: cellSize,
+            margin: MARGIN,
         };
         this.handleAddUnit = this.handleAddUnit.bind(this);
         this.addEnemy = this.addEnemy.bind(this);
@@ -52,16 +56,18 @@ class Game extends React.Component {
     }
 
     componentWillMount() {
-        this.addEnemy();
+        if (!TEST) this.addEnemy();
     }
 
     handleAddUnit(unit) {
+        if (!this.state.gameRunning) return;
         let { units } = this.state;
         units.push(unit);
         this.setState({units});
     }
 
-    addEnemy() {return;
+    addEnemy() {
+        if (!this.state.gameRunning) return;
         if (this.state.turnsEnemyWasCreated !== 0) {
             this.setState({turnsEnemyWasCreated: this.state.turnsEnemyWasCreated - 1});
             return;
@@ -86,6 +92,7 @@ class Game extends React.Component {
     }
 
     handleUpdateUnit(newUnit) {
+        if (!this.state.gameRunning) return;
         let units = this.state.units.map(unit => {
             if (unit.id === newUnit.id) {
                 return newUnit;
@@ -97,31 +104,42 @@ class Game extends React.Component {
     }
 
     makeTurn() {
-        let units = buffCenterUnit(this.state.units.slice());
+        let units = clearDead(this.state.units.slice());
+        units = buffCenterUnit(units);
         units = moveEveryUnit(units, FIELD_RADIUS);
-        let enemies = moveEveryEnemy(this.state.enemies.slice(), FIELD_RADIUS);
-        units = resolveUnitCollisions(units);
-        enemies = resolveUnitCollisions(enemies);
+        let enemies = clearDead(this.state.enemies.slice());
+        enemies = moveEveryEnemy(enemies);
         units = updateUnitsPower(units);
         enemies = updateEnemiesPower(enemies);
-        let { newUnits, newEnemies } = resolveCollisionsWithEnemies(units, enemies);
-        newUnits = clearDead(newUnits);
-        newEnemies = clearDead(newEnemies);
-        this.setState({units: newUnits, enemies: newEnemies, turnNumber: this.state.turnNumber + 1});
-        this.addEnemy();
+        let { newUnits, newEnemies, collisionLocations } = resolveCollisionsWithEnemies(units, enemies);
+        console.log(collisionLocations);
+        newUnits = resolveUnitCollisions(newUnits);
+        newEnemies = resolveUnitCollisions(newEnemies);
+        if (checkLooseConditions(newEnemies)) {
+            this.looseGame();
+        }
+        this.setState({ units: newUnits, enemies: newEnemies, turnNumber: this.state.turnNumber + 1, collisionLocations });
+        if (!TEST) this.addEnemy();
+    }
+
+    looseGame() {
+        this.setState({gameRunning: false})
     }
 
 
     render() {
         return (
             <div className="game">
-                <EnemiesContainer radius={ FIELD_RADIUS } cellSize={ CELL_SIZE } margin={ MARGIN }
+                <EnemiesContainer radius={ FIELD_RADIUS } cellSize={ this.state.cellSize } margin={ MARGIN }
                                   enemies={ this.state.enemies } addEnemy={ this.handleAddEnemy }
                                   getNewEnemyLocation={ this.getNewEnemyLocation } />
-                <UnitsContainer radius={ FIELD_RADIUS } cellSize={ CELL_SIZE } margin={ MARGIN }
+                <UnitsContainer radius={ FIELD_RADIUS } cellSize={ this.state.cellSize } margin={ MARGIN }
                                 units={ this.state.units } addUnit={ this.handleAddUnit }
                                 updateUnit={ this.handleUpdateUnit }/>
-                <Field radius={ FIELD_RADIUS } cellSize={ CELL_SIZE } margin={ MARGIN } />
+                <Field radius={ FIELD_RADIUS }
+                       cellSize={ this.state.cellSize }
+                       margin={ MARGIN }
+                       collisionLocations={ this.state.collisionLocations } />
             </div>
         );
     }

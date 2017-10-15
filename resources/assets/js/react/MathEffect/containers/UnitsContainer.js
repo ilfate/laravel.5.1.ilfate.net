@@ -48,13 +48,13 @@ class UnitsContainer extends React.Component {
         const {radius, cellSize, margin, id} = this.props;
         const cellRealSize = cellSize + (margin * 2);
         const style = {
-            marginTop: cellRealSize * (radius - 1),
-            marginLeft: cellRealSize * (radius - 1),
+            marginTop: cellRealSize * radius,
+            marginLeft: cellRealSize * radius,
         };
-        const unitList = this.props.units.map(unit => !unit.deleted && <Unit key={ unit.id }
+        const unitList = this.props.units.map(unit => <Unit key={ unit.id }
                                                             unitConfig={ unit }
                                                             size={ cellSize } margin={ margin }
-                                                            onSetDirection={ this.handleSetDirection } />)
+                                                            onSetDirection={ this.handleSetDirection } />);
         return (
             <div style={ style } className="units">
                 { unitList }

@@ -1,4 +1,22 @@
 
+@keyframes arrowsAnimation {
+    from { opacity: 1; }
+    to { opacity: 0.5; }
+}
+
+@keyframes cellsOnLoadAnimation {
+    from { border-radius: 80px; }
+    to { border-radius: 8px; }
+}
+@keyframes cellsOnHoverAnimation {
+    from { border-radius: 8px; }
+    to { border-radius: 12px; }
+}
+@keyframes cellsOnCollisionAnimation {
+    0% { border-radius: 8px; }
+    50% { border-radius: 50%; }
+    100% { border-radius: 8px; }
+}
 
 
 body.math-effect {
@@ -18,12 +36,37 @@ body.math-effect {
         }
         .field {
             .row {
-
+                margin: 0;
             }
             .cell {
                 float: left;
                 border-radius: 4px;
+                background-color: $color-clay;
+                .inner-cell {
+                    border-radius: 8px;
+                    background-color: $color-white-pure;
+                    //transition: border-radius 750ms 5ms;
+                    &:hover {
+                        //border-radius: 12px;
+                        @include animation(cellsOnHoverAnimation 0.3s ease 0s infinite alternate);
+                    }
+                }
+                &.side-line {
+                    background-color: $color-gold-white;
+                }
+                &.center-line {
+                    background-color: $color-gold;
+                }
+                &.justCreated .inner-cell {
+                    //border-radius: 8px;
+                    //@include animation(none);
+                    @include animation(cellsOnLoadAnimation 1.5s ease forwards);
+                }
+                &.collision .inner-cell {
+                    @include animation(cellsOnCollisionAnimation 1.2s 0.4s ease forwards);
+                }
             }
+
         }
         .enemies, .units {
             position:absolute;
@@ -33,36 +76,44 @@ body.math-effect {
             .unit {
                 position: absolute;
                 z-index: 12;
+                /* Medium Devices, Desktops */
                 .buttons {
-                    position:absolute;
+                    visibility: hidden;
+                    position: absolute;
                     z-index: 18;
-                    display:none;
-
-                    div {
-                    }
-                    .top {
-                        position:absolute;
-                        text-align: center;
-                        left:0; right: 0;
-                    }
-                    .bottom {
-                        position:absolute;
-                        text-align: center;
-                        left:0; right: 0; bottom:0;
-                    }
-                    .right {
-                        float:right; text-align: right;
-                    }
-                    .left {
-                        
-                    }
-                }
-                &:hover .buttons {
-                    transition: width 100ms 10ms, height 100ms 10ms;
-                    display: block;
+                    opacity: 0;
                     width: 200%;
                     height: 200%;
                     margin: -50% 0 0 -50%;
+                    transition: opacity 150ms 10ms;
+                    & > div {
+                        position: absolute;
+                        z-index: 18;
+                    }
+                    .top {
+
+                        text-align: center;
+                        left: 0;
+                        right: 0;
+                    }
+                    .bottom {
+                        text-align: center;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                    }
+                    .right {
+                        right: 0;
+                    }
+                }
+                @media only screen and (min-width : 992px) {
+                    &:hover {
+                        z-index: 20;
+                        .buttons {
+                            visibility: visible;
+                            opacity: 1;
+                        }
+                    }
                 }
             }
         }
@@ -78,6 +129,10 @@ body.math-effect {
                     position: absolute;
                     z-index: 25;
                     text-align: center;
+                    animation-duration: 0.4s;
+                    animation-name: arrowsAnimation;
+                    animation-iteration-count: infinite;
+                    animation-direction: alternate;
                 }
             }
         }

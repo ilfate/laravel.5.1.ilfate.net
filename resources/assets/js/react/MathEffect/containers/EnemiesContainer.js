@@ -25,10 +25,10 @@ class EnemiesContainer extends React.Component {
         const {radius, cellSize, margin } = this.props;
         const cellRealSize = cellSize + (margin * 2);
         const style = {
-            marginTop: cellRealSize * (radius - 1),
-            marginLeft: cellRealSize * (radius - 1),
+            marginTop: cellRealSize * radius,
+            marginLeft: cellRealSize * radius,
         };
-        const enemiesList = this.props.enemies.map(enemy => !enemy.deleted && <Enemy key={ enemy.id }
+        const enemiesList = this.props.enemies.map(enemy => <Enemy key={ enemy.id }
                                                                              enemyConfig={ enemy }
                                                                              onMouseEnter={ this.handleMouseEnter }
                                                                              onMouseLeave={ this.handleMouseLeave }
