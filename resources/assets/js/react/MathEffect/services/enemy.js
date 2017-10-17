@@ -151,7 +151,7 @@ export const tryUpgradeToBoss = function tryUpgradeToBoss (enemy, turnNumber) {
     if (turnNumber < 4) return;
     const tenthOfTurnNumber = Math.round(turnNumber / 10);
     const fifteenthOfTurnNumber = Math.round(turnNumber / 15);
-    const chanceToSpawnBoss = 90 + tenthOfTurnNumber;
+    const chanceToSpawnBoss = 1 + tenthOfTurnNumber;
     if (rand(0, 100) > chanceToSpawnBoss) return;
     const minBossPower = 2 + fifteenthOfTurnNumber;
     const maxBossPower = 7 + fifteenthOfTurnNumber;

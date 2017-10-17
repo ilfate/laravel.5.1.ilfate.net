@@ -17,6 +17,10 @@
     50% { border-radius: 50%; }
     100% { border-radius: 8px; }
 }
+@keyframes hide {
+    0% { opacity: 1 }
+    100% { opacity: 0 }
+}
 
 
 body.math-effect {
@@ -68,7 +72,7 @@ body.math-effect {
             }
 
         }
-        .enemies, .units {
+        .enemies, .units, .bonuses {
             position:absolute;
             z-index: 10;
         }
@@ -76,7 +80,9 @@ body.math-effect {
             .unit {
                 position: absolute;
                 z-index: 12;
-                /* Medium Devices, Desktops */
+                &.deleted {
+                    z-index: 11;
+                }
                 .buttons {
                     visibility: hidden;
                     position: absolute;
@@ -133,6 +139,25 @@ body.math-effect {
                     animation-name: arrowsAnimation;
                     animation-iteration-count: infinite;
                     animation-direction: alternate;
+                }
+            }
+        }
+        .bonuses {
+            .bonus {
+                position: absolute;
+                border-radius: 50%;
+                border: 1px dotted $color-gold;
+                z-index: 12;
+                color: $color-clay;
+                text-align: center;
+                &.good {
+                    background-color: $color-green;
+                }
+                &.bad {
+                    background-color: $color-red4;
+                }
+                &.deleted {
+                    @include animation(hide 1s ease forwards);
                 }
             }
         }

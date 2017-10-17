@@ -11,7 +11,7 @@ class Unit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pan: {d: false, r: 0}
+            pan: {d: false, r: 0, pointerId: false}
         };
         this.handlePan = this.handlePan.bind(this);
         this.handlePanEnd = this.handlePanEnd.bind(this);
@@ -19,12 +19,13 @@ class Unit extends React.Component {
     }
 
     handlePan(e) {
+        const { pointerId } = e.changedPointers[0];
         switch(e.additionalEvent) {
-            case 'panup': !this.checkPanMove(DIRECTION_TOP, e) && this.setState({ pan: { d: 0, r: e.distance } }); break;
-            case 'panright': !this.checkPanMove(DIRECTION_RIGHT, e) && this.setState({ pan: { d: 1, r: e.distance } }); break;
-            case 'pandown': !this.checkPanMove(DIRECTION_DOWN, e) && this.setState({ pan: { d: 2, r: e.distance } }); break;
-            case 'panleft': !this.checkPanMove(DIRECTION_LEFT, e) && this.setState({ pan: { d: 3, r: e.distance } }); break;
-            default: this.setState({ pan: { d: false, r: 0 } }); return;
+            case 'panup': !this.checkPanMove(DIRECTION_TOP, e) && this.setState({ pan: { d: 0, r: e.distance, pointerId: this.state.pan.pointerId } }); break;
+            case 'panright': !this.checkPanMove(DIRECTION_RIGHT, e) && this.setState({ pan: { d: 1, r: e.distance, pointerId: this.state.pan.pointerId } }); break;
+            case 'pandown': !this.checkPanMove(DIRECTION_DOWN, e) && this.setState({ pan: { d: 2, r: e.distance, pointerId: this.state.pan.pointerId } }); break;
+            case 'panleft': !this.checkPanMove(DIRECTION_LEFT, e) && this.setState({ pan: { d: 3, r: e.distance, pointerId: this.state.pan.pointerId } }); break;
+            default: this.setState({ pan: { d: false, r: 0, pointerId } }); return;
         }
 
     }
@@ -33,12 +34,13 @@ class Unit extends React.Component {
     }
     checkPanMove(d, e) {
         const { size, onSetDirection, unitConfig } = this.props;
-        if (e.distance > size * 1.5) {
-            this.setState({ pan: { d: false, r: 0 } });
+        const { pointerId } = e.changedPointers[0];
+        if (e.distance > size * 1.5 || pointerId === this.state.pan.pointerId) {
+            this.setState({ pan: { d: false, r: 0, pointerId } });
             return true;
         }
         if (e.distance > size) {
-            this.setState({ pan: { d: false, r: 0 } });
+            this.setState({ pan: { d: false, r: 0, pointerId } });
             onSetDirection(unitConfig, d);
             return true;
         }
@@ -83,10 +85,11 @@ class Unit extends React.Component {
                         //onSwipe={ (e) => {console.log({type:e.type, e}) } }
                     >
                         <div
-                            className={ 'unit' }
+                            className={ `unit ${ unitConfig.deleted ? `deleted`: `` }` }
                             style={ Object.assign({}, mainStyle, {
-                                marginTop: value.y * (size + (margin * 2)) + margin + panMargin.y,
-                                marginLeft: value.x * (size + (margin * 2)) + margin + panMargin.x,
+                                transform: `translate(${ value.x * (size + (margin * 2)) + margin + panMargin.x }px, ${ value.y * (size + (margin * 2)) + margin + panMargin.y }px)`,
+                                //marginTop: value.y * (size + (margin * 2)) + margin + panMargin.y,
+                                //marginLeft: value.x * (size + (margin * 2)) + margin + panMargin.x,
                                 opacity: value.opacity
                             }) }
                         >

@@ -24,8 +24,9 @@ const Enemy = props => {
                     onMouseLeave={ props.onMouseLeave }
                     className={ 'enemy' }
                     style={ Object.assign({}, mainStyle, {
-                            marginTop: value.y * (size + (margin * 2)) + margin,
-                            marginLeft: value.x * (size + (margin * 2)) + margin
+                            transform: `translate(${ value.x * (size + (margin * 2)) + margin }px, ${ value.y * (size + (margin * 2)) + margin }px)`,
+                            //marginTop: value.y * (size + (margin * 2)) + margin,
+                            //marginLeft: value.x * (size + (margin * 2)) + margin
                     },
                         {opacity: value.v}
                     ) }

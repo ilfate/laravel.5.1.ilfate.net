@@ -86,6 +86,7 @@ export const resolveUnitCollisions = function resolveCollisions (units) {
 export const resolveCollisionsWithEnemies = function resolveCollisions (units, enemies) {
     let newEnemies = [];
     let collisionLocations = [];
+    let enemiesKilled = 0;
     let newUnits = units.map(unit => {
          newEnemies = enemies.map(enemy => {
             if (!unit.deleted && !enemy.deleted && ((unit.x === enemy.x && unit.y === enemy.y)
@@ -96,11 +97,13 @@ export const resolveCollisionsWithEnemies = function resolveCollisions (units, e
                     enemy.deleted = true;
                     collisionLocations.push({ x: enemy.x, y: enemy.y });
                     unit.power -= enemy.power;
+                    enemiesKilled++;
                 } else if (unit.power === enemy.power) {
                     enemy.deleted = true;
                     unit.deleted = true;
                     collisionLocations.push({ x: enemy.x, y: enemy.y });
                     collisionLocations.push({ x: unit.x, y: unit.y });
+                    enemiesKilled++;
                 } else {
                     unit.deleted = true;
                     collisionLocations.push({ x: unit.x, y: unit.y });
@@ -112,7 +115,7 @@ export const resolveCollisionsWithEnemies = function resolveCollisions (units, e
          return unit;
     });
     collisionLocations = uniqueArray(collisionLocations);
-    return { newUnits, newEnemies, collisionLocations }
+    return { newUnits, newEnemies, collisionLocations, enemiesKilled }
 };
 
 export const clearDead = function clearDead(units) {
