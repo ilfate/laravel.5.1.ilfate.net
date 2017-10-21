@@ -45,7 +45,7 @@ class UnitsContainer extends React.Component {
     }
 
     render() {
-        const {radius, cellSize, margin, id} = this.props;
+        const {radius, cellSize, margin, gameRunning} = this.props;
         const cellRealSize = cellSize + (margin * 2);
         const style = {
             marginTop: cellRealSize * radius,
@@ -54,7 +54,8 @@ class UnitsContainer extends React.Component {
         const unitList = this.props.units.map(unit => <Unit key={ unit.id }
                                                             unitConfig={ unit }
                                                             size={ cellSize } margin={ margin }
-                                                            onSetDirection={ this.handleSetDirection } />);
+                                                            onSetDirection={ this.handleSetDirection }
+                                                            gameRunning={ gameRunning } />);
         return (
             <div style={ style } className="units">
                 { unitList }

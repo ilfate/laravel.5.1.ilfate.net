@@ -29,7 +29,7 @@ export const BlockWithArrow = props => {
     };
 
     return (
-        <div>
+        <div className="block-with-arrow">
             <div className="block" style={ blockStyle }></div>
             { props.d !== -1 && <div className="arrow" style={ arrowStyle }></div> }
         </div>

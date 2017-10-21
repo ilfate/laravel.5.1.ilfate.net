@@ -3,6 +3,7 @@ import Field from './containers/Field';
 import EnemiesContainer from './containers/EnemiesContainer';
 import UnitsContainer from './containers/UnitsContainer';
 import BonusesContainer from './containers/BonusesContainer';
+import EndGameScreen from './containers/EndGameScreen';
 import { moveEveryUnit, resolveUnitCollisions, updateUnitsPower, resolveCollisionsWithEnemies,
     clearDead, buffCenterUnit } from './services/unit';
 import { moveEveryEnemy, updateEnemiesPower, generateNewEnemyLocation, getEnemyStartDirection,
@@ -122,6 +123,7 @@ class Game extends React.Component {
     }
 
     makeTurn() {
+        let pointsEarned = this.state.pointsEarned;
         let bonuses = clearDead([...this.state.bonuses]);
         let units = clearDead([...this.state.units]);
         units = buffCenterUnit(units);
@@ -130,8 +132,8 @@ class Game extends React.Component {
         enemies = moveEveryEnemy(enemies);
         units = updateUnitsPower(units);
         enemies = updateEnemiesPower(enemies);
-        let { newUnits, newEnemies, collisionLocations, enemiesKilled } = resolveCollisionsWithEnemies(units, enemies);
-
+        let { newUnits, newEnemies, collisionLocations, enemiesKilled, powerDestroyed } = resolveCollisionsWithEnemies(units, enemies);
+        pointsEarned += powerDestroyed + (enemiesKilled * POINTS_PER_KILL);
         newUnits = resolveUnitCollisions(newUnits);
 
         // how two units can end up in the same place?
@@ -139,16 +141,18 @@ class Game extends React.Component {
 
         newEnemies = resolveUnitCollisions(newEnemies);
         [ bonuses, newUnits, newEnemies, collisionLocations ] = resolveCollisionsWithBonuses(bonuses, newUnits, newEnemies, collisionLocations);
-        if (checkLooseConditions(newEnemies)) {
-            this.looseGame();
-        }
+
         if (!TEST) this.tryToCreateBonus(bonuses);
         this.setState({
             units: newUnits,
             enemies: newEnemies,
             turnNumber: this.state.turnNumber + 1,
             enemiesKilled: this.state.enemiesKilled + enemiesKilled,
-            collisionLocations });
+            collisionLocations,
+            pointsEarned });
+        if (checkLooseConditions(newEnemies)) {
+            this.looseGame();
+        }
         if (!TEST) this.addEnemy();
     }
 
@@ -166,6 +170,8 @@ class Game extends React.Component {
             '&_token=' + $('#laravel-token').val()
             //callBack : function(){Ajax.linkLoadingEnd(link)}
         });
+
+
     }
 
 
@@ -174,19 +180,23 @@ class Game extends React.Component {
         <div>
             <div className="hidden-md hidden-lg text-center">Swipe your units to set direction</div>
             <div className="game">
+                { !this.state.gameRunning && <EndGameScreen radius={ FIELD_RADIUS } cellSize={ this.state.cellSize }
+                                                            margin={ MARGIN } /> }
                 <BonusesContainer radius={ FIELD_RADIUS } cellSize={ this.state.cellSize } margin={ MARGIN }
-                                  bonuses={ this.state.bonuses } />
+                                  bonuses={ this.state.bonuses } gameRunning={ this.state.gameRunning } />
                 <EnemiesContainer radius={ FIELD_RADIUS } cellSize={ this.state.cellSize } margin={ MARGIN }
                                   enemies={ this.state.enemies } addEnemy={ this.handleAddEnemy }
-                                  getNewEnemyLocation={ this.getNewEnemyLocation } />
+                                  getNewEnemyLocation={ this.getNewEnemyLocation } gameRunning={ this.state.gameRunning } />
                 <UnitsContainer radius={ FIELD_RADIUS } cellSize={ this.state.cellSize } margin={ MARGIN }
                                 units={ this.state.units } addUnit={ this.handleAddUnit }
-                                updateUnit={ this.handleUpdateUnit }/>
+                                updateUnit={ this.handleUpdateUnit } gameRunning={ this.state.gameRunning }/>
 
                 <Field radius={ FIELD_RADIUS }
                        cellSize={ this.state.cellSize }
                        margin={ MARGIN }
-                       collisionLocations={ this.state.collisionLocations } />
+                       collisionLocations={ this.state.collisionLocations }
+                       gameRunning={ this.state.gameRunning }/>
+
             </div>
         </div>
         );

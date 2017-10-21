@@ -22,7 +22,7 @@ class EnemiesContainer extends React.Component {
     }
 
     render() {
-        const {radius, cellSize, margin } = this.props;
+        const { radius, cellSize, margin, gameRunning } = this.props;
         const cellRealSize = cellSize + (margin * 2);
         const style = {
             marginTop: cellRealSize * radius,
@@ -32,10 +32,11 @@ class EnemiesContainer extends React.Component {
                                                                              enemyConfig={ enemy }
                                                                              onMouseEnter={ this.handleMouseEnter }
                                                                              onMouseLeave={ this.handleMouseLeave }
-                                                                             size={ cellSize } margin={ margin } />)
+                                                                             size={ cellSize } margin={ margin }
+                                                                             gameRunning={ gameRunning } />)
         return (
             <div style={ style } className="enemies">
-                { this.state.pathVisible && <Path enemy={ this.state.pathFor }
+                { this.state.pathVisible && gameRunning && <Path enemy={ this.state.pathFor }
                                                   radius={ radius }
                                                   size={ cellSize }
                                                   margin={ margin } /> }

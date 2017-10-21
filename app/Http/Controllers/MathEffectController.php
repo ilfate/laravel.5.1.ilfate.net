@@ -114,7 +114,6 @@ class MathEffectController extends BaseController
             return '{}';
         }
 
-
         $tdStatistics                  = new TdStatistics();
         $tdStatistics->pointsEarned    = $request->get('pointsEarned');
         $tdStatistics->turnsSurvived   = $request->get('turnsSurvived');

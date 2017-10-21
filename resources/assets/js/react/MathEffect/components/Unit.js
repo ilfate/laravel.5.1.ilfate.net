@@ -49,8 +49,8 @@ class Unit extends React.Component {
 
     render() {
 
-        const {unitConfig, size, margin, onSetDirection} = this.props;
-        const {x, y} = unitConfig;
+        const { unitConfig, size, margin, onSetDirection, gameRunning } = this.props;
+        const { x, y } = unitConfig;
 
         const dividedPower = Math.ceil(unitConfig.power / 4);
         const color = colors[dividedPower > 10 ? 10 : dividedPower];
@@ -85,7 +85,7 @@ class Unit extends React.Component {
                         //onSwipe={ (e) => {console.log({type:e.type, e}) } }
                     >
                         <div
-                            className={ `unit ${ unitConfig.deleted ? `deleted`: `` }` }
+                            className={ `unit ${ unitConfig.deleted ? `deleted` : `` } ${ !gameRunning ? `game-end` : `` }` }
                             style={ Object.assign({}, mainStyle, {
                                 transform: `translate(${ value.x * (size + (margin * 2)) + margin + panMargin.x }px, ${ value.y * (size + (margin * 2)) + margin + panMargin.y }px)`,
                                 //marginTop: value.y * (size + (margin * 2)) + margin + panMargin.y,

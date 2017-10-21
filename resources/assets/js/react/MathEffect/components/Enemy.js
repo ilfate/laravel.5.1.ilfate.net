@@ -5,7 +5,7 @@ import { BlockWithArrow } from './BlockWithArrow';
 const Enemy = props => {
 
 
-    const { enemyConfig, size, margin } = props;
+    const { enemyConfig, size, margin, gameRunning } = props;
     const { x, y } = enemyConfig;
     const color = enemyConfig.isBoss ? '#C21348' : '#F07818';
     const mainStyle = {
@@ -22,7 +22,7 @@ const Enemy = props => {
                 <div
                     onMouseEnter={ () => props.onMouseEnter(enemyConfig) }
                     onMouseLeave={ props.onMouseLeave }
-                    className={ 'enemy' }
+                    className={ `enemy ${ !gameRunning ? `game-end` : `` }` }
                     style={ Object.assign({}, mainStyle, {
                             transform: `translate(${ value.x * (size + (margin * 2)) + margin }px, ${ value.y * (size + (margin * 2)) + margin }px)`,
                             //marginTop: value.y * (size + (margin * 2)) + margin,

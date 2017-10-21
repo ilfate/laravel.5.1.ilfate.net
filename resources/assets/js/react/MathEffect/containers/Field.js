@@ -5,7 +5,7 @@ import Cell from './../components/Cell';
 
 export const Field = props => {
 
-    const { radius, cellSize, margin, collisionLocations } = props;
+    const { radius, cellSize, margin, collisionLocations, gameRunning } = props;
     const rowLength = (radius * 2) + 1;
     const rowWidth = (cellSize + (margin * 2)) * rowLength;
     const rowStyle = { width: rowWidth };
@@ -31,7 +31,7 @@ export const Field = props => {
     });
 
     return (
-        <div style={ fieldStyle } className="field">
+        <div style={ fieldStyle } className={`field ${ !gameRunning ? `end-game`: `` }`}>
             { renderedList }
         </div>
     );

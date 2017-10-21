@@ -208,6 +208,13 @@ export const allCombatSituationEnemies = [
         d: 2,
         power: 10,
         deleted: false},
+    {id: 1012,
+        x: 0,
+        y: -1,
+        was: {x: 0, y: -1},
+        d: 2,
+        power: 100,
+        deleted: false},
 ];
 
 export const allCombatSituationBonuses = [
