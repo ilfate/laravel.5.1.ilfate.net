@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="hero-unit">
-    <h1>MathEffect <small>Defend your base as long as you can!</small></h1>
+    <h1>MathEffect <small>leaderboard</small></h1>
 </div>
 
 <div class="panel panel-default">
@@ -69,24 +69,24 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-body">
+  <div class="panel-heading">
     Total games played
   </div>
-  <div class="panel-footer">{{$totalGames}}</div>
+  <div class="panel-body"><strong>{{$totalGames}}</strong></div>
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-body">
+  <div class="panel-heading">
     Average turns survived per game
   </div>
-  <div class="panel-footer">{{$avrTurns}}</div>
+  <div class="panel-body"><strong>{{$avrTurns}}</strong></div>
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-body">
+  <div class="panel-heading">
     Number of players
   </div>
-  <div class="panel-footer">{{$users}}</div>
+  <div class="panel-body"><strong>{{$users}}</strong></div>
 </div>
 
 @if($userLogs)

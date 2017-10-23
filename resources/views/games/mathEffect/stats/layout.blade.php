@@ -6,7 +6,9 @@
     <div class="math-effect-stats-container">
         <div class="container main">
             <div class="main-content-well well well-small ">
-                @yield('content')
+                <div class="main-content-level2">
+                    @yield('content')
+                </div>
             </div>
         </div>
     </div>

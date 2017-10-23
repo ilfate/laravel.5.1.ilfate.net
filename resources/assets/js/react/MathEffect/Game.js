@@ -132,40 +132,38 @@ class Game extends React.Component {
         enemies = moveEveryEnemy(enemies);
         units = updateUnitsPower(units);
         enemies = updateEnemiesPower(enemies);
-        let { newUnits, newEnemies, collisionLocations, enemiesKilled, powerDestroyed } = resolveCollisionsWithEnemies(units, enemies);
-        pointsEarned += powerDestroyed + (enemiesKilled * POINTS_PER_KILL);
+        let { newUnits, newEnemies, collisionLocations, enemiesKilledThisTurn, powerDestroyed } = resolveCollisionsWithEnemies(units, enemies);
+        pointsEarned += powerDestroyed + (enemiesKilledThisTurn * POINTS_PER_KILL);
         newUnits = resolveUnitCollisions(newUnits);
-
-        // how two units can end up in the same place?
-        // If one is standing and other one is moving to it?
-
         newEnemies = resolveUnitCollisions(newEnemies);
         [ bonuses, newUnits, newEnemies, collisionLocations ] = resolveCollisionsWithBonuses(bonuses, newUnits, newEnemies, collisionLocations);
 
         if (!TEST) this.tryToCreateBonus(bonuses);
+        let turnNumber = this.state.turnNumber + 1;
+        let enemiesKilled = this.state.enemiesKilled + enemiesKilledThisTurn;
         this.setState({
             units: newUnits,
             enemies: newEnemies,
-            turnNumber: this.state.turnNumber + 1,
-            enemiesKilled: this.state.enemiesKilled + enemiesKilled,
+            turnNumber,
+            enemiesKilled,
             collisionLocations,
             pointsEarned });
         if (checkLooseConditions(newEnemies)) {
-            this.looseGame();
+            this.looseGame(turnNumber, enemiesKilled, pointsEarned);
         }
         if (!TEST) this.addEnemy();
     }
 
-    looseGame() {
+    looseGame(turns, kills, points) {
         this.setState({gameRunning: false});
 
         var checkKey = $('#checkKey').val();
 
         Ajax.json('/MathEffect/save', {
             //params : '__csrf=' + Ajax.getCSRF(),
-            data: 'turnsSurvived=' + this.state.turnNumber +
-            '&unitsKilled=' + this.state.enemiesKilled +
-            '&pointsEarned=' + this.state.pointsEarned +
+            data: 'turnsSurvived=' + turns +
+            '&unitsKilled=' + kills +
+            '&pointsEarned=' + points +
             '&checkKey=' + checkKey +
             '&_token=' + $('#laravel-token').val()
             //callBack : function(){Ajax.linkLoadingEnd(link)}
@@ -178,10 +176,13 @@ class Game extends React.Component {
     render() {
         return (
         <div>
-            <div className="hidden-md hidden-lg text-center">Swipe your units to set direction</div>
+            <div className="mobile-helper-text hidden-md hidden-lg text-center">Swipe your units to set direction</div>
             <div className="game">
                 { !this.state.gameRunning && <EndGameScreen radius={ FIELD_RADIUS } cellSize={ this.state.cellSize }
-                                                            margin={ MARGIN } /> }
+                                                            margin={ MARGIN }
+                                                            turns={ this.state.turnNumber }
+                                                            kills={ this.state.enemiesKilled }
+                                                            points={ this.state.pointsEarned } /> }
                 <BonusesContainer radius={ FIELD_RADIUS } cellSize={ this.state.cellSize } margin={ MARGIN }
                                   bonuses={ this.state.bonuses } gameRunning={ this.state.gameRunning } />
                 <EnemiesContainer radius={ FIELD_RADIUS } cellSize={ this.state.cellSize } margin={ MARGIN }
@@ -198,6 +199,7 @@ class Game extends React.Component {
                        gameRunning={ this.state.gameRunning }/>
 
             </div>
+            <div className="mobile-helper-text hidden-md hidden-lg text-center">Tap on enemy to see directions</div>
         </div>
         );
     }

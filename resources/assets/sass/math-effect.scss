@@ -22,7 +22,7 @@
     15% { border-radius: 50%; width: calc(100% - 2px); height: calc(100% - 2px); margin: 1px 0 0 1px; }
     50% { border-radius: 50%; width: 0; height: 0; margin: 50% 0 0 50%; }
     85% { border-radius: 50%; width: calc(100% - 2px); height: calc(100% - 2px); margin: 1px 0 0 1px; }
-    100% { border-radius: 8px; width: calc(100% - 2px); height: calc(100% - 2px); margin: 1px 0 0 1px; }
+    100% { border-radius: 30px; width: calc(100% - 2px); height: calc(100% - 2px); margin: 1px 0 0 1px; }
 }
 @keyframes hide {
     0% { opacity: 1 }
@@ -48,8 +48,13 @@
 
 
 body.math-effect {
+    .me-facebook-modal {
+        text-align: center;
+        opacity: 0;
+        @include animation(show 10s 40s forwards);
+    }
     #react-app {
-        height: 100%;
+        height: 95%;
     }
     background-color: $color-white-pure;
 
@@ -71,6 +76,9 @@ body.math-effect {
             @media only screen and (min-width : 992px) {
                 margin-top: 50px;
             }
+        }
+        .mobile-helper-text {
+            @include animation(hide 10s 30s forwards);
         }
         .field {
             .row {
@@ -234,19 +242,53 @@ body.math-effect {
             position: absolute;
         }
         .end-game-screen {
+            z-index: 40;
             opacity: 0;
             position: absolute;
             width: 100%;
             border-radius: 4px;
             @include animation(show 1s 2s ease forwards);
             background-color: $color-gold;
+            .info {
+                width: 100%;
+                margin-top: 50px;
+                text-align: center;
+                position:absolute;
+                opacity: 0;
+                @include animation(show 0.2s 4s linear forwards);
+                h3, p {
+                    color: $color-gold;
+                }
+                .label {
+                    color: $color-gold;
+                    text-decoration: underline;
+                }
+                input:focus {
+                    border-color: $color-gold;
+                    box-shadow: none;
+                    outline-color: $color-gold;
+                }
+                .btn {
+                    background-color: $color-gold;
+                    border-color: $color-gold;
+                    margin-left: 5px;
+                }
+                p.hidden-form {
+                    @include animation(hide 0.5s forwards);
+                }
+                a {
+                    color: $color-gold;
+                    text-decoration: underline;
+                }
+            }
             .block {
+                position: absolute;
                 border-radius: 12px;
                 margin: 1px 0 0 1px;
                 width: calc(100% - 2px);
                 height: calc(100% - 2px);
                 background-color: $color-white-pure;
-                @include animation(endScreenAnimations 2s 3s);
+                @include animation(endScreenAnimations 2s 3s linear forwards);
             }
         }
     }
@@ -536,7 +578,36 @@ body.math-effect {
     }
 
     .math-effect-stats-container {
-        background-color: $color-brawn;
+        background-color: $color-white-pure;
+
+        .main-content-well {
+            box-shadow: none;
+            border: none;
+            background-color: $color-gold;
+            padding: 1px 0 1px 1px;
+            .main-content-level2 {
+                width: calc(100% - 2px);
+                border-radius: 40px;
+                background-color: $color-white-pure;
+                padding: 0 5px 15px 5px;
+
+                .panel-default>.panel-heading, .panel-footer {
+                    border:none;
+                    background-color: $color-gold;
+                    color: $color-white-pure;
+                }
+                .table>thead>tr>th {
+                    border-color: $color-gold;
+                }
+                .table>tbody>tr>td {
+                    border-color: $color-gold;
+                }
+                .panel-default {
+                    border-color: $color-gold;
+                    @include box-shadow(none);
+                }
+            }
+        }
     }
 }
 
