@@ -24,7 +24,7 @@ const POINTS_PER_KILL = 5;
 
 const CELL_SIZE = 60;
 const MARGIN = 2;
-const TEST = true;
+const TEST = false;
 
 const situationEnemies = [
 ];
