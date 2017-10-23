@@ -6655,37 +6655,325 @@ body.games-page {
   .guess-body .admin-series-image:active {
     width: 600px; }
 
+@keyframes arrowsAnimation {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0.5; } }
+
+@keyframes cellsOnLoadAnimation {
+  from {
+    border-radius: 80px; }
+  to {
+    border-radius: 8px; } }
+
+@keyframes cellsOnHoverAnimation {
+  from {
+    border-radius: 8px; }
+  to {
+    border-radius: 12px; } }
+
+@keyframes cellsOnCollisionAnimation {
+  0% {
+    border-radius: 8px; }
+  50% {
+    border-radius: 50%; }
+  100% {
+    border-radius: 8px; } }
+
+@keyframes endScreenAnimations {
+  0% {
+    border-radius: 8px;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    margin: 1px 0 0 1px; }
+  15% {
+    border-radius: 50%;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    margin: 1px 0 0 1px; }
+  50% {
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 50% 0 0 50%; }
+  85% {
+    border-radius: 50%;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    margin: 1px 0 0 1px; }
+  100% {
+    border-radius: 30px;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    margin: 1px 0 0 1px; } }
+
+@keyframes hide {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes show {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes shakeIt {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg); }
+  25% {
+    -webkit-transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -o-transform: rotate(3deg); }
+  50% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg); }
+  75% {
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg); }
+  100% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg); } }
+
+@keyframes unitGameEnd {
+  0% {
+    border-radius: 4px; }
+  50% {
+    border-radius: 50%;
+    opacity: 0.6; }
+  99% {
+    -webkit-transform: scale(0.01);
+    -ms-transform: scale(0.01);
+    -o-transform: scale(0.01);
+    transform: scale(0.01);
+    opacity: 0.2; }
+  100% {
+    -webkit-transform: scale(0.01);
+    -ms-transform: scale(0.01);
+    -o-transform: scale(0.01);
+    transform: scale(0.01);
+    opacity: 0; } }
+
 body.math-effect {
   background-color: #FFFFFF; }
-  body.math-effect #math-effect .field .cell {
-    float: left;
-    border-radius: 4px; }
-  body.math-effect #math-effect .enemies, body.math-effect #math-effect .units {
-    position: absolute;
-    z-index: 10; }
-  body.math-effect #math-effect .units .unit {
-    position: absolute; }
-    body.math-effect #math-effect .units .unit .buttons {
+  body.math-effect .me-facebook-modal {
+    text-align: center;
+    opacity: 0;
+    -webkit-animation: show 10s 40s forwards;
+    -o-animation: show 10s 40s forwards;
+    animation: show 10s 40s forwards; }
+  body.math-effect #react-app {
+    height: 95%; }
+  body.math-effect #math-effect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: flex;
+    justify-content: center; }
+    @media only screen and (max-width: 991px) {
+      body.math-effect #math-effect {
+        align-items: center;
+        height: 100%; } }
+    body.math-effect #math-effect .game {
+      position: relative; }
+      @media only screen and (min-width: 992px) {
+        body.math-effect #math-effect .game {
+          margin-top: 50px; } }
+    body.math-effect #math-effect .mobile-helper-text {
+      -webkit-animation: hide 10s 30s forwards;
+      -o-animation: hide 10s 30s forwards;
+      animation: hide 10s 30s forwards; }
+    body.math-effect #math-effect .field .row {
+      margin: 0; }
+    body.math-effect #math-effect .field .cell {
+      float: left;
+      border-radius: 4px;
+      background-color: #FCEBB6; }
+      body.math-effect #math-effect .field .cell .inner-cell {
+        border-radius: 8px;
+        background-color: #FFFFFF; }
+        body.math-effect #math-effect .field .cell .inner-cell:hover {
+          -webkit-animation: cellsOnHoverAnimation 0.3s ease 0s infinite alternate;
+          -o-animation: cellsOnHoverAnimation 0.3s ease 0s infinite alternate;
+          animation: cellsOnHoverAnimation 0.3s ease 0s infinite alternate; }
+      body.math-effect #math-effect .field .cell.side-line {
+        background-color: #F6C67B; }
+      body.math-effect #math-effect .field .cell.center-line {
+        background-color: #F0A830; }
+      body.math-effect #math-effect .field .cell.justCreated .inner-cell {
+        -webkit-animation: cellsOnLoadAnimation 1.5s ease forwards;
+        -o-animation: cellsOnLoadAnimation 1.5s ease forwards;
+        animation: cellsOnLoadAnimation 1.5s ease forwards; }
+      body.math-effect #math-effect .field .cell.collision .inner-cell {
+        -webkit-animation: cellsOnCollisionAnimation 1.2s 0.4s ease forwards;
+        -o-animation: cellsOnCollisionAnimation 1.2s 0.4s ease forwards;
+        animation: cellsOnCollisionAnimation 1.2s 0.4s ease forwards; }
+    body.math-effect #math-effect .field.end-game {
+      -webkit-animation: hide 1.2s 1.5s forwards;
+      -o-animation: hide 1.2s 1.5s forwards;
+      animation: hide 1.2s 1.5s forwards; }
+    body.math-effect #math-effect .enemies, body.math-effect #math-effect .units, body.math-effect #math-effect .bonuses {
+      position: absolute;
+      z-index: 10; }
+      body.math-effect #math-effect .enemies .unit.game-end .block, body.math-effect #math-effect .enemies .unit.game-end .arrow, body.math-effect #math-effect .enemies .enemy.game-end .block, body.math-effect #math-effect .enemies .enemy.game-end .arrow, body.math-effect #math-effect .units .unit.game-end .block, body.math-effect #math-effect .units .unit.game-end .arrow, body.math-effect #math-effect .units .enemy.game-end .block, body.math-effect #math-effect .units .enemy.game-end .arrow, body.math-effect #math-effect .bonuses .unit.game-end .block, body.math-effect #math-effect .bonuses .unit.game-end .arrow, body.math-effect #math-effect .bonuses .enemy.game-end .block, body.math-effect #math-effect .bonuses .enemy.game-end .arrow {
+        -webkit-animation: unitGameEnd 2s 0.6s linear forwards;
+        -o-animation: unitGameEnd 2s 0.6s linear forwards;
+        animation: unitGameEnd 2s 0.6s linear forwards; }
+      body.math-effect #math-effect .enemies .unit.game-end .power, body.math-effect #math-effect .enemies .enemy.game-end .power, body.math-effect #math-effect .units .unit.game-end .power, body.math-effect #math-effect .units .enemy.game-end .power, body.math-effect #math-effect .bonuses .unit.game-end .power, body.math-effect #math-effect .bonuses .enemy.game-end .power {
+        -webkit-animation: hide 1s 0.4s ease forwards;
+        -o-animation: hide 1s 0.4s ease forwards;
+        animation: hide 1s 0.4s ease forwards; }
+      body.math-effect #math-effect .enemies .unit.game-end .buttons, body.math-effect #math-effect .enemies .enemy.game-end .buttons, body.math-effect #math-effect .units .unit.game-end .buttons, body.math-effect #math-effect .units .enemy.game-end .buttons, body.math-effect #math-effect .bonuses .unit.game-end .buttons, body.math-effect #math-effect .bonuses .enemy.game-end .buttons {
+        display: none; }
+    body.math-effect #math-effect .units .unit {
+      position: absolute;
+      z-index: 12; }
+      body.math-effect #math-effect .units .unit.deleted {
+        z-index: 11; }
+      body.math-effect #math-effect .units .unit .buttons {
+        visibility: hidden;
+        position: absolute;
+        z-index: 18;
+        opacity: 0;
+        width: 200%;
+        height: 200%;
+        margin: -50% 0 0 -50%;
+        -webkit-transition: all 150ms 10ms;
+        -o-transition: all 150ms 10ms;
+        transition: all 150ms 10ms;
+        -webkit-transform: rotate(3deg);
+        -moz-transform: rotate(3deg);
+        -o-transform: rotate(3deg); }
+        body.math-effect #math-effect .units .unit .buttons > div {
+          position: absolute;
+          z-index: 18; }
+        body.math-effect #math-effect .units .unit .buttons .top {
+          text-align: center;
+          left: 0;
+          right: 0; }
+        body.math-effect #math-effect .units .unit .buttons .bottom {
+          text-align: center;
+          left: 0;
+          right: 0;
+          bottom: 0; }
+        body.math-effect #math-effect .units .unit .buttons .right {
+          right: 0; }
+      @media only screen and (min-width: 992px) {
+        body.math-effect #math-effect .units .unit:hover {
+          z-index: 20; }
+          body.math-effect #math-effect .units .unit:hover .buttons {
+            visibility: visible;
+            opacity: 1;
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -o-transform: rotate(0deg); } }
+    body.math-effect #math-effect .enemies .enemy {
+      position: absolute;
+      border-radius: 4px;
+      z-index: 12; }
+      body.math-effect #math-effect .enemies .enemy:hover .block-with-arrow {
+        -webkit-animation: shakeIt 0.5s ease 0s infinite alternate;
+        -o-animation: shakeIt 0.5s ease 0s infinite alternate;
+        animation: shakeIt 0.5s ease 0s infinite alternate; }
+    body.math-effect #math-effect .enemies .path {
+      position: absolute; }
+      body.math-effect #math-effect .enemies .path .step {
+        position: absolute;
+        z-index: 25;
+        text-align: center;
+        animation-duration: 0.4s;
+        animation-name: arrowsAnimation;
+        animation-iteration-count: infinite;
+        animation-direction: alternate; }
+    body.math-effect #math-effect .bonuses .bonus {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px dotted #F0A830;
+      z-index: 12;
+      color: #FCEBB6;
+      text-align: center; }
+      body.math-effect #math-effect .bonuses .bonus.good {
+        background-color: #339933; }
+      body.math-effect #math-effect .bonuses .bonus.bad {
+        background-color: #966; }
+      body.math-effect #math-effect .bonuses .bonus.deleted {
+        -webkit-animation: hide 1s ease forwards;
+        -o-animation: hide 1s ease forwards;
+        animation: hide 1s ease forwards; }
+    body.math-effect #math-effect .units .unit .power, body.math-effect #math-effect .enemies .enemy .power {
+      position: absolute;
       width: 100%;
       height: 100%;
+      z-index: 15;
+      text-align: center; }
+    body.math-effect #math-effect .units .unit .block, body.math-effect #math-effect .enemies .enemy .block {
+      border-radius: 4px;
       position: absolute;
-      display: none; }
-      body.math-effect #math-effect .units .unit .buttons div {
-        position: absolute; }
-      body.math-effect #math-effect .units .unit .buttons .top {
-        margin-left: 50%; }
-      body.math-effect #math-effect .units .unit .buttons .bottom {
-        margin-left: 50%;
-        margin-top: 100%; }
-      body.math-effect #math-effect .units .unit .buttons .right {
-        margin-left: 100%;
-        margin-top: 50%; }
-      body.math-effect #math-effect .units .unit .buttons .left {
-        margin-top: 50%; }
-    body.math-effect #math-effect .units .unit:hover .buttons {
-      display: block; }
-  body.math-effect #math-effect .enemies .enemy {
-    position: absolute; }
+      transition: margin 350ms 10ms, width 350ms 10ms, height 350ms 10ms; }
+    body.math-effect #math-effect .units .unit .arrow, body.math-effect #math-effect .enemies .enemy .arrow {
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      border-radius: 4px;
+      position: absolute; }
+    body.math-effect #math-effect .end-game-screen {
+      z-index: 40;
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+      border-radius: 4px;
+      -webkit-animation: show 1s 2s ease forwards;
+      -o-animation: show 1s 2s ease forwards;
+      animation: show 1s 2s ease forwards;
+      background-color: #F0A830; }
+      body.math-effect #math-effect .end-game-screen .info {
+        width: 100%;
+        margin-top: 50px;
+        text-align: center;
+        position: absolute;
+        opacity: 0;
+        -webkit-animation: show 0.2s 4s linear forwards;
+        -o-animation: show 0.2s 4s linear forwards;
+        animation: show 0.2s 4s linear forwards; }
+        body.math-effect #math-effect .end-game-screen .info h3, body.math-effect #math-effect .end-game-screen .info p {
+          color: #F0A830; }
+        body.math-effect #math-effect .end-game-screen .info .label {
+          color: #F0A830;
+          text-decoration: underline; }
+        body.math-effect #math-effect .end-game-screen .info input:focus {
+          border-color: #F0A830;
+          box-shadow: none;
+          outline-color: #F0A830; }
+        body.math-effect #math-effect .end-game-screen .info .btn {
+          background-color: #F0A830;
+          border-color: #F0A830;
+          margin-left: 5px; }
+        body.math-effect #math-effect .end-game-screen .info p.hidden-form {
+          -webkit-animation: hide 0.5s forwards;
+          -o-animation: hide 0.5s forwards;
+          animation: hide 0.5s forwards; }
+        body.math-effect #math-effect .end-game-screen .info a {
+          color: #F0A830;
+          text-decoration: underline; }
+      body.math-effect #math-effect .end-game-screen .block {
+        position: absolute;
+        border-radius: 12px;
+        margin: 1px 0 0 1px;
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+        background-color: #FFFFFF;
+        -webkit-animation: endScreenAnimations 2s 3s linear forwards;
+        -o-animation: endScreenAnimations 2s 3s linear forwards;
+        animation: endScreenAnimations 2s 3s linear forwards; }
   body.math-effect .old {
     display: none; }
   body.math-effect .math-effect-container {
@@ -6886,7 +7174,29 @@ body.math-effect {
     body.math-effect .math-effect-container .sidebar .well {
       padding-left: 1.5rem; }
   body.math-effect .math-effect-stats-container {
-    background-color: #5E412F; }
+    background-color: #FFFFFF; }
+    body.math-effect .math-effect-stats-container .main-content-well {
+      box-shadow: none;
+      border: none;
+      background-color: #F0A830;
+      padding: 1px 0 1px 1px; }
+      body.math-effect .math-effect-stats-container .main-content-well .main-content-level2 {
+        width: calc(100% - 2px);
+        border-radius: 40px;
+        background-color: #FFFFFF;
+        padding: 0 5px 15px 5px; }
+        body.math-effect .math-effect-stats-container .main-content-well .main-content-level2 .panel-default > .panel-heading, body.math-effect .math-effect-stats-container .main-content-well .main-content-level2 .panel-footer {
+          border: none;
+          background-color: #F0A830;
+          color: #FFFFFF; }
+        body.math-effect .math-effect-stats-container .main-content-well .main-content-level2 .table > thead > tr > th {
+          border-color: #F0A830; }
+        body.math-effect .math-effect-stats-container .main-content-well .main-content-level2 .table > tbody > tr > td {
+          border-color: #F0A830; }
+        body.math-effect .math-effect-stats-container .main-content-well .main-content-level2 .panel-default {
+          border-color: #F0A830;
+          -webkit-box-shadow: none;
+          box-shadow: none; }
 
 /* COLOR PALLETE */
 div.hex {
