@@ -98,7 +98,7 @@ return array(
 			'description'    => 'MathEffect - A logic game! Try to find the best strategy to survive!',
 			'og:title'       => 'MathEffect',
 			'og:url'         => 'http://ilfate.net/MathEffect',
-			'og:image'       => 'http://ilfate.net/images/game/tdTitle_small.png',
+			'og:image'       => 'http://ilfate.net/images/game/matheffect2.png',
 			'og:description' => 'A logic game! Try to find the best strategy to survive!',
 			'og:type'        => 'game',
 		],
