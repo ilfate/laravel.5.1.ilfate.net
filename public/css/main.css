@@ -6722,25 +6722,30 @@ body.games-page {
 
 @keyframes shakeIt {
   0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg); }
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1); }
   25% {
-    -webkit-transform: rotate(3deg);
-    -moz-transform: rotate(3deg);
-    -o-transform: rotate(3deg); }
+    -webkit-transform: scale(0.97);
+    -ms-transform: scale(0.97);
+    -o-transform: scale(0.97);
+    transform: scale(0.97); }
   50% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg); }
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1); }
   75% {
-    -webkit-transform: rotate(-3deg);
-    -moz-transform: rotate(-3deg);
-    -o-transform: rotate(-3deg); }
+    -webkit-transform: scale(1.03);
+    -ms-transform: scale(1.03);
+    -o-transform: scale(1.03);
+    transform: scale(1.03); }
   100% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg); } }
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1); } }
 
 @keyframes unitGameEnd {
   0% {
@@ -6882,9 +6887,9 @@ body.math-effect {
       border-radius: 4px;
       z-index: 12; }
       body.math-effect #math-effect .enemies .enemy:hover .block-with-arrow {
-        -webkit-animation: shakeIt 0.5s ease 0s infinite alternate;
-        -o-animation: shakeIt 0.5s ease 0s infinite alternate;
-        animation: shakeIt 0.5s ease 0s infinite alternate; }
+        -webkit-animation: shakeIt 1.5s ease 0s infinite alternate;
+        -o-animation: shakeIt 1.5s ease 0s infinite alternate;
+        animation: shakeIt 1.5s ease 0s infinite alternate; }
     body.math-effect #math-effect .enemies .path {
       position: absolute; }
       body.math-effect #math-effect .enemies .path .step {

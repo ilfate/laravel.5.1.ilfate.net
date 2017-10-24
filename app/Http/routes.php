@@ -38,8 +38,8 @@ Route::get('RobotRock', 'CodeController@robotRock');
 Route::get('games', 'GamesController@index');
 Route::get('Games', 'GamesController@index');
 
-Route::get('MathEffect', 'MathEffectController@index');
-Route::get('MathEffect2', 'MathEffectController@index2');
+Route::get('MathEffect', 'MathEffectController@index2');
+Route::get('MathEffect-old', 'MathEffectController@index');
 Route::post('MathEffect/save', array('before' => 'csrf', 'uses' => 'MathEffectController@save'));
 Route::post('MathEffect/saveName', array('before' => 'csrf', 'uses' => 'MathEffectController@saveName'));
 Route::get('MathEffect/stats', 'MathEffectController@statistic');

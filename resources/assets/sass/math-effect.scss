@@ -33,11 +33,11 @@
     100% { opacity: 1 }
 }
 @keyframes shakeIt {
-    0% { @include rotate(0deg); }
-    25% { @include rotate(3deg); }
-    50% { @include rotate(0deg); }
-    75% { @include rotate(-3deg); }
-    100% { @include rotate(0deg); }
+    0% { @include scale(1); }
+    25% { @include scale(0.97); }
+    50% { @include scale(1); }
+    75% { @include scale(1.03); }
+    100% { @include scale(1); }
 }
 @keyframes unitGameEnd {
     0% { border-radius: 4px; }
@@ -188,7 +188,7 @@ body.math-effect {
                 border-radius: 4px;
                 z-index: 12;
                 &:hover .block-with-arrow {
-                    @include animation(shakeIt 0.5s ease 0s infinite alternate);
+                    @include animation(shakeIt 1.5s ease 0s infinite alternate);
                 }
             }
             .path {
