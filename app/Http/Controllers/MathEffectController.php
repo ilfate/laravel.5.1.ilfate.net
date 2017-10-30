@@ -51,7 +51,6 @@ class MathEffectController extends BaseController
         $request->session()->put('MEcheckKey', $MEcheckKey);
 
         view()->share('page_title', 'Math Effect - logic game.');
-        view()->share('mobileFriendly', true);
         view()->share('facebookEnabled', true);
         view()->share('bodyClass', 'math-effect');
 
@@ -78,6 +77,7 @@ class MathEffectController extends BaseController
 
         view()->share('page_title', 'Math Effect - logic game.');
         view()->share('facebookEnabled', true);
+        view()->share('mobileFriendly', true);
         view()->share('bodyClass', 'math-effect');
 
         return view('games.mathEffect.index2', array('userName' => $name, 'checkKey' => $MEcheckKey));

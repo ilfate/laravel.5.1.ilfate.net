@@ -31,6 +31,7 @@ const situationEnemies = [
 
 const situationUnits = [
 ];
+
 const situationBonuses = [];
 
 class Game extends React.Component {
@@ -39,10 +40,9 @@ class Game extends React.Component {
         super(props);
 
         let cellSize = CELL_SIZE;
-        if (window.innerWidth < (CELL_SIZE + MARGIN) * (FIELD_RADIUS * 2 + 1)) {
-            cellSize = 50;
+        if (window.innerWidth < (CELL_SIZE + (MARGIN * 2)) * (FIELD_RADIUS * 2 + 1)) {
+            cellSize = (window.innerWidth / ((FIELD_RADIUS * 2) + 1)) - (MARGIN * 2);
         }
-        console.log(window.innerWidth , (CELL_SIZE + MARGIN) * (FIELD_RADIUS * 2 + 1));
 
         this.state = {
             enemies: TEST ? allCombatSituationEnemies : situationEnemies,
