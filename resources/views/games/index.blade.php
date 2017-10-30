@@ -26,7 +26,7 @@
         </a>
     </div>
     <div class="landing-block math-effect">
-        <a href="{{ action('MathEffectController@index') }}" class="rounded_block_link" data-target=".main-content-well">
+        <a href="{{ action('MathEffectController@index2') }}" class="rounded_block_link" data-target=".main-content-well">
             <i class="fa fa-th-large opacity-animation"></i>
             <span class="text bounce">Math Effect</span>
         </a>
