@@ -39,7 +39,7 @@ class Unit extends React.Component {
             this.setState({ pan: { d: false, r: 0, pointerId } });
             return true;
         }
-        if (e.distance > size) {
+        if (e.distance > size * 0.5) {
             this.setState({ pan: { d: false, r: 0, pointerId } });
             onSetDirection(unitConfig, d);
             return true;

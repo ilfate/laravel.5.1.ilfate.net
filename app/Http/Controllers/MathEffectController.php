@@ -45,13 +45,13 @@ class MathEffectController extends BaseController
         \MetaTagsHelper::setPageName(self::PAGE_NAME);
         $this->breadcrumbs->addLink(action('GamesController' . '@' . 'index'), 'Games');
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'Math Effect');
-
         $name = $request->session()->get('userName', null);
 
         $MEcheckKey = md5(rand(0,99999) . time());
         $request->session()->put('MEcheckKey', $MEcheckKey);
 
         view()->share('page_title', 'Math Effect - logic game.');
+        view()->share('mobileFriendly', true);
         view()->share('facebookEnabled', true);
         view()->share('bodyClass', 'math-effect');
 
