@@ -4,6 +4,7 @@ import EnemiesContainer from './containers/EnemiesContainer';
 import UnitsContainer from './containers/UnitsContainer';
 import BonusesContainer from './containers/BonusesContainer';
 import EndGameScreen from './containers/EndGameScreen';
+import ModalWithVideo from './components/ModalWithVideo';
 import { moveEveryUnit, resolveUnitCollisions, updateUnitsPower, resolveCollisionsWithEnemies,
     clearDead, buffCenterUnit } from './services/unit';
 import { moveEveryEnemy, updateEnemiesPower, generateNewEnemyLocation, getEnemyStartDirection,
@@ -58,11 +59,13 @@ class Game extends React.Component {
             collisionLocations: [],
             cellSize: cellSize,
             margin: MARGIN,
+            howToPlayShow: false
         };
         this.handleAddUnit = this.handleAddUnit.bind(this);
         this.addEnemy = this.addEnemy.bind(this);
         this.handleUpdateUnit = this.handleUpdateUnit.bind(this);
         this.tryToCreateBonus = this.tryToCreateBonus.bind(this);
+        this.setHowToPlay = this.setHowToPlay.bind(this);
     }
 
     componentWillMount() {
@@ -168,14 +171,17 @@ class Game extends React.Component {
             '&_token=' + $('#laravel-token').val()
             //callBack : function(){Ajax.linkLoadingEnd(link)}
         });
+    }
 
-
+    setHowToPlay(isVisible) {
+        this.setState({ howToPlayShow: isVisible });
     }
 
 
     render() {
         return (
         <div>
+            <ModalWithVideo isVisible={ this.state.howToPlayShow } close={ this.setHowToPlay } />
             <div className="mobile-helper-text hidden-md hidden-lg text-center">Swipe your units to set direction</div>
             <div className="game">
                 { !this.state.gameRunning && <EndGameScreen radius={ FIELD_RADIUS } cellSize={ this.state.cellSize }
@@ -200,6 +206,9 @@ class Game extends React.Component {
 
             </div>
             <div className="mobile-helper-text hidden-md hidden-lg text-center">Tap on enemy to see directions</div>
+            <div className="desctop-helper-text text-center">
+                <a style={ {cursor:'pointer'} } onClick={ () => this.setHowToPlay(!this.state.howToPlayShow) }>How to play</a>
+            </div>
         </div>
         );
     }
