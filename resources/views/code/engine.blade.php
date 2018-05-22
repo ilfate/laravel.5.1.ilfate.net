@@ -14,4 +14,6 @@
     </div>
 </div>
 
+@include('blocks.gdpr')
+
 @stop

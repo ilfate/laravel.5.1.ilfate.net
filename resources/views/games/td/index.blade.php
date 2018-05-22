@@ -124,7 +124,7 @@
         </div>
     </div>
 </div>
-
+@include('blocks.gdpr')
     <input type="hidden" id="userName" value="{{$userName}}" />
 
 @stop

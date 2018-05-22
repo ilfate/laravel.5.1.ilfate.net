@@ -120,6 +120,8 @@
 
 @endif
 
+@include('blocks.gdpr')
+
 @stop
 
 

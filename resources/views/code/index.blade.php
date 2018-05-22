@@ -21,7 +21,7 @@
             <span class="text bounce">Robot Rock</span>
         </a>
     </div>
-
+    @include('blocks.gdpr')
 </div>
 
 @stop

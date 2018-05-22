@@ -166,3 +166,7 @@
 </div>
 
 @stop
+
+@section('after-content')
+    @include('blocks.gdpr')
+@stop

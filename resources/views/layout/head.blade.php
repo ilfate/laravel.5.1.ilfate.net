@@ -139,14 +139,17 @@
 
 @else
  {{-- !!!!!!!!!!!!!!! only live envinment is tracked !!!!!!!!!! --}}
-    <script>
+    <script data-cookieconsent="statistics">
         window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
         ga('create', 'UA-55905052-1', 'auto');
         ga('send', 'pageview');
     </script>
     <script async src='https://www.google-analytics.com/analytics.js'></script>
 
+
 @endif
+
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="b7f96168-f47c-40a4-83fb-1693d5dd9da3" type="text/javascript" async></script>
 
 @section('additional-js')
 

@@ -31,6 +31,7 @@
             <span class="text bounce">Math Effect</span>
         </a>
     </div>
+    @include('blocks.gdpr')
 </div>
 
 

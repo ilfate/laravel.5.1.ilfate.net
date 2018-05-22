@@ -24,6 +24,7 @@
 
     </div>
     <div class="main-page-block games">
+        @include('blocks.gdpr')
         <a href="{{ action('GamesController@index') }}" class="rounded_block_link" data-target=".main-content-well">
             <div class="rounded_block" >
                 <span class="text">Games</span>
@@ -31,6 +32,7 @@
             </div>
     {{--         @include('interface.button-block', array('text' => 'Game', 'background' => '/images/game/tank1_s.jpg'))--}}
         </a>
+
     </div>
 </div>
 

@@ -38,6 +38,8 @@
 <script >
 
 </script>
+<br><br><br><br>
+@include('blocks.gdpr')
 
 
 @stop

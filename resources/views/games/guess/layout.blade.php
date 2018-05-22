@@ -17,6 +17,7 @@
             </div>
         </div>
     </div>
+    @include('blocks.gdpr')
 </div>
 
 
@@ -36,6 +37,7 @@
     <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://ilfate.net/GuessSeries">Tweet</a>
 
 </div>
+
 
 @stop
 

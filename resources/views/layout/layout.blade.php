@@ -10,6 +10,8 @@
     </div>
 </div>
 
+@yield('after-content')
+
 <input type="hidden" name="_token" id="laravel-token" value="{{ csrf_token() }}">
 
 @stop

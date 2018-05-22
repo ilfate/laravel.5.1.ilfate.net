@@ -4,12 +4,17 @@
 
     <div class="shipAi-main-wrapper">
         <div class="game-screen">
+            <script>
+                starSystem = {!! json_encode($star->export()) !!};
+            </script>
+            <div id="star-canvas-container"></div>
             <div id="star-app">
                 <div class="menu">
                     <md-button href="/shipAi/hex/{{$star->hex_id}}" class="md-primary">To hex view</md-button>
                 </div>
 
-                <canvas></canvas>
+
+
 
             </div>
             <div class="clearfix"></div>

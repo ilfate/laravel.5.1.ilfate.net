@@ -1,0 +1,39 @@
+/*
+    Document   : main
+    Created on : Nov 12, 2012, 12:37:16 AM
+    Author     : Ilya Rubinchik
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.gdpr {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    a {
+        margin: 0 1rem;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+}
+
+.landing-page-container .gdpr {
+    position: absolute;
+    bottom: 0;
+    a {
+        color: $color-brawn;
+    }
+}
+
+body.td .gdpr {
+    position: fixed;
+    bottom: 0;
+}
+
+body.mage-survival .gdpr {
+    position: fixed;
+    bottom: 0;
+}
+
+
+
