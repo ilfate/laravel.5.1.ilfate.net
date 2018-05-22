@@ -116,7 +116,7 @@
                 review, merge and deploy every release that we do for our shop. As well as distribute tasks in my team, plan future releases,
                 interview new developers and keep the team spirit!
 
-                <h3>Senior PHP Developer</h3><br>
+                <h3>Senior PHP Developer</h3>
                 <b>February 2016 - June 2016</b>. Berlin.<br>
                 At Watchmaster my responsibilities started with creating an API layer for Solr and implementing the full solr feature
                 (Loading products from solr, searching, faceting and etc.) For the most time I was the only one responsible for working with solr.
