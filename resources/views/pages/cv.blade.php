@@ -27,9 +27,11 @@
                 Working with front end apps with JS, Jquery, AngularJS, React-Redux.<br>
                 Playing role of an a Scrum Master to help team work with Scrum and improve overall team performance.<br>
                 Analyzing, planning, estimating and distributing tasks in a Kanban teams.<br>
-                Teaching and helping new developers to a adapt in the team.<br>
+                Teaching and mentoring new developers to a adapt in the team.<br>
+                Interviewing and estimating new candidates (both frontend and backend)<br>
                 Working closely with PMs to help them create tasks based on needed features for business.<br>
                 Doing code reviews and pair programming with other developers.<br>
+                Taking responsibilities for project from the infrastructure to the last line of code.<br>
                 Maintaining my impeccable sense of humor.<br>
             </div>
             <div>
@@ -109,13 +111,22 @@
         <div class="col-md-6">
             <div class="work-experience">
                 <h1>Work experience</h1>
+                <a target="_blank" class="company-name" href="http://www.getnow.de">GetNow</a> - E-Commerce startup in food delivery.<br>
+                <h3>Lead Developer</h3>
+                <b>July 2018 - now</b>. Berlin.<br>
+                I was hired to build a new development team in Berlin(head quarters are in Munich). I’m responsible for searching, processing, interviewing, onboarding new developers to the team. And as well I had to take over a project that was developed by an external team and bring the project to in-house development. I had to take ownership of all parts including back-end front-end and infrastructure very quickly.
+                <br><br>
+                <a target="_blank" class="company-name" href="https://www.audibene.de/">Audibene</a> - Online hearing aids provider.<br>
+                <h3>Senior Full Stack Engineer</h3>
+                <b>December 2017 - May 2018</b>. Berlin.<br>
+                For half a year I joined a team to help with lead processing. I was responsible for REST APIs, SQS queues, communication with SalesForce, Jenkins deployment, production leads recovery, NewRelic dashboards, and front-end speed optimizations.
+                <br><br>
                 <a target="_blank" class="company-name" href="http://www.watchmaster.com">Watchmaster</a> - E-commerce start-up for luxury watches.<br>
                 <h3>Team Lead</h3>
-                <b>June 2016 - now</b>. Berlin.<br>
+                <b>June 2016 - November 2017</b>. Berlin.<br>
                 After I was promoted to be a team lead of the main shop application team, I also got responsibilities to check,
                 review, merge and deploy every release that we do for our shop. As well as distribute tasks in my team, plan future releases,
                 interview new developers and keep the team spirit!
-
                 <h3>Senior PHP Developer</h3>
                 <b>February 2016 - June 2016</b>. Berlin.<br>
                 At Watchmaster my responsibilities started with creating an API layer for Solr and implementing the full solr feature
