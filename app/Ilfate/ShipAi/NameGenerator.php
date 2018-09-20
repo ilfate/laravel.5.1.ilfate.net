@@ -7,9 +7,6 @@
  * @category
  * @package
  * @author    Ilya Rubinchik <ilfate@gmail.com>
- * @copyright 2016 Watchmaster GmbH
- * @license   Proprietary license.
- * @link      http://www.watchmaster.de
  */
 namespace Ilfate\ShipAi;
 use Ilfate\MageSurvival\ChanceHelper;
@@ -273,7 +270,7 @@ abstract class NameGenerator
         return $name;
     }
 
-    public function planetName($usedNames)
+    public static function planetName($usedNames)
     {
         $nameOrigin = ChanceHelper::oneFromArray(self::$starNames);
         while (in_array($nameOrigin, $usedNames)) {
