@@ -114,13 +114,13 @@
                 <a target="_blank" class="company-name" href="https://www.olxgroup.com/">OLX Group</a> - Worldwide classifieds brand.<br>
                 <h3>Senior Backend Engineer</h3>
                 <b>November 2018 - now</b>. Berlin.<br>
-                In OLX Group I’m working with several critical parts of our product. My team is working on ensuring customer’s safety and security by developing automated content moderation solutions. I’m supporting and maintaining features for old Monolith project. Extracting parts of it into separate Micro Services. Ensuring integrations across different teams and departments. Supporting critical platform migrations and being on-call for our systems. Working with OKRs and ensuring quality of overall team results.
-                <span class="text-info">PHP + Kotlin + Spring + MySql + AWS (Kinesis + Cognito + Athena)r</span>
+                In OLX Group I’m working with several critical parts of our product. My team is working on ensuring customer’s safety and security by developing automated content moderation solutions. I’m supporting and maintaining features for old Monolith project. Extracting parts of it into separate Micro Services. Ensuring integrations across different teams and departments. Supporting critical platform migrations and being on-call for our systems. Working with OKRs and ensuring quality of overall team results.<br>
+                <span class="text-info">PHP + Kotlin + Spring + MySql + AWS (Kinesis + Cognito + Athena)</span>
                 <br><br>
                 <a target="_blank" class="company-name" href="http://www.getnow.de">GetNow</a> - E-Commerce startup in food delivery.<br>
                 <h3>Lead Developer</h3>
                 <b>July 2018 - November 2018</b>. Berlin.<br>
-                I was hired to build a new development team in Berlin(head quarters are in Munich). I was responsible for searching, processing, interviewing, onboarding new developers to the team. And as well I had to take over a project that was developed by an external team and bring the project to in-house development. I had to take ownership of all parts including back-end front-end and infrastructure very quickly. Unfortunately the team in Berlin was closed very short after I joined.
+                I was hired to build a new development team in Berlin(head quarters are in Munich). I was responsible for searching, processing, interviewing, onboarding new developers to the team. And as well I had to take over a project that was developed by an external team and bring the project to in-house development. I had to take ownership of all parts including back-end front-end and infrastructure very quickly. Unfortunately the team in Berlin was closed very short after I joined.<br>
                 <span class="text-info">PHP + Mysql</span>
                 <br><br>
                 <a target="_blank" class="company-name" href="https://www.audibene.de/">Audibene</a> - Online hearing aids provider.<br>
