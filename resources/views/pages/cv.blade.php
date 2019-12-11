@@ -114,7 +114,7 @@
                 <a target="_blank" class="company-name" href="https://www.olxgroup.com/">OLX Group</a> - Worldwide classifieds brand.<br>
                 <h3>Senior Backend Engineer</h3>
                 <b>November 2018 - now</b>. Berlin.<br>
-                In OLX Group I’m working with several critical parts of our product. My team is working on ensuring customer’s safety and security by developing automated content moderation solutions. I’m supporting and maintaining features for old Monolith project. Extracting parts of it into separate Micro Services. Ensuring integrations across different teams and departments. Supporting critical platform migrations and being on-call for our systems. Working with OKRs and ensuring quality of overall team results.<br>
+                In OLX Group I’m working with several critical parts of our product. My team is working on ensuring the customer’s safety and security by developing automated content moderation solutions. I’m supporting and maintaining features for the old Monolith project(PHP). Extracting parts of it into separate Micro Services(Kotlin). Ensuring integrations across different teams and departments. Supporting critical platform migrations and being on-call for our systems. Working with OKRs and ensuring the quality of overall team results.<br>
                 <span class="text-info">PHP + Kotlin + Spring + MySql + AWS (Kinesis + Cognito + Athena)</span>
                 <br><br>
                 <a target="_blank" class="company-name" href="http://www.getnow.de">GetNow</a> - E-Commerce startup in food delivery.<br>
