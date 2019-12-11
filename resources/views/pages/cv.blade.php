@@ -22,7 +22,7 @@
             <div>
                 <h1>What I do</h1>
                 Architect, Develop and Maintain backend applications in form of Monolith app as well as Microservices with REST APIs.<br>
-                Using SOLID, KISS, DRY<br>
+                Using SOLID, DDD, KISS, DRY<br>
                 Optimizing code for best performance and speed for PHP and JS. Optimizing website for best performance with Mysql, Postgres, Redis, Solr, DynamoDB.<br>
                 Working with front end apps with JS, Jquery, React-Redux, typescript, GraphQL.<br>
                 Playing role of an a Scrum Master to help team work with Scrum and improve overall team performance.<br>
