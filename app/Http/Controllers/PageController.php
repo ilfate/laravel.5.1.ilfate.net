@@ -40,6 +40,7 @@ class PageController extends BaseController
      */
     public function cv()
     {
+        return redirect('/games');
         $this->breadcrumbs->addLink(action($this->getCurrentClass() . '@' . __FUNCTION__), 'CV');
         view()->share('bodyClass', 'cv');
         return view('pages.cv');
